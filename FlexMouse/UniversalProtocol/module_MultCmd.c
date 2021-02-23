@@ -10,16 +10,16 @@
   */
 
 #include "App_PeriodicReplyCmd.h"
-#include "D_Usart2.h"
+#include "D_Usart1.h"
 
 extern uint64_t getSysCount(void);
 /* SysCon handle declaration */
 extern ShareMemory ShMem[totalshMem];
 extern RingBuffer RB[totalpipe];
 extern ProcessInfo processInfo[];
-extern ShareMemory* Usart2ShMem;
+extern ShareMemory* Usart1ShMem;
 
-Usart2Control* usart2Control_PeriodicReplyCmd;
+Usart1Control* usart1Control_PeriodicReplyCmd;
 
 
 /* SysCon handle declaration */
@@ -54,22 +54,22 @@ uint8_t _App_PeriodicReplyCmd(uint8_t appID, uint8_t previousStage, uint8_t next
             processInfo[index].DrvDat.interruptStage = 200;                     //interrupt stage default at stage/state 200
           }   
           //Attach Uart2 shared memory into this App//
-          uint8_t Usart2index  = getProcessInfoIndex(DM_Usart2);              //return Process index from processInfo array with the Uart2 driver
-          usart2Control_PeriodicReplyCmd = (Usart2Control*) (*(processInfo[Usart2index].DrvDat.MasterShMemPtr)).ShMemBuf;         
+          uint8_t Usart1index  = getProcessInfoIndex(DM_Usart1);              //return Process index from processInfo array with the Uart2 driver
+          usart1Control_PeriodicReplyCmd = (Usart1Control*) (*(processInfo[Usart1index].DrvDat.MasterShMemPtr)).ShMemBuf;         
           returnStage = AppStart ;
           break;
         }       
       case AppStart:
         { 
           unsigned int DataLength2 = (unsigned int)UniHeaderlen;
-          if(RBUsedSpace((*usart2Control_PeriodicReplyCmd).RxG4Pipe->SystemIndex) >= DataLength2 )
+          if(RBUsedSpace((*usart1Control_PeriodicReplyCmd).RxG4Pipe->SystemIndex) >= DataLength2 )
           {        
             protocolBuf_PeriodicReplyCmd = (unsigned char*) realloc(protocolBuf_PeriodicReplyCmd,DataLength2);     
-            RBPeek((*usart2Control_PeriodicReplyCmd).RxG4Pipe->SystemIndex, protocolBuf_PeriodicReplyCmd, 0, &DataLength2);  
+            RBPeek((*usart1Control_PeriodicReplyCmd).RxG4Pipe->SystemIndex, protocolBuf_PeriodicReplyCmd, 0, &DataLength2);  
             //calculate the total number of frame
             DataLength2 = ((unsigned int)protocolBuf_PeriodicReplyCmd[1] & 0x3F) + (unsigned int)UniHeaderlen;
             protocolBuf_PeriodicReplyCmd = (unsigned char*) realloc(protocolBuf_PeriodicReplyCmd,DataLength2);                  //allocate the right frame size of memory for buffer
-            RBRead((*usart2Control_PeriodicReplyCmd).RxG3Pipe->SystemIndex, protocolBuf_PeriodicReplyCmd, &DataLength2);        //extract the whole frame
+            RBRead((*usart1Control_PeriodicReplyCmd).RxG3Pipe->SystemIndex, protocolBuf_PeriodicReplyCmd, &DataLength2);        //extract the whole frame
              //decode and perform the CMD function
             switch(protocolBuf_PeriodicReplyCmd[2])
             {
@@ -82,7 +82,7 @@ uint8_t _App_PeriodicReplyCmd(uint8_t appID, uint8_t previousStage, uint8_t next
 
                   busVoltageTx[5] = (unsigned char) ((busVoltage & 0xff00) >> 8);
                   busVoltageTx[6] = (unsigned char) busVoltage & 0xff;
-                  RBWriteBlk((*usart2Control_ReplyCmd).TxPipe->SystemIndex, busVoltageTx, &busVoltageLen);  */
+                  RBWriteBlk((*usart1Control_ReplyCmd).TxPipe->SystemIndex, busVoltageTx, &busVoltageLen);  */
                   break;
                 }
               default:

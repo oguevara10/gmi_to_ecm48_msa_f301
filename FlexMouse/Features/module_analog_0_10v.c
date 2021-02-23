@@ -12,8 +12,8 @@
 
 #include <stdio.h>
 
-#include "driver_usart2.h"
-#include "module_usart2.h"
+#include "driver_usart1.h"
+#include "module_usart1.h"
 
 extern Ram_Buf sharedMemArray[STRUCT_MEM_ARRAY_SIZE];
 extern ProcessInfo processInfoTable[];
@@ -228,7 +228,7 @@ uint16_t GetAnalogDemand(void){
   return ((uint16_t)analog_demand_u32);  
 }
 //void Send_Speed_Msg(uint16_t volts_Percent_u16); // SPA For testing only
-//Usart2_Control* usart2Control_AppLocal; // SPA for testing only
+//Usart1_Control* usart1Control_AppLocal; // SPA for testing only
 
 /*void Send_Speed_Msg(uint16_t volts_Percent_u16){ // SPA For testing only
   uint16_t MIN_COMMANDABLE_SPEED = 300;
@@ -244,7 +244,7 @@ uint16_t GetAnalogDemand(void){
   speedTx[6] = (unsigned char) ((((volts_Percent_u16 -  (motorOnThreadhold*100)) * SpeedRatePerADCValue)/10000) + MIN_COMMANDABLE_SPEED) & 0xff;
   
   
-  RingBuf_WriteBlock(((*usart2Control_AppLocal).seqMemTX_u32), speedTx, &speedLen); 
+  RingBuf_WriteBlock(((*usart1Control_AppLocal).seqMemTX_u32), speedTx, &speedLen); 
 }*/
 
 /**
@@ -286,9 +286,9 @@ uint8_t moduleAnalog_0_10V_u32(uint8_t drv_id_u8, uint8_t prev_state_u8, uint8_t
       uint8_t module_ADC1_Index = getProcessInfoIndex(MODULE_ADC1);
       adc1_LocalControl = (ADC1_Control*)((*(processInfoTable[module_ADC1_Index].Sched_DrvData.p_masterSharedMem_u32)).p_ramBuf_u8);
       
-      // Get structured memory for USART2 data //SPA For testing only
-      //uint8_t Usart2index  = getProcessInfoIndex(DRV_USART2); 
-      //usart2Control_AppLocal = (Usart2_Control*)((*(processInfoTable[Usart2index].Sched_DrvData.p_masterSharedMem_u32)).p_ramBuf_u8); //SPA Review
+      // Get structured memory for USART1 data //SPA For testing only
+      //uint8_t Usart1index  = getProcessInfoIndex(DRV_USART1); 
+      //usart1Control_AppLocal = (Usart1_Control*)((*(processInfoTable[Usart1index].Sched_DrvData.p_masterSharedMem_u32)).p_ramBuf_u8); //SPA Review
       
       return_state_u8 = RUN_MODULE;
       break;

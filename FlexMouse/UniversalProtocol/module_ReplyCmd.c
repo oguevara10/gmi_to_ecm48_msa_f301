@@ -11,14 +11,14 @@
 #include "pmsm_motor_parameters.h"
 #include "module_ReplyCmd.h"
 #include "mc_api.h"
-#include "driver_usart2.h"
+#include "driver_usart1.h"
 #include "mc_config.h"
 
 extern ProcessInfo processInfoTable[];
 extern MCT_Handle_t MCT[NBR_OF_MOTORS];
 static MCT_Handle_t *pMCT = &MCT[M1]; 
 
-Usart2_Control* usart2Control_ReplyCmd;
+Usart1_Control* usart1Control_ReplyCmd;
 
 /************** this enum and array made for the periodic resent of motor data back to comBoard ***************************/
 typedef enum                                                            //data request cmd list
@@ -60,8 +60,8 @@ uint8_t moduleReplyCmd_u32(uint8_t module_id_u8, uint8_t prev_state_u8, uint8_t 
       case INIT_APP:                                                              //initial stage
         {     
           /*Attach Uart2 shared memory into this App*/
-          uint8_t Usart2index  = getProcessInfoIndex(MODULE_USART1);              //return Process index from processInfo array with the Uart2 driver
-          usart2Control_ReplyCmd = (Usart2_Control*) ((*(processInfoTable[Usart2index].Sched_ModuleData.p_masterSharedMem_u32)).p_ramBuf_u8);
+          uint8_t Usart1index  = getProcessInfoIndex(MODULE_USART1);              //return Process index from processInfo array with the Uart2 driver
+          usart1Control_ReplyCmd = (Usart1_Control*) ((*(processInfoTable[Usart1index].Sched_ModuleData.p_masterSharedMem_u32)).p_ramBuf_u8);
 
           returnStage = RUN_APP ;
           break;
@@ -69,14 +69,14 @@ uint8_t moduleReplyCmd_u32(uint8_t module_id_u8, uint8_t prev_state_u8, uint8_t 
       case RUN_APP:
         { 
           unsigned int DataLen2 = (unsigned int)UniHeaderlen;
-          if(RingBuf_GetUsedNumOfElements((*usart2Control_ReplyCmd).seqMemRXG3_u32) >= DataLen2 )
+          if(RingBuf_GetUsedNumOfElements((*usart1Control_ReplyCmd).seqMemRXG3_u32) >= DataLen2 )
           {        
             if((protocolBuf_ReplyCmd = (unsigned char*) realloc(protocolBuf_ReplyCmd,DataLen2)) == NULL) reallocError++;     
-            RingBuf_Observe((*usart2Control_ReplyCmd).seqMemRXG3_u32, protocolBuf_ReplyCmd, 0, &DataLen2);  
+            RingBuf_Observe((*usart1Control_ReplyCmd).seqMemRXG3_u32, protocolBuf_ReplyCmd, 0, &DataLen2);  
             //calculate the total number of frame
             DataLen2 = ((unsigned int)protocolBuf_ReplyCmd[1] & 0x3F) + (unsigned int)UniHeaderlen;
             if((protocolBuf_ReplyCmd = (unsigned char*) realloc(protocolBuf_ReplyCmd,DataLen2)) == NULL) reallocError++;     //allocate the right frame size of memory for buffer
-            RingBuf_ReadBlock((*usart2Control_ReplyCmd).seqMemRXG3_u32, protocolBuf_ReplyCmd, &DataLen2); //extract the whole frame
+            RingBuf_ReadBlock((*usart1Control_ReplyCmd).seqMemRXG3_u32, protocolBuf_ReplyCmd, &DataLen2); //extract the whole frame
             //decode and perform the CMD function
             switch((ReplyCMD)protocolBuf_ReplyCmd[2])
             {
@@ -185,7 +185,7 @@ uint8_t moduleReplyCmd_u32(uint8_t module_id_u8, uint8_t prev_state_u8, uint8_t 
                     TxLen = sizeof(busVoltageTx);
                     busVoltageTx[5] = (unsigned char) ((busVoltage & 0xff00) >> 8);
                     busVoltageTx[6] = (unsigned char) busVoltage & 0xff;
-                    RingBuf_WriteBlock((*usart2Control_ReplyCmd).seqMemTX_u32, busVoltageTx, &TxLen); 
+                    RingBuf_WriteBlock((*usart1Control_ReplyCmd).seqMemTX_u32, busVoltageTx, &TxLen); 
                     break;
                   }
                 case 1:
@@ -195,7 +195,7 @@ uint8_t moduleReplyCmd_u32(uint8_t module_id_u8, uint8_t prev_state_u8, uint8_t 
                     TxLen = sizeof(faultStatusTx);
                     faultStatusTx[5] = (unsigned char) ((faultStatus & 0xff00) >> 8);
                     faultStatusTx[6] = (unsigned char) faultStatus & 0xff;
-                    RingBuf_WriteBlock((*usart2Control_ReplyCmd).seqMemTX_u32, faultStatusTx, &TxLen); 
+                    RingBuf_WriteBlock((*usart1Control_ReplyCmd).seqMemTX_u32, faultStatusTx, &TxLen); 
                     break;
                   }
                 case 2:
@@ -205,7 +205,7 @@ uint8_t moduleReplyCmd_u32(uint8_t module_id_u8, uint8_t prev_state_u8, uint8_t 
                     TxLen = sizeof(speedTx);
                     speedTx[5] = (unsigned char) ((Speed & 0xff00) >> 8);
                     speedTx[6] = (unsigned char) Speed & 0xff;   
-                    RingBuf_WriteBlock((*usart2Control_ReplyCmd).seqMemTX_u32, speedTx, &TxLen); 
+                    RingBuf_WriteBlock((*usart1Control_ReplyCmd).seqMemTX_u32, speedTx, &TxLen); 
                     break;
                   }
                 case 3:
@@ -215,7 +215,7 @@ uint8_t moduleReplyCmd_u32(uint8_t module_id_u8, uint8_t prev_state_u8, uint8_t 
                     TxLen = sizeof(directionTx);
                     directionTx[5] = (unsigned char) ((Direction & 0xff00) >> 8);
                     directionTx[6] = (unsigned char) Direction & 0xff;   
-                    RingBuf_WriteBlock((*usart2Control_ReplyCmd).seqMemTX_u32, directionTx, &TxLen); 
+                    RingBuf_WriteBlock((*usart1Control_ReplyCmd).seqMemTX_u32, directionTx, &TxLen); 
                     break;
                   }                  
                 case 4:
@@ -231,7 +231,7 @@ uint8_t moduleReplyCmd_u32(uint8_t module_id_u8, uint8_t prev_state_u8, uint8_t 
                     EETx[8] = (unsigned char) Current & 0xff;
                     EETx[9] = (unsigned char) ((Power & 0xff00) >> 8);
                     EETx[10] = (unsigned char) Power & 0xff;
-                    RingBuf_WriteBlock((*usart2Control_ReplyCmd).seqMemTX_u32, EETx, &TxLen); 
+                    RingBuf_WriteBlock((*usart1Control_ReplyCmd).seqMemTX_u32, EETx, &TxLen); 
                     break;
                   } 
                  case 5:
@@ -244,7 +244,7 @@ uint8_t moduleReplyCmd_u32(uint8_t module_id_u8, uint8_t prev_state_u8, uint8_t 
                     ThMETx[6] = (unsigned char) Torque & 0xff;   
                     ThMETx[7] = (unsigned char) ((Temperature & 0xff00) >> 8);
                     ThMETx[8] = (unsigned char) Temperature & 0xff;  
-                    RingBuf_WriteBlock((*usart2Control_ReplyCmd).seqMemTX_u32, ThMETx, &TxLen); 
+                    RingBuf_WriteBlock((*usart1Control_ReplyCmd).seqMemTX_u32, ThMETx, &TxLen); 
                     break;
                   }  
                  case 6:
@@ -254,14 +254,14 @@ uint8_t moduleReplyCmd_u32(uint8_t module_id_u8, uint8_t prev_state_u8, uint8_t 
                     TxLen = sizeof(TorqueTx);
                     TorqueTx[5] = (unsigned char) ((Torque & 0xff00) >> 8);
                     TorqueTx[6] = (unsigned char) Torque & 0xff;  
-                    RingBuf_WriteBlock((*usart2Control_ReplyCmd).seqMemTX_u32, TorqueTx, &TxLen); 
+                    RingBuf_WriteBlock((*usart1Control_ReplyCmd).seqMemTX_u32, TorqueTx, &TxLen); 
                     break;
                   } 
                  case 7:
                   { //HeartBeat Request     
                     unsigned char HeartBeatTx[] = {0x55, 0x04, 0x4E, 0x5A, 0xA5, 0xff, 0xff, 0xCC, 0xCC};// Just send 0x5AA5 to App-side and get a response
                     TxLen = sizeof(HeartBeatTx);
-                    RingBuf_WriteBlock((*usart2Control_ReplyCmd).seqMemTX_u32, HeartBeatTx, &TxLen); 
+                    RingBuf_WriteBlock((*usart1Control_ReplyCmd).seqMemTX_u32, HeartBeatTx, &TxLen); 
                     break;
                   }                   
                 default:

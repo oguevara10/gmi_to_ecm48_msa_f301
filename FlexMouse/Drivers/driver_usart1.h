@@ -5,7 +5,7 @@
   * @brief   Header of Driver function/s for serial protocol with Usart1 hardware
   * @details Protocol Usart1, after decode a whole valid frame from serial port2,
   *          trigger the system control to execute the relative APP in the int stage the Rx data is in usart1SeqMemRX_u32.
-  *          To Transmitt data : put data into Usart1TxPipe, and call this function USART_ITConfig(USART2, USART_IT_TXE, ENABLE);
+  *          To Transmitt data : put data into Usart1TxPipe, and call this function USART_ITConfig(USART1, USART_IT_TXE, ENABLE);
   ********************************************************************************************************************************
   */
 
@@ -41,7 +41,7 @@ static uint8_t frameID = 1;
 
 /* Setup -----------------------------------------------------------------------------------------------------------------------*/
 static Ring_Buf_Handle usart1InternalSeqMem_u32;
-//static Ring_Buf_Handle usart2SeqMemRX_u32;
+//static Ring_Buf_Handle usart1SeqMemRX_u32;
 static Ring_Buf_Handle usart1SeqMemRXG1_2_u32;
 static Ring_Buf_Handle usart1SeqMemRXG3_u32;
 static Ring_Buf_Handle usart1SeqMemRXG4L_u32;
@@ -55,7 +55,7 @@ static Ram_Buf_Handle usart1StructMem_u32;
   * @details 
   * @param   seqMemRX_u32 
   * @param   seqMemTX_u32 
-  * @param   errorCode_u8           Error code of this USART2 module.
+  * @param   errorCode_u8           Error code of this USART1 module.
   ********************************************************************************************************************************
   */
 //******************* Uart1 Control (inside structured memory) *******************************************************************************************************************************  

@@ -14,7 +14,7 @@
 #include "mc_api.h"
 #include "ab_module_Mc_StateMachine.h"
 
-//#include "driver_usart2.h"
+//#include "driver_usart1.h"
 
 /* Content ---------------------------------------------------------------------------------------------------------------------*/
 /* Auto acknowledgement handle declaration */
@@ -126,7 +126,7 @@ uint8_t moduleAutoAck_u32(uint8_t drv_id_u8, uint8_t prev_state_u8, uint8_t next
       break;
     }
     case KILL_AUTOACK_MODULE: {
-      // The USART2 driver module must only be executed once.
+      // The USART1 driver module must only be executed once.
       // Setting processStatus_u8 to PROCESS_STATUS_KILLED prevents the scheduler main loop from calling this module again.
       uint8_t table_index_u8 = getProcessInfoIndex(drv_id_u8);
       if (table_index_u8 != INDEX_NOT_FOUND) {

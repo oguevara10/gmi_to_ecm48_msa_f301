@@ -148,16 +148,16 @@ extern __root const uint32_t App_CRC @ "app_crc32_rom";// = 0x00000000; // This 
 #define MODULE_USART1_PROCESS_STATUS       0
 #define MODULE_USART1_MASTER_SHARED_MEM 0
 
-/** remove USART2 for ECM
-#define MODULE_USART2_ID                   MODULE_USART2
-#define MODULE_USART2_FUNCTION_POINTER     &moduleUsart2_u32
-#define MODULE_USART2_TOTAL_SEQ        6
-#define MODULE_USART2_TOTAL_STRUCT     1
-#define MODULE_USART2_PREV_STATE       0
-#define MODULE_USART2_NEXT_STATE           0
-#define MODULE_USART2_IRQ_STATUS     DEFAULT_IRQ_STATE
-#define MODULE_USART2_PROCESS_STATUS       0
-#define MODULE_USART2_MASTER_SHARED_MEM 0
+/** remove USART1 for ECM
+#define MODULE_USART1_ID                   MODULE_USART1
+#define MODULE_USART1_FUNCTION_POINTER     &moduleUsart1_u32
+#define MODULE_USART1_TOTAL_SEQ        6
+#define MODULE_USART1_TOTAL_STRUCT     1
+#define MODULE_USART1_PREV_STATE       0
+#define MODULE_USART1_NEXT_STATE           0
+#define MODULE_USART1_IRQ_STATUS     DEFAULT_IRQ_STATE
+#define MODULE_USART1_PROCESS_STATUS       0
+#define MODULE_USART1_MASTER_SHARED_MEM 0
 **/
 
 #define MODULE_FLASH_ID                    MODULE_FLASH
@@ -224,11 +224,11 @@ extern __root const uint32_t App_CRC @ "app_crc32_rom";// = 0x00000000; // This 
 
 /** pam procedure #2 of Module insertion  :  add/define the module ID **/
 enum Processes {
-//    DRV_USART2 = MIN_DRV_ID,
+//    DRV_USART1 = MIN_DRV_ID,
 //    DRV_GPIO,
 //    DRV_ADC1,
  //   MODULE_GPIO 
-//    MODULE_USART2= MIN_MODULE_ID,
+//    MODULE_USART1= MIN_MODULE_ID,
 	MODULE_USART1= MIN_MODULE_ID,
     MODULE_FLASH,
     MODULE_MC_STATEMACHINE,
@@ -457,7 +457,7 @@ uint8_t moduleUsart1_u32(uint8_t drv_id_u8, uint8_t prevState_u8, uint8_t nextSt
   */
 
 /** removed for ECM
-uint8_t moduleUsart2_u32(uint8_t drv_id_u8, uint8_t prevState_u8, uint8_t nextState_u8,
+uint8_t moduleUsart1_u32(uint8_t drv_id_u8, uint8_t prevState_u8, uint8_t nextState_u8,
                            uint8_t irqId_u8);
 **/ 
 

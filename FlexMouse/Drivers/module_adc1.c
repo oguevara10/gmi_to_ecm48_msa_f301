@@ -1,6 +1,6 @@
 /**
   *************************************************************************************
-  * @file    DM_Usart2.c 
+  * @file    DM_Usart1.c 
   * @author  Regal Pamela Lee
   * @version V1.0
   * @date    18-Jun-2020

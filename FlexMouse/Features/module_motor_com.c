@@ -10,7 +10,7 @@
   */
 
 #include "module_motor_com.h"
-#include "driver_usart2.h"
+#include "driver_usart1.h"
 #include "module_analog_0_10v.h"
 
 void init_Motor_Setting(void);
@@ -47,9 +47,9 @@ uint64_t tt_StopMotorResume;                                                    
 #define MotorMaxLimPercent      90                      // Max motor speed in percentage 90%
 //#define SpeedRatePerADCValue   (MAX_COMMANDABLE_SPEED - MIN_COMMANDABLE_SPEED) / ((MotorMaxLimPercent *100) - (MIN_COMMANDABLE_SPEED * 1000))
 
-//Usart2Control* usart2Control_AppLocal;
+//Usart1Control* usart1Control_AppLocal;
 //ADC1Control* adc1Control_AppLocal;
-Usart2_Control* usart2Control_AppLocal;
+Usart1_Control* usart1Control_AppLocal;
 Analog_0_10V_Control* analog_0_10v_Control_AppLocal;
 Motor_Com_Control *motor_Com_Control;
 //Motor_Com_Control motor_Com_StructMem_u32;
@@ -110,9 +110,9 @@ uint8_t module_Motor_Com_u32(uint8_t drv_id_u8, uint8_t prev_state_u8, uint8_t n
           init_Motor_Setting(); //initilize motor settings
           
           /*Attach Uart2 structured memory into this App*/
-          //uint8_t Usart2index  = getProcessInfoIndex(DRV_USART2); //return Process index from processInfo array          
-          uint8_t Usart2index  = getProcessInfoIndex(MODULE_USART2); //return Process index from processInfo array
-          usart2Control_AppLocal = (Usart2_Control*)((*(processInfoTable[Usart2index].Sched_DrvData.p_masterSharedMem_u32)).p_ramBuf_u8);    //Get structured memory for USART2
+          //uint8_t Usart1index  = getProcessInfoIndex(DRV_USART1); //return Process index from processInfo array          
+          uint8_t Usart1index  = getProcessInfoIndex(MODULE_USART1); //return Process index from processInfo array
+          usart1Control_AppLocal = (Usart1_Control*)((*(processInfoTable[Usart1index].Sched_DrvData.p_masterSharedMem_u32)).p_ramBuf_u8);    //Get structured memory for USART1
           
           /*Attach Analog 0-10V module structured memory into this App*/
           uint8_t module_analog_0_10V_index  = getProcessInfoIndex(MODULE_ANALOG_0_10V);   //return Process index from processInfo array
@@ -129,7 +129,7 @@ uint8_t module_Motor_Com_u32(uint8_t drv_id_u8, uint8_t prev_state_u8, uint8_t n
           
           if (getSysCount() >= tt_DemandTime) 
           {
-            ((*motor_Com_Control).motor_Metering_Data.motor_Status_u16) = (*usart2Control_AppLocal).motorStatus_u16;
+            ((*motor_Com_Control).motor_Metering_Data.motor_Status_u16) = (*usart1Control_AppLocal).motorStatus_u16;
             uint32_t temp_result = (uint32_t)(analog_0_10v_Demand_Percent_u16 * ((*motor_Com_Control).motor_Setting.max_Speed_u16));
             (*motor_Com_Control).motor_Metering_Data.demand_Reference_Speed_u16 = (uint16_t)(temp_result/10000); //Convert Speed ref % to RPM
             
@@ -162,7 +162,7 @@ uint8_t module_Motor_Com_u32(uint8_t drv_id_u8, uint8_t prev_state_u8, uint8_t n
           
           if((*motor_Com_Control).motor_Metering_Data.is_Motor_On)
           {
-            RingBuf_WriteBlock((*usart2Control_AppLocal).seqMemTX_u32, speedTx, &speedLen);
+            RingBuf_WriteBlock((*usart1Control_AppLocal).seqMemTX_u32, speedTx, &speedLen);
           }
           
           tt_DemandTime = getSysCount() + DemandPollPeriod;                          //update next time tick value 
@@ -192,7 +192,7 @@ uint8_t module_Motor_Com_u32(uint8_t drv_id_u8, uint8_t prev_state_u8, uint8_t n
           }
           if(motor_Com_Control.motor_Metering_Data.is_Motor_On)
           {
-            RBWriteBlk((*usart2Control_AppLocal).TxPipe->SystemIndex, speedTx, &speedLen); 
+            RBWriteBlk((*usart1Control_AppLocal).TxPipe->SystemIndex, speedTx, &speedLen); 
           }
           
           tt_DemandTime = getSysCount() + DemandPollPeriod;                          //update next time tick value 
@@ -203,7 +203,7 @@ uint8_t module_Motor_Com_u32(uint8_t drv_id_u8, uint8_t prev_state_u8, uint8_t n
         {
           unsigned char speedTx[] = {0x55, 0x00, 0x00, 0x00, 0x00, 0xCC, 0xCC};
           unsigned int speedLen = sizeof(speedTx);
-          RingBuf_WriteBlock((*usart2Control_AppLocal).seqMemTX_u32, speedTx, &speedLen);  
+          RingBuf_WriteBlock((*usart1Control_AppLocal).seqMemTX_u32, speedTx, &speedLen);  
           (*motor_Com_Control).motor_Metering_Data.is_Motor_On = true;
           return_state_u8 = AppStart;
           break;
@@ -220,7 +220,7 @@ uint8_t module_Motor_Com_u32(uint8_t drv_id_u8, uint8_t prev_state_u8, uint8_t n
 //          speedTx[6] = 0xc8;      
           if((*motor_Com_Control).motor_Metering_Data.is_Motor_On)
           {
-            RingBuf_WriteBlock((*usart2Control_AppLocal).seqMemTX_u32, speedTx, &speedLen);
+            RingBuf_WriteBlock((*usart1Control_AppLocal).seqMemTX_u32, speedTx, &speedLen);
           }
           return_state_u8 = stopMotor;
           break;
@@ -233,22 +233,22 @@ uint8_t module_Motor_Com_u32(uint8_t drv_id_u8, uint8_t prev_state_u8, uint8_t n
               LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_6);
               unsigned char speedTx[] = {0x55, 0x00, 0x01, 0x00, 0x00, 0xCC, 0xCC};                     
               speedLen = sizeof(speedTx);
-              RingBuf_WriteBlock((*usart2Control_AppLocal).seqMemTX_u32, speedTx, &speedLen);
+              RingBuf_WriteBlock((*usart1Control_AppLocal).seqMemTX_u32, speedTx, &speedLen);
               unsigned char speedTx1[] = {0x55, 0x00, 0x01, 0x00, 0x00, 0xCC, 0xCC};
               speedLen = sizeof(speedTx1);
-              RingBuf_WriteBlock((*usart2Control_AppLocal).seqMemTX_u32, speedTx1, &speedLen); //send stop command  
+              RingBuf_WriteBlock((*usart1Control_AppLocal).seqMemTX_u32, speedTx1, &speedLen); //send stop command  
               tt_StopMotorResume = getSysCount() + MotorStopResumePeriodMax;                 //set wait time delay to max
               return_state_u8 = waitForIdle;
               break;
             }
            else
            {
-              if((*usart2Control_AppLocal).motorSpeed_s16 <= (((*motor_Com_Control).motor_Setting.min_Speed_u16) + 10) )   //keep track of slow down
+              if((*usart1Control_AppLocal).motorSpeed_s16 <= (((*motor_Com_Control).motor_Setting.min_Speed_u16) + 10) )   //keep track of slow down
               { //issue final stop command and set time delay
                 unsigned char speedTx1[] = {0x55, 0x00, 0x01, 0x00, 0x00, 0xCC, 0xCC};
                 speedLen = sizeof(speedTx1);
-                RingBuf_WriteBlock((*usart2Control_AppLocal).seqMemTX_u32, speedTx1, &speedLen);
-                //RBWriteBlk((*usart2Control_AppLocal).TxPipe->SystemIndex, speedTx1, &speedLen);  //send stop command 
+                RingBuf_WriteBlock((*usart1Control_AppLocal).seqMemTX_u32, speedTx1, &speedLen);
+                //RBWriteBlk((*usart1Control_AppLocal).TxPipe->SystemIndex, speedTx1, &speedLen);  //send stop command 
                 tt_StopMotorResume = getSysCount() + MotorStopResumePeriod;                 //set normal wait time delay
                 
                 return_state_u8 = waitForIdle;
@@ -276,7 +276,7 @@ uint8_t module_Motor_Com_u32(uint8_t drv_id_u8, uint8_t prev_state_u8, uint8_t n
           {
             unsigned char speedTx[] = {0x55, 0x00, 0x03, 0x00, 0x00, 0xCC, 0xCC};                    //Send faluty ack
             unsigned int speedLen = sizeof(speedTx);
-            RingBuf_WriteBlock((*usart2Control_AppLocal).seqMemTX_u32, speedTx, &speedLen);
+            RingBuf_WriteBlock((*usart1Control_AppLocal).seqMemTX_u32, speedTx, &speedLen);
             tt_StopMotorResume = 0;
             (*motor_Com_Control).motor_Metering_Data.is_Motor_On = false;
             
