@@ -197,7 +197,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();  
   };
-  LL_RCC_SetUSARTClockSource(LL_RCC_USART2_CLKSOURCE_PCLK1);
+
   LL_RCC_SetTIMClockSource(LL_RCC_TIM1_CLKSOURCE_PCLK2);
 }
 

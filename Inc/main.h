@@ -112,10 +112,10 @@ void Error_Handler(void);
 //#define LED_Debug_GPIO_Port GPIOA
 //#define M1_HALL_H2_Pin LL_GPIO_PIN_3
 //#define M1_HALL_H2_GPIO_Port GPIOB
-#define UART_TX_Pin LL_GPIO_PIN_6
-#define UART_TX_GPIO_Port GPIOB
-#define UART_RX_Pin LL_GPIO_PIN_7
-#define UART_RX_GPIO_Port GPIOB
+#define UART_TX_Pin LL_GPIO_PIN_2
+#define UART_TX_GPIO_Port GPIOA
+#define UART_RX_Pin LL_GPIO_PIN_3
+#define UART_RX_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
