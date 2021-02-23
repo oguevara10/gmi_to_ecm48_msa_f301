@@ -145,8 +145,7 @@
 #define PQD_CONVERSION_FACTOR (int32_t)(( 1000 * 3 * ADC_REFERENCE_VOLTAGE ) /\
              ( 1.732 * RSHUNT * AMPLIFICATION_GAIN ))
 
-// using USART1 for ECM
-//#define USART_IRQHandler USART2_IRQHandler		
+#define USART_IRQHandler USART2_IRQHandler		
 
 /****** Prepares the UI configurations according the MCconfxx settings ********/
 #define COM_ENABLE | OPT_COM

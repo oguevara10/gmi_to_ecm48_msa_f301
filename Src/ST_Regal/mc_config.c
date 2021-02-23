@@ -402,7 +402,7 @@ DOUT_handle_t ICLDOUTParamsM1 =
 UFCP_Handle_t pUSART =
 {
   ._Super.RxTimeout = 0,
-  .USARTx = USART1,
+  .USARTx = USART2,
        
 };
 

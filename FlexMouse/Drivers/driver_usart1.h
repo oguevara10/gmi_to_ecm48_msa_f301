@@ -115,4 +115,4 @@ void USART1_IRQHandler(void);
 }
 #endif /* __cplusplus */
 
-#endif /* _DRV_USART2_H_ */
+#endif /* _DRV_USART1_H_ */

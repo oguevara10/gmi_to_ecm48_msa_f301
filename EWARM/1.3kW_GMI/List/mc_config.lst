@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ANSI C/C++ Compiler V8.50.9.278/W32 for ARM         23/Feb/2021  11:12:45
+# IAR ANSI C/C++ Compiler V8.50.9.278/W32 for ARM         23/Feb/2021  14:03:30
 # Copyright 1999-2020 IAR Systems AB.
 #
 #    Cpu mode                        
@@ -8,7 +8,7 @@
 #    Source file                  =
 #        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Src\ST_Regal\mc_config.c
 #    Command line                 =
-#        -f C:\Users\100001~1\AppData\Local\Temp\EWE5DA.tmp
+#        -f C:\Users\100001~1\AppData\Local\Temp\EW3F92.tmp
 #        (C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Src\ST_Regal\mc_config.c
 #        -D ARM_MATH_CM4 -D USE_FULL_LL_DRIVER -D USE_HAL_DRIVER -D STM32F302x8
 #        -lCN
@@ -1184,11 +1184,11 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Src\ST_Regal\mc_config
    \              0x0000'0000
    \       0x10   0x0000             DC16 0
    \       0x12                      DS8 270
-   \      0x120   0x4001'3800        DC32 0x4001'3800
+   \      0x120   0x4000'4400        DC32 0x4000'4400
    \      0x124                      DS8 24
     403          {
     404            ._Super.RxTimeout = 0,
-    405            .USARTx = USART1,
+    405            .USARTx = USART2,
     406                 
     407          };
     408          

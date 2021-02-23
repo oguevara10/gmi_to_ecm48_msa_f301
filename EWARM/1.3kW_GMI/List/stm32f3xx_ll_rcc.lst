@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ANSI C/C++ Compiler V8.50.9.278/W32 for ARM         23/Feb/2021  11:13:12
+# IAR ANSI C/C++ Compiler V8.50.9.278/W32 for ARM         23/Feb/2021  14:03:55
 # Copyright 1999-2020 IAR Systems AB.
 #
 #    Cpu mode             
@@ -8,7 +8,7 @@
 #    Source file       =
 #        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_ll_rcc.c
 #    Command line      =
-#        -f C:\Users\100001~1\AppData\Local\Temp\EW549F.tmp
+#        -f C:\Users\100001~1\AppData\Local\Temp\EWA201.tmp
 #        (C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_ll_rcc.c
 #        -D ARM_MATH_CM4 -D USE_FULL_LL_DRIVER -D USE_HAL_DRIVER -D STM32F302x8
 #        -lCN
@@ -88,10 +88,22 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
      22          #include "stm32f3xx_ll_rcc.h"
 
    \                                 In section .text, align 2, keep-with-next
+   \   static __interwork __vfp uint32_t LL_RCC_GetUSARTClockSource(uint32_t)
+   \                     LL_RCC_GetUSARTClockSource: (+1)
+   \        0x0   0x4601             MOV      R1,R0
+   \        0x2   0x....             LDR.N    R0,??DataTable13  ;; 0x40021030
+   \        0x4   0x6800             LDR      R0,[R0, #+0]
+   \        0x6   0x2203             MOVS     R2,#+3
+   \        0x8   0x408A             LSLS     R2,R2,R1
+   \        0xA   0x4010             ANDS     R0,R2,R0
+   \        0xC   0xEA40 0x6001      ORR      R0,R0,R1, LSL #+24
+   \       0x10   0x4770             BX       LR               ;; return
+
+   \                                 In section .text, align 2, keep-with-next
    \   static __interwork __vfp uint32_t LL_RCC_GetTIMClockSource(uint32_t)
    \                     LL_RCC_GetTIMClockSource: (+1)
    \        0x0   0x4601             MOV      R1,R0
-   \        0x2   0x....             LDR.N    R0,??DataTable12  ;; 0x40021030
+   \        0x2   0x....             LDR.N    R0,??DataTable13  ;; 0x40021030
    \        0x4   0x6800             LDR      R0,[R0, #+0]
    \        0x6   0xF44F 0x7280      MOV      R2,#+256
    \        0xA   0x408A             LSLS     R2,R2,R1
@@ -328,7 +340,7 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
     228            /* Set HSION bit */
     229            LL_RCC_HSI_Enable();
    \                     LL_RCC_DeInit: (+1)
-   \        0x0   0x....             LDR.N    R1,??DataTable12_1  ;; 0x40021000
+   \        0x0   0x....             LDR.N    R1,??DataTable13_1  ;; 0x40021000
    \        0x2   0xB081             SUB      SP,SP,#+4
    \        0x4   0x6808             LDR      R0,[R1, #+0]
    \        0x6   0xF040 0x0001      ORR      R0,R0,#0x1
@@ -356,7 +368,7 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
     240            CLEAR_BIT(vl_mask, (RCC_CFGR_SW | RCC_CFGR_HPRE | RCC_CFGR_PPRE1 |\
     241                                RCC_CFGR_PPRE2 | RCC_CFGR_MCOSEL));
    \       0x24   0x9A00             LDR      R2,[SP, #+0]
-   \       0x26   0x....             LDR.N    R0,??DataTable12_2  ;; 0xf8ffc00c
+   \       0x26   0x....             LDR.N    R0,??DataTable13_2  ;; 0xf8ffc00c
    \       0x28   0x4002             ANDS     R2,R0,R2
    \       0x2A   0x9200             STR      R2,[SP, #+0]
     242           
@@ -381,7 +393,7 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
     253            /* Reset HSEON, CSSON, PLLON bits */
     254            CLEAR_BIT(vl_mask, (RCC_CR_PLLON | RCC_CR_CSSON | RCC_CR_HSEON));
    \       0x3C   0x9A00             LDR      R2,[SP, #+0]
-   \       0x3E   0x....             LDR.N    R0,??DataTable12_3  ;; 0xfef6ffff
+   \       0x3E   0x....             LDR.N    R0,??DataTable13_3  ;; 0xfef6ffff
    \       0x40   0x4002             ANDS     R2,R0,R2
    \       0x42   0x9200             STR      R2,[SP, #+0]
     255           
@@ -522,59 +534,45 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
     348          uint32_t LL_RCC_GetUSARTClockFreq(uint32_t USARTxSource)
     349          {
    \                     LL_RCC_GetUSARTClockFreq: (+1)
-   \        0x0   0xB580             PUSH     {R7,LR}
+   \        0x0   0xB5F8             PUSH     {R3-R7,LR}
     350            uint32_t usart_frequency = LL_RCC_PERIPH_FREQUENCY_NO;
-   \        0x2   0x2100             MOVS     R1,#+0
+   \        0x2   0x2400             MOVS     R4,#+0
     351          
     352            /* Check parameter */
     353            assert_param(IS_LL_RCC_USART_CLKSOURCE(USARTxSource));
     354          #if defined(RCC_CFGR3_USART1SW)
     355            if (USARTxSource == LL_RCC_USART1_CLKSOURCE)
-   \        0x4   0xB9F8             CBNZ.N   R0,??LL_RCC_GetUSARTClockFreq_0
+   \        0x4   0x....             LDR.N    R5,??DataTable13_4  ;; 0x7a1200
+   \        0x6   0x....             LDR.N    R7,??DataTable13_1  ;; 0x40021000
+   \        0x8   0xF44F 0x4600      MOV      R6,#+32768
+   \        0xC   0xB940             CBNZ.N   R0,??LL_RCC_GetUSARTClockFreq_0
     356            {
     357              /* USART1CLK clock frequency */
     358              switch (LL_RCC_GetUSARTClockSource(USARTxSource))
-   \        0x6   0x....             LDR.N    R0,??DataTable12_1  ;; 0x40021000
-   \        0x8   0x6B02             LDR      R2,[R0, #+48]
-   \        0xA   0xF002 0x0203      AND      R2,R2,#0x3
-   \        0xE   0x2A01             CMP      R2,#+1
-   \       0x10   0xD004             BEQ.N    ??LL_RCC_GetUSARTClockFreq_1
-   \       0x12   0xD311             BCC.N    ??LL_RCC_GetUSARTClockFreq_2
-   \       0x14   0x2A03             CMP      R2,#+3
-   \       0x16   0xD004             BEQ.N    ??LL_RCC_GetUSARTClockFreq_3
-   \       0x18   0xD308             BCC.N    ??LL_RCC_GetUSARTClockFreq_4
-   \       0x1A   0xE00D             B.N      ??LL_RCC_GetUSARTClockFreq_2
+   \        0xE   0x....'....        BL       LL_RCC_GetUSARTClockSource
+   \       0x12   0x2801             CMP      R0,#+1
+   \       0x14   0xD012             BEQ.N    ??LL_RCC_GetUSARTClockFreq_1
+   \       0x16   0xD31E             BCC.N    ??LL_RCC_GetUSARTClockFreq_2
+   \       0x18   0x2803             CMP      R0,#+3
+   \       0x1A   0xD012             BEQ.N    ??LL_RCC_GetUSARTClockFreq_3
+   \       0x1C   0xD316             BCC.N    ??LL_RCC_GetUSARTClockFreq_4
+   \       0x1E   0xE01A             B.N      ??LL_RCC_GetUSARTClockFreq_2
     359              {
     360                case LL_RCC_USART1_CLKSOURCE_SYSCLK: /* USART1 Clock is System Clock */
     361                  usart_frequency = RCC_GetSystemClockFreq();
-   \                     ??LL_RCC_GetUSARTClockFreq_1: (+1)
-   \       0x1C   0x....'....        BL       RCC_GetSystemClockFreq
-   \       0x20   0xE010             B.N      ??LL_RCC_GetUSARTClockFreq_5
     362                  break;
     363          
     364                case LL_RCC_USART1_CLKSOURCE_HSI:    /* USART1 Clock is HSI Osc. */
     365                  if (LL_RCC_HSI_IsReady())
-   \                     ??LL_RCC_GetUSARTClockFreq_3: (+1)
-   \       0x22   0x6800             LDR      R0,[R0, #+0]
-   \       0x24   0x0780             LSLS     R0,R0,#+30
-   \       0x26   0xD50E             BPL.N    ??LL_RCC_GetUSARTClockFreq_0
     366                  {
     367                    usart_frequency = HSI_VALUE;
-   \       0x28   0x....             LDR.N    R1,??DataTable12_4  ;; 0x7a1200
-   \       0x2A   0xE00C             B.N      ??LL_RCC_GetUSARTClockFreq_0
     368                  }
     369                  break;
     370          
     371                case LL_RCC_USART1_CLKSOURCE_LSE:    /* USART1 Clock is LSE Osc. */
     372                  if (LL_RCC_LSE_IsReady())
-   \                     ??LL_RCC_GetUSARTClockFreq_4: (+1)
-   \       0x2C   0x6A00             LDR      R0,[R0, #+32]
-   \       0x2E   0x0780             LSLS     R0,R0,#+30
-   \       0x30   0xD509             BPL.N    ??LL_RCC_GetUSARTClockFreq_0
     373                  {
     374                    usart_frequency = LSE_VALUE;
-   \       0x32   0xF44F 0x4100      MOV      R1,#+32768
-   \       0x36   0xE006             B.N      ??LL_RCC_GetUSARTClockFreq_0
     375                  }
     376                  break;
     377          
@@ -582,12 +580,6 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
     379                case LL_RCC_USART1_CLKSOURCE_PCLK1:  /* USART1 Clock is PCLK1 */
     380                default:
     381                  usart_frequency = RCC_GetPCLK1ClockFreq(RCC_GetHCLKClockFreq(RCC_GetSystemClockFreq()));
-   \                     ??LL_RCC_GetUSARTClockFreq_2: (+1)
-   \       0x38   0x....'....        BL       RCC_GetSystemClockFreq
-   \       0x3C   0x....'....        BL       RCC_GetHCLKClockFreq
-   \       0x40   0x....'....        BL       RCC_GetPCLK1ClockFreq
-   \                     ??LL_RCC_GetUSARTClockFreq_5: (+1)
-   \       0x44   0x4601             MOV      R1,R0
     382          #else
     383                case LL_RCC_USART1_CLKSOURCE_PCLK2:  /* USART1 Clock is PCLK2 */
     384                default:
@@ -600,31 +592,66 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
     391          
     392          #if defined(RCC_CFGR3_USART2SW)
     393            if (USARTxSource == LL_RCC_USART2_CLKSOURCE)
+   \                     ??LL_RCC_GetUSARTClockFreq_0: (+1)
+   \       0x20   0x2810             CMP      R0,#+16
+   \       0x22   0xD11F             BNE.N    ??LL_RCC_GetUSARTClockFreq_5
     394            {
     395              /* USART2CLK clock frequency */
     396              switch (LL_RCC_GetUSARTClockSource(USARTxSource))
+   \       0x24   0x....'....        BL       LL_RCC_GetUSARTClockSource
+   \       0x28   0x....             LDR.N    R1,??DataTable13_5  ;; 0x10010000
+   \       0x2A   0x4288             CMP      R0,R1
+   \       0x2C   0xD006             BEQ.N    ??LL_RCC_GetUSARTClockFreq_1
+   \       0x2E   0x....             LDR.N    R1,??DataTable13_6  ;; 0x10020000
+   \       0x30   0x4288             CMP      R0,R1
+   \       0x32   0xD00B             BEQ.N    ??LL_RCC_GetUSARTClockFreq_4
+   \       0x34   0x....             LDR.N    R1,??DataTable13_7  ;; 0x10030000
+   \       0x36   0x4288             CMP      R0,R1
+   \       0x38   0xD003             BEQ.N    ??LL_RCC_GetUSARTClockFreq_3
+   \       0x3A   0xE00C             B.N      ??LL_RCC_GetUSARTClockFreq_2
     397              {
     398                case LL_RCC_USART2_CLKSOURCE_SYSCLK: /* USART2 Clock is System Clock */
     399                  usart_frequency = RCC_GetSystemClockFreq();
+   \                     ??LL_RCC_GetUSARTClockFreq_1: (+1)
+   \       0x3C   0x....'....        BL       RCC_GetSystemClockFreq
+   \       0x40   0xE00F             B.N      ??LL_RCC_GetUSARTClockFreq_6
     400                  break;
     401          
     402                case LL_RCC_USART2_CLKSOURCE_HSI:    /* USART2 Clock is HSI Osc. */
     403                  if (LL_RCC_HSI_IsReady())
+   \                     ??LL_RCC_GetUSARTClockFreq_3: (+1)
+   \       0x42   0x6838             LDR      R0,[R7, #+0]
+   \       0x44   0x0780             LSLS     R0,R0,#+30
+   \       0x46   0xD50D             BPL.N    ??LL_RCC_GetUSARTClockFreq_5
     404                  {
     405                    usart_frequency = HSI_VALUE;
+   \       0x48   0x462C             MOV      R4,R5
+   \       0x4A   0xE00B             B.N      ??LL_RCC_GetUSARTClockFreq_5
     406                  }
     407                  break;
     408          
     409                case LL_RCC_USART2_CLKSOURCE_LSE:    /* USART2 Clock is LSE Osc. */
     410                  if (LL_RCC_LSE_IsReady())
+   \                     ??LL_RCC_GetUSARTClockFreq_4: (+1)
+   \       0x4C   0x6A38             LDR      R0,[R7, #+32]
+   \       0x4E   0x0780             LSLS     R0,R0,#+30
+   \       0x50   0xD508             BPL.N    ??LL_RCC_GetUSARTClockFreq_5
     411                  {
     412                    usart_frequency = LSE_VALUE;
+   \       0x52   0x4634             MOV      R4,R6
+   \       0x54   0xE006             B.N      ??LL_RCC_GetUSARTClockFreq_5
     413                  }
     414                  break;
     415          
     416                case LL_RCC_USART2_CLKSOURCE_PCLK1:  /* USART2 Clock is PCLK1 */
     417                default:
     418                  usart_frequency = RCC_GetPCLK1ClockFreq(RCC_GetHCLKClockFreq(RCC_GetSystemClockFreq()));
+   \                     ??LL_RCC_GetUSARTClockFreq_2: (+1)
+   \       0x56   0x....'....        BL       RCC_GetSystemClockFreq
+   \       0x5A   0x....'....        BL       RCC_GetHCLKClockFreq
+   \       0x5E   0x....'....        BL       RCC_GetPCLK1ClockFreq
+   \                     ??LL_RCC_GetUSARTClockFreq_6: (+1)
+   \       0x62   0x4604             MOV      R4,R0
     419                  break;
     420              }
     421            }
@@ -663,9 +690,9 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
     454          
     455          #endif /* RCC_CFGR3_USART3SW */
     456            return usart_frequency;
-   \                     ??LL_RCC_GetUSARTClockFreq_0: (+1)
-   \       0x46   0x4608             MOV      R0,R1
-   \       0x48   0xBD02             POP      {R1,PC}          ;; return
+   \                     ??LL_RCC_GetUSARTClockFreq_5: (+1)
+   \       0x64   0x4620             MOV      R0,R4
+   \       0x66   0xBDF2             POP      {R1,R4-R7,PC}    ;; return
     457          }
     458          
     459          #if defined(UART4) || defined(UART5)
@@ -779,8 +806,8 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
     561            /* I2C1 CLK clock frequency */
     562            if (I2CxSource == LL_RCC_I2C1_CLKSOURCE)
    \        0x6   0x2910             CMP      R1,#+16
-   \        0x8   0x....             LDR.N    R2,??DataTable12_4  ;; 0x7a1200
-   \        0xA   0x....             LDR.N    R3,??DataTable12_1  ;; 0x40021000
+   \        0x8   0x....             LDR.N    R2,??DataTable13_4  ;; 0x7a1200
+   \        0xA   0x....             LDR.N    R3,??DataTable13_1  ;; 0x40021000
    \        0xC   0xD106             BNE.N    ??LL_RCC_GetI2CClockFreq_0
     563            {
     564              switch (LL_RCC_GetI2CClockSource(I2CxSource))
@@ -799,7 +826,7 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
     576                  break;
     577              }
     578            }
-   \       0x10   0x....             LDR.N    R4,??DataTable12_5  ;; 0x10000010
+   \       0x10   0x....             LDR.N    R4,??DataTable13_8  ;; 0x10000010
    \       0x12   0xF001 0x0110      AND      R1,R1,#0x10
    \       0x16   0xF041 0x5180      ORR      R1,R1,#0x10000000
    \       0x1A   0xE007             B.N      ??LL_RCC_GetI2CClockFreq_1
@@ -813,7 +840,7 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
     583            {
     584              switch (LL_RCC_GetI2CClockSource(I2CxSource))
    \       0x20   0x6B19             LDR      R1,[R3, #+48]
-   \       0x22   0x....             LDR.N    R4,??DataTable12_6  ;; 0x20000020
+   \       0x22   0x....             LDR.N    R4,??DataTable13_9  ;; 0x20000020
    \       0x24   0xF001 0x0120      AND      R1,R1,#0x20
    \       0x28   0xF041 0x5100      ORR      R1,R1,#0x20000000
    \                     ??LL_RCC_GetI2CClockFreq_1: (+1)
@@ -845,7 +872,7 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
     604            {
     605              switch (LL_RCC_GetI2CClockSource(I2CxSource))
    \       0x36   0x6B19             LDR      R1,[R3, #+48]
-   \       0x38   0x....             LDR.N    R4,??DataTable12_7  ;; 0x40000040
+   \       0x38   0x....             LDR.N    R4,??DataTable13_10  ;; 0x40000040
    \       0x3A   0xF001 0x0140      AND      R1,R1,#0x40
    \       0x3E   0xF041 0x4180      ORR      R1,R1,#0x40000000
    \       0x42   0x42A1             CMP      R1,R4
@@ -898,7 +925,7 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
     639            /* I2S1CLK clock frequency */
     640            switch (LL_RCC_GetI2SClockSource(I2SxSource))
    \                     LL_RCC_GetI2SClockFreq: (+1)
-   \        0x0   0x....             LDR.N    R1,??DataTable12_8  ;; 0x40021004
+   \        0x0   0x....             LDR.N    R1,??DataTable13_11  ;; 0x40021004
    \        0x2   0x6809             LDR      R1,[R1, #+0]
    \        0x4   0x4201             TST      R1,R0
    \        0x6   0xBF08             IT       EQ
@@ -941,7 +968,7 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
     670          
     671            /* USBCLK clock frequency */
     672            switch (LL_RCC_GetUSBClockSource(USBxSource))
-   \        0x2   0x....             LDR.N    R2,??DataTable12_1  ;; 0x40021000
+   \        0x2   0x....             LDR.N    R2,??DataTable13_1  ;; 0x40021000
    \        0x4   0x6853             LDR      R3,[R2, #+4]
    \        0x6   0x2100             MOVS     R1,#+0
    \        0x8   0x4018             ANDS     R0,R0,R3
@@ -1010,7 +1037,7 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
     713          
     714            /* Get ADC prescaler */
     715            adc_prescaler = LL_RCC_GetADCClockSource(ADCxSource);
-   \        0x4   0x....             LDR.N    R0,??DataTable12_9  ;; 0x4002102c
+   \        0x4   0x....             LDR.N    R0,??DataTable13_12  ;; 0x4002102c
    \        0x6   0x6804             LDR      R4,[R0, #+0]
    \        0x8   0x402C             ANDS     R4,R5,R4
     716          
@@ -1374,7 +1401,7 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
    1014            /* Get SYSCLK source -------------------------------------------------------*/
    1015            switch (LL_RCC_GetSysClkSource())
    \                     RCC_GetSystemClockFreq: (+1)
-   \        0x0   0x....             LDR.N    R0,??DataTable12_8  ;; 0x40021004
+   \        0x0   0x....             LDR.N    R0,??DataTable13_11  ;; 0x40021004
    \        0x2   0x6800             LDR      R0,[R0, #+0]
    \        0x4   0xF000 0x000C      AND      R0,R0,#0xC
    \        0x8   0x2808             CMP      R0,#+8
@@ -1395,7 +1422,7 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
    1028          
    1029              default:
    1030                frequency = HSI_VALUE;
-   \       0x10   0x....             LDR.N    R0,??DataTable12_4  ;; 0x7a1200
+   \       0x10   0x....             LDR.N    R0,??DataTable13_4  ;; 0x7a1200
    1031                break;
    1032            }
    1033          
@@ -1415,8 +1442,8 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
    1044            /* HCLK clock frequency */
    1045            return __LL_RCC_CALC_HCLK_FREQ(SYSCLK_Frequency, LL_RCC_GetAHBPrescaler());
    \                     RCC_GetHCLKClockFreq: (+1)
-   \        0x0   0x....             LDR.N    R1,??DataTable12_8  ;; 0x40021004
-   \        0x2   0x....             LDR.N    R2,??DataTable12_10
+   \        0x0   0x....             LDR.N    R1,??DataTable13_11  ;; 0x40021004
+   \        0x2   0x....             LDR.N    R2,??DataTable13_13
    \        0x4   0x6809             LDR      R1,[R1, #+0]
    \        0x6   0xF3C1 0x1103      UBFX     R1,R1,#+4,#+4
    \        0xA   0x....             B.N      ?Subroutine0
@@ -1440,8 +1467,8 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
    1055            /* PCLK1 clock frequency */
    1056            return __LL_RCC_CALC_PCLK1_FREQ(HCLK_Frequency, LL_RCC_GetAPB1Prescaler());
    \                     RCC_GetPCLK1ClockFreq: (+1)
-   \        0x0   0x....             LDR.N    R1,??DataTable12_8  ;; 0x40021004
-   \        0x2   0x....             LDR.N    R2,??DataTable12_11
+   \        0x0   0x....             LDR.N    R1,??DataTable13_11  ;; 0x40021004
+   \        0x2   0x....             LDR.N    R2,??DataTable13_14
    \        0x4   0x6809             LDR      R1,[R1, #+0]
    \        0x6   0xF3C1 0x2102      UBFX     R1,R1,#+8,#+3
    \        0xA                      REQUIRE ?Subroutine0
@@ -1460,8 +1487,8 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
    1066            /* PCLK2 clock frequency */
    1067            return __LL_RCC_CALC_PCLK2_FREQ(HCLK_Frequency, LL_RCC_GetAPB2Prescaler());
    \                     RCC_GetPCLK2ClockFreq: (+1)
-   \        0x0   0x....             LDR.N    R1,??DataTable12_8  ;; 0x40021004
-   \        0x2   0x....             LDR.N    R2,??DataTable12_11
+   \        0x0   0x....             LDR.N    R1,??DataTable13_11  ;; 0x40021004
+   \        0x2   0x....             LDR.N    R2,??DataTable13_14
    \        0x4   0x6809             LDR      R1,[R1, #+0]
    \        0x6   0xF3C1 0x21C2      UBFX     R1,R1,#+11,#+3
    \        0xA   0x....             B.N      ?Subroutine0
@@ -1482,7 +1509,7 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
    1080            /* Get PLL source */
    1081            pllsource = LL_RCC_PLL_GetMainSource();
    \                     RCC_PLL_GetFreqDomain_SYS: (+1)
-   \        0x0   0x....             LDR.N    R0,??DataTable12_8  ;; 0x40021004
+   \        0x0   0x....             LDR.N    R0,??DataTable13_11  ;; 0x40021004
    \        0x2   0x6801             LDR      R1,[R0, #+0]
    1082          
    1083            switch (pllsource)
@@ -1517,8 +1544,8 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
    \        0x8   0xF401 0x3180      AND      R1,R1,#0x10000
    \        0xC   0xF5B1 0x3F80      CMP      R1,#+65536
    \       0x10   0xBF0C             ITE      EQ
-   \       0x12   0x....             LDREQ.N  R1,??DataTable12_4  ;; 0x7a1200
-   \       0x14   0x....             LDRNE.N  R1,??DataTable12_12  ;; 0x3d0900
+   \       0x12   0x....             LDREQ.N  R1,??DataTable13_4  ;; 0x7a1200
+   \       0x14   0x....             LDRNE.N  R1,??DataTable13_15  ;; 0x3d0900
    \       0x16   0xF002 0x020F      AND      R2,R2,#0xF
    \       0x1A   0x1C52             ADDS     R2,R2,#+1
    \       0x1C   0xFBB1 0xF0F2      UDIV     R0,R1,R2
@@ -1530,55 +1557,67 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
    1111          }
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable12:
+   \                     ??DataTable13:
    \        0x0   0x4002'1030        DC32     0x40021030
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable12_1:
+   \                     ??DataTable13_1:
    \        0x0   0x4002'1000        DC32     0x40021000
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable12_2:
+   \                     ??DataTable13_2:
    \        0x0   0xF8FF'C00C        DC32     0xf8ffc00c
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable12_3:
+   \                     ??DataTable13_3:
    \        0x0   0xFEF6'FFFF        DC32     0xfef6ffff
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable12_4:
+   \                     ??DataTable13_4:
    \        0x0   0x007A'1200        DC32     0x7a1200
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable12_5:
+   \                     ??DataTable13_5:
+   \        0x0   0x1001'0000        DC32     0x10010000
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable13_6:
+   \        0x0   0x1002'0000        DC32     0x10020000
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable13_7:
+   \        0x0   0x1003'0000        DC32     0x10030000
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable13_8:
    \        0x0   0x1000'0010        DC32     0x10000010
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable12_6:
+   \                     ??DataTable13_9:
    \        0x0   0x2000'0020        DC32     0x20000020
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable12_7:
+   \                     ??DataTable13_10:
    \        0x0   0x4000'0040        DC32     0x40000040
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable12_8:
+   \                     ??DataTable13_11:
    \        0x0   0x4002'1004        DC32     0x40021004
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable12_9:
+   \                     ??DataTable13_12:
    \        0x0   0x4002'102C        DC32     0x4002102c
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable12_10:
+   \                     ??DataTable13_13:
    \        0x0   0x....'....        DC32     AHBPrescTable
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable12_11:
+   \                     ??DataTable13_14:
    \        0x0   0x....'....        DC32     APBPrescTable
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable12_12:
+   \                     ??DataTable13_15:
    \        0x0   0x003D'0900        DC32     0x3d0900
    1112          /**
    1113            * @}
@@ -1624,10 +1663,12 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
          8   -> RCC_GetSystemClockFreq
          8   -> RCC_PLL_GetFreqDomain_SYS
        0   LL_RCC_GetTIMClockSource
-       8   LL_RCC_GetUSARTClockFreq
-         8   -> RCC_GetHCLKClockFreq
-         8   -> RCC_GetPCLK1ClockFreq
-         8   -> RCC_GetSystemClockFreq
+      24   LL_RCC_GetUSARTClockFreq
+        24   -> LL_RCC_GetUSARTClockSource
+        24   -> RCC_GetHCLKClockFreq
+        24   -> RCC_GetPCLK1ClockFreq
+        24   -> RCC_GetSystemClockFreq
+       0   LL_RCC_GetUSARTClockSource
        8   LL_RCC_GetUSBClockFreq
          8   -> RCC_PLL_GetFreqDomain_SYS
        0   RCC_GetHCLKClockFreq
@@ -1642,19 +1683,22 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
 
    Bytes  Function/Label
    -----  --------------
-       4  ??DataTable12
-       4  ??DataTable12_1
-       4  ??DataTable12_10
-       4  ??DataTable12_11
-       4  ??DataTable12_12
-       4  ??DataTable12_2
-       4  ??DataTable12_3
-       4  ??DataTable12_4
-       4  ??DataTable12_5
-       4  ??DataTable12_6
-       4  ??DataTable12_7
-       4  ??DataTable12_8
-       4  ??DataTable12_9
+       4  ??DataTable13
+       4  ??DataTable13_1
+       4  ??DataTable13_10
+       4  ??DataTable13_11
+       4  ??DataTable13_12
+       4  ??DataTable13_13
+       4  ??DataTable13_14
+       4  ??DataTable13_15
+       4  ??DataTable13_2
+       4  ??DataTable13_3
+       4  ??DataTable13_4
+       4  ??DataTable13_5
+       4  ??DataTable13_6
+       4  ??DataTable13_7
+       4  ??DataTable13_8
+       4  ??DataTable13_9
        6  ?Subroutine0
      124  LL_RCC_DeInit
       66  LL_RCC_GetADCClockFreq
@@ -1663,7 +1707,8 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
       32  LL_RCC_GetSystemClocksFreq
       80  LL_RCC_GetTIMClockFreq
       20  LL_RCC_GetTIMClockSource
-      74  LL_RCC_GetUSARTClockFreq
+     104  LL_RCC_GetUSARTClockFreq
+      18  LL_RCC_GetUSARTClockSource
       48  LL_RCC_GetUSBClockFreq
       12  RCC_GetHCLKClockFreq
       10  RCC_GetPCLK1ClockFreq
@@ -1673,9 +1718,9 @@ C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Drivers\STM32F3xx_HAL_
       32  aADCPrescTable
 
  
- 734 bytes in section .text
+ 794 bytes in section .text
  
- 734 bytes of CODE memory
+ 794 bytes of CODE memory
 
 Errors: none
 Warnings: none

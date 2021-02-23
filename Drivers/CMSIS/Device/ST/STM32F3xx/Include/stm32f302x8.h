@@ -8894,6 +8894,18 @@ typedef struct
 #define RCC_CFGR3_USART1SW_SYSCLK                (0x00000001U)                 /*!< System clock selected as USART1 clock source */
 #define RCC_CFGR3_USART1SW_LSE                   (0x00000002U)                 /*!< LSE oscillator clock used as USART1 clock source */
 #define RCC_CFGR3_USART1SW_HSI                   (0x00000003U)                 /*!< HSI oscillator clock used as USART1 clock source */
+
+#define RCC_CFGR3_USART2SW_Pos                   (16U)                         
+#define RCC_CFGR3_USART2SW_Msk                   (0x3UL << RCC_CFGR3_USART2SW_Pos) /*!< 0x00030000 */
+#define RCC_CFGR3_USART2SW                       RCC_CFGR3_USART2SW_Msk        /*!< USART2SW[1:0] bits */
+#define RCC_CFGR3_USART2SW_0                     (0x1UL << RCC_CFGR3_USART2SW_Pos) /*!< 0x00010000 */
+#define RCC_CFGR3_USART2SW_1                     (0x2UL << RCC_CFGR3_USART2SW_Pos) /*!< 0x00020000 */
+
+#define RCC_CFGR3_USART2SW_PCLK                  (0x00000000U)                 /*!< PCLK1 clock used as USART2 clock source */
+#define RCC_CFGR3_USART2SW_SYSCLK                (0x00010000U)                 /*!< System clock selected as USART2 clock source */
+#define RCC_CFGR3_USART2SW_LSE                   (0x00020000U)                 /*!< LSE oscillator clock used as USART2 clock source */
+#define RCC_CFGR3_USART2SW_HSI                   (0x00030000U)                 /*!< HSI oscillator clock used as USART2 clock source */
+
 /* Legacy defines */
 #define  RCC_CFGR3_USART1SW_PCLK             RCC_CFGR3_USART1SW_PCLK1
 
