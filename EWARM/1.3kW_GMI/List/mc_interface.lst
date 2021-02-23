@@ -1,0 +1,1246 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.50.9.278/W32 for ARM         23/Feb/2021  10:13:50
+# Copyright 1999-2020 IAR Systems AB.
+#
+#    Cpu mode             
+#    Endian            =  little
+#    Source file       =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\mc_interface.c
+#    Command line      =
+#        -f C:\Users\100001~1\AppData\Local\Temp\EWF84D.tmp
+#        (C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\mc_interface.c
+#        -D ARM_MATH_CM4 -D USE_FULL_LL_DRIVER -D USE_HAL_DRIVER -D STM32F302x8
+#        -lCN
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List
+#        -o
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj
+#        --debug --endian=little --cpu=Cortex-M4 -e --fpu=VFPv4_sp
+#        --dlib_config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.4\arm\inc\c\DLib_Config_Full.h" -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/Any/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/F3xx/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/UILibrary/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/SystemDriveParams\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/Device/ST/STM32F3xx/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/DSP/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Drivers\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Features\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Kernel\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Memory\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Regal\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\UniversalProtocol\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Motor\\
+#        -Ohz)
+#    Locale            =  C
+#    List file         =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List\mc_interface.lst
+#    Object file       =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\mc_interface.o
+#    Runtime model:       
+#      __SystemLibrary =  DLib
+#      __dlib_version  =  6
+#
+###############################################################################
+
+C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\mc_interface.c
+      1          
+      2          /**
+      3            ******************************************************************************
+      4            * @file    mc_interface.c
+      5            * @author  Motor Control SDK Team, ST Microelectronics
+      6            * @brief   This file provides firmware functions that implement the features
+      7            *          of the MC Interface component of the Motor Control SDK:
+      8            *
+      9            ******************************************************************************
+     10            * @attention
+     11            *
+     12            * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
+     13            * All rights reserved.</center></h2>
+     14            *
+     15            * This software component is licensed by ST under Ultimate Liberty license
+     16            * SLA0044, the "License"; You may not use this file except in compliance with
+     17            * the License. You may obtain a copy of the License at:
+     18            *                             www.st.com/SLA0044
+     19            *
+     20            ******************************************************************************
+     21            */
+     22          
+     23          /* Includes ------------------------------------------------------------------*/
+     24          #include "mc_math.h"
+     25          #include "speed_torq_ctrl.h"
+     26          
+     27          #include "mc_interface.h"
+     28          
+     29          /** @addtogroup MCSDK
+     30            * @{
+     31            */
+     32          
+     33          /** @defgroup MCInterface Motor Control Interface
+     34            * @brief MC Interface component of the Motor Control SDK
+     35            *
+     36            * @todo Document the MC Interface "module".
+     37            *
+     38            * @{
+     39            */
+     40          
+     41          /* Private macros ------------------------------------------------------------*/
+     42          /**
+     43            * @brief This macro converts the exported enum from the state machine to the corresponding bit field.
+     44            */
+     45          #define BC(state) (1u<<((uint16_t)((uint8_t)(state))))
+     46          
+     47          /* Functions -----------------------------------------------*/
+     48          
+     49          /**
+     50            * @brief  Initializes all the object variables, usually it has to be called
+     51            *         once right after object creation. It is also used to assign the
+     52            *         state machine object, the speed and torque controller, and the FOC
+     53            *         drive object to be used by MC Interface.
+     54            * @param  pHandle pointer on the component instance to initialize.
+     55            * @param  pSTM the state machine object used by the MCI.
+     56            * @param  pSTC the speed and torque controller used by the MCI.
+     57            * @param  pFOCVars pointer to FOC vars to be used by MCI.
+     58            * @retval none.
+     59            */
+
+   \                                 In section .text, align 2
+     60          __weak void MCI_Init( MCI_Handle_t * pHandle, STM_Handle_t * pSTM, SpeednTorqCtrl_Handle_t * pSTC, pFOCVars_t pFOCVars )
+     61          {
+     62            pHandle->pSTM = pSTM;
+   \                     MCI_Init: (+1)
+   \        0x0   0x6001             STR      R1,[R0, #+0]
+     63            pHandle->pSTC = pSTC;
+   \        0x2   0x6042             STR      R2,[R0, #+4]
+     64            pHandle->pFOCVars = pFOCVars;
+     65          
+     66            /* Buffer related initialization */
+     67            pHandle->lastCommand = MCI_NOCOMMANDSYET;
+   \        0x4   0x2100             MOVS     R1,#+0
+   \        0x6   0x6083             STR      R3,[R0, #+8]
+   \        0x8   0x7301             STRB     R1,[R0, #+12]
+     68            pHandle->hFinalSpeed = 0;
+   \        0xA   0x81C1             STRH     R1,[R0, #+14]
+     69            pHandle->hFinalTorque = 0;
+   \        0xC   0x8201             STRH     R1,[R0, #+16]
+     70            pHandle->hDurationms = 0;
+   \        0xE   0x82C1             STRH     R1,[R0, #+22]
+     71            pHandle->CommandState = MCI_BUFFER_EMPTY;
+   \       0x10   0x7601             STRB     R1,[R0, #+24]
+     72          }
+   \       0x12   0x4770             BX       LR               ;; return
+     73          
+     74          /**
+     75            * @brief  This is a buffered command to set a motor speed ramp. This commands
+     76            *         don't become active as soon as it is called but it will be executed
+     77            *         when the pSTM state is START_RUN or RUN. User can check the status
+     78            *         of the command calling the MCI_IsCommandAcknowledged method.
+     79            * @param  pHandle Pointer on the component instance to operate on.
+     80            * @param  hFinalSpeed is the value of mechanical rotor speed reference at the
+     81            *         end of the ramp expressed in tenths of HZ.
+     82            * @param  hDurationms the duration of the ramp expressed in milliseconds. It
+     83            *         is possible to set 0 to perform an instantaneous change in the
+     84            *         value.
+     85            * @retval none.
+     86            */
+
+   \                                 In section .text, align 2
+     87          __weak void MCI_ExecSpeedRamp( MCI_Handle_t * pHandle,  int16_t hFinalSpeed, uint16_t hDurationms )
+     88          {
+     89            pHandle->lastCommand = MCI_EXECSPEEDRAMP;
+   \                     MCI_ExecSpeedRamp: (+1)
+   \        0x0   0x2301             MOVS     R3,#+1
+   \        0x2   0x7303             STRB     R3,[R0, #+12]
+     90            pHandle->hFinalSpeed = hFinalSpeed;
+   \        0x4   0x81C1             STRH     R1,[R0, #+14]
+     91            pHandle->hDurationms = hDurationms;
+   \        0x6   0x82C2             STRH     R2,[R0, #+22]
+     92            pHandle->CommandState = MCI_COMMAND_NOT_ALREADY_EXECUTED;
+   \        0x8   0x7603             STRB     R3,[R0, #+24]
+     93            pHandle->LastModalitySetByUser = STC_SPEED_MODE;
+   \        0xA   0x7643             STRB     R3,[R0, #+25]
+     94          }
+   \        0xC   0x4770             BX       LR               ;; return
+     95          
+     96          /**
+     97            * @brief  This is a buffered command to set a motor torque ramp. This commands
+     98            *         don't become active as soon as it is called but it will be executed
+     99            *         when the pSTM state is START_RUN or RUN. User can check the status
+    100            *         of the command calling the MCI_IsCommandAcknowledged method.
+    101            * @param  pHandle Pointer on the component instance to work on.
+    102            * @param  hFinalTorque is the value of motor torque reference at the end of
+    103            *         the ramp. This value represents actually the Iq current expressed in
+    104            *         digit.
+    105            *         To convert current expressed in Amps to current expressed in digit
+    106            *         is possible to use the formula:
+    107            *         Current (digit) = [Current(Amp) * 65536 * Rshunt * Aop] / Vdd micro.
+    108            * @param  hDurationms the duration of the ramp expressed in milliseconds. It
+    109            *         is possible to set 0 to perform an instantaneous change in the
+    110            *         value.
+    111            * @retval none.
+    112            */
+
+   \                                 In section .text, align 2
+    113          __weak void MCI_ExecTorqueRamp( MCI_Handle_t * pHandle,  int16_t hFinalTorque, uint16_t hDurationms )
+    114          {
+    115            pHandle->lastCommand = MCI_EXECTORQUERAMP;
+    116            pHandle->hFinalTorque = hFinalTorque;
+   \                     MCI_ExecTorqueRamp: (+1)
+   \        0x0   0x8201             STRH     R1,[R0, #+16]
+    117            pHandle->hDurationms = hDurationms;
+   \        0x2   0x82C2             STRH     R2,[R0, #+22]
+   \        0x4   0x2302             MOVS     R3,#+2
+    118            pHandle->CommandState = MCI_COMMAND_NOT_ALREADY_EXECUTED;
+   \        0x6   0x2101             MOVS     R1,#+1
+    119            pHandle->LastModalitySetByUser = STC_TORQUE_MODE;
+   \        0x8   0x2200             MOVS     R2,#+0
+   \        0xA   0x7303             STRB     R3,[R0, #+12]
+   \        0xC   0x7601             STRB     R1,[R0, #+24]
+   \        0xE   0x7642             STRB     R2,[R0, #+25]
+    120          }
+   \       0x10   0x4770             BX       LR               ;; return
+    121          
+    122          /**
+    123            * @brief  This is a buffered command to set directly the motor current
+    124            *         references Iq and Id. This commands don't become active as soon as
+    125            *         it is called but it will be executed when the pSTM state is
+    126            *         START_RUN or RUN. User can check the status of the command calling
+    127            *         the MCI_IsCommandAcknowledged method.
+    128            * @param  pHandle Pointer on the component instance to work on.
+    129            * @param  Iqdref current references on qd reference frame in qd_t
+    130            *         format.
+    131            * @retval none.
+    132            */
+
+   \                                 In section .text, align 2
+    133          __weak void MCI_SetCurrentReferences( MCI_Handle_t * pHandle, qd_t Iqdref )
+    134          {
+   \                     MCI_SetCurrentReferences: (+1)
+   \        0x0   0xB402             PUSH     {R1}
+    135            pHandle->lastCommand = MCI_SETCURRENTREFERENCES;
+   \        0x2   0x2103             MOVS     R1,#+3
+   \        0x4   0x7301             STRB     R1,[R0, #+12]
+    136            pHandle->Iqdref.q = Iqdref.q;
+   \        0x6   0xF8BD 0x2000      LDRH     R2,[SP, #+0]
+   \        0xA   0x8242             STRH     R2,[R0, #+18]
+    137            pHandle->Iqdref.d = Iqdref.d;
+    138            pHandle->CommandState = MCI_COMMAND_NOT_ALREADY_EXECUTED;
+   \        0xC   0x2201             MOVS     R2,#+1
+   \        0xE   0xF8BD 0x1002      LDRH     R1,[SP, #+2]
+   \       0x12   0x8281             STRH     R1,[R0, #+20]
+   \       0x14   0x7602             STRB     R2,[R0, #+24]
+    139            pHandle->LastModalitySetByUser = STC_TORQUE_MODE;
+   \       0x16   0x2100             MOVS     R1,#+0
+   \       0x18   0x7641             STRB     R1,[R0, #+25]
+    140          }
+   \       0x1A   0xB001             ADD      SP,SP,#+4
+   \       0x1C   0x4770             BX       LR               ;; return
+    141          
+    142          /**
+    143            * @brief  This is a user command used to begin the start-up procedure.
+    144            *         If the state machine is in IDLE state the command is executed
+    145            *         instantaneously otherwise the command is discarded. User must take
+    146            *         care of this possibility by checking the return value.
+    147            *         Before calling MCI_StartMotor it is mandatory to execute one of
+    148            *         these commands:\n
+    149            *         MCI_ExecSpeedRamp\n
+    150            *         MCI_ExecTorqueRamp\n
+    151            *         MCI_SetCurrentReferences\n
+    152            *         Otherwise the behaviour in run state will be unpredictable.\n
+    153            *         <B>Note:</B> The MCI_StartMotor command is used just to begin the
+    154            *         start-up procedure moving the state machine from IDLE state to
+    155            *         IDLE_START. The command MCI_StartMotor is not blocking the execution
+    156            *         of project until the motor is really running; to do this, the user
+    157            *         have to check the state machine and verify that the RUN state (or
+    158            *         any other state) has been reached.
+    159            * @param  pHandle Pointer on the component instance to work on.
+    160            * @retval bool It returns true if the command is successfully executed
+    161            *         otherwise it return false.
+    162            */
+
+   \                                 In section .text, align 2
+    163          __weak bool MCI_StartMotor( MCI_Handle_t * pHandle )
+    164          {
+   \                     MCI_StartMotor: (+1)
+   \        0x0   0xB510             PUSH     {R4,LR}
+   \        0x2   0x4604             MOV      R4,R0
+    165            bool RetVal = STM_NextState( pHandle->pSTM, IDLE_START );
+   \        0x4   0x2103             MOVS     R1,#+3
+   \        0x6   0x6820             LDR      R0,[R4, #+0]
+   \        0x8   0x....'....        BL       STM_NextState
+    166          
+    167            if ( RetVal == true )
+   \        0xC   0x2801             CMP      R0,#+1
+   \        0xE   0xBF08             IT       EQ
+   \       0x10   0x7620             STRBEQ   R0,[R4, #+24]
+    168            {
+    169              pHandle->CommandState = MCI_COMMAND_NOT_ALREADY_EXECUTED;
+    170            }
+    171          
+    172            return RetVal;
+   \       0x12   0xBD10             POP      {R4,PC}          ;; return
+    173          }
+    174          
+    175          /**
+    176            * @brief  This is a user command used to begin the stop motor procedure.
+    177            *         If the state machine is in RUN or START states the command is
+    178            *         executed instantaneously otherwise the command is discarded. User
+    179            *         must take care of this possibility by checking the return value.\n
+    180            *         <B>Note:</B> The MCI_StopMotor command is used just to begin the
+    181            *         stop motor procedure moving the state machine to ANY_STOP.
+    182            *         The command MCI_StopMotor is not blocking the execution of project
+    183            *         until the motor is really stopped; to do this, the user have to
+    184            *         check the state machine and verify that the IDLE state has been
+    185            *         reached again.
+    186            * @param  pHandle Pointer on the component instance to work on.
+    187            * @retval bool It returns true if the command is successfully executed
+    188            *         otherwise it return false.
+    189            */
+
+   \                                 In section .text, align 2
+    190          __weak bool MCI_StopMotor( MCI_Handle_t * pHandle )
+    191          {
+    192            return STM_NextState( pHandle->pSTM, ANY_STOP );
+   \                     MCI_StopMotor: (+1)
+   \        0x0   0x6800             LDR      R0,[R0, #+0]
+   \        0x2   0x2107             MOVS     R1,#+7
+   \        0x4   0x....'....        B.W      STM_NextState
+    193          }
+    194          
+    195          /**
+    196            * @brief  This is a user command used to indicate that the user has seen the
+    197            *         error condition. If is possible, the command is executed
+    198            *         instantaneously otherwise the command is discarded. User must take
+    199            *         care of this possibility by checking the return value.
+    200            * @param  pHandle Pointer on the component instance to work on.
+    201            * @retval bool It returns true if the command is successfully executed
+    202            *         otherwise it return false.
+    203            */
+
+   \                                 In section .text, align 2
+    204          __weak bool MCI_FaultAcknowledged( MCI_Handle_t * pHandle )
+    205          {
+    206            return STM_FaultAcknowledged( pHandle->pSTM );
+   \                     MCI_FaultAcknowledged: (+1)
+   \        0x0   0x6800             LDR      R0,[R0, #+0]
+   \        0x2   0x....'....        B.W      STM_FaultAcknowledged
+    207          }
+    208          
+    209          /**
+    210            * @brief  This is a user command used to begin the encoder alignment procedure.
+    211            *         If the state machine is in IDLE state the command is executed
+    212            *         instantaneously otherwise the command is discarded. User must take
+    213            *         care of this possibility by checking the return value.\n
+    214            *         <B>Note:</B> The MCI_EncoderAlign command is used just to begin the
+    215            *         encoder alignment procedure moving the state machine from IDLE state
+    216            *         to IDLE_ALIGNMENT. The command MCI_EncoderAlign is not blocking the
+    217            *         execution of project until the encoder is really calibrated; to do
+    218            *         this, the user have to check the state machine and verify that the
+    219            *         IDLE state has been reached again.
+    220            * @param  pHandle Pointer on the component instance to work on.
+    221            * @retval bool It returns true if the command is successfully executed
+    222            *         otherwise it return false.
+    223            */
+
+   \                                 In section .text, align 2
+    224          __weak bool MCI_EncoderAlign( MCI_Handle_t * pHandle )
+    225          {
+    226            return STM_NextState( pHandle->pSTM, IDLE_ALIGNMENT );
+   \                     MCI_EncoderAlign: (+1)
+   \        0x0   0x6800             LDR      R0,[R0, #+0]
+   \        0x2   0x2101             MOVS     R1,#+1
+   \        0x4   0x....'....        B.W      STM_NextState
+    227          }
+    228          
+    229          /**
+    230            * @brief  This is usually a method managed by task. It must be called
+    231            *         periodically in order to check the status of the related pSTM object
+    232            *         and eventually to execute the buffered command if the condition
+    233            *         occurs.
+    234            * @param  pHandle Pointer on the component instance to work on.
+    235            * @retval none.
+    236            */
+
+   \                                 In section .text, align 2
+    237          __weak void MCI_ExecBufferedCommands( MCI_Handle_t * pHandle )
+    238          {
+   \                     MCI_ExecBufferedCommands: (+1)
+   \        0x0   0xB510             PUSH     {R4,LR}
+   \        0x2   0x0004             MOVS     R4,R0
+    239            if ( pHandle != MC_NULL )
+   \        0x4   0xD02F             BEQ.N    ??MCI_ExecBufferedCommands_0
+    240            {
+    241              if ( pHandle->CommandState == MCI_COMMAND_NOT_ALREADY_EXECUTED )
+   \        0x6   0x7E20             LDRB     R0,[R4, #+24]
+   \        0x8   0x2801             CMP      R0,#+1
+   \        0xA   0xD12C             BNE.N    ??MCI_ExecBufferedCommands_0
+    242              {
+    243                bool commandHasBeenExecuted = false;
+    244                switch ( pHandle->lastCommand )
+   \        0xC   0x7B21             LDRB     R1,[R4, #+12]
+   \        0xE   0x2000             MOVS     R0,#+0
+   \       0x10   0x2901             CMP      R1,#+1
+   \       0x12   0xD004             BEQ.N    ??MCI_ExecBufferedCommands_1
+   \       0x14   0xD30F             BCC.N    ??MCI_ExecBufferedCommands_2
+   \       0x16   0x2903             CMP      R1,#+3
+   \       0x18   0xD01B             BEQ.N    ??MCI_ExecBufferedCommands_3
+   \       0x1A   0xD30F             BCC.N    ??MCI_ExecBufferedCommands_4
+   \       0x1C   0xE00B             B.N      ??MCI_ExecBufferedCommands_2
+    245                {
+    246                  case MCI_EXECSPEEDRAMP:
+    247                  {
+    248                    pHandle->pFOCVars->bDriveInput = INTERNAL;
+   \                     ??MCI_ExecBufferedCommands_1: (+1)
+   \       0x1E   0x68A2             LDR      R2,[R4, #+8]
+   \       0x20   0xF882 0x0024      STRB     R0,[R2, #+36]
+    249                    STC_SetControlMode( pHandle->pSTC, STC_SPEED_MODE );
+   \       0x24   0x6860             LDR      R0,[R4, #+4]
+   \       0x26   0x....'....        BL       STC_SetControlMode
+    250                    commandHasBeenExecuted = STC_ExecRamp( pHandle->pSTC, pHandle->hFinalSpeed, pHandle->hDurationms );
+   \       0x2A   0x8AE2             LDRH     R2,[R4, #+22]
+   \       0x2C   0xF9B4 0x100E      LDRSH    R1,[R4, #+14]
+   \                     ??MCI_ExecBufferedCommands_5: (+1)
+   \       0x30   0x6860             LDR      R0,[R4, #+4]
+   \       0x32   0x....'....        BL       STC_ExecRamp
+    251                  }
+    252                  break;
+    253                  case MCI_EXECTORQUERAMP:
+    254                  {
+    255                    pHandle->pFOCVars->bDriveInput = INTERNAL;
+    256                    STC_SetControlMode( pHandle->pSTC, STC_TORQUE_MODE );
+    257                    commandHasBeenExecuted = STC_ExecRamp( pHandle->pSTC, pHandle->hFinalTorque, pHandle->hDurationms );
+    258                  }
+    259                  break;
+    260                  case MCI_SETCURRENTREFERENCES:
+    261                  {
+    262                    pHandle->pFOCVars->bDriveInput = EXTERNAL;
+    263                    pHandle->pFOCVars->Iqdref = pHandle->Iqdref;
+    264                    commandHasBeenExecuted = true;
+    265                  }
+    266                  break;
+    267                  default:
+    268                    break;
+    269                }
+    270          
+    271                if ( commandHasBeenExecuted )
+   \                     ??MCI_ExecBufferedCommands_2: (+1)
+   \       0x36   0xB1A0             CBZ.N    R0,??MCI_ExecBufferedCommands_6
+    272                {
+    273                  pHandle->CommandState = MCI_COMMAND_EXECUTED_SUCCESFULLY;
+   \                     ??MCI_ExecBufferedCommands_7: (+1)
+   \       0x38   0x2002             MOVS     R0,#+2
+   \       0x3A   0xE013             B.N      ??MCI_ExecBufferedCommands_8
+    274                }
+   \                     ??MCI_ExecBufferedCommands_4: (+1)
+   \       0x3C   0x68A1             LDR      R1,[R4, #+8]
+   \       0x3E   0xF881 0x0024      STRB     R0,[R1, #+36]
+   \       0x42   0x2100             MOVS     R1,#+0
+   \       0x44   0x6860             LDR      R0,[R4, #+4]
+   \       0x46   0x....'....        BL       STC_SetControlMode
+   \       0x4A   0x8AE2             LDRH     R2,[R4, #+22]
+   \       0x4C   0xF9B4 0x1010      LDRSH    R1,[R4, #+16]
+   \       0x50   0xE7EE             B.N      ??MCI_ExecBufferedCommands_5
+   \                     ??MCI_ExecBufferedCommands_3: (+1)
+   \       0x52   0x68A0             LDR      R0,[R4, #+8]
+   \       0x54   0x2101             MOVS     R1,#+1
+   \       0x56   0xF880 0x1024      STRB     R1,[R0, #+36]
+   \       0x5A   0xF8D4 0x2012      LDR      R2,[R4, #+18]
+   \       0x5E   0x6102             STR      R2,[R0, #+16]
+   \       0x60   0xE7EA             B.N      ??MCI_ExecBufferedCommands_7
+    275                else
+    276                {
+    277                  pHandle->CommandState = MCI_COMMAND_EXECUTED_UNSUCCESFULLY;
+   \                     ??MCI_ExecBufferedCommands_6: (+1)
+   \       0x62   0x2003             MOVS     R0,#+3
+   \                     ??MCI_ExecBufferedCommands_8: (+1)
+   \       0x64   0x7620             STRB     R0,[R4, #+24]
+    278                }
+    279              }
+    280            }
+    281          }
+   \                     ??MCI_ExecBufferedCommands_0: (+1)
+   \       0x66   0xBD10             POP      {R4,PC}          ;; return
+    282          
+    283          /**
+    284            * @brief  It returns information about the state of the last buffered command.
+    285            * @param  pHandle Pointer on the component instance to work on.
+    286            * @retval CommandState_t  It can be one of the following codes:
+    287            *         - MCI_BUFFER_EMPTY if no buffered command has been called.
+    288            *         - MCI_COMMAND_NOT_ALREADY_EXECUTED if the buffered command
+    289            *         condition hasn't already occurred.
+    290            *         - MCI_COMMAND_EXECUTED_SUCCESFULLY if the buffered command has
+    291            *         been executed successfully. In this case calling this function reset
+    292            *         the command state to BC_BUFFER_EMPTY.
+    293            *         - MCI_COMMAND_EXECUTED_UNSUCCESFULLY if the buffered command has
+    294            *         been executed unsuccessfully. In this case calling this function
+    295            *         reset the command state to BC_BUFFER_EMPTY.
+    296            */
+
+   \                                 In section .text, align 2
+    297          __weak MCI_CommandState_t  MCI_IsCommandAcknowledged( MCI_Handle_t * pHandle )
+    298          {
+   \                     MCI_IsCommandAcknowledged: (+1)
+   \        0x0   0x4602             MOV      R2,R0
+    299            MCI_CommandState_t retVal = pHandle->CommandState;
+   \        0x2   0x7E10             LDRB     R0,[R2, #+24]
+    300          
+    301            if ( ( retVal == MCI_COMMAND_EXECUTED_SUCCESFULLY ) |
+    302                 ( retVal == MCI_COMMAND_EXECUTED_UNSUCCESFULLY ) )
+   \        0x4   0x2802             CMP      R0,#+2
+   \        0x6   0xD106             BNE.N    ??MCI_IsCommandAcknowledged_0
+   \        0x8   0x2101             MOVS     R1,#+1
+   \                     ??MCI_IsCommandAcknowledged_1: (+1)
+   \        0xA   0x2300             MOVS     R3,#+0
+   \                     ??MCI_IsCommandAcknowledged_2: (+1)
+   \        0xC   0x4319             ORRS     R1,R3,R1
+   \        0xE   0xBF1C             ITT      NE
+   \       0x10   0x2100             MOVNE    R1,#+0
+   \       0x12   0x7611             STRBNE   R1,[R2, #+24]
+    303            {
+    304              pHandle->CommandState = MCI_BUFFER_EMPTY;
+    305            }
+    306            return retVal;
+   \       0x14   0x4770             BX       LR               ;; return
+   \                     ??MCI_IsCommandAcknowledged_0: (+1)
+   \       0x16   0x2100             MOVS     R1,#+0
+   \       0x18   0x2803             CMP      R0,#+3
+   \       0x1A   0xD1F6             BNE.N    ??MCI_IsCommandAcknowledged_1
+   \       0x1C   0x2301             MOVS     R3,#+1
+   \       0x1E   0xE7F5             B.N      ??MCI_IsCommandAcknowledged_2
+    307          }
+    308          
+    309          /**
+    310            * @brief  It returns information about the state of the related pSTM object.
+    311            * @param  pHandle Pointer on the component instance to work on.
+    312            * @retval State_t It returns the current state of the related pSTM object.
+    313            */
+
+   \                                 In section .text, align 2
+    314          __weak State_t  MCI_GetSTMState( MCI_Handle_t * pHandle )
+    315          {
+    316            return STM_GetState( pHandle->pSTM );
+   \                     MCI_GetSTMState: (+1)
+   \        0x0   0x6800             LDR      R0,[R0, #+0]
+   \        0x2   0x....'....        B.W      STM_GetState
+    317          }
+    318          
+    319          /**
+    320            * @brief It returns a 16 bit fields containing information about faults
+    321            *        historically occurred since the state machine has been moved into
+    322            *        FAULT_NOW state.
+    323            * \n\link Fault_generation_error_codes Returned error codes are listed here \endlink
+    324            * @param pHandle Pointer on the component instance to work on.
+    325            * @retval uint16_t  16 bit fields with information about the faults
+    326            *         historically occurred since the state machine has been moved into
+    327            *         FAULT_NOW state.
+    328            * \n\link Fault_generation_error_codes Returned error codes are listed here \endlink
+    329            */
+
+   \                                 In section .text, align 2
+    330          __weak uint16_t MCI_GetOccurredFaults( MCI_Handle_t * pHandle )
+    331          {
+   \                     MCI_GetOccurredFaults: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+    332            return ( uint16_t )( STM_GetFaultState( pHandle->pSTM ) );
+   \        0x2   0x6800             LDR      R0,[R0, #+0]
+   \        0x4   0x....'....        BL       STM_GetFaultState
+   \        0x8   0xB280             UXTH     R0,R0
+   \        0xA   0xBD02             POP      {R1,PC}          ;; return
+    333          }
+    334          
+    335          /**
+    336            * @brief It returns a 16 bit fields containing information about faults
+    337            *        currently present.
+    338            * \n\link Fault_generation_error_codes Returned error codes are listed here \endlink
+    339            * @param pHandle Pointer on the component instance to work on.
+    340            * @retval uint16_t  16 bit fields with information about about currently
+    341            *         present faults.
+    342            * \n\link Fault_generation_error_codes Returned error codes are listed here \endlink
+    343            */
+
+   \                                 In section .text, align 2
+    344          __weak uint16_t MCI_GetCurrentFaults( MCI_Handle_t * pHandle )
+    345          {
+   \                     MCI_GetCurrentFaults: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+    346            return ( uint16_t )( STM_GetFaultState( pHandle->pSTM ) >> 16 );
+   \        0x2   0x6800             LDR      R0,[R0, #+0]
+   \        0x4   0x....'....        BL       STM_GetFaultState
+   \        0x8   0x0C00             LSRS     R0,R0,#+16
+   \        0xA   0xBD02             POP      {R1,PC}          ;; return
+    347          }
+    348          
+    349          /**
+    350            * @brief  It returns the modality of the speed and torque controller.
+    351            * @param  pHandle Pointer on the component instance to work on.
+    352            * @retval STC_Modality_t It returns the modality of STC. It can be one of
+    353            *         these two values: STC_TORQUE_MODE or STC_SPEED_MODE.
+    354            */
+
+   \                                 In section .text, align 2
+    355          __weak STC_Modality_t MCI_GetControlMode( MCI_Handle_t * pHandle )
+    356          {
+    357            return pHandle->LastModalitySetByUser;
+   \                     MCI_GetControlMode: (+1)
+   \        0x0   0x7E40             LDRB     R0,[R0, #+25]
+   \        0x2   0x4770             BX       LR               ;; return
+    358          }
+    359          
+    360          /**
+    361            * @brief  It returns the motor direction imposed by the last command
+    362            *         (MCI_ExecSpeedRamp, MCI_ExecTorqueRamp or MCI_SetCurrentReferences).
+    363            * @param  pHandle Pointer on the component instance to work on.
+    364            * @retval int16_t It returns 1 or -1 according the sign of hFinalSpeed,
+    365            *         hFinalTorque or Iqdref.q of the last command.
+    366            */
+
+   \                                 In section .text, align 2
+    367          __weak int16_t MCI_GetImposedMotorDirection( MCI_Handle_t * pHandle )
+    368          {
+   \                     MCI_GetImposedMotorDirection: (+1)
+   \        0x0   0x4601             MOV      R1,R0
+    369            int16_t retVal = 1;
+   \        0x2   0x2001             MOVS     R0,#+1
+    370          
+    371            switch ( pHandle->lastCommand )
+   \        0x4   0x7B0B             LDRB     R3,[R1, #+12]
+   \        0x6   0x2B01             CMP      R3,#+1
+   \        0x8   0xF04F 0x32FF      MOV      R2,#-1
+   \        0xC   0xD004             BEQ.N    ??MCI_GetImposedMotorDirection_0
+   \        0xE   0xD30E             BCC.N    ??MCI_GetImposedMotorDirection_1
+   \       0x10   0x2B03             CMP      R3,#+3
+   \       0x12   0xD007             BEQ.N    ??MCI_GetImposedMotorDirection_2
+   \       0x14   0xD303             BCC.N    ??MCI_GetImposedMotorDirection_3
+   \       0x16   0x4770             BX       LR
+    372            {
+    373              case MCI_EXECSPEEDRAMP:
+    374                if ( pHandle->hFinalSpeed < 0 )
+   \                     ??MCI_GetImposedMotorDirection_0: (+1)
+   \       0x18   0xF9B1 0x100E      LDRSH    R1,[R1, #+14]
+   \       0x1C   0xE004             B.N      ??MCI_GetImposedMotorDirection_4
+    375                {
+    376                  retVal = -1;
+    377                }
+    378                break;
+    379              case MCI_EXECTORQUERAMP:
+    380                if ( pHandle->hFinalTorque < 0 )
+   \                     ??MCI_GetImposedMotorDirection_3: (+1)
+   \       0x1E   0xF9B1 0x1010      LDRSH    R1,[R1, #+16]
+   \       0x22   0xE001             B.N      ??MCI_GetImposedMotorDirection_4
+    381                {
+    382                  retVal = -1;
+    383                }
+    384                break;
+    385              case MCI_SETCURRENTREFERENCES:
+    386                if ( pHandle->Iqdref.q < 0 )
+   \                     ??MCI_GetImposedMotorDirection_2: (+1)
+   \       0x24   0xF9B1 0x1012      LDRSH    R1,[R1, #+18]
+   \                     ??MCI_GetImposedMotorDirection_4: (+1)
+   \       0x28   0x2900             CMP      R1,#+0
+   \       0x2A   0xBF48             IT       MI
+   \       0x2C   0x4610             MOVMI    R0,R2
+    387                {
+    388                  retVal = -1;
+    389                }
+    390                break;
+    391              default:
+    392                break;
+    393            }
+    394            return retVal;
+   \                     ??MCI_GetImposedMotorDirection_1: (+1)
+   \       0x2E   0x4770             BX       LR               ;; return
+    395          }
+    396          
+    397          /**
+    398            * @brief  It returns information about the last ramp final speed sent by the
+    399            *         user expressed in tenths of HZ.
+    400            * @param  pHandle Pointer on the component instance to work on.
+    401            * @retval int16_t last ramp final speed sent by the user expressed in tehts
+    402            *         of HZ.
+    403            */
+
+   \                                 In section .text, align 2
+    404          __weak int16_t MCI_GetLastRampFinalSpeed( MCI_Handle_t * pHandle )
+    405          {
+   \                     MCI_GetLastRampFinalSpeed: (+1)
+   \        0x0   0x4601             MOV      R1,R0
+    406            int16_t hRetVal = 0;
+   \        0x2   0x2000             MOVS     R0,#+0
+    407          
+    408            /* Examine the last buffered commands */
+    409            if ( pHandle->lastCommand == MCI_EXECSPEEDRAMP )
+   \        0x4   0x7B0A             LDRB     R2,[R1, #+12]
+   \        0x6   0x2A01             CMP      R2,#+1
+   \        0x8   0xBF08             IT       EQ
+   \        0xA   0xF9B1 0x000E      LDRSHEQ  R0,[R1, #+14]
+    410            {
+    411              hRetVal = pHandle->hFinalSpeed;
+    412            }
+    413            return hRetVal;
+   \        0xE   0x4770             BX       LR               ;; return
+    414          }
+    415          
+    416          /**
+    417            * @brief  Check if the settled speed or torque ramp has been completed.
+    418            * @param  pHandle Pointer on the component instance to work on.
+    419            * @retval bool It returns true if the ramp is completed, false otherwise.
+    420            */
+
+   \                                 In section .text, align 2
+    421          __weak bool MCI_RampCompleted( MCI_Handle_t * pHandle )
+    422          {
+   \                     MCI_RampCompleted: (+1)
+   \        0x0   0xB538             PUSH     {R3-R5,LR}
+   \        0x2   0x4604             MOV      R4,R0
+    423            bool retVal = false;
+   \        0x4   0x2500             MOVS     R5,#+0
+    424          
+    425            if ( ( STM_GetState( pHandle->pSTM ) ) == RUN )
+   \        0x6   0x6820             LDR      R0,[R4, #+0]
+   \        0x8   0x....'....        BL       STM_GetState
+   \        0xC   0x2806             CMP      R0,#+6
+   \        0xE   0xD103             BNE.N    ??MCI_RampCompleted_0
+    426            {
+    427              retVal = STC_RampCompleted( pHandle->pSTC );
+   \       0x10   0x6860             LDR      R0,[R4, #+4]
+   \       0x12   0x....'....        BL       STC_RampCompleted
+   \       0x16   0x4605             MOV      R5,R0
+    428            }
+    429          
+    430            return retVal;
+   \                     ??MCI_RampCompleted_0: (+1)
+   \       0x18   0x4628             MOV      R0,R5
+   \       0x1A   0xBD32             POP      {R1,R4,R5,PC}    ;; return
+    431          }
+    432          
+    433          /**
+    434            * @brief  Stop the execution of speed ramp.
+    435            * @param  pHandle Pointer on the component instance to work on.
+    436            * @retval bool It returns true if the command is executed, false otherwise.
+    437            */
+
+   \                                 In section .text, align 2
+    438          __weak bool MCI_StopSpeedRamp( MCI_Handle_t * pHandle )
+    439          {
+    440            return STC_StopSpeedRamp( pHandle->pSTC );
+   \                     MCI_StopSpeedRamp: (+1)
+   \        0x0   0x6840             LDR      R0,[R0, #+4]
+   \        0x2   0x....'....        B.W      STC_StopSpeedRamp
+    441          }
+    442          
+    443          /**
+    444            * @brief  Stop the execution of ongoing ramp.
+    445            * @param  pHandle Pointer on the component instance to work on.
+    446            */
+
+   \                                 In section .text, align 2
+    447          __weak void MCI_StopRamp( MCI_Handle_t * pHandle)
+    448          {
+    449             STC_StopRamp( pHandle->pSTC );
+   \                     MCI_StopRamp: (+1)
+   \        0x0   0x6840             LDR      R0,[R0, #+4]
+   \        0x2   0x....'....        B.W      STC_StopRamp
+    450          }
+    451          
+    452          /**
+    453            * @brief  It returns speed sensor reliability with reference to the sensor
+    454            *         actually used for reference frame transformation
+    455            * @param  pHandle Pointer on the component instance to work on.
+    456            * @retval bool It returns true if the speed sensor utilized for reference
+    457            *         frame transformation and (in speed control mode) for speed
+    458            *         regulation is reliable, false otherwise
+    459            */
+
+   \                                 In section .text, align 2
+    460          __weak bool MCI_GetSpdSensorReliability( MCI_Handle_t * pHandle )
+    461          {
+   \                     MCI_GetSpdSensorReliability: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+    462            SpeednPosFdbk_Handle_t * SpeedSensor = STC_GetSpeedSensor( pHandle->pSTC );
+   \        0x2   0x6840             LDR      R0,[R0, #+4]
+   \        0x4   0x....'....        BL       STC_GetSpeedSensor
+    463          
+    464            return ( SPD_Check( SpeedSensor ) );
+   \        0x8   0xE8BD 0x4002      POP      {R1,LR}
+   \        0xC   0x....'....        B.W      SPD_Check
+    465          }
+    466          
+    467          /**
+    468            * @brief  Returns the last computed average mechanical speed, expressed in
+    469            *         the unit defined by #SPEED_UNIT and related to the sensor actually
+    470            *         used by FOC algorithm
+    471            * @param  pHandle Pointer on the component instance to work on.
+    472            */
+
+   \                                 In section .text, align 2
+    473          __weak int16_t MCI_GetAvrgMecSpeedUnit( MCI_Handle_t * pHandle )
+    474          {
+   \                     MCI_GetAvrgMecSpeedUnit: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+    475            SpeednPosFdbk_Handle_t * SpeedSensor = STC_GetSpeedSensor( pHandle->pSTC );
+   \        0x2   0x6840             LDR      R0,[R0, #+4]
+   \        0x4   0x....'....        BL       STC_GetSpeedSensor
+    476          
+    477            return ( SPD_GetAvrgMecSpeedUnit( SpeedSensor ) );
+   \        0x8   0xE8BD 0x4002      POP      {R1,LR}
+   \        0xC   0x....'....        B.W      SPD_GetAvrgMecSpeedUnit
+    478          }
+    479          
+    480          /**
+    481            * @brief  Returns the current mechanical rotor speed reference expressed in the unit defined by #SPEED_UNIT
+    482            *         
+    483            * @param  pHandle Pointer on the component instance to work on.
+    484            *         
+    485            */
+
+   \                                 In section .text, align 2
+    486          __weak int16_t MCI_GetMecSpeedRefUnit( MCI_Handle_t * pHandle )
+    487          {
+    488            return ( STC_GetMecSpeedRefUnit( pHandle->pSTC ) );
+   \                     MCI_GetMecSpeedRefUnit: (+1)
+   \        0x0   0x6840             LDR      R0,[R0, #+4]
+   \        0x2   0x....'....        B.W      STC_GetMecSpeedRefUnit
+    489          }
+    490          
+    491          /**
+    492            * @brief  It returns stator current Iab in ab_t format
+    493            * @param  pHandle Pointer on the component instance to work on.
+    494            * @retval ab_t Stator current Iab
+    495            */
+
+   \                                 In section .text, align 2
+    496          __weak ab_t MCI_GetIab( MCI_Handle_t * pHandle )
+    497          {
+   \                     MCI_GetIab: (+1)
+   \        0x0   0xB081             SUB      SP,SP,#+4
+   \        0x2   0x6880             LDR      R0,[R0, #+8]
+   \        0x4   0x6801             LDR      R1,[R0, #+0]
+   \        0x6   0x9100             STR      R1,[SP, #+0]
+    498            return ( pHandle->pFOCVars->Iab );
+   \        0x8   0x4608             MOV      R0,R1
+   \        0xA   0xB001             ADD      SP,SP,#+4
+   \        0xC   0x4770             BX       LR               ;; return
+    499          }
+    500          
+    501          /**
+    502            * @brief  It returns stator current Ialphabeta in alphabeta_t format
+    503            * @param  pHandle Pointer on the component instance to work on.
+    504            * @retval alphabeta_t Stator current Ialphabeta
+    505            */
+
+   \                                 In section .text, align 2
+    506          __weak alphabeta_t MCI_GetIalphabeta( MCI_Handle_t * pHandle )
+    507          {
+   \                     MCI_GetIalphabeta: (+1)
+   \        0x0   0xB081             SUB      SP,SP,#+4
+   \        0x2   0x6880             LDR      R0,[R0, #+8]
+   \        0x4   0x6841             LDR      R1,[R0, #+4]
+   \        0x6   0x9100             STR      R1,[SP, #+0]
+    508            return ( pHandle->pFOCVars->Ialphabeta );
+   \        0x8   0x4608             MOV      R0,R1
+   \        0xA   0xB001             ADD      SP,SP,#+4
+   \        0xC   0x4770             BX       LR               ;; return
+    509          }
+    510          
+    511          /**
+    512            * @brief  It returns stator current Iqd in qd_t format
+    513            * @param  pHandle Pointer on the component instance to work on.
+    514            * @retval qd_t Stator current Iqd
+    515            */
+
+   \                                 In section .text, align 2
+    516          __weak qd_t MCI_GetIqd( MCI_Handle_t * pHandle )
+    517          {
+   \                     MCI_GetIqd: (+1)
+   \        0x0   0xB081             SUB      SP,SP,#+4
+   \        0x2   0x6880             LDR      R0,[R0, #+8]
+   \        0x4   0x68C1             LDR      R1,[R0, #+12]
+   \        0x6   0x9100             STR      R1,[SP, #+0]
+    518            return ( pHandle->pFOCVars->Iqd );
+   \        0x8   0x4608             MOV      R0,R1
+   \        0xA   0xB001             ADD      SP,SP,#+4
+   \        0xC   0x4770             BX       LR               ;; return
+    519          }
+    520          
+    521          /**
+    522            * @brief  It returns stator current IqdHF in qd_t format
+    523            * @param  pHandle Pointer on the component instance to work on.
+    524            * @retval qd_t Stator current IqdHF if HFI is selected as main
+    525            *         sensor. Otherwise it returns { 0, 0}.
+    526            */
+
+   \                                 In section .text, align 2
+    527          __weak qd_t MCI_GetIqdHF( MCI_Handle_t * pHandle )
+    528          {
+   \                     MCI_GetIqdHF: (+1)
+   \        0x0   0xB081             SUB      SP,SP,#+4
+   \        0x2   0x6880             LDR      R0,[R0, #+8]
+   \        0x4   0x6881             LDR      R1,[R0, #+8]
+   \        0x6   0x9100             STR      R1,[SP, #+0]
+    529            return ( pHandle->pFOCVars->IqdHF );
+   \        0x8   0x4608             MOV      R0,R1
+   \        0xA   0xB001             ADD      SP,SP,#+4
+   \        0xC   0x4770             BX       LR               ;; return
+    530          }
+    531          
+    532          /**
+    533            * @brief  It returns stator current Iqdref in qd_t format
+    534            * @param  pHandle Pointer on the component instance to work on.
+    535            * @retval qd_t Stator current Iqdref
+    536            */
+
+   \                                 In section .text, align 2
+    537          __weak qd_t MCI_GetIqdref( MCI_Handle_t * pHandle )
+    538          {
+   \                     MCI_GetIqdref: (+1)
+   \        0x0   0xB081             SUB      SP,SP,#+4
+   \        0x2   0x6880             LDR      R0,[R0, #+8]
+   \        0x4   0x6901             LDR      R1,[R0, #+16]
+   \        0x6   0x9100             STR      R1,[SP, #+0]
+    539            return ( pHandle->pFOCVars->Iqdref );
+   \        0x8   0x4608             MOV      R0,R1
+   \        0xA   0xB001             ADD      SP,SP,#+4
+   \        0xC   0x4770             BX       LR               ;; return
+    540          }
+    541          
+    542          /**
+    543            * @brief  It returns stator current Vqd in qd_t format
+    544            * @param  pHandle Pointer on the component instance to work on.
+    545            * @retval qd_t Stator current Vqd
+    546            */
+
+   \                                 In section .text, align 2
+    547          __weak qd_t MCI_GetVqd( MCI_Handle_t * pHandle )
+    548          {
+   \                     MCI_GetVqd: (+1)
+   \        0x0   0xB081             SUB      SP,SP,#+4
+   \        0x2   0x6880             LDR      R0,[R0, #+8]
+   \        0x4   0xF8D0 0x1016      LDR      R1,[R0, #+22]
+   \        0x8   0x9100             STR      R1,[SP, #+0]
+    549            return ( pHandle->pFOCVars->Vqd );
+   \        0xA   0x4608             MOV      R0,R1
+   \        0xC   0xB001             ADD      SP,SP,#+4
+   \        0xE   0x4770             BX       LR               ;; return
+    550          }
+    551          
+    552          /**
+    553            * @brief  It returns stator current Valphabeta in alphabeta_t format
+    554            * @param  pHandle Pointer on the component instance to work on.
+    555            * @retval alphabeta_t Stator current Valphabeta
+    556            */
+
+   \                                 In section .text, align 2
+    557          __weak alphabeta_t MCI_GetValphabeta( MCI_Handle_t * pHandle )
+    558          {
+   \                     MCI_GetValphabeta: (+1)
+   \        0x0   0xB081             SUB      SP,SP,#+4
+   \        0x2   0x6880             LDR      R0,[R0, #+8]
+   \        0x4   0xF8D0 0x101A      LDR      R1,[R0, #+26]
+   \        0x8   0x9100             STR      R1,[SP, #+0]
+    559            return ( pHandle->pFOCVars->Valphabeta );
+   \        0xA   0x4608             MOV      R0,R1
+   \        0xC   0xB001             ADD      SP,SP,#+4
+   \        0xE   0x4770             BX       LR               ;; return
+    560          }
+    561          
+    562          /**
+    563            * @brief  It returns the rotor electrical angle actually used for reference
+    564            *         frame transformation
+    565            * @param  pHandle Pointer on the component instance to work on.
+    566            * @retval int16_t Rotor electrical angle in dpp format
+    567            */
+
+   \                                 In section .text, align 2
+    568          __weak int16_t MCI_GetElAngledpp( MCI_Handle_t * pHandle )
+    569          {
+    570            return ( pHandle->pFOCVars->hElAngle );
+   \                     MCI_GetElAngledpp: (+1)
+   \        0x0   0x6880             LDR      R0,[R0, #+8]
+   \        0x2   0xF9B0 0x0020      LDRSH    R0,[R0, #+32]
+   \        0x6   0x4770             BX       LR               ;; return
+    571          }
+    572          
+    573          /**
+    574            * @brief  It returns the reference eletrical torque, fed to derived class for
+    575            *         Iqref and Idref computation
+    576            * @param  pHandle Pointer on the component instance to work on.
+    577            * @retval int16_t Teref
+    578            */
+
+   \                                 In section .text, align 2
+    579          __weak int16_t MCI_GetTeref( MCI_Handle_t * pHandle )
+    580          {
+    581            return ( pHandle->pFOCVars->hTeref );
+   \                     MCI_GetTeref: (+1)
+   \        0x0   0x6880             LDR      R0,[R0, #+8]
+   \        0x2   0xF9B0 0x001E      LDRSH    R0,[R0, #+30]
+   \        0x6   0x4770             BX       LR               ;; return
+    582          }
+    583          
+    584          /**
+    585            * @brief  It returns the motor phase current amplitude (0-to-peak) in s16A
+    586            *         To convert s16A into Ampere following formula must be used:
+    587            *         Current(Amp) = [Current(s16A) * Vdd micro] / [65536 * Rshunt * Aop]
+    588            * @param  pHandle Pointer on the component instance to work on.
+    589            * @retval int16_t Motor phase current (0-to-peak) in s16A
+    590            */
+
+   \                                 In section .text, align 2
+    591          __weak int16_t MCI_GetPhaseCurrentAmplitude( MCI_Handle_t * pHandle )
+    592          {
+   \                     MCI_GetPhaseCurrentAmplitude: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+    593            alphabeta_t Local_Curr;
+    594            int32_t wAux1, wAux2;
+    595          
+    596            Local_Curr = pHandle->pFOCVars->Ialphabeta;
+   \        0x2   0x6881             LDR      R1,[R0, #+8]
+   \        0x4   0xF9B1 0x0004      LDRSH    R0,[R1, #+4]
+   \        0x8   0xF9B1 0x1006      LDRSH    R1,[R1, #+6]
+    597            wAux1 = ( int32_t )( Local_Curr.alpha ) * Local_Curr.alpha;
+    598            wAux2 = ( int32_t )( Local_Curr.beta ) * Local_Curr.beta;
+    599          
+    600            wAux1 += wAux2;
+    601            wAux1 = MCM_Sqrt( wAux1 );
+   \        0xC   0x4349             MULS     R1,R1,R1
+   \        0xE   0xFB10 0x1000      SMLABB   R0,R0,R0,R1
+   \       0x12   0x....'....        BL       MCM_Sqrt
+    602          
+    603            if ( wAux1 > INT16_MAX )
+   \       0x16   0xF647 0x71FF      MOVW     R1,#+32767
+   \       0x1A   0x4288             CMP      R0,R1
+   \       0x1C   0xBFC8             IT       GT
+   \       0x1E   0x4608             MOVGT    R0,R1
+    604            {
+    605              wAux1 = ( int32_t ) INT16_MAX;
+    606            }
+    607          
+    608            return ( ( int16_t )wAux1 );
+   \       0x20   0xB200             SXTH     R0,R0
+   \       0x22   0xBD02             POP      {R1,PC}          ;; return
+    609          }
+    610          
+    611          /**
+    612            * @brief  It returns the applied motor phase voltage amplitude (0-to-peak) in
+    613            *         s16V. To convert s16V into Volts following formula must be used:
+    614            *         PhaseVoltage(V) = [PhaseVoltage(s16A) * Vbus(V)] /[sqrt(3) *32767]
+    615            * @param  pHandle Pointer on the component instance to work on.
+    616            * @retval int16_t Motor phase voltage (0-to-peak) in s16V
+    617            */
+
+   \                                 In section .text, align 2
+    618          __weak int16_t MCI_GetPhaseVoltageAmplitude( MCI_Handle_t * pHandle )
+    619          {
+   \                     MCI_GetPhaseVoltageAmplitude: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+    620            alphabeta_t Local_Voltage;
+    621            int32_t wAux1, wAux2;
+    622          
+    623            Local_Voltage = pHandle->pFOCVars->Valphabeta;
+   \        0x2   0x6881             LDR      R1,[R0, #+8]
+   \        0x4   0xF9B1 0x001A      LDRSH    R0,[R1, #+26]
+   \        0x8   0xF9B1 0x101C      LDRSH    R1,[R1, #+28]
+    624            wAux1 = ( int32_t )( Local_Voltage.alpha ) * Local_Voltage.alpha;
+    625            wAux2 = ( int32_t )( Local_Voltage.beta ) * Local_Voltage.beta;
+    626          
+    627            wAux1 += wAux2;
+    628            wAux1 = MCM_Sqrt( wAux1 );
+   \        0xC   0x4349             MULS     R1,R1,R1
+   \        0xE   0xFB10 0x1000      SMLABB   R0,R0,R0,R1
+   \       0x12   0x....'....        BL       MCM_Sqrt
+    629          
+    630            if ( wAux1 > INT16_MAX )
+   \       0x16   0xF647 0x71FF      MOVW     R1,#+32767
+   \       0x1A   0x4288             CMP      R0,R1
+   \       0x1C   0xBFC8             IT       GT
+   \       0x1E   0x4608             MOVGT    R0,R1
+    631            {
+    632              wAux1 = ( int32_t ) INT16_MAX;
+    633            }
+    634          
+    635            return ( ( int16_t ) wAux1 );
+   \       0x20   0xB200             SXTH     R0,R0
+   \       0x22   0xBD02             POP      {R1,PC}          ;; return
+    636          }
+    637          
+    638          /**
+    639            * @brief  When bDriveInput is set to INTERNAL, Idref should is normally managed
+    640            *         by FOC_CalcCurrRef. Neverthless, this method allows forcing changing
+    641            *         Idref value. Method call has no effect when either flux weakening
+    642            *         region is entered or MTPA is enabled
+    643            * @param  pHandle Pointer on the component instance to work on.
+    644            * @param  int16_t New target Id value
+    645            * @retval none
+    646            */
+
+   \                                 In section .text, align 2
+    647          __weak void MCI_SetIdref( MCI_Handle_t * pHandle, int16_t hNewIdref )
+    648          {
+    649            pHandle->pFOCVars->Iqdref.d = hNewIdref;
+   \                     MCI_SetIdref: (+1)
+   \        0x0   0x6880             LDR      R0,[R0, #+8]
+   \        0x2   0x8241             STRH     R1,[R0, #+18]
+    650            pHandle->pFOCVars->UserIdref = hNewIdref;
+   \        0x4   0x8281             STRH     R1,[R0, #+20]
+    651          }
+   \        0x6   0x4770             BX       LR               ;; return
+    652          
+    653          /**
+    654            * @brief  It re-initializes Iqdref variables with their default values.
+    655            * @param  pHandle Pointer on the component instance to work on.
+    656            * @retval none
+    657            */
+
+   \                                 In section .text, align 2
+    658          __weak void MCI_Clear_Iqdref( MCI_Handle_t * pHandle )
+    659          {
+   \                     MCI_Clear_Iqdref: (+1)
+   \        0x0   0xB510             PUSH     {R4,LR}
+   \        0x2   0x4604             MOV      R4,R0
+    660            pHandle->pFOCVars->Iqdref = STC_GetDefaultIqdref( pHandle->pSTC );
+   \        0x4   0x6860             LDR      R0,[R4, #+4]
+   \        0x6   0x....'....        BL       STC_GetDefaultIqdref
+   \        0xA   0x68A1             LDR      R1,[R4, #+8]
+   \        0xC   0x6108             STR      R0,[R1, #+16]
+    661          }
+   \        0xE   0xBD10             POP      {R4,PC}          ;; return
+    662          
+    663          /**
+    664            * @}
+    665            */
+    666          
+    667          /**
+    668            * @}
+    669            */
+    670          
+    671          /************************ (C) COPYRIGHT 2019 STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       8   MCI_Clear_Iqdref
+         8   -> STC_GetDefaultIqdref
+       0   MCI_EncoderAlign
+         0   -> STM_NextState
+       8   MCI_ExecBufferedCommands
+         8   -> STC_ExecRamp
+         8   -> STC_SetControlMode
+       0   MCI_ExecSpeedRamp
+       0   MCI_ExecTorqueRamp
+       0   MCI_FaultAcknowledged
+         0   -> STM_FaultAcknowledged
+       8   MCI_GetAvrgMecSpeedUnit
+         0   -> SPD_GetAvrgMecSpeedUnit
+         8   -> STC_GetSpeedSensor
+       0   MCI_GetControlMode
+       8   MCI_GetCurrentFaults
+         8   -> STM_GetFaultState
+       0   MCI_GetElAngledpp
+       4   MCI_GetIab
+       4   MCI_GetIalphabeta
+       0   MCI_GetImposedMotorDirection
+       4   MCI_GetIqd
+       4   MCI_GetIqdHF
+       4   MCI_GetIqdref
+       0   MCI_GetLastRampFinalSpeed
+       0   MCI_GetMecSpeedRefUnit
+         0   -> STC_GetMecSpeedRefUnit
+       8   MCI_GetOccurredFaults
+         8   -> STM_GetFaultState
+       8   MCI_GetPhaseCurrentAmplitude
+         8   -> MCM_Sqrt
+       8   MCI_GetPhaseVoltageAmplitude
+         8   -> MCM_Sqrt
+       0   MCI_GetSTMState
+         0   -> STM_GetState
+       8   MCI_GetSpdSensorReliability
+         0   -> SPD_Check
+         8   -> STC_GetSpeedSensor
+       0   MCI_GetTeref
+       4   MCI_GetValphabeta
+       4   MCI_GetVqd
+       0   MCI_Init
+       0   MCI_IsCommandAcknowledged
+      16   MCI_RampCompleted
+        16   -> STC_RampCompleted
+        16   -> STM_GetState
+       4   MCI_SetCurrentReferences
+       0   MCI_SetIdref
+       8   MCI_StartMotor
+         8   -> STM_NextState
+       0   MCI_StopMotor
+         0   -> STM_NextState
+       0   MCI_StopRamp
+         0   -> STC_StopRamp
+       0   MCI_StopSpeedRamp
+         0   -> STC_StopSpeedRamp
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      16  MCI_Clear_Iqdref
+       8  MCI_EncoderAlign
+     104  MCI_ExecBufferedCommands
+      14  MCI_ExecSpeedRamp
+      18  MCI_ExecTorqueRamp
+       6  MCI_FaultAcknowledged
+      16  MCI_GetAvrgMecSpeedUnit
+       4  MCI_GetControlMode
+      12  MCI_GetCurrentFaults
+       8  MCI_GetElAngledpp
+      14  MCI_GetIab
+      14  MCI_GetIalphabeta
+      48  MCI_GetImposedMotorDirection
+      14  MCI_GetIqd
+      14  MCI_GetIqdHF
+      14  MCI_GetIqdref
+      16  MCI_GetLastRampFinalSpeed
+       6  MCI_GetMecSpeedRefUnit
+      12  MCI_GetOccurredFaults
+      36  MCI_GetPhaseCurrentAmplitude
+      36  MCI_GetPhaseVoltageAmplitude
+       6  MCI_GetSTMState
+      16  MCI_GetSpdSensorReliability
+       8  MCI_GetTeref
+      16  MCI_GetValphabeta
+      16  MCI_GetVqd
+      20  MCI_Init
+      32  MCI_IsCommandAcknowledged
+      28  MCI_RampCompleted
+      30  MCI_SetCurrentReferences
+       8  MCI_SetIdref
+      20  MCI_StartMotor
+       8  MCI_StopMotor
+       6  MCI_StopRamp
+       6  MCI_StopSpeedRamp
+
+ 
+ 650 bytes in section .text
+ 
+ 0 bytes of CODE memory (+ 650 bytes shared)
+
+Errors: none
+Warnings: none

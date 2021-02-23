@@ -1,0 +1,228 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.50.9.278/W32 for ARM         23/Feb/2021  10:13:58
+# Copyright 1999-2020 IAR Systems AB.
+#
+#    Cpu mode                        
+#    Endian                       =  little
+#    Source file                  =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\motorcontrol.c
+#    Command line                 =
+#        -f C:\Users\100001~1\AppData\Local\Temp\EW1192.tmp
+#        (C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\motorcontrol.c
+#        -D ARM_MATH_CM4 -D USE_FULL_LL_DRIVER -D USE_HAL_DRIVER -D STM32F302x8
+#        -lCN
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List
+#        -o
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj
+#        --debug --endian=little --cpu=Cortex-M4 -e --fpu=VFPv4_sp
+#        --dlib_config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.4\arm\inc\c\DLib_Config_Full.h" -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/Any/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/F3xx/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/UILibrary/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/SystemDriveParams\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/Device/ST/STM32F3xx/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/DSP/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Drivers\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Features\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Kernel\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Memory\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Regal\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\UniversalProtocol\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Motor\\
+#        -Ohz)
+#    Locale                       =  C
+#    List file                    =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List\motorcontrol.lst
+#    Object file                  =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\motorcontrol.o
+#    Runtime model:                  
+#      __SystemLibrary            =  DLib
+#      __dlib_full_locale_support =  1
+#      __dlib_version             =  6
+#
+###############################################################################
+
+C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\motorcontrol.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    motorcontrol.c 
+      4            * @author  Motor Control SDK Team, ST Microelectronics
+      5            * @brief   Motor Control Subsystem initialization functions.
+      6            ******************************************************************************
+      7            * @attention
+      8            *
+      9            * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
+     10            * All rights reserved.</center></h2>
+     11            *
+     12            * This software component is licensed by ST under Ultimate Liberty license
+     13            * SLA0044, the "License"; You may not use this file except in compliance with
+     14            * the License. You may obtain a copy of the License at:
+     15            *                             www.st.com/SLA0044
+     16            *
+     17            ******************************************************************************
+     18            */ 
+     19          #include "main.h"
+     20          #include "mc_tuning.h"
+     21          #include "mc_interface.h"
+     22          #include "mc_tasks.h"
+     23          #include "ui_task.h"
+     24          #include "motorcontrol.h"
+     25          
+     26          /** @addtogroup MCSDK
+     27            * @{
+     28            */
+     29          
+     30          /** @addtogroup MCAPI
+     31            * @{
+     32            */
+     33          
+     34          #define FIRMWARE_VERS "ST MC SDK\tVer.5.4.4"
+
+   \                                 In section .rodata, align 4, keep-with-next
+     35          const char s_fwVer[32] = FIRMWARE_VERS;
+   \                     s_fwVer:
+   \        0x0   0x53 0x54          DC8 "ST MC SDK\tVer.5.4.4"
+
+   \              0x20 0x4D    
+
+   \              0x43 0x20    
+
+   \              0x53 0x44    
+
+   \              0x4B 0x09    
+
+   \              0x56 0x65    
+
+   \              0x72 0x2E    
+
+   \              0x35 0x2E    
+
+   \              0x34 0x2E    
+
+   \              0x34 0x00
+   \       0x14                      DS8 12
+     36          
+
+   \                                 In section .data, align 4
+     37          MCI_Handle_t* pMCI[NBR_OF_MOTORS];
+   \                     pMCI:
+   \        0x0                      DS8 4
+     38          MCT_Handle_t* pMCT[NBR_OF_MOTORS];
+   \                     pMCT:
+   \        0x4                      DS8 4
+     39          uint32_t wConfig[NBR_OF_MOTORS] = {UI_CONFIG_M1,UI_CONFIG_M2};
+   \                     wConfig:
+   \        0x8   0x9000'0070        DC32 2'415'919'216
+     40          
+     41          /**
+     42           * @brief Initializes and configures the Motor Control Subsystem
+     43           *
+     44           *  This function initializes and configures all the structures and components needed
+     45           * for the Motor Control subsystem required by the Application. It expects that
+     46           * all the peripherals needed for Motor Control purposes are already configured but
+     47           * that their interrupts are not enabled yet. 
+     48           *
+     49           * CubeMX calls this function after all peripherals initializations and 
+     50           * before the NVIC is configured
+     51           */
+
+   \                                 In section .text, align 4
+     52          __weak void MX_MotorControl_Init(void) 
+     53          {
+   \                     MX_MotorControl_Init: (+1)
+   \        0x0   0xB51C             PUSH     {R2-R4,LR}
+     54            /* Reconfigure the SysTick interrupt to fire every 500 us. */
+     55            HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/SYS_TICK_FREQUENCY);
+   \        0x2   0x....'....        BL       HAL_RCC_GetHCLKFreq
+   \        0x6   0xF44F 0x61FA      MOV      R1,#+2000
+   \        0xA   0xFBB0 0xF0F1      UDIV     R0,R0,R1
+   \        0xE   0x....'....        BL       HAL_SYSTICK_Config
+     56            /* Initialize the Motor Control Subsystem */
+     57            MCboot(pMCI,pMCT);
+   \       0x12   0x4C08             LDR.N    R4,??MX_MotorControl_Init_0
+   \       0x14   0x1D21             ADDS     R1,R4,#+4
+   \       0x16   0x4620             MOV      R0,R4
+   \       0x18   0x....'....        BL       MCboot
+     58            mc_lock_pins();
+   \       0x1C   0x....'....        BL       mc_lock_pins
+     59            
+     60            /* Initialize the MC User Interface */
+     61            UI_TaskInit(wConfig,NBR_OF_MOTORS,pMCI,pMCT,s_fwVer);
+   \       0x20   0x4805             LDR.N    R0,??MX_MotorControl_Init_0+0x4
+   \       0x22   0x9000             STR      R0,[SP, #+0]
+   \       0x24   0x1D23             ADDS     R3,R4,#+4
+   \       0x26   0x4622             MOV      R2,R4
+   \       0x28   0x2101             MOVS     R1,#+1
+   \       0x2A   0xF104 0x0008      ADD      R0,R4,#+8
+   \       0x2E   0x....'....        BL       UI_TaskInit
+     62          }
+   \       0x32   0xBD13             POP      {R0,R1,R4,PC}    ;; return
+   \                     ??MX_MotorControl_Init_0:
+   \       0x34   0x....'....        DC32     pMCI
+   \       0x38   0x....'....        DC32     s_fwVer
+     63          
+     64          /**
+     65            * @}
+     66            */
+     67          
+     68          /**
+     69            * @}
+     70            */
+     71          
+     72          /******************* (C) COPYRIGHT 2019 STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      16   MX_MotorControl_Init
+        16   -> HAL_RCC_GetHCLKFreq
+        16   -> HAL_SYSTICK_Config
+        16   -> MCboot
+        16   -> UI_TaskInit
+        16   -> mc_lock_pins
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      60  MX_MotorControl_Init
+      12  pMCI
+          pMCT
+          wConfig
+      32  s_fwVer
+
+ 
+ 12 bytes in section .data
+ 32 bytes in section .rodata
+ 60 bytes in section .text
+ 
+  0 bytes of CODE  memory (+ 60 bytes shared)
+ 32 bytes of CONST memory
+ 12 bytes of DATA  memory
+
+Errors: none
+Warnings: none

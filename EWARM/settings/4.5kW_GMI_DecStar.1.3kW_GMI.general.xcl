@@ -1,0 +1,13 @@
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.4\arm\bin\armproc.dll" 
+
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.4\arm\bin\armsim2.dll" 
+
+"C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Exe\1.3kW_GMI.out" 
+
+--plugin="C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.4\arm\bin\armbat.dll" 
+
+--device_macro="C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.4\arm\config\debugger\ST\STM32F3xx.dmac" 
+
+
+
+

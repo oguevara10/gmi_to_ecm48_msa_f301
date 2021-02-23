@@ -1,0 +1,478 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.50.9.278/W32 for ARM         23/Feb/2021  10:14:21
+# Copyright 1999-2020 IAR Systems AB.
+#
+#    Cpu mode             
+#    Endian            =  little
+#    Source file       =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\system_stm32f3xx.c
+#    Command line      =
+#        -f C:\Users\100001~1\AppData\Local\Temp\EW6E0B.tmp
+#        (C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\system_stm32f3xx.c
+#        -D ARM_MATH_CM4 -D USE_FULL_LL_DRIVER -D USE_HAL_DRIVER -D STM32F302x8
+#        -lCN
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List
+#        -o
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj
+#        --debug --endian=little --cpu=Cortex-M4 -e --fpu=VFPv4_sp
+#        --dlib_config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.4\arm\inc\c\DLib_Config_Full.h" -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/Any/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/F3xx/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/UILibrary/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/SystemDriveParams\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/Device/ST/STM32F3xx/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/DSP/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Drivers\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Features\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Kernel\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Memory\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Regal\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\UniversalProtocol\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Motor\\
+#        -Ohz)
+#    Locale            =  C
+#    List file         =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List\system_stm32f3xx.lst
+#    Object file       =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\system_stm32f3xx.o
+#    Runtime model:       
+#      __SystemLibrary =  DLib
+#      __dlib_version  =  6
+#
+###############################################################################
+
+C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\system_stm32f3xx.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    system_stm32f3xx.c
+      4            * @author  MCD Application Team
+      5            * @brief   CMSIS Cortex-M4 Device Peripheral Access Layer System Source File.
+      6            *
+      7            * 1. This file provides two functions and one global variable to be called from
+      8            *    user application:
+      9            *      - SystemInit(): This function is called at startup just after reset and 
+     10            *                      before branch to main program. This call is made inside
+     11            *                      the "startup_stm32f3xx.s" file.
+     12            *
+     13            *      - SystemCoreClock variable: Contains the core clock (HCLK), it can be used
+     14            *                                  by the user application to setup the SysTick
+     15            *                                  timer or configure other parameters.
+     16            *
+     17            *      - SystemCoreClockUpdate(): Updates the variable SystemCoreClock and must
+     18            *                                 be called whenever the core clock is changed
+     19            *                                 during program execution.
+     20            *
+     21            * 2. After each device reset the HSI (8 MHz) is used as system clock source.
+     22            *    Then SystemInit() function is called, in "startup_stm32f3xx.s" file, to
+     23            *    configure the system clock before to branch to main program.
+     24            *
+     25            * 3. This file configures the system clock as follows:
+     26            *=============================================================================
+     27            *                         Supported STM32F3xx device
+     28            *-----------------------------------------------------------------------------
+     29            *        System Clock source                    | HSI
+     30            *-----------------------------------------------------------------------------
+     31            *        SYSCLK(Hz)                             | 8000000
+     32            *-----------------------------------------------------------------------------
+     33            *        HCLK(Hz)                               | 8000000
+     34            *-----------------------------------------------------------------------------
+     35            *        AHB Prescaler                          | 1
+     36            *-----------------------------------------------------------------------------
+     37            *        APB2 Prescaler                         | 1
+     38            *-----------------------------------------------------------------------------
+     39            *        APB1 Prescaler                         | 1
+     40            *-----------------------------------------------------------------------------
+     41            *        USB Clock                              | DISABLE
+     42            *-----------------------------------------------------------------------------
+     43            *=============================================================================
+     44            ******************************************************************************
+     45            * @attention
+     46            *
+     47            * <h2><center>&copy; Copyright (c) 2016 STMicroelectronics.
+     48            * All rights reserved.</center></h2>
+     49            *
+     50            * This software component is licensed by ST under BSD 3-Clause license,
+     51            * the "License"; You may not use this file except in compliance with the
+     52            * License. You may obtain a copy of the License at:
+     53            *                        opensource.org/licenses/BSD-3-Clause
+     54            *
+     55            ******************************************************************************
+     56            */
+     57          
+     58          /** @addtogroup CMSIS
+     59            * @{
+     60            */
+     61          
+     62          /** @addtogroup stm32f3xx_system
+     63            * @{
+     64            */
+     65          
+     66          /** @addtogroup STM32F3xx_System_Private_Includes
+     67            * @{
+     68            */
+     69          
+     70          #include "stm32f3xx.h"
+     71          
+     72          /**
+     73            * @}
+     74            */
+     75          
+     76          /** @addtogroup STM32F3xx_System_Private_TypesDefinitions
+     77            * @{
+     78            */
+     79          
+     80          /**
+     81            * @}
+     82            */
+     83          
+     84          /** @addtogroup STM32F3xx_System_Private_Defines
+     85            * @{
+     86            */
+     87          #if !defined  (HSE_VALUE) 
+     88            #define HSE_VALUE    ((uint32_t)8000000) /*!< Default value of the External oscillator in Hz.
+     89                                                          This value can be provided and adapted by the user application. */
+     90          #endif /* HSE_VALUE */
+     91          
+     92          #if !defined  (HSI_VALUE)
+     93            #define HSI_VALUE    ((uint32_t)8000000) /*!< Default value of the Internal oscillator in Hz.
+     94                                                          This value can be provided and adapted by the user application. */
+     95          #endif /* HSI_VALUE */
+     96          
+     97          /*!< Uncomment the following line if you need to relocate your vector Table in
+     98               Internal SRAM. */
+     99          /* #define VECT_TAB_SRAM */
+    100          #define VECT_TAB_OFFSET  0x0 /*!< Vector Table base offset field.
+    101                                            This value must be a multiple of 0x200. */
+    102          /**
+    103            * @}
+    104            */
+    105          
+    106          /** @addtogroup STM32F3xx_System_Private_Macros
+    107            * @{
+    108            */
+    109          
+    110          /**
+    111            * @}
+    112            */
+    113          
+    114          /** @addtogroup STM32F3xx_System_Private_Variables
+    115            * @{
+    116            */
+    117            /* This variable is updated in three ways:
+    118                1) by calling CMSIS function SystemCoreClockUpdate()
+    119                2) by calling HAL API function HAL_RCC_GetHCLKFreq()
+    120                3) each time HAL_RCC_ClockConfig() is called to configure the system clock frequency
+    121                   Note: If you use this function to configure the system clock there is no need to
+    122                         call the 2 first functions listed above, since SystemCoreClock variable is 
+    123                         updated automatically.
+    124            */
+
+   \                                 In section .data, align 4
+    125          uint32_t SystemCoreClock = 8000000;
+   \                     SystemCoreClock:
+   \        0x0   0x007A'1200        DC32 8'000'000
+    126          
+
+   \                                 In section .text, align 4, keep-with-next
+    127          const uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
+   \                     AHBPrescTable:
+   \        0x0   0x00 0x00          DC8 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9
+
+   \              0x00 0x00    
+
+   \              0x00 0x00    
+
+   \              0x00 0x00    
+
+   \              0x01 0x02    
+
+   \              0x03 0x04    
+
+   \              0x06 0x07    
+
+   \              0x08 0x09
+
+   \                                 In section .rodata, align 4
+    128          const uint8_t APBPrescTable[8]  = {0, 0, 0, 0, 1, 2, 3, 4};
+   \                     APBPrescTable:
+   \        0x0   0x00 0x00          DC8 0, 0, 0, 0, 1, 2, 3, 4
+
+   \              0x00 0x00    
+
+   \              0x01 0x02    
+
+   \              0x03 0x04
+    129          
+    130          /**
+    131            * @}
+    132            */
+    133          
+    134          /** @addtogroup STM32F3xx_System_Private_FunctionPrototypes
+    135            * @{
+    136            */
+    137          
+    138          /**
+    139            * @}
+    140            */
+    141          
+    142          /** @addtogroup STM32F3xx_System_Private_Functions
+    143            * @{
+    144            */
+    145          
+    146          /**
+    147            * @brief  Setup the microcontroller system
+    148            * @param  None
+    149            * @retval None
+    150            */
+
+   \                                 In section .text, align 2, keep-with-next
+    151          void SystemInit(void)
+    152          {
+    153          /* FPU settings --------------------------------------------------------------*/
+    154          #if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
+    155            SCB->CPACR |= ((3UL << 10*2)|(3UL << 11*2));  /* set CP10 and CP11 Full Access */
+   \                     SystemInit: (+1)
+   \        0x0   0x....             LDR.N    R0,??DataTable2  ;; 0xe000ed88
+    156          #endif
+    157          
+    158          #ifdef VECT_TAB_SRAM
+    159            SCB->VTOR = SRAM_BASE | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal SRAM */
+    160          #else
+    161            SCB->VTOR = FLASH_BASE | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal FLASH */
+   \        0x2   0x....             LDR.N    R2,??DataTable2_1  ;; 0xe000ed08
+   \        0x4   0x6801             LDR      R1,[R0, #+0]
+   \        0x6   0xF441 0x0170      ORR      R1,R1,#0xF00000
+   \        0xA   0x6001             STR      R1,[R0, #+0]
+   \        0xC   0xF04F 0x6000      MOV      R0,#+134217728
+   \       0x10   0x6010             STR      R0,[R2, #+0]
+    162          #endif
+    163          }
+   \       0x12   0x4770             BX       LR               ;; return
+    164          
+    165          /**
+    166             * @brief  Update SystemCoreClock variable according to Clock Register Values.
+    167            *         The SystemCoreClock variable contains the core clock (HCLK), it can
+    168            *         be used by the user application to setup the SysTick timer or configure
+    169            *         other parameters.
+    170            *
+    171            * @note   Each time the core clock (HCLK) changes, this function must be called
+    172            *         to update SystemCoreClock variable value. Otherwise, any configuration
+    173            *         based on this variable will be incorrect.
+    174            *
+    175            * @note   - The system frequency computed by this function is not the real
+    176            *           frequency in the chip. It is calculated based on the predefined
+    177            *           constant and the selected clock source:
+    178            *
+    179            *           - If SYSCLK source is HSI, SystemCoreClock will contain the HSI_VALUE(*)
+    180            *
+    181            *           - If SYSCLK source is HSE, SystemCoreClock will contain the HSE_VALUE(**)
+    182            *
+    183            *           - If SYSCLK source is PLL, SystemCoreClock will contain the HSE_VALUE(**)
+    184            *             or HSI_VALUE(*) multiplied/divided by the PLL factors.
+    185            *
+    186            *         (*) HSI_VALUE is a constant defined in stm32f3xx_hal.h file (default value
+    187            *             8 MHz) but the real value may vary depending on the variations
+    188            *             in voltage and temperature.
+    189            *
+    190            *         (**) HSE_VALUE is a constant defined in stm32f3xx_hal.h file (default value
+    191            *              8 MHz), user has to ensure that HSE_VALUE is same as the real
+    192            *              frequency of the crystal used. Otherwise, this function may
+    193            *              have wrong result.
+    194            *
+    195            *         - The result of this function could be not correct when using fractional
+    196            *           value for HSE crystal.
+    197            *
+    198            * @param  None
+    199            * @retval None
+    200            */
+
+   \                                 In section .text, align 4, keep-with-next
+    201          void SystemCoreClockUpdate (void)
+    202          {
+    203            uint32_t tmp = 0, pllmull = 0, pllsource = 0, predivfactor = 0;
+    204          
+    205            /* Get SYSCLK source -------------------------------------------------------*/
+    206            tmp = RCC->CFGR & RCC_CFGR_SWS;
+   \                     SystemCoreClockUpdate: (+1)
+   \        0x0   0x....             LDR.N    R1,??DataTable2_2  ;; 0x40021004
+   \        0x2   0x6808             LDR      R0,[R1, #+0]
+    207          
+    208            switch (tmp)
+   \        0x4   0xF000 0x000C      AND      R0,R0,#0xC
+   \        0x8   0x2808             CMP      R0,#+8
+   \        0xA   0xD11B             BNE.N    ??SystemCoreClockUpdate_0
+    209            {
+    210              case RCC_CFGR_SWS_HSI:  /* HSI used as system clock */
+    211                SystemCoreClock = HSI_VALUE;
+    212                break;
+    213              case RCC_CFGR_SWS_HSE:  /* HSE used as system clock */
+    214                SystemCoreClock = HSE_VALUE;
+    215                break;
+    216              case RCC_CFGR_SWS_PLL:  /* PLL used as system clock */
+    217                /* Get PLL clock source and multiplication factor ----------------------*/
+    218                pllmull = RCC->CFGR & RCC_CFGR_PLLMUL;
+   \        0xC   0x6808             LDR      R0,[R1, #+0]
+    219                pllsource = RCC->CFGR & RCC_CFGR_PLLSRC;
+   \        0xE   0x680B             LDR      R3,[R1, #+0]
+    220                pllmull = ( pllmull >> 18) + 2;
+   \       0x10   0xF3C0 0x4283      UBFX     R2,R0,#+18,#+4
+   \       0x14   0x1C92             ADDS     R2,R2,#+2
+    221          
+    222          #if defined (STM32F302xE) || defined (STM32F303xE) || defined (STM32F398xx)
+    223                  predivfactor = (RCC->CFGR2 & RCC_CFGR2_PREDIV) + 1;
+    224                if (pllsource == RCC_CFGR_PLLSRC_HSE_PREDIV)
+    225                {
+    226                  /* HSE oscillator clock selected as PREDIV1 clock entry */
+    227                  SystemCoreClock = (HSE_VALUE / predivfactor) * pllmull;
+    228                }
+    229                else
+    230                {
+    231                  /* HSI oscillator clock selected as PREDIV1 clock entry */
+    232                  SystemCoreClock = (HSI_VALUE / predivfactor) * pllmull;
+    233                }
+    234          #else      
+    235                if (pllsource == RCC_CFGR_PLLSRC_HSI_DIV2)
+   \       0x16   0x03DB             LSLS     R3,R3,#+15
+   \       0x18   0xD40B             BMI.N    ??SystemCoreClockUpdate_1
+    236                {
+    237                  /* HSI oscillator clock divided by 2 selected as PLL clock entry */
+    238                  SystemCoreClock = (HSI_VALUE >> 1) * pllmull;
+   \       0x1A   0x....             LDR.N    R0,??DataTable2_3  ;; 0x3d0900
+   \       0x1C   0x4342             MULS     R2,R0,R2
+    239                }
+    240                else
+    241                {
+    242                  predivfactor = (RCC->CFGR2 & RCC_CFGR2_PREDIV) + 1;
+    243                  /* HSE oscillator clock selected as PREDIV1 clock entry */
+    244                  SystemCoreClock = (HSE_VALUE / predivfactor) * pllmull;
+    245                }
+    246          #endif /* STM32F302xE || STM32F303xE || STM32F398xx */
+    247                break;
+    248              default: /* HSI used as system clock */
+    249                SystemCoreClock = HSI_VALUE;
+    250                break;
+    251            }
+    252            /* Compute HCLK clock frequency ----------------*/
+    253            /* Get HCLK prescaler */
+    254            tmp = AHBPrescTable[((RCC->CFGR & RCC_CFGR_HPRE) >> 4)];
+   \                     ??SystemCoreClockUpdate_2: (+1)
+   \       0x1E   0x....             LDR.N    R0,??DataTable2_4
+    255            /* HCLK clock frequency */
+    256            SystemCoreClock >>= tmp;
+   \       0x20   0x....             ADR.N    R3,AHBPrescTable
+   \       0x22   0x6002             STR      R2,[R0, #+0]
+   \       0x24   0x6809             LDR      R1,[R1, #+0]
+   \       0x26   0xF3C1 0x1103      UBFX     R1,R1,#+4,#+4
+   \       0x2A   0x5C59             LDRB     R1,[R3, R1]
+   \       0x2C   0x40CA             LSRS     R2,R2,R1
+   \       0x2E   0x6002             STR      R2,[R0, #+0]
+    257          }
+   \       0x30   0x4770             BX       LR               ;; return
+   \                     ??SystemCoreClockUpdate_1: (+1)
+   \       0x32   0x6A88             LDR      R0,[R1, #+40]
+   \       0x34   0x....             LDR.N    R3,??DataTable2_5  ;; 0x7a1200
+   \       0x36   0xF000 0x000F      AND      R0,R0,#0xF
+   \       0x3A   0x1C40             ADDS     R0,R0,#+1
+   \       0x3C   0xFBB3 0xF0F0      UDIV     R0,R3,R0
+   \       0x40   0x4342             MULS     R2,R2,R0
+   \       0x42   0xE7EC             B.N      ??SystemCoreClockUpdate_2
+   \                     ??SystemCoreClockUpdate_0: (+1)
+   \       0x44   0x....             LDR.N    R2,??DataTable2_5  ;; 0x7a1200
+   \       0x46   0xE7EA             B.N      ??SystemCoreClockUpdate_2
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2:
+   \        0x0   0xE000'ED88        DC32     0xe000ed88
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_1:
+   \        0x0   0xE000'ED08        DC32     0xe000ed08
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_2:
+   \        0x0   0x4002'1004        DC32     0x40021004
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_3:
+   \        0x0   0x003D'0900        DC32     0x3d0900
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_4:
+   \        0x0   0x....'....        DC32     SystemCoreClock
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_5:
+   \        0x0   0x007A'1200        DC32     0x7a1200
+    258          
+    259          /**
+    260            * @}
+    261            */
+    262          
+    263          /**
+    264            * @}
+    265            */
+    266          
+    267          /**
+    268            * @}
+    269            */
+    270          
+    271          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+    272          
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   SystemCoreClockUpdate
+       0   SystemInit
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable2
+       4  ??DataTable2_1
+       4  ??DataTable2_2
+       4  ??DataTable2_3
+       4  ??DataTable2_4
+       4  ??DataTable2_5
+      16  AHBPrescTable
+       8  APBPrescTable
+       4  SystemCoreClock
+      72  SystemCoreClockUpdate
+      20  SystemInit
+
+ 
+   4 bytes in section .data
+   8 bytes in section .rodata
+ 132 bytes in section .text
+ 
+ 132 bytes of CODE  memory
+   8 bytes of CONST memory
+   4 bytes of DATA  memory
+
+Errors: none
+Warnings: none

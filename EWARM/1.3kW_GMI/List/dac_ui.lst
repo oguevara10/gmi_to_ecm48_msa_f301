@@ -1,0 +1,212 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.50.9.278/W32 for ARM         23/Feb/2021  10:13:45
+# Copyright 1999-2020 IAR Systems AB.
+#
+#    Cpu mode             
+#    Endian            =  little
+#    Source file       =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\dac_ui.c
+#    Command line      =
+#        -f C:\Users\100001~1\AppData\Local\Temp\EWDFCA.tmp
+#        (C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\dac_ui.c
+#        -D ARM_MATH_CM4 -D USE_FULL_LL_DRIVER -D USE_HAL_DRIVER -D STM32F302x8
+#        -lCN
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List
+#        -o
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj
+#        --debug --endian=little --cpu=Cortex-M4 -e --fpu=VFPv4_sp
+#        --dlib_config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.4\arm\inc\c\DLib_Config_Full.h" -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/Any/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/F3xx/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/UILibrary/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/SystemDriveParams\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/Device/ST/STM32F3xx/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/DSP/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Drivers\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Features\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Kernel\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Memory\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Regal\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\UniversalProtocol\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Motor\\
+#        -Ohz)
+#    Locale            =  C
+#    List file         =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List\dac_ui.lst
+#    Object file       =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\dac_ui.o
+#    Runtime model:       
+#      __SystemLibrary =  DLib
+#      __dlib_version  =  6
+#
+###############################################################################
+
+C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\dac_ui.c
+      1          
+      2          /**
+      3            ******************************************************************************
+      4            * @file    dac_ui.c
+      5            * @author  Motor Control SDK Team, ST Microelectronics
+      6            * @brief   This file provides firmware functions that implement the following features
+      7            *          of the dac component of the Motor Control SDK:
+      8            *           + dac initialization
+      9            *           + dac execution
+     10            *
+     11            ******************************************************************************
+     12            * @attention
+     13            *
+     14            * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
+     15            * All rights reserved.</center></h2>
+     16            *
+     17            * This software component is licensed by ST under Ultimate Liberty license
+     18            * SLA0044, the "License"; You may not use this file except in compliance with
+     19            * the License. You may obtain a copy of the License at:
+     20            *                             www.st.com/SLA0044
+     21            *
+     22            ******************************************************************************
+     23            */
+     24          
+     25          /* Includes ------------------------------------------------------------------*/
+     26          #include "dac_common_ui.h"
+     27          #include "dac_ui.h"
+     28          
+     29          #define DACOFF 32768
+     30          
+     31          /** @addtogroup MCSDK
+     32            * @{
+     33            */
+     34          
+     35          /** @addtogroup MCUI
+     36            * @{
+     37            */
+     38          
+     39          /**
+     40           * @defgroup DAC_UserInterface DAC User Interface
+     41           *
+     42           * @brief DAC User Interface
+     43           *
+     44           * @todo Complete Documentation. What difference with dac_common_ui?
+     45           * @{
+     46           */
+     47          
+     48          /**
+     49            * @brief  Hardware and software initialization of the DAC object. This is the
+     50            *         implementation of the virtual function.
+     51            * @param  pHandle pointer on related component instance.
+     52            */
+
+   \                                 In section .text, align 4
+     53          __weak void DAC_Init(UI_Handle_t *pHandle)
+     54          {  
+     55            /* Enable DAC Channel1 */
+     56            LL_DAC_Enable(DAC1, LL_DAC_CHANNEL_1);
+   \                     DAC_Init: (+1)
+   \        0x0   0x4802             LDR.N    R0,??DAC_Init_0  ;; 0x40007400
+   \        0x2   0x6801             LDR      R1,[R0, #+0]
+   \        0x4   0xF041 0x0101      ORR      R1,R1,#0x1
+   \        0x8   0x6001             STR      R1,[R0, #+0]
+     57          }
+   \        0xA   0x4770             BX       LR               ;; return
+   \                     ??DAC_Init_0:
+   \        0xC   0x4000'7400        DC32     0x40007400
+     58          
+     59          /**
+     60            * @brief  This method is used to update the DAC outputs. The selected 
+     61            *         variables will be provided in the related output channels. This is 
+     62            *         the implementation of the virtual function.
+     63            * @param  pHandle pointer on related component instance. 
+     64            */
+
+   \                                 In section .text, align 4
+     65          __weak void DAC_Exec(UI_Handle_t *pHandle)
+     66          {
+   \                     DAC_Exec: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+     67            DAC_UI_Handle_t *pDacHandle = (DAC_UI_Handle_t *)pHandle;
+     68            MC_Protocol_REG_t bCh_var;
+     69            
+     70            bCh_var = pDacHandle->bChannel_variable[DAC_CH0];
+     71            LL_DAC_ConvertData12LeftAligned(DAC1, LL_DAC_CHANNEL_1,
+     72                                            DACOFF + ((int16_t)UI_GetReg(pHandle,bCh_var,MC_NULL)));
+   \        0x2   0xF890 0x1030      LDRB     R1,[R0, #+48]
+   \        0x6   0x2200             MOVS     R2,#+0
+   \        0x8   0x....'....        BL       UI_GetReg
+   \        0xC   0x4906             LDR.N    R1,??DAC_Exec_0  ;; 0x40007404
+   \        0xE   0x688A             LDR      R2,[R1, #+8]
+   \       0x10   0xB200             SXTH     R0,R0
+   \       0x12   0xF36F 0x120F      BFC      R2,#+4,#+12
+   \       0x16   0xF500 0x4000      ADD      R0,R0,#+32768
+   \       0x1A   0x4310             ORRS     R0,R0,R2
+   \       0x1C   0x6088             STR      R0,[R1, #+8]
+     73            LL_DAC_TrigSWConversion(DAC1, LL_DAC_CHANNEL_1);
+   \       0x1E   0x6808             LDR      R0,[R1, #+0]
+   \       0x20   0xF040 0x0001      ORR      R0,R0,#0x1
+   \       0x24   0x6008             STR      R0,[R1, #+0]
+     74          }
+   \       0x26   0xBD01             POP      {R0,PC}          ;; return
+   \                     ??DAC_Exec_0:
+   \       0x28   0x4000'7404        DC32     0x40007404
+     75          
+     76          /**
+     77            * @}
+     78            */
+     79          
+     80          /**
+     81            * @}
+     82            */
+     83          
+     84          /**
+     85            * @}
+     86            */
+     87          
+     88          /**
+     89           * @}
+     90           */
+     91          
+     92          /******************* (C) COPYRIGHT 2019 STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       8   DAC_Exec
+         8   -> UI_GetReg
+       0   DAC_Init
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      44  DAC_Exec
+      16  DAC_Init
+
+ 
+ 60 bytes in section .text
+ 
+ 0 bytes of CODE memory (+ 60 bytes shared)
+
+Errors: none
+Warnings: none

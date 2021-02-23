@@ -1,0 +1,214 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.50.9.278/W32 for ARM         23/Feb/2021  10:14:16
+# Copyright 1999-2020 IAR Systems AB.
+#
+#    Cpu mode                        
+#    Endian                       =  little
+#    Source file                  =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\stm32f3xx_it.c
+#    Command line                 =
+#        -f C:\Users\100001~1\AppData\Local\Temp\EW594F.tmp
+#        (C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\stm32f3xx_it.c
+#        -D ARM_MATH_CM4 -D USE_FULL_LL_DRIVER -D USE_HAL_DRIVER -D STM32F302x8
+#        -lCN
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List
+#        -o
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj
+#        --debug --endian=little --cpu=Cortex-M4 -e --fpu=VFPv4_sp
+#        --dlib_config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.4\arm\inc\c\DLib_Config_Full.h" -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/Any/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/F3xx/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/UILibrary/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/SystemDriveParams\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/Device/ST/STM32F3xx/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/DSP/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Drivers\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Features\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Kernel\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Memory\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Regal\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\UniversalProtocol\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Motor\\
+#        -Ohz)
+#    Locale                       =  C
+#    List file                    =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List\stm32f3xx_it.lst
+#    Object file                  =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_it.o
+#    Runtime model:                  
+#      __SystemLibrary            =  DLib
+#      __dlib_full_locale_support =  1
+#      __dlib_version             =  6
+#
+###############################################################################
+
+C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\stm32f3xx_it.c
+      1          /* USER CODE BEGIN Header */
+      2          /**
+      3            ******************************************************************************
+      4            * @file    stm32f3xx_it.c
+      5            * @brief   Interrupt Service Routines.
+      6            ******************************************************************************
+      7            * @attention
+      8            *
+      9            * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
+     10            * All rights reserved.</center></h2>
+     11            *
+     12            * This software component is licensed by ST under Ultimate Liberty license
+     13            * SLA0044, the "License"; You may not use this file except in compliance with
+     14            * the License. You may obtain a copy of the License at:
+     15            *                             www.st.com/SLA0044
+     16            *
+     17            ******************************************************************************
+     18            */
+     19          /* USER CODE END Header */
+     20          
+     21          /* Includes ------------------------------------------------------------------*/
+     22          #include "main.h"
+     23          #include "stm32f3xx_it.h"
+     24          /* Private includes ----------------------------------------------------------*/
+     25          /* USER CODE BEGIN Includes */
+     26          /* USER CODE END Includes */
+     27          
+     28          /* Private typedef -----------------------------------------------------------*/
+     29          /* USER CODE BEGIN TD */
+     30          
+     31          /* USER CODE END TD */
+     32          
+     33          /* Private define ------------------------------------------------------------*/
+     34          /* USER CODE BEGIN PD */
+     35           
+     36          /* USER CODE END PD */
+     37          
+     38          /* Private macro -------------------------------------------------------------*/
+     39          /* USER CODE BEGIN PM */
+     40          
+     41          /* USER CODE END PM */
+     42          
+     43          /* Private variables ---------------------------------------------------------*/
+     44          /* USER CODE BEGIN PV */
+     45          
+     46          /* USER CODE END PV */
+     47          
+     48          /* Private function prototypes -----------------------------------------------*/
+     49          /* USER CODE BEGIN PFP */
+     50          
+     51          /* USER CODE END PFP */
+     52          
+     53          /* Private user code ---------------------------------------------------------*/
+     54          /* USER CODE BEGIN 0 */
+     55          
+     56          /* USER CODE END 0 */
+     57          
+     58          /* External variables --------------------------------------------------------*/
+     59          
+     60          /* USER CODE BEGIN EV */
+     61          
+     62          /* USER CODE END EV */
+     63          
+     64          /******************************************************************************/
+     65          /*           Cortex-M4 Processor Interruption and Exception Handlers          */ 
+     66          /******************************************************************************/
+     67          /**
+     68            * @brief This function handles System service call via SWI instruction.
+     69            */
+
+   \                                 In section .text, align 2, keep-with-next
+     70          void SVC_Handler(void)
+     71          {
+     72            /* USER CODE BEGIN SVCall_IRQn 0 */
+     73          
+     74            /* USER CODE END SVCall_IRQn 0 */
+     75            /* USER CODE BEGIN SVCall_IRQn 1 */
+     76          
+     77            /* USER CODE END SVCall_IRQn 1 */
+     78          }
+   \                     SVC_Handler: (+1)
+   \        0x0   0x4770             BX       LR               ;; return
+     79          
+     80          /**
+     81            * @brief This function handles Pendable request for system service.
+     82            */
+
+   \                                 In section .text, align 2, keep-with-next
+     83          void PendSV_Handler(void)
+     84          {
+     85            /* USER CODE BEGIN PendSV_IRQn 0 */
+     86          
+     87            /* USER CODE END PendSV_IRQn 0 */
+     88            /* USER CODE BEGIN PendSV_IRQn 1 */
+     89          
+     90            /* USER CODE END PendSV_IRQn 1 */
+     91          }
+   \                     PendSV_Handler: (+1)
+   \        0x0   0x4770             BX       LR               ;; return
+     92          
+     93          // /**
+     94          //   * @brief This function handles System tick timer.
+     95          //   */
+     96          // void SysTick_Handler(void)
+     97          // {
+     98          //   /* USER CODE BEGIN SysTick_IRQn 0 */
+     99          
+    100          //   /* USER CODE END SysTick_IRQn 0 */
+    101          //   /* USER CODE BEGIN SysTick_IRQn 1 */
+    102          
+    103          //   /* USER CODE END SysTick_IRQn 1 */
+    104          // }
+    105          
+    106          /******************************************************************************/
+    107          /* STM32F3xx Peripheral Interrupt Handlers                                    */
+    108          /* Add here the Interrupt Handlers for the used peripherals.                  */
+    109          /* For the available peripheral interrupt handler names,                      */
+    110          /* please refer to the startup file (startup_stm32f3xx.s).                    */
+    111          /******************************************************************************/
+    112          
+    113          /* USER CODE BEGIN 1 */
+    114          
+    115          /* USER CODE END 1 */
+    116          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   PendSV_Handler
+       0   SVC_Handler
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       2  PendSV_Handler
+       2  SVC_Handler
+
+ 
+ 4 bytes in section .text
+ 
+ 4 bytes of CODE memory
+
+Errors: none
+Warnings: none

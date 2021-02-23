@@ -1,0 +1,2361 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.50.9.278/W32 for ARM         23/Feb/2021  10:13:50
+# Copyright 1999-2020 IAR Systems AB.
+#
+#    Cpu mode                        
+#    Endian                       =  little
+#    Source file                  =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\main.c
+#    Command line                 =
+#        -f C:\Users\100001~1\AppData\Local\Temp\EWF28D.tmp
+#        (C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\main.c
+#        -D ARM_MATH_CM4 -D USE_FULL_LL_DRIVER -D USE_HAL_DRIVER -D STM32F302x8
+#        -lCN
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List
+#        -o
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj
+#        --debug --endian=little --cpu=Cortex-M4 -e --fpu=VFPv4_sp
+#        --dlib_config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.4\arm\inc\c\DLib_Config_Full.h" -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/Any/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/F3xx/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/UILibrary/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/SystemDriveParams\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/Device/ST/STM32F3xx/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/DSP/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Drivers\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Features\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Kernel\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Memory\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Regal\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\UniversalProtocol\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Motor\\
+#        -Ohz)
+#    Locale                       =  C
+#    List file                    =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List\main.lst
+#    Object file                  =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\main.o
+#    Runtime model:                  
+#      __SystemLibrary            =  DLib
+#      __dlib_full_locale_support =  1
+#      __dlib_version             =  6
+#
+###############################################################################
+
+C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\main.c
+      1          /* USER CODE BEGIN Header */
+      2          /**
+      3            ******************************************************************************
+      4            * @file           : main.c
+      5            * @brief          : Main program body
+      6            ******************************************************************************
+      7            * @attention
+      8            *
+      9            * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
+     10            * All rights reserved.</center></h2>
+     11            *
+     12            * This software component is licensed by ST under Ultimate Liberty license
+     13            * SLA0044, the "License"; You may not use this file except in compliance with
+     14            * the License. You may obtain a copy of the License at:
+     15            *                             www.st.com/SLA0044
+     16            *
+     17            ******************************************************************************
+     18            */
+     19          /* USER CODE END Header */
+     20          
+     21          /* Includes ------------------------------------------------------------------*/
+     22          #include "main.h"
+
+   \                                 In section .text, align 2, keep-with-next
+   \   static __interwork __vfp void __NVIC_EnableIRQ(IRQn_Type)
+   \                     __NVIC_EnableIRQ: (+1)
+   \        0x0   0x0001             MOVS     R1,R0
+   \        0x2   0xD408             BMI.N    ??__NVIC_EnableIRQ_0
+   \        0x4   0x2201             MOVS     R2,#+1
+   \        0x6   0xF000 0x011F      AND      R1,R0,#0x1F
+   \        0xA   0x....'....        LDR.W    R3,??DataTable8  ;; 0xe000e100
+   \        0xE   0x408A             LSLS     R2,R2,R1
+   \       0x10   0x0940             LSRS     R0,R0,#+5
+   \       0x12   0xF843 0x2020      STR      R2,[R3, R0, LSL #+2]
+   \                     ??__NVIC_EnableIRQ_0: (+1)
+   \       0x16   0x4770             BX       LR               ;; return
+
+   \                                 In section .text, align 2, keep-with-next
+   \   static __interwork __vfp void __NVIC_SetPriority(IRQn_Type, uint32_t)
+   \                     __NVIC_SetPriority: (+1)
+   \        0x0   0x0109             LSLS     R1,R1,#+4
+   \        0x2   0x0002             MOVS     R2,R0
+   \        0x4   0xD403             BMI.N    ??__NVIC_SetPriority_0
+   \        0x6   0x....'....        LDR.W    R0,??DataTable8_1  ;; 0xe000e400
+   \        0xA   0x5481             STRB     R1,[R0, R2]
+   \        0xC   0x4770             BX       LR
+   \                     ??__NVIC_SetPriority_0: (+1)
+   \        0xE   0x....'....        LDR.W    R3,??DataTable8_2  ;; 0xe000ed18
+   \       0x12   0xF002 0x020F      AND      R2,R2,#0xF
+   \       0x16   0x441A             ADD      R2,R3,R2
+   \       0x18   0xF802 0x1C04      STRB     R1,[R2, #-4]
+   \       0x1C   0x4770             BX       LR               ;; return
+
+   \                                 In section .text, align 2, keep-with-next
+   \   static __interwork __vfp uint32_t NVIC_EncodePriority(uint32_t, uint32_t, uint32_t)
+   \                     NVIC_EncodePriority: (+1)
+   \        0x0   0xB530             PUSH     {R4,R5,LR}
+   \        0x2   0xF000 0x0007      AND      R0,R0,#0x7
+   \        0x6   0x2301             MOVS     R3,#+1
+   \        0x8   0xF1C0 0x0407      RSB      R4,R0,#+7
+   \        0xC   0x2C05             CMP      R4,#+5
+   \        0xE   0xBF2E             ITEE     CS
+   \       0x10   0x240F             MOVCS    R4,#+15
+   \       0x12   0xFA03 0xF404      LSLCC    R4,R3,R4
+   \       0x16   0x1E64             SUBCC    R4,R4,#+1
+   \       0x18   0x1D05             ADDS     R5,R0,#+4
+   \       0x1A   0x2D07             CMP      R5,#+7
+   \       0x1C   0xBF34             ITE      CC
+   \       0x1E   0x2000             MOVCC    R0,#+0
+   \       0x20   0x1EC0             SUBCS    R0,R0,#+3
+   \       0x22   0x4021             ANDS     R1,R4,R1
+   \       0x24   0x4081             LSLS     R1,R1,R0
+   \       0x26   0xFA03 0xF000      LSL      R0,R3,R0
+   \       0x2A   0x1E40             SUBS     R0,R0,#+1
+   \       0x2C   0x4010             ANDS     R0,R0,R2
+   \       0x2E   0x4308             ORRS     R0,R0,R1
+   \       0x30   0xBD30             POP      {R4,R5,PC}       ;; return
+
+   \                                 In section .text, align 2, keep-with-next
+   \   static __interwork __vfp void LL_ADC_INJ_SetSequencerRanks(ADC_TypeDef *, uint32_t, uint32_t)
+   \                     LL_ADC_INJ_SetSequencerRanks: (+1)
+   \        0x0   0xB510             PUSH     {R4,LR}
+   \        0x2   0xF001 0x011F      AND      R1,R1,#0x1F
+   \        0x6   0xF1C1 0x011A      RSB      R1,R1,#+26
+   \        0xA   0x6CC3             LDR      R3,[R0, #+76]
+   \        0xC   0xF04F 0x44F8      MOV      R4,#+2080374784
+   \       0x10   0x40CC             LSRS     R4,R4,R1
+   \       0x12   0xF002 0x42F8      AND      R2,R2,#0x7C000000
+   \       0x16   0x43A3             BICS     R3,R3,R4
+   \       0x18   0x40CA             LSRS     R2,R2,R1
+   \       0x1A   0x431A             ORRS     R2,R2,R3
+   \       0x1C   0x64C2             STR      R2,[R0, #+76]
+   \       0x1E   0xBD10             POP      {R4,PC}          ;; return
+
+   \                                 In section .text, align 2, keep-with-next
+   \   static __interwork __vfp void LL_ADC_SetChannelSamplingTime(ADC_TypeDef *, uint32_t, uint32_t)
+   \                     LL_ADC_SetChannelSamplingTime: (+1)
+   \        0x0   0x0DCB             LSRS     R3,R1,#+23
+   \        0x2   0xB510             PUSH     {R4,LR}
+   \        0x4   0x3014             ADDS     R0,R0,#+20
+   \        0x6   0xF003 0x0304      AND      R3,R3,#0x4
+   \        0xA   0x1818             ADDS     R0,R3,R0
+   \        0xC   0x0D09             LSRS     R1,R1,#+20
+   \        0xE   0xF001 0x011F      AND      R1,R1,#0x1F
+   \       0x12   0x6803             LDR      R3,[R0, #+0]
+   \       0x14   0x2407             MOVS     R4,#+7
+   \       0x16   0x408C             LSLS     R4,R4,R1
+   \       0x18   0x43A3             BICS     R3,R3,R4
+   \       0x1A   0xFA02 0xF101      LSL      R1,R2,R1
+   \       0x1E   0x4319             ORRS     R1,R1,R3
+   \       0x20   0x6001             STR      R1,[R0, #+0]
+   \       0x22   0xBD10             POP      {R4,PC}          ;; return
+
+   \                                 In section .text, align 2, keep-with-next
+   \   static __interwork __vfp void LL_ADC_SetChannelSingleDiff(ADC_TypeDef *, uint32_t, uint32_t)
+   \                     LL_ADC_SetChannelSingleDiff: (+1)
+   \        0x0   0xB570             PUSH     {R4-R6,LR}
+   \        0x2   0xF002 0x0218      AND      R2,R2,#0x18
+   \        0x6   0x....'....        LDR.W    R5,??DataTable8_3  ;; 0x7fffe
+   \        0xA   0xF8D0 0x60B0      LDR      R6,[R0, #+176]
+   \        0xE   0xFA25 0xF302      LSR      R3,R5,R2
+   \       0x12   0xEA05 0x0401      AND      R4,R5,R1
+   \       0x16   0x4019             ANDS     R1,R3,R1
+   \       0x18   0x43A6             BICS     R6,R6,R4
+   \       0x1A   0x4029             ANDS     R1,R5,R1
+   \       0x1C   0x4331             ORRS     R1,R1,R6
+   \       0x1E   0xF8C0 0x10B0      STR      R1,[R0, #+176]
+   \       0x22   0xBD70             POP      {R4-R6,PC}       ;; return
+
+   \                                 In section .text, align 2, keep-with-next
+   \   static __interwork __vfp void LL_AHB1_GRP1_EnableClock(uint32_t)
+   \                     LL_AHB1_GRP1_EnableClock: (+1)
+   \        0x0   0x....'....        LDR.W    R1,??DataTable8_4  ;; 0x40021014
+   \        0x4   0x....             B.N      ?Subroutine0
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine0: (+1)
+   \        0x0   0xB081             SUB      SP,SP,#+4
+   \        0x2   0x680A             LDR      R2,[R1, #+0]
+   \        0x4   0x4302             ORRS     R2,R0,R2
+   \        0x6   0x600A             STR      R2,[R1, #+0]
+   \        0x8   0x6809             LDR      R1,[R1, #+0]
+   \        0xA   0x4008             ANDS     R0,R0,R1
+   \        0xC   0x9000             STR      R0,[SP, #+0]
+   \        0xE   0x9800             LDR      R0,[SP, #+0]
+   \       0x10   0xB001             ADD      SP,SP,#+4
+   \       0x12   0x4770             BX       LR               ;; return
+
+   \                                 In section .text, align 2, keep-with-next
+   \   static __interwork __vfp void LL_APB2_GRP1_EnableClock(uint32_t)
+   \                     LL_APB2_GRP1_EnableClock: (+1)
+   \        0x0   0x....'....        LDR.W    R1,??DataTable8_5  ;; 0x40021018
+   \        0x4                      REQUIRE ?Subroutine0
+   \        0x4                      ;; // Fall through to label ?Subroutine0
+
+   \                                 In section .text, align 4, keep-with-next
+   \   static __absolute uint8_t const OFFSET_TAB_CCMRx[9]
+   \                     OFFSET_TAB_CCMRx:
+   \        0x0   0x00 0x00          DC8 0, 0, 0, 0, 4, 4, 4, 60, 60
+
+   \              0x00 0x00    
+
+   \              0x04 0x04    
+
+   \              0x04 0x3C    
+
+   \              0x3C
+   \        0x9                      DS8 3
+
+   \                                 In section .text, align 4, keep-with-next
+   \   static __absolute uint8_t const SHIFT_TAB_OCxx[9]
+   \                     SHIFT_TAB_OCxx:
+   \        0x0   0x00 0x00          DC8 0, 0, 8, 0, 0, 0, 8, 0, 8
+
+   \              0x08 0x00    
+
+   \              0x00 0x00    
+
+   \              0x08 0x00    
+
+   \              0x08
+   \        0x9                      DS8 3
+
+   \                                 In section .text, align 2, keep-with-next
+   \   static __interwork __vfp void LL_TIM_OC_DisableFast(TIM_TypeDef *, uint32_t)
+   \                     LL_TIM_OC_DisableFast: (+1)
+   \        0x0   0xB570             PUSH     {R4-R6,LR}
+   \        0x2   0x2901             CMP      R1,#+1
+   \        0x4   0xBF08             IT       EQ
+   \        0x6   0x2100             MOVEQ    R1,#+0
+   \        0x8   0xD01F             BEQ.N    ??LL_TIM_OC_DisableFast_0
+   \        0xA   0x2904             CMP      R1,#+4
+   \        0xC   0xBF08             IT       EQ
+   \        0xE   0x2101             MOVEQ    R1,#+1
+   \       0x10   0xD01B             BEQ.N    ??LL_TIM_OC_DisableFast_0
+   \       0x12   0x2910             CMP      R1,#+16
+   \       0x14   0xBF08             IT       EQ
+   \       0x16   0x2102             MOVEQ    R1,#+2
+   \       0x18   0xD017             BEQ.N    ??LL_TIM_OC_DisableFast_0
+   \       0x1A   0x2940             CMP      R1,#+64
+   \       0x1C   0xBF08             IT       EQ
+   \       0x1E   0x2103             MOVEQ    R1,#+3
+   \       0x20   0xD013             BEQ.N    ??LL_TIM_OC_DisableFast_0
+   \       0x22   0xF5B1 0x7F80      CMP      R1,#+256
+   \       0x26   0xBF08             IT       EQ
+   \       0x28   0x2104             MOVEQ    R1,#+4
+   \       0x2A   0xD00E             BEQ.N    ??LL_TIM_OC_DisableFast_0
+   \       0x2C   0xF5B1 0x6F80      CMP      R1,#+1024
+   \       0x30   0xBF08             IT       EQ
+   \       0x32   0x2105             MOVEQ    R1,#+5
+   \       0x34   0xD009             BEQ.N    ??LL_TIM_OC_DisableFast_0
+   \       0x36   0xF5B1 0x5F80      CMP      R1,#+4096
+   \       0x3A   0xBF08             IT       EQ
+   \       0x3C   0x2106             MOVEQ    R1,#+6
+   \       0x3E   0xD004             BEQ.N    ??LL_TIM_OC_DisableFast_0
+   \       0x40   0xF5B1 0x3F80      CMP      R1,#+65536
+   \       0x44   0xBF0C             ITE      EQ
+   \       0x46   0x2107             MOVEQ    R1,#+7
+   \       0x48   0x2108             MOVNE    R1,#+8
+   \                     ??LL_TIM_OC_DisableFast_0: (+1)
+   \       0x4A   0x....'....        BL       ?Subroutine2
+   \                     ??CrossCallReturnLabel_4: (+1)
+   \       0x4E   0x2504             MOVS     R5,#+4
+   \       0x50   0x6814             LDR      R4,[R2, #+0]
+   \       0x52   0x5C70             LDRB     R0,[R6, R1]
+   \       0x54   0x4085             LSLS     R5,R5,R0
+   \       0x56   0x43AC             BICS     R4,R4,R5
+   \       0x58   0x6014             STR      R4,[R2, #+0]
+   \       0x5A   0xBD70             POP      {R4-R6,PC}       ;; return
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine2: (+1)
+   \        0x0   0x....'....        ADR.W    R2,OFFSET_TAB_CCMRx
+   \        0x4   0x....'....        ADR.W    R6,SHIFT_TAB_OCxx
+   \        0x8   0x5C53             LDRB     R3,[R2, R1]
+   \        0xA   0x3018             ADDS     R0,R0,#+24
+   \        0xC   0x18C2             ADDS     R2,R0,R3
+   \        0xE   0x4770             BX       LR
+
+   \                                 In section .text, align 2, keep-with-next
+   \   static __interwork __vfp void LL_TIM_OC_EnablePreload(TIM_TypeDef *, uint32_t)
+   \                     LL_TIM_OC_EnablePreload: (+1)
+   \        0x0   0xB570             PUSH     {R4-R6,LR}
+   \        0x2   0x2901             CMP      R1,#+1
+   \        0x4   0xBF08             IT       EQ
+   \        0x6   0x2100             MOVEQ    R1,#+0
+   \        0x8   0xD01F             BEQ.N    ??LL_TIM_OC_EnablePreload_0
+   \        0xA   0x2904             CMP      R1,#+4
+   \        0xC   0xBF08             IT       EQ
+   \        0xE   0x2101             MOVEQ    R1,#+1
+   \       0x10   0xD01B             BEQ.N    ??LL_TIM_OC_EnablePreload_0
+   \       0x12   0x2910             CMP      R1,#+16
+   \       0x14   0xBF08             IT       EQ
+   \       0x16   0x2102             MOVEQ    R1,#+2
+   \       0x18   0xD017             BEQ.N    ??LL_TIM_OC_EnablePreload_0
+   \       0x1A   0x2940             CMP      R1,#+64
+   \       0x1C   0xBF08             IT       EQ
+   \       0x1E   0x2103             MOVEQ    R1,#+3
+   \       0x20   0xD013             BEQ.N    ??LL_TIM_OC_EnablePreload_0
+   \       0x22   0xF5B1 0x7F80      CMP      R1,#+256
+   \       0x26   0xBF08             IT       EQ
+   \       0x28   0x2104             MOVEQ    R1,#+4
+   \       0x2A   0xD00E             BEQ.N    ??LL_TIM_OC_EnablePreload_0
+   \       0x2C   0xF5B1 0x6F80      CMP      R1,#+1024
+   \       0x30   0xBF08             IT       EQ
+   \       0x32   0x2105             MOVEQ    R1,#+5
+   \       0x34   0xD009             BEQ.N    ??LL_TIM_OC_EnablePreload_0
+   \       0x36   0xF5B1 0x5F80      CMP      R1,#+4096
+   \       0x3A   0xBF08             IT       EQ
+   \       0x3C   0x2106             MOVEQ    R1,#+6
+   \       0x3E   0xD004             BEQ.N    ??LL_TIM_OC_EnablePreload_0
+   \       0x40   0xF5B1 0x3F80      CMP      R1,#+65536
+   \       0x44   0xBF0C             ITE      EQ
+   \       0x46   0x2107             MOVEQ    R1,#+7
+   \       0x48   0x2108             MOVNE    R1,#+8
+   \                     ??LL_TIM_OC_EnablePreload_0: (+1)
+   \       0x4A   0x....'....        BL       ?Subroutine2
+   \                     ??CrossCallReturnLabel_5: (+1)
+   \       0x4E   0x2508             MOVS     R5,#+8
+   \       0x50   0x6814             LDR      R4,[R2, #+0]
+   \       0x52   0x5C70             LDRB     R0,[R6, R1]
+   \       0x54   0x4085             LSLS     R5,R5,R0
+   \       0x56   0x432C             ORRS     R4,R5,R4
+   \       0x58   0x6014             STR      R4,[R2, #+0]
+   \       0x5A   0xBD70             POP      {R4-R6,PC}       ;; return
+     23          #include "motorcontrol.h"
+     24          #include "zz_module_flash.h"
+
+   \                                 In section .rodata, at 0x800f000
+   \   __absolute uint16_t const A_POLE_PAIR_NUM
+   \                     A_POLE_PAIR_NUM:
+   \        0x0   0x0005             DC16 5
+
+   \                                 In section .rodata, at 0x800f002
+   \   __absolute uint16_t const A_RS
+   \                     A_RS:
+   \        0x0   0x0258             DC16 600
+
+   \                                 In section .rodata, at 0x800f004
+   \   __absolute uint16_t const A_LS
+   \                     A_LS:
+   \        0x0   0x0010             DC16 16
+
+   \                                 In section .rodata, at 0x800f006
+   \   __absolute uint16_t const A_NOMINAL_CURRENT
+   \                     A_NOMINAL_CURRENT:
+   \        0x0   0x6A1E             DC16 27'166
+
+   \                                 In section .rodata, at 0x800f008
+   \   __absolute uint16_t const A_MAX_APPLICATION_SPEED_RPM
+   \                     A_MAX_APPLICATION_SPEED_RPM:
+   \        0x0   0x08CA             DC16 2'250
+
+   \                                 In section .rodata, at 0x800f00a
+   \   __absolute uint16_t const A_MIN_APPLICATION_SPEED_RPM
+   \                     A_MIN_APPLICATION_SPEED_RPM:
+   \        0x0   0x0000             DC16 0
+
+   \                                 In section .rodata, at 0x800f00c
+   \   __absolute uint16_t const A_PLL_KP_GAIN
+   \                     A_PLL_KP_GAIN:
+   \        0x0   0x0214             DC16 532
+
+   \                                 In section .rodata, at 0x800f00e
+   \   __absolute uint16_t const A_PLL_KI_GAIN
+   \                     A_PLL_KI_GAIN:
+   \        0x0   0x0025             DC16 37
+
+   \                                 In section .rodata, at 0x800f010
+   \   __absolute uint16_t const A_PWM_FREQUENCY
+   \                     A_PWM_FREQUENCY:
+   \        0x0   0x2710             DC16 10'000
+
+   \                                 In section .rodata, at 0x800f012
+   \   __absolute uint16_t const A_PID_TORQUE_KP_DEFAULT
+   \                     A_PID_TORQUE_KP_DEFAULT:
+   \        0x0   0x0ECF             DC16 3'791
+
+   \                                 In section .rodata, at 0x800f014
+   \   __absolute uint16_t const A_PID_TORQUE_KI_DEFAULT
+   \                     A_PID_TORQUE_KI_DEFAULT:
+   \        0x0   0x0038             DC16 56
+
+   \                                 In section .rodata, at 0x800f016
+   \   __absolute uint16_t const A_PID_FLUX_KP_DEFAULT
+   \                     A_PID_FLUX_KP_DEFAULT:
+   \        0x0   0x14B7             DC16 5'303
+
+   \                                 In section .rodata, at 0x800f018
+   \   __absolute uint16_t const A_PID_FLUX_KI_DEFAULT
+   \                     A_PID_FLUX_KI_DEFAULT:
+   \        0x0   0x0038             DC16 56
+
+   \                                 In section .rodata, at 0x800f01a
+   \   __absolute uint16_t const A_PID_SPEED_KP_DEFAULT
+   \                     A_PID_SPEED_KP_DEFAULT:
+   \        0x0   0x0064             DC16 100
+
+   \                                 In section .rodata, at 0x800f01c
+   \   __absolute uint16_t const A_PID_SPEED_KI_DEFAULT
+   \                     A_PID_SPEED_KI_DEFAULT:
+   \        0x0   0x03E8             DC16 1'000
+
+   \                                 In section .rodata, at 0x800f01e
+   \   __absolute uint16_t const A_IQMAX
+   \                     A_IQMAX:
+   \        0x0   0x6A1E             DC16 27'166
+
+   \                                 In section .rodata, at 0x800f020
+   \   __absolute uint16_t const A_DEFAULT_CONTROL_MODE
+   \                     A_DEFAULT_CONTROL_MODE:
+   \        0x0   0x0001             DC16 1
+
+   \                                 In section .rodata, at 0x800f022
+   \   __absolute uint16_t const A_OV_VOLTAGE_THRESHOLD_V
+   \                     A_OV_VOLTAGE_THRESHOLD_V:
+   \        0x0   0x01EC             DC16 492
+
+   \                                 In section .rodata, at 0x800f024
+   \   __absolute uint16_t const A_UD_VOLTAGE_THRESHOLD_V
+   \                     A_UD_VOLTAGE_THRESHOLD_V:
+   \        0x0   0x00AF             DC16 175
+
+   \                                 In section .rodata, at 0x800f026
+   \   __absolute uint16_t const A_OV_TEMPERATURE_THRESHOLD_C
+   \                     A_OV_TEMPERATURE_THRESHOLD_C:
+   \        0x0   0x005F             DC16 95
+
+   \                                 In section .rodata, at 0x800f028
+   \   __absolute uint16_t const A_OV_TEMPERATURE_HYSTERESIS_C
+   \                     A_OV_TEMPERATURE_HYSTERESIS_C:
+   \        0x0   0x000A             DC16 10
+
+   \                                 In section .rodata, at 0x800f02a
+   \   __absolute uint16_t const A_PHASE1_DURATION
+   \                     A_PHASE1_DURATION:
+   \        0x0   0x03E8             DC16 1'000
+
+   \                                 In section .rodata, at 0x800f02c
+   \   __absolute uint16_t const A_PHASE1_FINAL_SPEED_UNIT
+   \                     A_PHASE1_FINAL_SPEED_UNIT:
+   \        0x0   0x0000             DC16 0
+
+   \                                 In section .rodata, at 0x800f02e
+   \   __absolute uint16_t const A_PHASE1_FINAL_CURRENT
+   \                     A_PHASE1_FINAL_CURRENT:
+   \        0x0   0x14F1             DC16 5'361
+
+   \                                 In section .rodata, at 0x800f030
+   \   __absolute uint16_t const A_PHASE2_DURATION
+   \                     A_PHASE2_DURATION:
+   \        0x0   0x1770             DC16 6'000
+
+   \                                 In section .rodata, at 0x800f032
+   \   __absolute uint16_t const A_PHASE2_FINAL_SPEED_UNIT
+   \                     A_PHASE2_FINAL_SPEED_UNIT:
+   \        0x0   0x00A6             DC16 166
+
+   \                                 In section .rodata, at 0x800f034
+   \   __absolute uint16_t const A_PHASE2_FINAL_CURRENT
+   \                     A_PHASE2_FINAL_CURRENT:
+   \        0x0   0x14F1             DC16 5'361
+
+   \                                 In section .rodata, at 0x800f036
+   \   __absolute uint16_t const A_PHASE3_DURATION
+   \                     A_PHASE3_DURATION:
+   \        0x0   0x0000             DC16 0
+
+   \                                 In section .rodata, at 0x800f038
+   \   __absolute uint16_t const A_PHASE3_FINAL_SPEED_UNIT
+   \                     A_PHASE3_FINAL_SPEED_UNIT:
+   \        0x0   0x00A6             DC16 166
+
+   \                                 In section .rodata, at 0x800f03a
+   \   __absolute uint16_t const A_PHASE3_FINAL_CURRENT
+   \                     A_PHASE3_FINAL_CURRENT:
+   \        0x0   0x14F1             DC16 5'361
+
+   \                                 In section .rodata, at 0x800f03c
+   \   __absolute uint16_t const A_PHASE4_DURATION
+   \                     A_PHASE4_DURATION:
+   \        0x0   0x0000             DC16 0
+
+   \                                 In section .rodata, at 0x800f03e
+   \   __absolute uint16_t const A_PHASE4_FINAL_SPEED_UNIT
+   \                     A_PHASE4_FINAL_SPEED_UNIT:
+   \        0x0   0x00A6             DC16 166
+
+   \                                 In section .rodata, at 0x800f040
+   \   __absolute uint16_t const A_PHASE4_FINAL_CURRENT
+   \                     A_PHASE4_FINAL_CURRENT:
+   \        0x0   0x14F1             DC16 5'361
+
+   \                                 In section .rodata, at 0x800f042
+   \   __absolute uint16_t const A_PHASE5_DURATION
+   \                     A_PHASE5_DURATION:
+   \        0x0   0x0000             DC16 0
+
+   \                                 In section .rodata, at 0x800f044
+   \   __absolute uint16_t const A_PHASE5_FINAL_SPEED_UNIT
+   \                     A_PHASE5_FINAL_SPEED_UNIT:
+   \        0x0   0x00A6             DC16 166
+
+   \                                 In section .rodata, at 0x800f046
+   \   __absolute uint16_t const A_PHASE5_FINAL_CURRENT
+   \                     A_PHASE5_FINAL_CURRENT:
+   \        0x0   0x14F1             DC16 5'361
+
+   \                                 In section .rodata, at 0x800f048
+   \   __absolute uint16_t const A_TRANSITION_DURATION
+   \                     A_TRANSITION_DURATION:
+   \        0x0   0x01F4             DC16 500
+
+   \                                 In section .rodata, at 0x800f04a
+   \   __absolute uint16_t const D_HALL_SENSORS_PLACEMENT
+   \                     D_HALL_SENSORS_PLACEMENT:
+   \        0x0   0x0000             DC16 0
+
+   \                                 In section .rodata, at 0x800f04c
+   \   __absolute uint16_t const D_HALL_PHASE_SHIFT
+   \                     D_HALL_PHASE_SHIFT:
+   \        0x0   0x012C             DC16 300
+
+   \                                 In section .rodata, at 0x800f04e
+   \   __absolute uint16_t const D_M1_ENCODER_PPR
+   \                     D_M1_ENCODER_PPR:
+   \        0x0   0x0190             DC16 400
+
+   \                                 In section .rodata, at 0x800f050
+   \   __absolute int16_t const A_GAIN1
+   \                     A_GAIN1:
+   \        0x0   0xA02E             DC16 -24'530
+
+   \                                 In section .rodata, at 0x800f052
+   \   __absolute int16_t const A_GAIN2
+   \                     A_GAIN2:
+   \        0x0   0x5EA3             DC16 24'227
+     25          
+     26          /* Private includes ----------------------------------------------------------*/
+     27          /* USER CODE BEGIN Includes */
+     28          #include "bus_voltage_sensor.h"
+     29          #include "mc_interface.h"
+     30          
+     31          #if ADV_TIM_CLK_MHz != 64
+     32          #error Check ADV_TIM_CLK_MHz
+     33          #endif
+     34          
+     35          /*
+     36          #if DISABLED_BOOTSTRAP == 1
+     37          #error Disable Boostrap Charging
+     38          #endif*/
+     39          
+     40          /* USER CODE END Includes */
+     41          
+     42          /* Private typedef -----------------------------------------------------------*/
+     43          /* USER CODE BEGIN PTD */
+     44          
+     45          /* USER CODE END PTD */
+     46          
+     47          /* Private define ------------------------------------------------------------*/
+     48          /* USER CODE BEGIN PD */
+     49          #define ICLDelayPeriod 2500
+     50          /* USER CODE END PD */
+     51          
+     52          /* Private macro -------------------------------------------------------------*/
+     53          /* USER CODE BEGIN PM */
+     54          
+     55          /* USER CODE END PM */
+     56          
+     57          /* Private variables ---------------------------------------------------------*/
+     58          
+     59          /* USER CODE BEGIN PV */
+
+   \                                 In section .bss, align 8
+     60          uint64_t tt_ICLDelay;
+   \                     tt_ICLDelay:
+   \        0x0                      DS8 8
+     61          extern MCT_Handle_t MCT[NBR_OF_MOTORS];
+     62          //static MCT_Handle_t *pMCT = &MCT[M1];                          /* pointer on motor control tuning handler */
+     63          /* USER CODE END PV */
+     64          
+     65          /* Private function prototypes -----------------------------------------------*/
+     66          void SystemClock_Config(void);
+     67          static void MX_GPIO_Init(void);
+     68          static void MX_ADC1_Init(void);
+     69          static void MX_DAC_Init(void);
+     70          static void MX_TIM1_Init(void);
+     71          //static void MX_TIM2_Init(void);
+     72          static void MX_USART1_UART_Init(void);
+     73          //static void MX_USART2_UART_Init(void);
+     74          static void MX_CRC_Init(void);
+     75          static void MX_NVIC_Init(void);
+     76          extern void SysConInit(void);
+     77          extern void SysRun(void);
+     78          extern uint64_t getSysCount(void);
+     79          /* USER CODE BEGIN PFP */
+     80          
+     81          /* USER CODE END PFP */
+     82          
+     83          /* Private user code ---------------------------------------------------------*/
+     84          /* USER CODE BEGIN 0 */
+
+   \                                 In section .bss, align 2
+     85          uint16_t busV_std = 0;
+   \                     busV_std:
+   \        0x0                      DS8 2
+
+   \                                 In section .bss, align 2
+     86          uint16_t busV_ave = 0;
+   \                     busV_ave:
+   \        0x0                      DS8 2
+     87          /* USER CODE END 0 */
+     88          
+     89          /**
+     90            * @brief  The application entry point.
+     91            * @retval int
+     92            */
+
+   \                                 In section .text, align 2, keep-with-next
+     93          int main(void)
+     94          {
+   \                     main: (+1)
+   \        0x0   0xB5F0             PUSH     {R4-R7,LR}
+     95            /* USER CODE BEGIN 1 */
+     96            PIDSpeedHandle_M1.hLowerOutputLimit=0;
+   \        0x2   0x....'....        LDR.W    R0,??DataTable8_6
+     97            PIDSpeedHandle_M1.wLowerIntegralLimit=0;
+   \        0x6   0x....'....        LDR.W    R4,??DataTable8_7  ;; 0x48000400
+   \        0xA   0x2100             MOVS     R1,#+0
+   \        0xC   0x82C1             STRH     R1,[R0, #+22]
+   \        0xE   0x6101             STR      R1,[R0, #+16]
+   \       0x10   0xB09D             SUB      SP,SP,#+116
+     98            /* USER CODE END 1 */
+     99          
+    100            /* MCU Configuration--------------------------------------------------------*/
+    101          
+    102            /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+    103            HAL_Init();
+   \       0x12   0x....'....        BL       HAL_Init
+    104          
+    105            /* USER CODE BEGIN Init */
+    106          
+    107            /* USER CODE END Init */
+    108          
+    109            /* Configure the system clock */
+    110            SystemClock_Config();
+   \       0x16   0x....'....        BL       SystemClock_Config
+    111          
+    112            /* USER CODE BEGIN SysInit */
+    113          
+    114            /* USER CODE END SysInit */
+    115          
+    116            /* Initialize all configured peripherals */
+    117            MX_GPIO_Init();
+   \       0x1A   0x....'....        BL       ?Subroutine1
+   \                     ??CrossCallReturnLabel_0: (+1)
+   \       0x1E   0x....'....        BL       ?Subroutine4
+   \                     ??CrossCallReturnLabel_12: (+1)
+   \       0x22   0x....'....        BL       ?Subroutine5
+   \                     ??CrossCallReturnLabel_16: (+1)
+   \       0x26   0x2020             MOVS     R0,#+32
+   \       0x28   0x....'....        BL       ?Subroutine8
+   \                     ??CrossCallReturnLabel_24: (+1)
+   \       0x2C   0x....'....        BL       ??Subroutine6_0
+   \                     ??CrossCallReturnLabel_17: (+1)
+   \       0x30   0x2008             MOVS     R0,#+8
+   \       0x32   0x....'....        BL       ?Subroutine8
+   \                     ??CrossCallReturnLabel_25: (+1)
+   \       0x36   0x....'....        BL       ?Subroutine7
+    118            MX_ADC1_Init();
+   \                     ??CrossCallReturnLabel_23: (+1)
+   \       0x3A   0x220C             MOVS     R2,#+12
+   \       0x3C   0x2100             MOVS     R1,#+0
+   \       0x3E   0xA805             ADD      R0,SP,#+20
+   \       0x40   0x....'....        BL       memset
+   \       0x44   0x2218             MOVS     R2,#+24
+   \       0x46   0x2100             MOVS     R1,#+0
+   \       0x48   0xA80E             ADD      R0,SP,#+56
+   \       0x4A   0x....'....        BL       memset
+   \       0x4E   0x2204             MOVS     R2,#+4
+   \       0x50   0x....'....        BL       ??Subroutine1_0
+   \                     ??CrossCallReturnLabel_1: (+1)
+   \       0x54   0x....'....        BL       ?Subroutine10
+   \                     ??CrossCallReturnLabel_28: (+1)
+   \       0x58   0x2218             MOVS     R2,#+24
+   \       0x5A   0x2100             MOVS     R1,#+0
+   \       0x5C   0xA808             ADD      R0,SP,#+32
+   \       0x5E   0x....'....        BL       memset
+   \       0x62   0xF04F 0x5080      MOV      R0,#+268435456
+   \       0x66   0x....'....        BL       LL_AHB1_GRP1_EnableClock
+   \       0x6A   0x....'....        BL       ?Subroutine4
+   \                     ??CrossCallReturnLabel_11: (+1)
+   \       0x6E   0x....'....        BL       ?Subroutine5
+   \                     ??CrossCallReturnLabel_15: (+1)
+   \       0x72   0x2043             MOVS     R0,#+67
+   \       0x74   0x....'....        BL       ?Subroutine13
+   \                     ??CrossCallReturnLabel_33: (+1)
+   \       0x78   0xF04F 0x4090      MOV      R0,#+1207959552
+   \       0x7C   0x....'....        BL       LL_GPIO_Init
+   \       0x80   0x2001             MOVS     R0,#+1
+   \       0x82   0x....'....        BL       ?Subroutine13
+   \                     ??CrossCallReturnLabel_34: (+1)
+   \       0x86   0x4620             MOV      R0,R4
+   \       0x88   0x....'....        BL       LL_GPIO_Init
+   \       0x8C   0x2000             MOVS     R0,#+0
+   \       0x8E   0x2120             MOVS     R1,#+32
+   \       0x90   0x9005             STR      R0,[SP, #+20]
+   \       0x92   0x9106             STR      R1,[SP, #+24]
+   \       0x94   0x9007             STR      R0,[SP, #+28]
+   \       0x96   0xA905             ADD      R1,SP,#+20
+   \       0x98   0xF04F 0x40A0      MOV      R0,#+1342177280
+   \       0x9C   0x....'....        BL       LL_ADC_Init
+   \       0xA0   0x2100             MOVS     R1,#+0
+   \       0xA2   0x910E             STR      R1,[SP, #+56]
+   \       0xA4   0x9110             STR      R1,[SP, #+64]
+   \       0xA6   0x2200             MOVS     R2,#+0
+   \       0xA8   0x2101             MOVS     R1,#+1
+   \       0xAA   0x9112             STR      R1,[SP, #+72]
+   \       0xAC   0x920F             STR      R2,[SP, #+60]
+   \       0xAE   0x9211             STR      R2,[SP, #+68]
+   \       0xB0   0x9213             STR      R2,[SP, #+76]
+   \       0xB2   0xA90E             ADD      R1,SP,#+56
+   \       0xB4   0xF04F 0x40A0      MOV      R0,#+1342177280
+   \       0xB8   0x....'....        BL       LL_ADC_REG_Init
+   \       0xBC   0xF04F 0x45A0      MOV      R5,#+1342177280
+   \       0xC0   0xF44F 0x3180      MOV      R1,#+65536
+   \       0xC4   0x6868             LDR      R0,[R5, #+4]
+   \       0xC6   0xF020 0x0004      BIC      R0,R0,#0x4
+   \       0xCA   0x6068             STR      R0,[R5, #+4]
+   \       0xCC   0x6868             LDR      R0,[R5, #+4]
+   \       0xCE   0xF020 0x0008      BIC      R0,R0,#0x8
+   \       0xD2   0x6068             STR      R0,[R5, #+4]
+   \       0xD4   0x9100             STR      R1,[SP, #+0]
+   \       0xD6   0x4669             MOV      R1,SP
+   \       0xD8   0x....'....        LDR.W    R0,??DataTable8_8  ;; 0x50000300
+   \       0xDC   0x....'....        BL       LL_ADC_CommonInit
+   \       0xE0   0x2140             MOVS     R1,#+64
+   \       0xE2   0x9101             STR      R1,[SP, #+4]
+   \       0xE4   0x2202             MOVS     R2,#+2
+   \       0xE6   0x2100             MOVS     R1,#+0
+   \       0xE8   0x9103             STR      R1,[SP, #+12]
+   \       0xEA   0x9104             STR      R1,[SP, #+16]
+   \       0xEC   0x9202             STR      R2,[SP, #+8]
+   \       0xEE   0x....'....        BL       ??Subroutine21_0
+   \                     ??CrossCallReturnLabel_58: (+1)
+   \       0xF2   0x68E8             LDR      R0,[R5, #+12]
+   \       0xF4   0xF440 0x1000      ORR      R0,R0,#0x200000
+   \       0xF8   0x60E8             STR      R0,[R5, #+12]
+   \       0xFA   0x2108             MOVS     R1,#+8
+   \       0xFC   0x6868             LDR      R0,[R5, #+4]
+   \       0xFE   0x....'....        LDR.W    R6,??DataTable8_9  ;; 0x4300002
+   \      0x102   0xF020 0x0020      BIC      R0,R0,#0x20
+   \      0x106   0x6068             STR      R0,[R5, #+4]
+   \      0x108   0x4632             MOV      R2,R6
+   \      0x10A   0x....'....        BL       ?Subroutine11
+   \                     ??CrossCallReturnLabel_32: (+1)
+   \      0x10E   0x....'....        BL       ?Subroutine15
+   \                     ??CrossCallReturnLabel_39: (+1)
+   \      0x112   0x....'....        BL       ?Subroutine16
+   \                     ??CrossCallReturnLabel_42: (+1)
+   \      0x116   0x6CE8             LDR      R0,[R5, #+76]
+   \      0x118   0x....'....        LDR.W    R6,??DataTable8_10  ;; 0x8600004
+   \      0x11C   0x....'....        BL       ?Subroutine12
+   \                     ??CrossCallReturnLabel_60: (+1)
+   \      0x120   0x....'....        BL       ?Subroutine14
+   \                     ??CrossCallReturnLabel_35: (+1)
+   \      0x124   0xF44F 0x7187      MOV      R1,#+270
+   \      0x128   0x....'....        BL       ?Subroutine11
+   \                     ??CrossCallReturnLabel_31: (+1)
+   \      0x12C   0x....'....        BL       ?Subroutine15
+   \                     ??CrossCallReturnLabel_38: (+1)
+   \      0x130   0x....'....        BL       ?Subroutine16
+   \                     ??CrossCallReturnLabel_41: (+1)
+   \      0x134   0x6CE8             LDR      R0,[R5, #+76]
+   \      0x136   0x....'....        LDR.W    R6,??DataTable8_11  ;; 0x2a000400
+   \      0x13A   0x....'....        BL       ?Subroutine12
+   \                     ??CrossCallReturnLabel_59: (+1)
+   \      0x13E   0x....'....        BL       ?Subroutine14
+   \                     ??CrossCallReturnLabel_36: (+1)
+   \      0x142   0xF44F 0x7105      MOV      R1,#+532
+   \      0x146   0x....'....        BL       ?Subroutine11
+   \                     ??CrossCallReturnLabel_30: (+1)
+   \      0x14A   0x....'....        BL       ?Subroutine15
+   \                     ??CrossCallReturnLabel_37: (+1)
+   \      0x14E   0x....'....        BL       ?Subroutine16
+   \                     ??CrossCallReturnLabel_40: (+1)
+   \      0x152   0x6CE8             LDR      R0,[R5, #+76]
+   \      0x154   0xF020 0x00C0      BIC      R0,R0,#0xC0
+   \      0x158   0xF040 0x0040      ORR      R0,R0,#0x40
+   \      0x15C   0x64E8             STR      R0,[R5, #+76]
+   \      0x15E   0x2203             MOVS     R2,#+3
+   \      0x160   0x6B28             LDR      R0,[R5, #+48]
+   \      0x162   0xF420 0x60F8      BIC      R0,R0,#0x7C0
+   \      0x166   0xF440 0x7030      ORR      R0,R0,#0x2C0
+   \      0x16A   0x6328             STR      R0,[R5, #+48]
+   \      0x16C   0xF04F 0x40A0      MOV      R0,#+1342177280
+   \      0x170   0x....'....        LDR.W    R5,??DataTable8_12  ;; 0x2e300800
+   \      0x174   0x4629             MOV      R1,R5
+   \      0x176   0x....'....        BL       LL_ADC_SetChannelSamplingTime
+   \      0x17A   0x227F             MOVS     R2,#+127
+   \      0x17C   0x4629             MOV      R1,R5
+   \      0x17E   0xF04F 0x40A0      MOV      R0,#+1342177280
+   \      0x182   0x....'....        BL       LL_ADC_SetChannelSingleDiff
+    119            MX_DAC_Init();
+   \      0x186   0x....'....        BL       ?Subroutine10
+   \                     ??CrossCallReturnLabel_29: (+1)
+   \      0x18A   0x2218             MOVS     R2,#+24
+   \      0x18C   0x2100             MOVS     R1,#+0
+   \      0x18E   0xA805             ADD      R0,SP,#+20
+   \      0x190   0x....'....        BL       memset
+   \      0x194   0x....'....        LDR.W    R0,??DataTable8_13  ;; 0x4002101c
+   \      0x198   0x....'....        LDR.W    R5,??DataTable8_14  ;; 0x40007400
+   \      0x19C   0x6801             LDR      R1,[R0, #+0]
+   \      0x19E   0xF041 0x5100      ORR      R1,R1,#0x20000000
+   \      0x1A2   0x6001             STR      R1,[R0, #+0]
+   \      0x1A4   0x6800             LDR      R0,[R0, #+0]
+   \      0x1A6   0xF000 0x5000      AND      R0,R0,#0x20000000
+   \      0x1AA   0x9000             STR      R0,[SP, #+0]
+   \      0x1AC   0x9800             LDR      R0,[SP, #+0]
+   \      0x1AE   0x....'....        BL       ?Subroutine4
+   \                     ??CrossCallReturnLabel_10: (+1)
+   \      0x1B2   0x2010             MOVS     R0,#+16
+   \      0x1B4   0x2103             MOVS     R1,#+3
+   \      0x1B6   0x9005             STR      R0,[SP, #+20]
+   \      0x1B8   0x9106             STR      R1,[SP, #+24]
+   \      0x1BA   0x2200             MOVS     R2,#+0
+   \      0x1BC   0x9209             STR      R2,[SP, #+36]
+   \      0x1BE   0xA905             ADD      R1,SP,#+20
+   \      0x1C0   0xF04F 0x4090      MOV      R0,#+1207959552
+   \      0x1C4   0x....'....        BL       LL_GPIO_Init
+   \      0x1C8   0x2038             MOVS     R0,#+56
+   \      0x1CA   0x2100             MOVS     R1,#+0
+   \      0x1CC   0x2202             MOVS     R2,#+2
+   \      0x1CE   0x9001             STR      R0,[SP, #+4]
+   \      0x1D0   0x9102             STR      R1,[SP, #+8]
+   \      0x1D2   0x9204             STR      R2,[SP, #+16]
+   \      0x1D4   0xAA01             ADD      R2,SP,#+4
+   \      0x1D6   0x....'....        LDR.W    R1,??DataTable8_15  ;; 0x2100001
+   \      0x1DA   0x....'....        LDR.W    R7,??DataTable8_16  ;; 0x40012c00
+   \      0x1DE   0x4628             MOV      R0,R5
+   \      0x1E0   0x....'....        BL       LL_DAC_Init
+   \      0x1E4   0x6828             LDR      R0,[R5, #+0]
+   \      0x1E6   0xF040 0x0004      ORR      R0,R0,#0x4
+   \      0x1EA   0x6028             STR      R0,[R5, #+0]
+    120            MX_TIM1_Init();
+   \      0x1EC   0x2214             MOVS     R2,#+20
+   \      0x1EE   0x2100             MOVS     R1,#+0
+   \      0x1F0   0xA80E             ADD      R0,SP,#+56
+   \      0x1F2   0x....'....        BL       memset
+   \      0x1F6   0x2220             MOVS     R2,#+32
+   \      0x1F8   0x2100             MOVS     R1,#+0
+   \      0x1FA   0xA806             ADD      R0,SP,#+24
+   \      0x1FC   0x....'....        BL       memset
+   \      0x200   0x2228             MOVS     R2,#+40
+   \      0x202   0x2100             MOVS     R1,#+0
+   \      0x204   0xA813             ADD      R0,SP,#+76
+   \      0x206   0x....'....        BL       memset
+   \      0x20A   0x....'....        BL       ?Subroutine1
+   \                     ??CrossCallReturnLabel_2: (+1)
+   \      0x20E   0xF44F 0x6000      MOV      R0,#+2048
+   \      0x212   0x....'....        BL       LL_APB2_GRP1_EnableClock
+   \      0x216   0x....'....        BL       ?Subroutine4
+   \                     ??CrossCallReturnLabel_9: (+1)
+   \      0x21A   0x2102             MOVS     R1,#+2
+   \      0x21C   0x9101             STR      R1,[SP, #+4]
+   \      0x21E   0x2200             MOVS     R2,#+0
+   \      0x220   0x9202             STR      R2,[SP, #+8]
+   \      0x222   0x9203             STR      R2,[SP, #+12]
+   \      0x224   0x210C             MOVS     R1,#+12
+   \      0x226   0x2201             MOVS     R2,#+1
+   \      0x228   0x9105             STR      R1,[SP, #+20]
+   \      0x22A   0xF44F 0x6500      MOV      R5,#+2048
+   \      0x22E   0x9204             STR      R2,[SP, #+16]
+   \      0x230   0x9500             STR      R5,[SP, #+0]
+   \      0x232   0x....'....        BL       ?Subroutine7
+   \                     ??CrossCallReturnLabel_22: (+1)
+   \      0x236   0x2120             MOVS     R1,#+32
+   \      0x238   0x910F             STR      R1,[SP, #+60]
+   \      0x23A   0x2000             MOVS     R0,#+0
+   \      0x23C   0x2101             MOVS     R1,#+1
+   \      0x23E   0xF8AD 0x0038      STRH     R0,[SP, #+56]
+   \      0x242   0xF44F 0x6248      MOV      R2,#+3200
+   \      0x246   0xF88D 0x1048      STRB     R1,[SP, #+72]
+   \      0x24A   0x9210             STR      R2,[SP, #+64]
+   \      0x24C   0xF44F 0x7680      MOV      R6,#+256
+   \      0x250   0x9611             STR      R6,[SP, #+68]
+   \      0x252   0xA90E             ADD      R1,SP,#+56
+   \      0x254   0x4638             MOV      R0,R7
+   \      0x256   0x....'....        BL       LL_TIM_Init
+   \      0x25A   0x6838             LDR      R0,[R7, #+0]
+   \      0x25C   0xF020 0x0080      BIC      R0,R0,#0x80
+   \      0x260   0x6038             STR      R0,[R7, #+0]
+   \      0x262   0x2101             MOVS     R1,#+1
+   \      0x264   0x....'....        BL       ?Subroutine17
+   \                     ??CrossCallReturnLabel_46: (+1)
+   \      0x268   0x2160             MOVS     R1,#+96
+   \      0x26A   0x2200             MOVS     R2,#+0
+   \      0x26C   0x9106             STR      R1,[SP, #+24]
+   \      0x26E   0x9207             STR      R2,[SP, #+28]
+   \      0x270   0x9208             STR      R2,[SP, #+32]
+   \      0x272   0x9209             STR      R2,[SP, #+36]
+   \      0x274   0x920A             STR      R2,[SP, #+40]
+   \      0x276   0x920B             STR      R2,[SP, #+44]
+   \      0x278   0x920C             STR      R2,[SP, #+48]
+   \      0x27A   0x920D             STR      R2,[SP, #+52]
+   \      0x27C   0x2101             MOVS     R1,#+1
+   \      0x27E   0x....'....        BL       ?Subroutine18
+   \                     ??CrossCallReturnLabel_50: (+1)
+   \      0x282   0x2101             MOVS     R1,#+1
+   \      0x284   0x....'....        BL       ?Subroutine19
+   \                     ??CrossCallReturnLabel_54: (+1)
+   \      0x288   0x2110             MOVS     R1,#+16
+   \      0x28A   0x....'....        BL       ?Subroutine17
+   \                     ??CrossCallReturnLabel_45: (+1)
+   \      0x28E   0x2100             MOVS     R1,#+0
+   \      0x290   0x9107             STR      R1,[SP, #+28]
+   \      0x292   0x9108             STR      R1,[SP, #+32]
+   \      0x294   0xAA06             ADD      R2,SP,#+24
+   \      0x296   0x2110             MOVS     R1,#+16
+   \      0x298   0x....'....        BL       ??Subroutine18_0
+   \                     ??CrossCallReturnLabel_48: (+1)
+   \      0x29C   0x2110             MOVS     R1,#+16
+   \      0x29E   0x....'....        BL       ?Subroutine19
+   \                     ??CrossCallReturnLabel_53: (+1)
+   \      0x2A2   0x4631             MOV      R1,R6
+   \      0x2A4   0x....'....        BL       ?Subroutine17
+   \                     ??CrossCallReturnLabel_44: (+1)
+   \      0x2A8   0x2100             MOVS     R1,#+0
+   \      0x2AA   0x9107             STR      R1,[SP, #+28]
+   \      0x2AC   0x9108             STR      R1,[SP, #+32]
+   \      0x2AE   0xAA06             ADD      R2,SP,#+24
+   \      0x2B0   0x4631             MOV      R1,R6
+   \      0x2B2   0x....'....        BL       ??Subroutine18_0
+   \                     ??CrossCallReturnLabel_47: (+1)
+   \      0x2B6   0x4631             MOV      R1,R6
+   \      0x2B8   0x....'....        BL       ?Subroutine19
+   \                     ??CrossCallReturnLabel_52: (+1)
+   \      0x2BC   0xF44F 0x5180      MOV      R1,#+4096
+   \      0x2C0   0x....'....        BL       ?Subroutine17
+   \                     ??CrossCallReturnLabel_43: (+1)
+   \      0x2C4   0x2200             MOVS     R2,#+0
+   \      0x2C6   0x9207             STR      R2,[SP, #+28]
+   \      0x2C8   0x9208             STR      R2,[SP, #+32]
+   \      0x2CA   0x2170             MOVS     R1,#+112
+   \      0x2CC   0xF640 0x427F      MOVW     R2,#+3199
+   \      0x2D0   0x9106             STR      R1,[SP, #+24]
+   \      0x2D2   0x9209             STR      R2,[SP, #+36]
+   \      0x2D4   0xF44F 0x5180      MOV      R1,#+4096
+   \      0x2D8   0x....'....        BL       ?Subroutine18
+   \                     ??CrossCallReturnLabel_49: (+1)
+   \      0x2DC   0xF44F 0x5180      MOV      R1,#+4096
+   \      0x2E0   0x....'....        BL       ?Subroutine19
+   \                     ??CrossCallReturnLabel_51: (+1)
+   \      0x2E4   0x68B8             LDR      R0,[R7, #+8]
+   \      0x2E6   0xF020 0x0070      BIC      R0,R0,#0x70
+   \      0x2EA   0xF040 0x0010      ORR      R0,R0,#0x10
+   \      0x2EE   0x60B8             STR      R0,[R7, #+8]
+   \      0x2F0   0x68B9             LDR      R1,[R7, #+8]
+   \      0x2F2   0x....             LDR.N    R0,??DataTable8_17  ;; 0xfffefff8
+   \      0x2F4   0x4001             ANDS     R1,R0,R1
+   \      0x2F6   0xF041 0x0106      ORR      R1,R1,#0x6
+   \      0x2FA   0x60B9             STR      R1,[R7, #+8]
+   \      0x2FC   0xF44F 0x6180      MOV      R1,#+1024
+   \      0x300   0x68F8             LDR      R0,[R7, #+12]
+   \      0x302   0xF020 0x0040      BIC      R0,R0,#0x40
+   \      0x306   0x60F8             STR      R0,[R7, #+12]
+   \      0x308   0x2200             MOVS     R2,#+0
+   \      0x30A   0x68F8             LDR      R0,[R7, #+12]
+   \      0x30C   0xF420 0x4080      BIC      R0,R0,#0x4000
+   \      0x310   0x60F8             STR      R0,[R7, #+12]
+   \      0x312   0x6878             LDR      R0,[R7, #+4]
+   \      0x314   0xF040 0x0070      ORR      R0,R0,#0x70
+   \      0x318   0x6078             STR      R0,[R7, #+4]
+   \      0x31A   0x6878             LDR      R0,[R7, #+4]
+   \      0x31C   0xF420 0x0070      BIC      R0,R0,#0xF00000
+   \      0x320   0x6078             STR      R0,[R7, #+4]
+   \      0x322   0x68B8             LDR      R0,[R7, #+8]
+   \      0x324   0xF020 0x0080      BIC      R0,R0,#0x80
+   \      0x328   0x60B8             STR      R0,[R7, #+8]
+   \      0x32A   0x9114             STR      R1,[SP, #+80]
+   \      0x32C   0xF8AD 0x205A      STRH     R2,[SP, #+90]
+   \      0x330   0x2130             MOVS     R1,#+48
+   \      0x332   0xF88D 0x1058      STRB     R1,[SP, #+88]
+   \      0x336   0x9218             STR      R2,[SP, #+96]
+   \      0x338   0xF44F 0x5100      MOV      R1,#+8192
+   \      0x33C   0x9117             STR      R1,[SP, #+92]
+   \      0x33E   0x9219             STR      R2,[SP, #+100]
+   \      0x340   0x921A             STR      R2,[SP, #+104]
+   \      0x342   0x921B             STR      R2,[SP, #+108]
+   \      0x344   0x921C             STR      R2,[SP, #+112]
+   \      0x346   0x9513             STR      R5,[SP, #+76]
+   \      0x348   0x9615             STR      R6,[SP, #+84]
+   \      0x34A   0xA913             ADD      R1,SP,#+76
+   \      0x34C   0x4638             MOV      R0,R7
+   \      0x34E   0x....'....        BL       LL_TIM_BDTR_Init
+   \      0x352   0x....'....        BL       ?Subroutine5
+   \                     ??CrossCallReturnLabel_14: (+1)
+   \      0x356   0x....'....        BL       ?Subroutine4
+   \                     ??CrossCallReturnLabel_8: (+1)
+   \      0x35A   0xF44F 0x41C0      MOV      R1,#+24576
+   \      0x35E   0x....'....        BL       ?Subroutine9
+   \                     ??CrossCallReturnLabel_26: (+1)
+   \      0x362   0x....'....        BL       ?Subroutine6
+   \                     ??CrossCallReturnLabel_20: (+1)
+   \      0x366   0xF44F 0x4100      MOV      R1,#+32768
+   \      0x36A   0x9100             STR      R1,[SP, #+0]
+   \      0x36C   0x2202             MOVS     R2,#+2
+   \      0x36E   0x9201             STR      R2,[SP, #+4]
+   \      0x370   0x2103             MOVS     R1,#+3
+   \      0x372   0x9102             STR      R1,[SP, #+8]
+   \      0x374   0x2200             MOVS     R2,#+0
+   \      0x376   0x9203             STR      R2,[SP, #+12]
+   \      0x378   0x2102             MOVS     R1,#+2
+   \      0x37A   0x9104             STR      R1,[SP, #+16]
+   \      0x37C   0x2204             MOVS     R2,#+4
+   \      0x37E   0x....'....        BL       ?Subroutine6
+   \                     ??CrossCallReturnLabel_19: (+1)
+   \      0x382   0xF44F 0x61E0      MOV      R1,#+1792
+   \      0x386   0x....'....        BL       ?Subroutine9
+   \                     ??CrossCallReturnLabel_27: (+1)
+   \      0x38A   0x9205             STR      R2,[SP, #+20]
+   \      0x38C   0x....'....        BL       ?Subroutine7
+    121            //MX_TIM2_Init();
+    122            MX_USART1_UART_Init();
+   \                     ??CrossCallReturnLabel_21: (+1)
+   \      0x390   0x221C             MOVS     R2,#+28
+   \      0x392   0x2100             MOVS     R1,#+0
+   \      0x394   0xA806             ADD      R0,SP,#+24
+   \      0x396   0x....'....        BL       memset
+   \      0x39A   0x....'....        BL       ?Subroutine1
+   \                     ??CrossCallReturnLabel_3: (+1)
+   \      0x39E   0xF44F 0x4080      MOV      R0,#+16384
+   \      0x3A2   0x....'....        BL       LL_APB2_GRP1_EnableClock
+   \      0x3A6   0x....'....        BL       ?Subroutine5
+   \                     ??CrossCallReturnLabel_13: (+1)
+   \      0x3AA   0x21C0             MOVS     R1,#+192
+   \      0x3AC   0x9100             STR      R1,[SP, #+0]
+   \      0x3AE   0x2202             MOVS     R2,#+2
+   \      0x3B0   0x9201             STR      R2,[SP, #+4]
+   \      0x3B2   0x2100             MOVS     R1,#+0
+   \      0x3B4   0x9102             STR      R1,[SP, #+8]
+   \      0x3B6   0x9103             STR      R1,[SP, #+12]
+   \      0x3B8   0x9104             STR      R1,[SP, #+16]
+   \      0x3BA   0x2207             MOVS     R2,#+7
+   \      0x3BC   0x....'....        BL       ?Subroutine6
+   \                     ??CrossCallReturnLabel_18: (+1)
+   \      0x3C0   0xF44F 0x30E1      MOV      R0,#+115200
+   \      0x3C4   0x2100             MOVS     R1,#+0
+   \      0x3C6   0x9006             STR      R0,[SP, #+24]
+   \      0x3C8   0x9107             STR      R1,[SP, #+28]
+   \      0x3CA   0x9108             STR      R1,[SP, #+32]
+   \      0x3CC   0x9109             STR      R1,[SP, #+36]
+   \      0x3CE   0x220C             MOVS     R2,#+12
+   \      0x3D0   0x910B             STR      R1,[SP, #+44]
+   \      0x3D2   0x910C             STR      R1,[SP, #+48]
+   \      0x3D4   0x920A             STR      R2,[SP, #+40]
+   \      0x3D6   0xA906             ADD      R1,SP,#+24
+   \      0x3D8   0x....             LDR.N    R4,??DataTable8_18  ;; 0x40013800
+   \      0x3DA   0x....             LDR.N    R5,??DataTable8_19
+   \      0x3DC   0x4620             MOV      R0,R4
+   \      0x3DE   0x....'....        BL       LL_USART_Init
+   \      0x3E2   0x68A0             LDR      R0,[R4, #+8]
+   \      0x3E4   0xF420 0x6080      BIC      R0,R0,#0x400
+   \      0x3E8   0x60A0             STR      R0,[R4, #+8]
+   \      0x3EA   0x6860             LDR      R0,[R4, #+4]
+   \      0x3EC   0xF420 0x4090      BIC      R0,R0,#0x4800
+   \      0x3F0   0x6060             STR      R0,[R4, #+4]
+   \      0x3F2   0x68A0             LDR      R0,[R4, #+8]
+   \      0x3F4   0xF020 0x002A      BIC      R0,R0,#0x2A
+   \      0x3F8   0x60A0             STR      R0,[R4, #+8]
+   \      0x3FA   0x6821             LDR      R1,[R4, #+0]
+   \      0x3FC   0xF041 0x0101      ORR      R1,R1,#0x1
+   \      0x400   0x6021             STR      R1,[R4, #+0]
+    123            MX_MotorControl_Init();
+   \      0x402   0x....'....        BL       MX_MotorControl_Init
+    124            tt_ICLDelay = getSysCount() + ICLDelayPeriod;    
+   \      0x406   0x....'....        BL       getSysCount
+   \      0x40A   0xF640 0x12C4      MOVW     R2,#+2500
+   \      0x40E   0x2300             MOVS     R3,#+0
+   \      0x410   0x....             LDR.N    R4,??DataTable8_20
+   \      0x412   0x1880             ADDS     R0,R0,R2
+   \      0x414   0x4159             ADCS     R1,R1,R3
+   \      0x416   0xE9C4 0x0100      STRD     R0,R1,[R4, #+0]
+    125            while(VBS_GetAvBusVoltage_V(PQD_MotorPowMeasM1.pVBS)<  A_UD_VOLTAGE_THRESHOLD_V) {}
+   \                     ??main_0: (+1)
+   \      0x41A   0xF8D5 0x0110      LDR      R0,[R5, #+272]
+   \      0x41E   0x....'....        BL       VBS_GetAvBusVoltage_V
+   \      0x422   0x....             LDR.N    R1,??DataTable8_21  ;; 0x800f024
+   \      0x424   0x880A             LDRH     R2,[R1, #+0]
+   \      0x426   0x4290             CMP      R0,R2
+   \      0x428   0xD3F7             BCC.N    ??main_0
+    126            while(getSysCount() <= tt_ICLDelay) {}  
+   \                     ??main_1: (+1)
+   \      0x42A   0x....'....        BL       getSysCount
+   \      0x42E   0xE9D4 0x2300      LDRD     R2,R3,[R4, #+0]
+   \      0x432   0x428B             CMP      R3,R1
+   \      0x434   0xD8F9             BHI.N    ??main_1
+   \      0x436   0xBF28             IT       CS
+   \      0x438   0x4282             CMPCS    R2,R0
+   \      0x43A   0xD2F6             BCS.N    ??main_1
+    127            //LL_GPIO_SetOutputPin(M1_ICL_SHUT_OUT_GPIO_Port, M1_ICL_SHUT_OUT_Pin);
+    128            
+    129            
+    130            MX_CRC_Init();
+   \      0x43C   0x2040             MOVS     R0,#+64
+   \      0x43E   0x....'....        BL       LL_AHB1_GRP1_EnableClock
+   \      0x442   0x....             LDR.N    R0,??DataTable8_22  ;; 0x40023008
+    131          
+    132            /* Initialize interrupts */
+    133            MX_NVIC_Init();
+   \      0x444   0x....             LDR.N    R4,??DataTable8_23  ;; 0xe000ed0c
+   \      0x446   0x6801             LDR      R1,[R0, #+0]
+   \      0x448   0x....             LDR.N    R5,??DataTable8_24  ;; 0xe000e104
+   \      0x44A   0xF021 0x0160      BIC      R1,R1,#0x60
+   \      0x44E   0x6001             STR      R1,[R0, #+0]
+   \      0x450   0xF241 0x0121      MOVW     R1,#+4129
+   \      0x454   0x6802             LDR      R2,[R0, #+0]
+   \      0x456   0xF022 0x0280      BIC      R2,R2,#0x80
+   \      0x45A   0x6002             STR      R2,[R0, #+0]
+   \      0x45C   0x60C1             STR      R1,[R0, #+12]
+   \      0x45E   0xF64F 0x71FF      MOVW     R1,#+65535
+   \      0x462   0x6802             LDR      R2,[R0, #+0]
+   \      0x464   0xF022 0x0218      BIC      R2,R2,#0x18
+   \      0x468   0xF042 0x0208      ORR      R2,R2,#0x8
+   \      0x46C   0x6002             STR      R2,[R0, #+0]
+   \      0x46E   0x6081             STR      R1,[R0, #+8]
+   \      0x470   0x2201             MOVS     R2,#+1
+   \      0x472   0x6820             LDR      R0,[R4, #+0]
+   \      0x474   0x2104             MOVS     R1,#+4
+   \      0x476   0x....'....        BL       ?Subroutine20
+   \                     ??CrossCallReturnLabel_57: (+1)
+   \      0x47A   0x4601             MOV      R1,R0
+   \      0x47C   0x2018             MOVS     R0,#+24
+   \      0x47E   0x....'....        BL       __NVIC_SetPriority
+   \      0x482   0x2018             MOVS     R0,#+24
+   \      0x484   0x....'....        BL       __NVIC_EnableIRQ
+   \      0x488   0x....'....        BL       ?Subroutine3
+   \                     ??CrossCallReturnLabel_7: (+1)
+   \      0x48C   0x4601             MOV      R1,R0
+   \      0x48E   0x2019             MOVS     R0,#+25
+   \      0x490   0x....'....        BL       __NVIC_SetPriority
+   \      0x494   0x2019             MOVS     R0,#+25
+   \      0x496   0x....'....        BL       __NVIC_EnableIRQ
+   \      0x49A   0x6820             LDR      R0,[R4, #+0]
+   \      0x49C   0x2200             MOVS     R2,#+0
+   \      0x49E   0x2102             MOVS     R1,#+2
+   \      0x4A0   0x....'....        BL       ?Subroutine20
+   \                     ??CrossCallReturnLabel_56: (+1)
+   \      0x4A4   0x4601             MOV      R1,R0
+   \      0x4A6   0x2012             MOVS     R0,#+18
+   \      0x4A8   0x....'....        BL       __NVIC_SetPriority
+   \      0x4AC   0x2012             MOVS     R0,#+18
+   \      0x4AE   0x....'....        BL       __NVIC_EnableIRQ
+   \      0x4B2   0x....'....        BL       ?Subroutine3
+   \                     ??CrossCallReturnLabel_6: (+1)
+   \      0x4B6   0x4601             MOV      R1,R0
+   \      0x4B8   0x2025             MOVS     R0,#+37
+   \      0x4BA   0x....'....        BL       __NVIC_SetPriority
+   \      0x4BE   0x2020             MOVS     R0,#+32
+   \      0x4C0   0x6028             STR      R0,[R5, #+0]
+   \      0x4C2   0x2201             MOVS     R2,#+1
+   \      0x4C4   0x6820             LDR      R0,[R4, #+0]
+   \      0x4C6   0x2103             MOVS     R1,#+3
+   \      0x4C8   0x....'....        BL       ?Subroutine20
+   \                     ??CrossCallReturnLabel_55: (+1)
+   \      0x4CC   0x4601             MOV      R1,R0
+   \      0x4CE   0x2026             MOVS     R0,#+38
+   \      0x4D0   0x....'....        BL       __NVIC_SetPriority
+   \      0x4D4   0x2040             MOVS     R0,#+64
+   \      0x4D6   0x6028             STR      R0,[R5, #+0]
+    134            /* USER CODE BEGIN 2 */
+    135            Sched_Initialize();
+   \      0x4D8   0x....'....        BL       Sched_Initialize
+    136            Sched_Run();
+   \      0x4DC   0x....'....        BL       Sched_Run
+    137          
+    138            /* USER CODE END 2 */
+    139          
+    140            /* Infinite loop */
+    141            /* USER CODE BEGIN WHILE */
+    142            while (1)
+   \                     ??main_2: (+1)
+   \      0x4E0   0xE7FE             B.N      ??main_2
+   \      0x4E2                      REQUIRE A_UD_VOLTAGE_THRESHOLD_V
+    143            {
+    144              
+    145              //HAL_GPIO_TogglePin(LED_Debug_GPIO_Port, LED_Debug_Pin);
+    146              //HAL_Delay(1000);
+    147                
+    148              /* USER CODE END WHILE */
+    149          
+    150              /* USER CODE BEGIN 3 */
+    151            }
+    152            /* USER CODE END 3 */
+    153          }
+    154          
+    155          /**
+    156            * @brief System Clock Configuration
+    157            * @retval None
+    158            */
+
+   \                                 In section .text, align 2, keep-with-next
+    159          void SystemClock_Config(void)
+    160          {
+   \                     SystemClock_Config: (+1)
+   \        0x0   0xB510             PUSH     {R4,LR}
+    161            LL_FLASH_SetLatency(LL_FLASH_LATENCY_2);
+   \        0x2   0x....             LDR.N    R0,??DataTable8_25  ;; 0x40022000
+    162          
+    163             if(LL_FLASH_GetLatency() != LL_FLASH_LATENCY_2)
+    164            {
+    165            Error_Handler();  
+    166            }
+    167            LL_RCC_HSI_Enable();
+   \        0x4   0x....             LDR.N    R4,??DataTable8_26  ;; 0x40021000
+   \        0x6   0x6801             LDR      R1,[R0, #+0]
+   \        0x8   0x08C9             LSRS     R1,R1,#+3
+   \        0xA   0x00C9             LSLS     R1,R1,#+3
+   \        0xC   0xF041 0x0102      ORR      R1,R1,#0x2
+   \       0x10   0x6001             STR      R1,[R0, #+0]
+   \       0x12   0x6800             LDR      R0,[R0, #+0]
+   \       0x14   0x6821             LDR      R1,[R4, #+0]
+   \       0x16   0xF041 0x0101      ORR      R1,R1,#0x1
+   \       0x1A   0x6021             STR      R1,[R4, #+0]
+    168          
+    169             /* Wait till HSI is ready */
+    170            while(LL_RCC_HSI_IsReady() != 1)
+   \                     ??SystemClock_Config_0: (+1)
+   \       0x1C   0x6820             LDR      R0,[R4, #+0]
+   \       0x1E   0x0780             LSLS     R0,R0,#+30
+   \       0x20   0xD5FC             BPL.N    ??SystemClock_Config_0
+    171            {
+    172              
+    173            }
+    174            LL_RCC_HSI_SetCalibTrimming(16);
+   \       0x22   0x6821             LDR      R1,[R4, #+0]
+   \       0x24   0xF021 0x01F8      BIC      R1,R1,#0xF8
+   \       0x28   0xF041 0x0180      ORR      R1,R1,#0x80
+   \       0x2C   0x6021             STR      R1,[R4, #+0]
+    175            LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSI_DIV_2, LL_RCC_PLL_MUL_16);
+   \       0x2E   0x6860             LDR      R0,[R4, #+4]
+   \       0x30   0xF420 0x1074      BIC      R0,R0,#0x3D0000
+   \       0x34   0xF440 0x1060      ORR      R0,R0,#0x380000
+   \       0x38   0x6060             STR      R0,[R4, #+4]
+   \       0x3A   0x6AE0             LDR      R0,[R4, #+44]
+   \       0x3C   0x0900             LSRS     R0,R0,#+4
+   \       0x3E   0x0100             LSLS     R0,R0,#+4
+   \       0x40   0x62E0             STR      R0,[R4, #+44]
+    176            LL_RCC_PLL_Enable();
+   \       0x42   0x6821             LDR      R1,[R4, #+0]
+   \       0x44   0xF041 0x7180      ORR      R1,R1,#0x1000000
+   \       0x48   0x6021             STR      R1,[R4, #+0]
+    177          
+    178             /* Wait till PLL is ready */
+    179            while(LL_RCC_PLL_IsReady() != 1)
+   \                     ??SystemClock_Config_1: (+1)
+   \       0x4A   0x6820             LDR      R0,[R4, #+0]
+   \       0x4C   0x0180             LSLS     R0,R0,#+6
+   \       0x4E   0xD5FC             BPL.N    ??SystemClock_Config_1
+    180            {
+    181              
+    182            }
+    183            LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
+   \       0x50   0x6861             LDR      R1,[R4, #+4]
+   \       0x52   0xF021 0x01F0      BIC      R1,R1,#0xF0
+   \       0x56   0x6061             STR      R1,[R4, #+4]
+    184            LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_2);
+   \       0x58   0x6860             LDR      R0,[R4, #+4]
+   \       0x5A   0xF420 0x60E0      BIC      R0,R0,#0x700
+   \       0x5E   0xF440 0x6080      ORR      R0,R0,#0x400
+   \       0x62   0x6060             STR      R0,[R4, #+4]
+    185            LL_RCC_SetAPB2Prescaler(LL_RCC_APB1_DIV_1);
+   \       0x64   0x6860             LDR      R0,[R4, #+4]
+   \       0x66   0xF420 0x5060      BIC      R0,R0,#0x3800
+   \       0x6A   0x6060             STR      R0,[R4, #+4]
+    186            LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
+   \       0x6C   0x6860             LDR      R0,[R4, #+4]
+   \       0x6E   0x0880             LSRS     R0,R0,#+2
+   \       0x70   0x0080             LSLS     R0,R0,#+2
+   \       0x72   0xF040 0x0002      ORR      R0,R0,#0x2
+   \       0x76   0x6060             STR      R0,[R4, #+4]
+    187          
+    188             /* Wait till System clock is ready */
+    189            while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
+   \                     ??SystemClock_Config_2: (+1)
+   \       0x78   0x6860             LDR      R0,[R4, #+4]
+   \       0x7A   0xF000 0x000C      AND      R0,R0,#0xC
+   \       0x7E   0x2808             CMP      R0,#+8
+   \       0x80   0xD1FA             BNE.N    ??SystemClock_Config_2
+    190            {
+    191            
+    192            }
+    193            LL_SetSystemCoreClock(64000000);
+   \       0x82   0x....             LDR.N    R0,??DataTable8_27  ;; 0x3d09000
+   \       0x84   0x....'....        BL       LL_SetSystemCoreClock
+    194          
+    195             /* Update the time base */
+    196            if (HAL_InitTick (TICK_INT_PRIORITY) != HAL_OK)
+   \       0x88   0x2004             MOVS     R0,#+4
+   \       0x8A   0x....'....        BL       HAL_InitTick
+    197            {
+    198              Error_Handler();  
+    199            };
+    200            LL_RCC_SetUSARTClockSource(LL_RCC_USART1_CLKSOURCE_PCLK1);
+   \       0x8E   0x6B20             LDR      R0,[R4, #+48]
+   \       0x90   0x0880             LSRS     R0,R0,#+2
+   \       0x92   0x0080             LSLS     R0,R0,#+2
+   \       0x94   0x6320             STR      R0,[R4, #+48]
+    201            LL_RCC_SetTIMClockSource(LL_RCC_TIM1_CLKSOURCE_PCLK2);
+   \       0x96   0x6B20             LDR      R0,[R4, #+48]
+   \       0x98   0xF420 0x7080      BIC      R0,R0,#0x100
+   \       0x9C   0x6320             STR      R0,[R4, #+48]
+    202          }
+   \       0x9E   0xBD10             POP      {R4,PC}          ;; return
+    203          
+    204          /**
+    205            * @brief NVIC Configuration.
+    206            * @retval None
+    207            */
+    208          static void MX_NVIC_Init(void)
+    209          {
+    210            /* TIM1_BRK_TIM15_IRQn interrupt configuration */
+    211            NVIC_SetPriority(TIM1_BRK_TIM15_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),4, 1));
+    212            NVIC_EnableIRQ(TIM1_BRK_TIM15_IRQn);
+    213            /* TIM1_UP_TIM16_IRQn interrupt configuration */
+    214            NVIC_SetPriority(TIM1_UP_TIM16_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
+    215            NVIC_EnableIRQ(TIM1_UP_TIM16_IRQn);
+    216            /* ADC1_IRQn interrupt configuration */
+    217            NVIC_SetPriority(ADC1_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),2, 0));
+    218            NVIC_EnableIRQ(ADC1_IRQn);
+    219            /* TIM2_IRQn interrupt configuration */
+    220            //NVIC_SetPriority(TIM2_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),3, 0));
+    221            //NVIC_EnableIRQ(TIM2_IRQn);
+    222            /* USART1_IRQn interrupt configuration */
+    223          //  NVIC_SetPriority(USART1_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),3, 1));
+    224          //  NVIC_EnableIRQ(USART1_IRQn);
+    225            NVIC_SetPriority(USART1_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
+    226            NVIC_EnableIRQ(USART1_IRQn);  
+    227            
+    228            /* USART2 interrupt Init */
+    229          //  NVIC_SetPriority(USART2_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
+    230          //  NVIC_EnableIRQ(USART2_IRQn);
+    231            NVIC_SetPriority(USART2_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),3, 1));
+    232            NVIC_EnableIRQ(USART2_IRQn);
+    233          }
+    234          
+    235          /**
+    236            * @brief ADC1 Initialization Function
+    237            * @param None
+    238            * @retval None
+    239            */
+    240          static void MX_ADC1_Init(void)
+    241          {
+    242          
+    243            /* USER CODE BEGIN ADC1_Init 0 */
+    244          
+    245            /* USER CODE END ADC1_Init 0 */
+    246          
+    247            LL_ADC_InitTypeDef ADC_InitStruct = {0};
+    248            LL_ADC_REG_InitTypeDef ADC_REG_InitStruct = {0};
+    249            LL_ADC_CommonInitTypeDef ADC_CommonInitStruct = {0};
+    250            LL_ADC_INJ_InitTypeDef ADC_INJ_InitStruct = {0};
+    251          
+    252            LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
+    253          
+    254            /* Peripheral clock enable */
+    255            LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_ADC1);
+    256            
+    257            LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
+    258            LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB);
+    259            /**ADC1 GPIO Configuration  
+    260            PA0   ------> ADC1_IN1
+    261            PA1   ------> ADC1_IN2
+    262            PA6   ------> ADC1_IN10
+    263            PB0   ------> ADC1_IN11
+    264            PB1   ------> ADC1_IN12 
+    265            */
+    266            GPIO_InitStruct.Pin = M1_CURR_AMPL_U_Pin|M1_CURR_AMPL_V_Pin|M1_CURR_AMPL_W_Pin;
+    267            GPIO_InitStruct.Mode = LL_GPIO_MODE_ANALOG;
+    268            GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+    269            LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+    270          
+    271            GPIO_InitStruct.Pin = M1_BUS_VOLTAGE_Pin; //|M1_TEMPERATURE_Pin;
+    272            GPIO_InitStruct.Mode = LL_GPIO_MODE_ANALOG;
+    273            GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+    274            LL_GPIO_Init(M1_BUS_VOLTAGE_GPIO_Port, &GPIO_InitStruct);
+    275          
+    276            /* USER CODE BEGIN ADC1_Init 1 */
+    277          
+    278            /* USER CODE END ADC1_Init 1 */
+    279            /** Common config 
+    280            */
+    281            ADC_InitStruct.Resolution = LL_ADC_RESOLUTION_12B;
+    282            ADC_InitStruct.DataAlignment = LL_ADC_DATA_ALIGN_LEFT;
+    283            ADC_InitStruct.LowPowerMode = LL_ADC_LP_MODE_NONE;
+    284            LL_ADC_Init(ADC1, &ADC_InitStruct);
+    285            ADC_REG_InitStruct.TriggerSource = LL_ADC_REG_TRIG_SOFTWARE;
+    286            ADC_REG_InitStruct.SequencerLength = LL_ADC_REG_SEQ_SCAN_DISABLE;
+    287            ADC_REG_InitStruct.SequencerDiscont = LL_ADC_REG_SEQ_DISCONT_DISABLE;
+    288            ADC_REG_InitStruct.ContinuousMode = LL_ADC_REG_CONV_SINGLE;
+    289            ADC_REG_InitStruct.DMATransfer = LL_ADC_REG_DMA_TRANSFER_LIMITED;
+    290            ADC_REG_InitStruct.Overrun = LL_ADC_REG_OVR_DATA_PRESERVED;
+    291            LL_ADC_REG_Init(ADC1, &ADC_REG_InitStruct);
+    292            LL_ADC_DisableIT_EOC(ADC1);
+    293            LL_ADC_DisableIT_EOS(ADC1);
+    294            ADC_CommonInitStruct.CommonClock = LL_ADC_CLOCK_SYNC_PCLK_DIV1;
+    295            LL_ADC_CommonInit(__LL_ADC_COMMON_INSTANCE(ADC1), &ADC_CommonInitStruct);
+    296            /** Configure Injected Channel 
+    297            */
+    298            ADC_INJ_InitStruct.TriggerSource = LL_ADC_INJ_TRIG_EXT_TIM1_TRGO;
+    299            ADC_INJ_InitStruct.SequencerLength = LL_ADC_INJ_SEQ_SCAN_ENABLE_3RANKS;
+    300            ADC_INJ_InitStruct.SequencerDiscont = LL_ADC_INJ_SEQ_DISCONT_DISABLE;
+    301            ADC_INJ_InitStruct.TrigAuto = LL_ADC_INJ_TRIG_INDEPENDENT;
+    302            LL_ADC_INJ_Init(ADC1, &ADC_INJ_InitStruct);
+    303            LL_ADC_INJ_SetQueueMode(ADC1, LL_ADC_INJ_QUEUE_2CONTEXTS_END_EMPTY);
+    304            LL_ADC_DisableIT_JEOC(ADC1);
+    305            LL_ADC_DisableIT_JEOS(ADC1);
+    306            LL_ADC_INJ_SetSequencerRanks(ADC1, LL_ADC_INJ_RANK_1, LL_ADC_CHANNEL_1);
+    307            LL_ADC_SetChannelSamplingTime(ADC1, LL_ADC_CHANNEL_1, LL_ADC_SAMPLINGTIME_7CYCLES_5);
+    308            LL_ADC_SetChannelSingleDiff(ADC1, LL_ADC_CHANNEL_1, LL_ADC_SINGLE_ENDED);
+    309            LL_ADC_INJ_SetTriggerEdge(ADC1, LL_ADC_INJ_TRIG_EXT_RISING);
+    310            /** Configure Injected Channel 
+    311            */
+    312            LL_ADC_INJ_Init(ADC1, &ADC_INJ_InitStruct);
+    313            LL_ADC_INJ_SetQueueMode(ADC1, LL_ADC_INJ_QUEUE_2CONTEXTS_END_EMPTY);
+    314            LL_ADC_DisableIT_JEOC(ADC1);
+    315            LL_ADC_DisableIT_JEOS(ADC1);
+    316            LL_ADC_INJ_SetSequencerRanks(ADC1, LL_ADC_INJ_RANK_2, LL_ADC_CHANNEL_2);
+    317            LL_ADC_SetChannelSamplingTime(ADC1, LL_ADC_CHANNEL_2, LL_ADC_SAMPLINGTIME_7CYCLES_5);
+    318            LL_ADC_SetChannelSingleDiff(ADC1, LL_ADC_CHANNEL_2, LL_ADC_SINGLE_ENDED);
+    319            LL_ADC_INJ_SetTriggerEdge(ADC1, LL_ADC_INJ_TRIG_EXT_RISING);
+    320            /** Configure Injected Channel 
+    321            */
+    322            LL_ADC_INJ_Init(ADC1, &ADC_INJ_InitStruct);
+    323            LL_ADC_INJ_SetQueueMode(ADC1, LL_ADC_INJ_QUEUE_2CONTEXTS_END_EMPTY);
+    324            LL_ADC_DisableIT_JEOC(ADC1);
+    325            LL_ADC_DisableIT_JEOS(ADC1);
+    326            LL_ADC_INJ_SetSequencerRanks(ADC1, LL_ADC_INJ_RANK_3, LL_ADC_CHANNEL_10);
+    327            LL_ADC_SetChannelSamplingTime(ADC1, LL_ADC_CHANNEL_10, LL_ADC_SAMPLINGTIME_7CYCLES_5);
+    328            LL_ADC_SetChannelSingleDiff(ADC1, LL_ADC_CHANNEL_10, LL_ADC_SINGLE_ENDED);
+    329            LL_ADC_INJ_SetTriggerEdge(ADC1, LL_ADC_INJ_TRIG_EXT_RISING);
+    330            /** Configure Regular Channel 
+    331            */
+    332            LL_ADC_REG_SetSequencerRanks(ADC1, LL_ADC_REG_RANK_1, LL_ADC_CHANNEL_11);
+    333            LL_ADC_SetChannelSamplingTime(ADC1, LL_ADC_CHANNEL_11, LL_ADC_SAMPLINGTIME_7CYCLES_5);
+    334            LL_ADC_SetChannelSingleDiff(ADC1, LL_ADC_CHANNEL_11, LL_ADC_SINGLE_ENDED);
+    335            /** Configure Regular Channel 
+    336            */
+    337            //LL_ADC_REG_SetSequencerRanks(ADC1, LL_ADC_REG_RANK_2, LL_ADC_CHANNEL_12);
+    338            //LL_ADC_SetChannelSamplingTime(ADC1, LL_ADC_CHANNEL_12, LL_ADC_SAMPLINGTIME_61CYCLES_5);
+    339            //LL_ADC_SetChannelSingleDiff(ADC1, LL_ADC_CHANNEL_12, LL_ADC_SINGLE_ENDED);
+    340            /* USER CODE BEGIN ADC1_Init 2 */
+    341          
+    342            /* USER CODE END ADC1_Init 2 */
+    343          
+    344          }
+    345          
+    346          /**
+    347            * @brief DAC Initialization Function
+    348            * @param None
+    349            * @retval None
+    350            */
+    351          static void MX_DAC_Init(void)
+    352          {
+    353          
+    354            /* USER CODE BEGIN DAC_Init 0 */
+    355          
+    356            /* USER CODE END DAC_Init 0 */
+    357          
+    358            LL_DAC_InitTypeDef DAC_InitStruct = {0};
+    359          
+    360            LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
+    361          
+    362            /* Peripheral clock enable */
+    363            LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_DAC1);
+    364            
+    365            LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
+    366            /**DAC GPIO Configuration  
+    367            PA4   ------> DAC_OUT1 
+    368            */
+    369            GPIO_InitStruct.Pin = DBG_DAC_CH1_Pin;
+    370            GPIO_InitStruct.Mode = LL_GPIO_MODE_ANALOG;
+    371            GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+    372            LL_GPIO_Init(DBG_DAC_CH1_GPIO_Port, &GPIO_InitStruct);
+    373          
+    374            /* USER CODE BEGIN DAC_Init 1 */
+    375          
+    376            /* USER CODE END DAC_Init 1 */
+    377            /** DAC channel OUT1 config 
+    378            */
+    379            DAC_InitStruct.TriggerSource = LL_DAC_TRIG_SOFTWARE;
+    380            DAC_InitStruct.WaveAutoGeneration = LL_DAC_WAVE_AUTO_GENERATION_NONE;
+    381            DAC_InitStruct.OutputBuffer = LL_DAC_OUTPUT_BUFFER_DISABLE;
+    382            LL_DAC_Init(DAC, LL_DAC_CHANNEL_1, &DAC_InitStruct);
+    383            LL_DAC_EnableTrigger(DAC, LL_DAC_CHANNEL_1);
+    384            /* USER CODE BEGIN DAC_Init 2 */
+    385          
+    386            /* USER CODE END DAC_Init 2 */
+    387          
+    388          }
+    389          
+    390          /**
+    391            * @brief TIM1 Initialization Function
+    392            * @param None
+    393            * @retval None
+    394            */
+    395          static void MX_TIM1_Init(void)
+    396          {
+    397          
+    398            /* USER CODE BEGIN TIM1_Init 0 */
+    399          
+    400            /* USER CODE END TIM1_Init 0 */
+    401          
+    402            LL_TIM_InitTypeDef TIM_InitStruct = {0};
+    403            LL_TIM_OC_InitTypeDef TIM_OC_InitStruct = {0};
+    404            LL_TIM_BDTR_InitTypeDef TIM_BDTRInitStruct = {0};
+    405          
+    406            LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
+    407          
+    408            /* Peripheral clock enable */
+    409            LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_TIM1);
+    410            
+    411            //LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB);
+    412            LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
+    413            /**TIM1 GPIO Configuration  
+    414            PB12   ------> TIM1_BKIN
+    415            PA11   ------> TIM1_BKIN2 
+    416            */
+    417            //GPIO_InitStruct.Pin = M1_OVP_Pin;
+    418            //GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+    419            //GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+    420            //GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+    421            //GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
+    422            //GPIO_InitStruct.Alternate = LL_GPIO_AF_6;
+    423            //LL_GPIO_Init(M1_OVP_GPIO_Port, &GPIO_InitStruct);
+    424          
+    425            GPIO_InitStruct.Pin = M1_OCP_Pin;
+    426            GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+    427            GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+    428            GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+    429            GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
+    430            GPIO_InitStruct.Alternate = LL_GPIO_AF_12;
+    431            LL_GPIO_Init(M1_OCP_GPIO_Port, &GPIO_InitStruct);
+    432          
+    433            /* USER CODE BEGIN TIM1_Init 1 */
+    434          
+    435            /* USER CODE END TIM1_Init 1 */
+    436            TIM_InitStruct.Prescaler = ((TIM_CLOCK_DIVIDER) - 1);
+    437            TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_CENTER_UP;
+    438            TIM_InitStruct.Autoreload = ((PWM_PERIOD_CYCLES) / 2);
+    439            TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV2;
+    440            TIM_InitStruct.RepetitionCounter = (REP_COUNTER);
+    441            LL_TIM_Init(TIM1, &TIM_InitStruct);
+    442            LL_TIM_DisableARRPreload(TIM1);
+    443            LL_TIM_OC_EnablePreload(TIM1, LL_TIM_CHANNEL_CH1);
+    444            TIM_OC_InitStruct.OCMode = LL_TIM_OCMODE_PWM1;
+    445            TIM_OC_InitStruct.OCState = LL_TIM_OCSTATE_DISABLE;
+    446            TIM_OC_InitStruct.OCNState = LL_TIM_OCSTATE_DISABLE;
+    447            TIM_OC_InitStruct.CompareValue = 0;
+    448            TIM_OC_InitStruct.OCPolarity = LL_TIM_OCPOLARITY_HIGH;
+    449            TIM_OC_InitStruct.OCNPolarity = LL_TIM_OCPOLARITY_HIGH;
+    450            TIM_OC_InitStruct.OCIdleState = LL_TIM_OCIDLESTATE_LOW;
+    451            TIM_OC_InitStruct.OCNIdleState = LL_TIM_OCIDLESTATE_LOW;
+    452            LL_TIM_OC_Init(TIM1, LL_TIM_CHANNEL_CH1, &TIM_OC_InitStruct);
+    453            LL_TIM_OC_DisableFast(TIM1, LL_TIM_CHANNEL_CH1);
+    454            LL_TIM_OC_EnablePreload(TIM1, LL_TIM_CHANNEL_CH2);
+    455            TIM_OC_InitStruct.OCState = LL_TIM_OCSTATE_DISABLE;
+    456            TIM_OC_InitStruct.OCNState = LL_TIM_OCSTATE_DISABLE;
+    457            LL_TIM_OC_Init(TIM1, LL_TIM_CHANNEL_CH2, &TIM_OC_InitStruct);
+    458            LL_TIM_OC_DisableFast(TIM1, LL_TIM_CHANNEL_CH2);
+    459            LL_TIM_OC_EnablePreload(TIM1, LL_TIM_CHANNEL_CH3);
+    460            TIM_OC_InitStruct.OCState = LL_TIM_OCSTATE_DISABLE;
+    461            TIM_OC_InitStruct.OCNState = LL_TIM_OCSTATE_DISABLE;
+    462            LL_TIM_OC_Init(TIM1, LL_TIM_CHANNEL_CH3, &TIM_OC_InitStruct);
+    463            LL_TIM_OC_DisableFast(TIM1, LL_TIM_CHANNEL_CH3);
+    464            LL_TIM_OC_EnablePreload(TIM1, LL_TIM_CHANNEL_CH4);
+    465            TIM_OC_InitStruct.OCMode = LL_TIM_OCMODE_PWM2;
+    466            TIM_OC_InitStruct.OCState = LL_TIM_OCSTATE_DISABLE;
+    467            TIM_OC_InitStruct.OCNState = LL_TIM_OCSTATE_DISABLE;
+    468            TIM_OC_InitStruct.CompareValue = (((PWM_PERIOD_CYCLES) / 2) - (HTMIN));
+    469            LL_TIM_OC_Init(TIM1, LL_TIM_CHANNEL_CH4, &TIM_OC_InitStruct);
+    470            LL_TIM_OC_DisableFast(TIM1, LL_TIM_CHANNEL_CH4);
+    471            LL_TIM_SetTriggerInput(TIM1, LL_TIM_TS_ITR1);
+    472            LL_TIM_SetSlaveMode(TIM1, LL_TIM_SLAVEMODE_TRIGGER);
+    473            LL_TIM_DisableIT_TRIG(TIM1);
+    474            LL_TIM_DisableDMAReq_TRIG(TIM1);
+    475            LL_TIM_SetTriggerOutput(TIM1, LL_TIM_TRGO_OC4REF);
+    476            LL_TIM_SetTriggerOutput2(TIM1, LL_TIM_TRGO2_RESET);
+    477            LL_TIM_DisableMasterSlaveMode(TIM1);
+    478            TIM_BDTRInitStruct.OSSRState = LL_TIM_OSSR_ENABLE;
+    479            TIM_BDTRInitStruct.OSSIState = LL_TIM_OSSI_ENABLE;
+    480            TIM_BDTRInitStruct.LockLevel = LL_TIM_LOCKLEVEL_1;
+    481            TIM_BDTRInitStruct.DeadTime = ((DEAD_TIME_COUNTS) / 2);
+    482            TIM_BDTRInitStruct.BreakState = LL_TIM_BREAK_DISABLE;
+    483            TIM_BDTRInitStruct.BreakPolarity = LL_TIM_BREAK_POLARITY_HIGH;
+    484            TIM_BDTRInitStruct.BreakFilter = LL_TIM_BREAK_FILTER_FDIV1;
+    485            TIM_BDTRInitStruct.Break2State = LL_TIM_BREAK2_DISABLE;
+    486            TIM_BDTRInitStruct.Break2Polarity = LL_TIM_BREAK2_POLARITY_LOW;
+    487            TIM_BDTRInitStruct.Break2Filter = LL_TIM_BREAK2_FILTER_FDIV1;
+    488            TIM_BDTRInitStruct.AutomaticOutput = LL_TIM_AUTOMATICOUTPUT_DISABLE;
+    489            LL_TIM_BDTR_Init(TIM1, &TIM_BDTRInitStruct);
+    490            /* USER CODE BEGIN TIM1_Init 2 */
+    491          
+    492            /* USER CODE END TIM1_Init 2 */
+    493            LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB);
+    494            LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
+    495            /**TIM1 GPIO Configuration  
+    496            PB13   ------> TIM1_CH1N
+    497            PB14   ------> TIM1_CH2N
+    498            PB15   ------> TIM1_CH3N
+    499            PA8   ------> TIM1_CH1
+    500            PA9   ------> TIM1_CH2
+    501            PA10   ------> TIM1_CH3 
+    502            */
+    503            GPIO_InitStruct.Pin = M1_PWM_UL_Pin|M1_PWM_VL_Pin;
+    504            GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+    505            GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+    506            GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+    507            GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
+    508            GPIO_InitStruct.Alternate = LL_GPIO_AF_6;
+    509            LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+    510          
+    511            GPIO_InitStruct.Pin = M1_PWM_WL_Pin;
+    512            GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+    513            GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+    514            GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+    515            GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
+    516            GPIO_InitStruct.Alternate = LL_GPIO_AF_4;
+    517            LL_GPIO_Init(M1_PWM_WL_GPIO_Port, &GPIO_InitStruct);
+    518          
+    519            GPIO_InitStruct.Pin = M1_PWM_UH_Pin|M1_PWM_VH_Pin|M1_PWM_WH_Pin;
+    520            GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+    521            GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+    522            GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+    523            GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
+    524            GPIO_InitStruct.Alternate = LL_GPIO_AF_6;
+    525            LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+    526          
+    527          }
+    528          
+    529          /**
+    530            * @brief TIM2 Initialization Function
+    531            * @param None
+    532            * @retval None
+    533            */
+    534          //static void MX_TIM2_Init(void)
+    535          //{
+    536          
+    537            /* USER CODE BEGIN TIM2_Init 0 */
+    538          
+    539            /* USER CODE END TIM2_Init 0 */
+    540          
+    541            //LL_TIM_InitTypeDef TIM_InitStruct = {0};
+    542            //LL_TIM_OC_InitTypeDef TIM_OC_InitStruct = {0};
+    543          
+    544            //LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
+    545          
+    546            /* Peripheral clock enable */
+    547            //LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM2);
+    548            
+    549            //LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
+    550            //LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB);
+    551            /**TIM2 GPIO Configuration  
+    552            PA5   ------> TIM2_CH1
+    553            PB10   ------> TIM2_CH3
+    554            PB3   ------> TIM2_CH2 
+    555            */
+    556            //GPIO_InitStruct.Pin = M1_HALL_H1_Pin;
+    557            //GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+    558            //GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+    559            //GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+    560            //GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+    561            //GPIO_InitStruct.Alternate = LL_GPIO_AF_1;
+    562            //LL_GPIO_Init(M1_HALL_H1_GPIO_Port, &GPIO_InitStruct);
+    563          
+    564            //GPIO_InitStruct.Pin = M1_HALL_H3_Pin|M1_HALL_H2_Pin;
+    565            //GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+    566            //GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+    567            //GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+    568            //GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+    569            //GPIO_InitStruct.Alternate = LL_GPIO_AF_1;
+    570            //LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+    571          
+    572            /* USER CODE BEGIN TIM2_Init 1 */
+    573          
+    574            /* USER CODE END TIM2_Init 1 */
+    575            /*TIM_InitStruct.Prescaler = 0;
+    576            TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_UP;
+    577            TIM_InitStruct.Autoreload = M1_HALL_TIM_PERIOD;
+    578            TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;
+    579            LL_TIM_Init(TIM2, &TIM_InitStruct);
+    580            LL_TIM_DisableARRPreload(TIM2);
+    581            LL_TIM_SetClockSource(TIM2, LL_TIM_CLOCKSOURCE_INTERNAL);
+    582            LL_TIM_CC_DisableChannel(TIM2, LL_TIM_CHANNEL_CH1 | LL_TIM_CHANNEL_CH2);
+    583            LL_TIM_IC_SetActiveInput(TIM2, LL_TIM_CHANNEL_CH1, LL_TIM_ACTIVEINPUT_TRC);
+    584            LL_TIM_IC_SetPrescaler(TIM2, LL_TIM_CHANNEL_CH1, LL_TIM_ICPSC_DIV1);
+    585            LL_TIM_IC_SetFilter(TIM2, LL_TIM_CHANNEL_CH1, M1_HALL_IC_FILTER);
+    586            LL_TIM_IC_SetPolarity(TIM2, LL_TIM_CHANNEL_CH1, LL_TIM_IC_POLARITY_RISING);
+    587            LL_TIM_IC_EnableXORCombination(TIM2);
+    588            LL_TIM_SetTriggerInput(TIM2, LL_TIM_TS_TI1F_ED);
+    589            LL_TIM_SetSlaveMode(TIM2, LL_TIM_SLAVEMODE_RESET);
+    590            TIM_OC_InitStruct.OCMode = LL_TIM_OCMODE_PWM2;
+    591            TIM_OC_InitStruct.OCState = LL_TIM_OCSTATE_DISABLE;
+    592            TIM_OC_InitStruct.OCNState = LL_TIM_OCSTATE_DISABLE;
+    593            TIM_OC_InitStruct.CompareValue = 0;
+    594            TIM_OC_InitStruct.OCPolarity = LL_TIM_OCPOLARITY_HIGH;
+    595            TIM_OC_InitStruct.OCNPolarity = LL_TIM_OCPOLARITY_HIGH;
+    596            TIM_OC_InitStruct.OCIdleState = LL_TIM_OCIDLESTATE_LOW;
+    597            TIM_OC_InitStruct.OCNIdleState = LL_TIM_OCIDLESTATE_LOW;
+    598          
+    599            LL_TIM_OC_Init(TIM2, LL_TIM_CHANNEL_CH2, &TIM_OC_InitStruct);
+    600            LL_TIM_OC_DisableFast(TIM2, LL_TIM_CHANNEL_CH2);
+    601            LL_TIM_SetTriggerOutput(TIM2, LL_TIM_TRGO_OC2REF);
+    602            LL_TIM_DisableMasterSlaveMode(TIM2);*/
+    603            /* USER CODE BEGIN TIM2_Init 2 */
+    604          
+    605            /* USER CODE END TIM2_Init 2 */
+    606          
+    607          //}
+    608          
+    609          /**
+    610            * @brief USART1 Initialization Function
+    611            * @param None
+    612            * @retval None
+    613            */
+    614          static void MX_USART1_UART_Init(void)
+    615          {
+    616          
+    617            /* USER CODE BEGIN USART1_Init 0 */
+    618          
+    619            /* USER CODE END USART1_Init 0 */
+    620          
+    621            LL_USART_InitTypeDef USART_InitStruct = {0};
+    622          
+    623            LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
+    624          
+    625            /* Peripheral clock enable */
+    626            LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_USART1);
+    627            
+    628            LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB);
+    629            /**USART1 GPIO Configuration  
+    630            PB6   ------> USART1_TX
+    631            PB7   ------> USART1_RX 
+    632            */
+    633            GPIO_InitStruct.Pin = UART_TX_Pin|UART_RX_Pin;
+    634            GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+    635            GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+    636            GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+    637            GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+    638            GPIO_InitStruct.Alternate = LL_GPIO_AF_7;
+    639            LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+    640          
+    641            /* USER CODE BEGIN USART1_Init 1 */
+    642          
+    643            /* USER CODE END USART1_Init 1 */
+    644            USART_InitStruct.BaudRate = 115200;
+    645            USART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;
+    646            USART_InitStruct.StopBits = LL_USART_STOPBITS_1;
+    647            USART_InitStruct.Parity = LL_USART_PARITY_NONE;
+    648            USART_InitStruct.TransferDirection = LL_USART_DIRECTION_TX_RX;
+    649            USART_InitStruct.HardwareFlowControl = LL_USART_HWCONTROL_NONE;
+    650            USART_InitStruct.OverSampling = LL_USART_OVERSAMPLING_16;
+    651            LL_USART_Init(USART1, &USART_InitStruct);
+    652            LL_USART_DisableIT_CTS(USART1);
+    653            LL_USART_ConfigAsyncMode(USART1);
+    654            LL_USART_Enable(USART1);
+    655            /* USER CODE BEGIN USART1_Init 2 */
+    656          
+    657            /* USER CODE END USART1_Init 2 */
+    658          
+    659          }
+    660          
+    661          /**
+    662            * @brief CRC Initialization Function
+    663            * @param None
+    664            * @retval None
+    665            */
+    666          static void MX_CRC_Init(void)
+    667          {
+    668          
+    669            /* USER CODE BEGIN CRC_Init 0 */
+    670          
+    671            /* USER CODE END CRC_Init 0 */
+    672          
+    673            /* Peripheral clock enable */
+    674            LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_CRC);
+    675          
+    676            /* USER CODE BEGIN CRC_Init 1 */
+    677          
+    678            /* USER CODE END CRC_Init 1 */
+    679            //CRC-16/CCITT-FALSE 
+    680            LL_CRC_SetInputDataReverseMode(CRC, LL_CRC_INDATA_REVERSE_NONE);
+    681            LL_CRC_SetOutputDataReverseMode(CRC, LL_CRC_OUTDATA_REVERSE_NONE);
+    682            LL_CRC_SetPolynomialCoef(CRC, 0x1021);                                              //LL_CRC_DEFAULT_CRC32_POLY);
+    683            LL_CRC_SetPolynomialSize(CRC, LL_CRC_POLYLENGTH_16B);                                //LL_CRC_POLYLENGTH_32B);
+    684            LL_CRC_SetInitialData(CRC, 0xFFFF);                                                  //LL_CRC_DEFAULT_CRC_INITVALUE);
+    685            /* USER CODE BEGIN CRC_Init 2 */
+    686          
+    687            /* USER CODE END CRC_Init 2 */
+    688          
+    689          }
+    690          
+    691          /**
+    692            * @brief GPIO Initialization Function
+    693            * @param None
+    694            * @retval None
+    695            */
+    696          static void MX_GPIO_Init(void)
+    697          {
+    698            LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
+    699          
+    700            /* GPIO Ports Clock Enable */
+    701            //LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOC);
+    702            //LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOF);
+    703            LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
+    704            LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB);
+    705          
+    706            /**/
+    707            //LL_GPIO_ResetOutputPin(M1_ICL_SHUT_OUT_GPIO_Port, M1_ICL_SHUT_OUT_Pin);
+    708          
+    709            /**/
+    710            //LL_GPIO_ResetOutputPin(LED_Debug_GPIO_Port, LED_Debug_Pin);
+    711          
+    712            /**/
+    713            /*GPIO_InitStruct.Pin = M1_ICL_SHUT_OUT_Pin;
+    714            GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+    715            GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+    716            GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+    717            GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
+    718            LL_GPIO_Init(M1_ICL_SHUT_OUT_GPIO_Port, &GPIO_InitStruct);*/
+    719          
+    720            /**/
+    721            /*GPIO_InitStruct.Pin = LED_Debug_Pin;
+    722            GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+    723            GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+    724            GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+    725            GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+    726            LL_GPIO_Init(LED_Debug_GPIO_Port, &GPIO_InitStruct);*/
+    727          
+    728            // initialization for relay output pin
+    729            GPIO_InitStruct.Pin 			= LL_GPIO_PIN_5;
+    730            GPIO_InitStruct.Mode 			= LL_GPIO_MODE_OUTPUT;
+    731            GPIO_InitStruct.Speed 		= LL_GPIO_SPEED_FREQ_LOW;
+    732            GPIO_InitStruct.OutputType 	= LL_GPIO_OUTPUT_PUSHPULL;
+    733            GPIO_InitStruct.Pull 			= LL_GPIO_PULL_NO;
+    734            LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+    735            
+    736            // initialization for "SIN" test point
+    737            GPIO_InitStruct.Pin 			= LL_GPIO_PIN_3;
+    738            GPIO_InitStruct.Mode 			= LL_GPIO_MODE_OUTPUT;
+    739            GPIO_InitStruct.Speed 		= LL_GPIO_SPEED_FREQ_LOW;
+    740            GPIO_InitStruct.OutputType 	= LL_GPIO_OUTPUT_PUSHPULL;
+    741            GPIO_InitStruct.Pull 			= LL_GPIO_PULL_NO;
+    742            LL_GPIO_Init(GPIOA, &GPIO_InitStruct);    
+    743            
+    744          }
+    745          
+    746          /* USER CODE BEGIN 4 */
+    747          
+    748          /* USER CODE END 4 */
+    749          
+    750          /**
+    751            * @brief  This function is executed in case of error occurrence.
+    752            * @retval None
+    753            */
+
+   \                                 In section .text, align 2, keep-with-next
+    754          void Error_Handler(void)
+    755          {
+    756            /* USER CODE BEGIN Error_Handler_Debug */
+    757            /* User can add his own implementation to report the HAL error return state */
+    758          
+    759            /* USER CODE END Error_Handler_Debug */
+    760          }
+   \                     Error_Handler: (+1)
+   \        0x0   0x4770             BX       LR               ;; return
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine20: (+1)
+   \        0x0   0xF3C0 0x2002      UBFX     R0,R0,#+8,#+3
+   \        0x4   0x....             B.N      NVIC_EncodePriority
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine19: (+1)
+   \        0x0   0x4638             MOV      R0,R7
+   \        0x2   0x....             B.N      LL_TIM_OC_DisableFast
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine18: (+1)
+   \        0x0   0xAA06             ADD      R2,SP,#+24
+   \                     ??Subroutine18_0: (+1)
+   \        0x2   0x4638             MOV      R0,R7
+   \        0x4   0x....'....        B.W      LL_TIM_OC_Init
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine17: (+1)
+   \        0x0   0x4638             MOV      R0,R7
+   \        0x2   0x....             B.N      LL_TIM_OC_EnablePreload
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine16: (+1)
+   \        0x0   0x227F             MOVS     R2,#+127
+   \        0x2   0x4631             MOV      R1,R6
+   \        0x4   0x4628             MOV      R0,R5
+   \        0x6   0x....             B.N      LL_ADC_SetChannelSingleDiff
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine15: (+1)
+   \        0x0   0x2203             MOVS     R2,#+3
+   \        0x2   0x4631             MOV      R1,R6
+   \        0x4   0x4628             MOV      R0,R5
+   \        0x6   0x....             B.N      LL_ADC_SetChannelSamplingTime
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine14: (+1)
+   \        0x0   0x68E8             LDR      R0,[R5, #+12]
+   \        0x2   0xF440 0x1000      ORR      R0,R0,#0x200000
+   \        0x6   0x60E8             STR      R0,[R5, #+12]
+   \        0x8   0x4632             MOV      R2,R6
+   \        0xA   0x6868             LDR      R0,[R5, #+4]
+   \        0xC   0xF020 0x0020      BIC      R0,R0,#0x20
+   \       0x10   0x6068             STR      R0,[R5, #+4]
+   \       0x12   0x4770             BX       LR
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine13: (+1)
+   \        0x0   0x2103             MOVS     R1,#+3
+   \        0x2   0x9008             STR      R0,[SP, #+32]
+   \        0x4   0x9109             STR      R1,[SP, #+36]
+   \        0x6   0x2200             MOVS     R2,#+0
+   \        0x8   0x920C             STR      R2,[SP, #+48]
+   \        0xA   0xA908             ADD      R1,SP,#+32
+   \        0xC   0x4770             BX       LR
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine12: (+1)
+   \        0x0   0xF020 0x00C0      BIC      R0,R0,#0xC0
+   \        0x4   0xF040 0x0040      ORR      R0,R0,#0x40
+   \        0x8   0x64E8             STR      R0,[R5, #+76]
+   \        0xA                      REQUIRE ??Subroutine21_0
+   \        0xA                      ;; // Fall through to label ??Subroutine21_0
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ??Subroutine21_0: (+1)
+   \        0x0   0xA901             ADD      R1,SP,#+4
+   \        0x2   0x4628             MOV      R0,R5
+   \        0x4   0x....'....        B.W      LL_ADC_INJ_Init
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine11: (+1)
+   \        0x0   0x6868             LDR      R0,[R5, #+4]
+   \        0x2   0xF020 0x0040      BIC      R0,R0,#0x40
+   \        0x6   0x6068             STR      R0,[R5, #+4]
+   \        0x8   0x4628             MOV      R0,R5
+   \        0xA   0x....             B.N      LL_ADC_INJ_SetSequencerRanks
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine10: (+1)
+   \        0x0   0x2210             MOVS     R2,#+16
+   \        0x2   0x2100             MOVS     R1,#+0
+   \        0x4   0xA801             ADD      R0,SP,#+4
+   \        0x6   0x....'....        B.W      memset
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine9: (+1)
+   \        0x0   0x9100             STR      R1,[SP, #+0]
+   \        0x2   0x2202             MOVS     R2,#+2
+   \        0x4   0x9201             STR      R2,[SP, #+4]
+   \        0x6   0x2103             MOVS     R1,#+3
+   \        0x8   0x9102             STR      R1,[SP, #+8]
+   \        0xA   0x2200             MOVS     R2,#+0
+   \        0xC   0x9203             STR      R2,[SP, #+12]
+   \        0xE   0x2102             MOVS     R1,#+2
+   \       0x10   0x9104             STR      R1,[SP, #+16]
+   \       0x12   0x2206             MOVS     R2,#+6
+   \       0x14   0x4770             BX       LR
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine8: (+1)
+   \        0x0   0x2101             MOVS     R1,#+1
+   \        0x2   0x9000             STR      R0,[SP, #+0]
+   \        0x4   0x9101             STR      R1,[SP, #+4]
+   \        0x6   0x2200             MOVS     R2,#+0
+   \        0x8   0x9202             STR      R2,[SP, #+8]
+   \        0xA   0x9203             STR      R2,[SP, #+12]
+   \        0xC   0x9204             STR      R2,[SP, #+16]
+   \        0xE   0x4770             BX       LR
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine7: (+1)
+   \        0x0   0x4669             MOV      R1,SP
+   \        0x2   0xF04F 0x4090      MOV      R0,#+1207959552
+   \        0x6   0x....'....        B.W      LL_GPIO_Init
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine6: (+1)
+   \        0x0   0x9205             STR      R2,[SP, #+20]
+   \                     ??Subroutine6_0: (+1)
+   \        0x2   0x4669             MOV      R1,SP
+   \        0x4   0x4620             MOV      R0,R4
+   \        0x6   0x....'....        B.W      LL_GPIO_Init
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine5: (+1)
+   \        0x0   0xF44F 0x2080      MOV      R0,#+262144
+   \        0x4   0x....             B.N      LL_AHB1_GRP1_EnableClock
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine4: (+1)
+   \        0x0   0xF44F 0x3000      MOV      R0,#+131072
+   \        0x4   0x....             B.N      LL_AHB1_GRP1_EnableClock
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine3: (+1)
+   \        0x0   0x6820             LDR      R0,[R4, #+0]
+   \        0x2   0x2200             MOVS     R2,#+0
+   \        0x4   0x2100             MOVS     R1,#+0
+   \        0x6   0xF3C0 0x2002      UBFX     R0,R0,#+8,#+3
+   \        0xA   0x....             B.N      NVIC_EncodePriority
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine1: (+1)
+   \        0x0   0x2218             MOVS     R2,#+24
+   \                     ??Subroutine1_0: (+1)
+   \        0x2   0x2100             MOVS     R1,#+0
+   \        0x4   0x4668             MOV      R0,SP
+   \        0x6   0x....'....        B.W      memset
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8:
+   \        0x0   0xE000'E100        DC32     0xe000e100
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_1:
+   \        0x0   0xE000'E400        DC32     0xe000e400
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_2:
+   \        0x0   0xE000'ED18        DC32     0xe000ed18
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_3:
+   \        0x0   0x0007'FFFE        DC32     0x7fffe
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_4:
+   \        0x0   0x4002'1014        DC32     0x40021014
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_5:
+   \        0x0   0x4002'1018        DC32     0x40021018
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_6:
+   \        0x0   0x....'....        DC32     PIDSpeedHandle_M1
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_7:
+   \        0x0   0x4800'0400        DC32     0x48000400
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_8:
+   \        0x0   0x5000'0300        DC32     0x50000300
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_9:
+   \        0x0   0x0430'0002        DC32     0x4300002
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_10:
+   \        0x0   0x0860'0004        DC32     0x8600004
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_11:
+   \        0x0   0x2A00'0400        DC32     0x2a000400
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_12:
+   \        0x0   0x2E30'0800        DC32     0x2e300800
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_13:
+   \        0x0   0x4002'101C        DC32     0x4002101c
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_14:
+   \        0x0   0x4000'7400        DC32     0x40007400
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_15:
+   \        0x0   0x0210'0001        DC32     0x2100001
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_16:
+   \        0x0   0x4001'2C00        DC32     0x40012c00
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_17:
+   \        0x0   0xFFFE'FFF8        DC32     0xfffefff8
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_18:
+   \        0x0   0x4001'3800        DC32     0x40013800
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_19:
+   \        0x0   0x....'....        DC32     PQD_MotorPowMeasM1
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_20:
+   \        0x0   0x....'....        DC32     tt_ICLDelay
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_21:
+   \        0x0   0x0800'F024        DC32     0x800f024
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_22:
+   \        0x0   0x4002'3008        DC32     0x40023008
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_23:
+   \        0x0   0xE000'ED0C        DC32     0xe000ed0c
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_24:
+   \        0x0   0xE000'E104        DC32     0xe000e104
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_25:
+   \        0x0   0x4002'2000        DC32     0x40022000
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_26:
+   \        0x0   0x4002'1000        DC32     0x40021000
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_27:
+   \        0x0   0x03D0'9000        DC32     0x3d09000
+    761          
+    762          #ifdef  USE_FULL_ASSERT
+    763          /**
+    764            * @brief  Reports the name of the source file and the source line number
+    765            *         where the assert_param error has occurred.
+    766            * @param  file: pointer to the source file name
+    767            * @param  line: assert_param error line source number
+    768            * @retval None
+    769            */
+    770          void assert_failed(uint8_t *file, uint32_t line)
+    771          { 
+    772            /* USER CODE BEGIN 6 */
+    773            /* User can add his own implementation to report the file name and line number,
+    774               tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+    775            /* USER CODE END 6 */
+    776          }
+    777          #endif /* USE_FULL_ASSERT */
+    778          
+    779          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   Error_Handler
+       8   LL_ADC_INJ_SetSequencerRanks
+       8   LL_ADC_SetChannelSamplingTime
+      16   LL_ADC_SetChannelSingleDiff
+       0   LL_AHB1_GRP1_EnableClock
+       0   LL_APB2_GRP1_EnableClock
+      16   LL_TIM_OC_DisableFast
+      16   LL_TIM_OC_EnablePreload
+      12   NVIC_EncodePriority
+       8   SystemClock_Config
+         8   -> HAL_InitTick
+         8   -> LL_SetSystemCoreClock
+       0   __NVIC_EnableIRQ
+       0   __NVIC_SetPriority
+     136   main
+       136   -> HAL_Init
+       136   -> LL_ADC_CommonInit
+       136   -> LL_ADC_INJ_Init
+       136   -> LL_ADC_INJ_SetSequencerRanks
+       136   -> LL_ADC_Init
+       136   -> LL_ADC_REG_Init
+       136   -> LL_ADC_SetChannelSamplingTime
+       136   -> LL_ADC_SetChannelSingleDiff
+       136   -> LL_AHB1_GRP1_EnableClock
+       136   -> LL_APB2_GRP1_EnableClock
+       136   -> LL_DAC_Init
+       136   -> LL_GPIO_Init
+       136   -> LL_TIM_BDTR_Init
+       136   -> LL_TIM_Init
+       136   -> LL_TIM_OC_DisableFast
+       136   -> LL_TIM_OC_EnablePreload
+       136   -> LL_TIM_OC_Init
+       136   -> LL_USART_Init
+       136   -> MX_MotorControl_Init
+       136   -> NVIC_EncodePriority
+       136   -> Sched_Initialize
+       136   -> Sched_Run
+       136   -> SystemClock_Config
+       136   -> VBS_GetAvBusVoltage_V
+       136   -> __NVIC_EnableIRQ
+       136   -> __NVIC_SetPriority
+       136   -> getSysCount
+       136   -> memset
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable8
+       4  ??DataTable8_1
+       4  ??DataTable8_10
+       4  ??DataTable8_11
+       4  ??DataTable8_12
+       4  ??DataTable8_13
+       4  ??DataTable8_14
+       4  ??DataTable8_15
+       4  ??DataTable8_16
+       4  ??DataTable8_17
+       4  ??DataTable8_18
+       4  ??DataTable8_19
+       4  ??DataTable8_2
+       4  ??DataTable8_20
+       4  ??DataTable8_21
+       4  ??DataTable8_22
+       4  ??DataTable8_23
+       4  ??DataTable8_24
+       4  ??DataTable8_25
+       4  ??DataTable8_26
+       4  ??DataTable8_27
+       4  ??DataTable8_3
+       4  ??DataTable8_4
+       4  ??DataTable8_5
+       4  ??DataTable8_6
+       4  ??DataTable8_7
+       4  ??DataTable8_8
+       4  ??DataTable8_9
+       8  ??Subroutine21_0
+      20  ?Subroutine0
+      10  ?Subroutine1
+      10  ?Subroutine10
+      12  ?Subroutine11
+      10  ?Subroutine12
+      14  ?Subroutine13
+      20  ?Subroutine14
+       8  ?Subroutine15
+       8  ?Subroutine16
+       4  ?Subroutine17
+       8  ?Subroutine18
+       4  ?Subroutine19
+      16  ?Subroutine2
+       6  ?Subroutine20
+      12  ?Subroutine3
+       6  ?Subroutine4
+       6  ?Subroutine5
+      10  ?Subroutine6
+      10  ?Subroutine7
+      16  ?Subroutine8
+      22  ?Subroutine9
+       2  A_DEFAULT_CONTROL_MODE
+       2  A_GAIN1
+       2  A_GAIN2
+       2  A_IQMAX
+       2  A_LS
+       2  A_MAX_APPLICATION_SPEED_RPM
+       2  A_MIN_APPLICATION_SPEED_RPM
+       2  A_NOMINAL_CURRENT
+       2  A_OV_TEMPERATURE_HYSTERESIS_C
+       2  A_OV_TEMPERATURE_THRESHOLD_C
+       2  A_OV_VOLTAGE_THRESHOLD_V
+       2  A_PHASE1_DURATION
+       2  A_PHASE1_FINAL_CURRENT
+       2  A_PHASE1_FINAL_SPEED_UNIT
+       2  A_PHASE2_DURATION
+       2  A_PHASE2_FINAL_CURRENT
+       2  A_PHASE2_FINAL_SPEED_UNIT
+       2  A_PHASE3_DURATION
+       2  A_PHASE3_FINAL_CURRENT
+       2  A_PHASE3_FINAL_SPEED_UNIT
+       2  A_PHASE4_DURATION
+       2  A_PHASE4_FINAL_CURRENT
+       2  A_PHASE4_FINAL_SPEED_UNIT
+       2  A_PHASE5_DURATION
+       2  A_PHASE5_FINAL_CURRENT
+       2  A_PHASE5_FINAL_SPEED_UNIT
+       2  A_PID_FLUX_KI_DEFAULT
+       2  A_PID_FLUX_KP_DEFAULT
+       2  A_PID_SPEED_KI_DEFAULT
+       2  A_PID_SPEED_KP_DEFAULT
+       2  A_PID_TORQUE_KI_DEFAULT
+       2  A_PID_TORQUE_KP_DEFAULT
+       2  A_PLL_KI_GAIN
+       2  A_PLL_KP_GAIN
+       2  A_POLE_PAIR_NUM
+       2  A_PWM_FREQUENCY
+       2  A_RS
+       2  A_TRANSITION_DURATION
+       2  A_UD_VOLTAGE_THRESHOLD_V
+       2  D_HALL_PHASE_SHIFT
+       2  D_HALL_SENSORS_PLACEMENT
+       2  D_M1_ENCODER_PPR
+       2  Error_Handler
+      32  LL_ADC_INJ_SetSequencerRanks
+      36  LL_ADC_SetChannelSamplingTime
+      36  LL_ADC_SetChannelSingleDiff
+       6  LL_AHB1_GRP1_EnableClock
+       4  LL_APB2_GRP1_EnableClock
+      92  LL_TIM_OC_DisableFast
+      92  LL_TIM_OC_EnablePreload
+      50  NVIC_EncodePriority
+      12  OFFSET_TAB_CCMRx
+      12  SHIFT_TAB_OCxx
+     160  SystemClock_Config
+      24  __NVIC_EnableIRQ
+      30  __NVIC_SetPriority
+       2  busV_ave
+       2  busV_std
+   1'250  main
+       8  tt_ICLDelay
+
+ 
+    12 bytes in section .bss
+    84 bytes in section .rodata  (abs)
+ 2'190 bytes in section .text
+ 
+ 2'190 bytes of CODE  memory
+     0 bytes of CONST memory (+ 84 bytes shared)
+    12 bytes of DATA  memory
+
+Errors: none
+Warnings: 1

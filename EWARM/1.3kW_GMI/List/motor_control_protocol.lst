@@ -1,0 +1,1542 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.50.9.278/W32 for ARM         23/Feb/2021  10:13:58
+# Copyright 1999-2020 IAR Systems AB.
+#
+#    Cpu mode             
+#    Endian            =  little
+#    Source file       =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\motor_control_protocol.c
+#    Command line      =
+#        -f C:\Users\100001~1\AppData\Local\Temp\EW1123.tmp
+#        (C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\motor_control_protocol.c
+#        -D ARM_MATH_CM4 -D USE_FULL_LL_DRIVER -D USE_HAL_DRIVER -D STM32F302x8
+#        -lCN
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List
+#        -o
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj
+#        --debug --endian=little --cpu=Cortex-M4 -e --fpu=VFPv4_sp
+#        --dlib_config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.4\arm\inc\c\DLib_Config_Full.h" -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/Any/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/F3xx/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/UILibrary/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/SystemDriveParams\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/Device/ST/STM32F3xx/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/DSP/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Drivers\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Features\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Kernel\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Memory\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Regal\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\UniversalProtocol\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Motor\\
+#        -Ohz)
+#    Locale            =  C
+#    List file         =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List\motor_control_protocol.lst
+#    Object file       =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\motor_control_protocol.o
+#    Runtime model:       
+#      __SystemLibrary =  DLib
+#      __dlib_version  =  6
+#
+###############################################################################
+
+C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\motor_control_protocol.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    motor_control_protocol.c
+      4            * @author  Motor Control SDK Team, ST Microelectronics
+      5            * @brief   This file provides firmware functions that implement the features
+      6            *          of the motor_control_protocol component of the Motor Control SDK.
+      7            *
+      8            ******************************************************************************
+      9            * @attention
+     10            *
+     11            * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
+     12            * All rights reserved.</center></h2>
+     13            *
+     14            * This software component is licensed by ST under Ultimate Liberty license
+     15            * SLA0044, the "License"; You may not use this file except in compliance with
+     16            * the License. You may obtain a copy of the License at:
+     17            *                             www.st.com/SLA0044
+     18            *
+     19            ******************************************************************************
+     20            */
+     21          
+     22          /* Includes ------------------------------------------------------------------*/
+     23          #include "user_interface.h"
+     24          #include "motor_control_protocol.h"
+     25          
+     26          /**
+     27           * @addtogroup MCSDK
+     28           * @{
+     29           */
+     30          
+     31          /**
+     32           * @addtogroup MCUI
+     33           * @{
+     34           */
+     35          
+     36          /**
+     37           * @defgroup motor_control_protocol Motor Control Protocol
+     38           *
+     39           * @brief Transmission protocol designed to report Motor Control subsystem status and to control motors.
+     40           *
+     41           * The Motor Control Protocol defines a transmission mechanism that allows a Motor Control
+     42           * Application to send in real time the values of a defined set of internal variables to an
+     43           * external recipient and to receive Motor Control commands from this recipient.
+     44           *
+     45           * The Commands that can be sent with the Motor Control Protocol are defined in **TBD**.
+     46           *
+     47           * The variables which values can be exchanged through the Motor Control Protocol are listed in
+     48           * @ref MC_Protocol_REG.
+     49           *
+     50           * An example of external recipient is the Motor Control Monitor tool that is part of the Motor
+     51           * Control Workbench.
+     52           *
+     53           * The Motor Control Protocol defines frames that contain either commands or variables values.
+     54           * These frames are the exchanged between the Application and the external recipient. To that end,
+     55           * the Motor Control Protocol relies on a lower level transport protocol to actually send them.
+     56           *
+     57           * @todo Complete documentation
+     58           * @{
+     59           */
+     60          
+     61          /* Private define ------------------------------------------------------------*/
+     62          
+     63          #define ACK_NOERROR 0xF0
+     64          #define ACK_ERROR   0xFF
+     65          #define ATR_FRAME_START 0xE0
+     66          
+     67          #define MC_PROTOCOL_CODE_NONE        0x00
+     68          
+     69          /* List of error codes */
+     70          typedef enum ERROR_CODE_e
+     71          {
+     72          	ERROR_NONE = 0,             /**<  0x00 - No error */
+     73          	ERROR_BAD_FRAME_ID,         /**<  0x01 - BAD Frame ID. The Frame ID has not been recognized by the firmware. */
+     74          	ERROR_CODE_SET_READ_ONLY,   /**<  0x02 - Write on read-only. The master wants to write on a read-only register. */
+     75          	ERROR_CODE_GET_WRITE_ONLY,  /**<  0x03 - Read not allowed. The value cannot be read. */
+     76          	ERROR_CODE_NO_TARGET_DRIVE, /**<  0x04 - Bad target drive. The target motor is not supported by the firmware. */
+     77          	ERROR_CODE_WRONG_SET,       /**<  0x05 - Value used in the frame is out of range expected by the FW. */
+     78          	ERROR_CODE_CMD_ID,          /**<  0x06 - NOT USED */
+     79          	ERROR_CODE_WRONG_CMD,       /**<  0x07 - Bad command ID. The command ID has not been recognized. */
+     80          	ERROR_CODE_OVERRUN,         /**<  0x08 - Overrun error. Transmission speed too fast, frame not received correctly */
+     81          	ERROR_CODE_TIMEOUT,         /**<  0x09 - Timeout error. Received frame corrupted or unrecognized by the FW. */
+     82          	ERROR_CODE_BAD_CRC,         /**<  0x0A - The computed CRC is not equal to the received CRC byte. */
+     83          	ERROR_BAD_MOTOR_SELECTED,   /**<  0x0B - Bad target drive. The target motor is not supported by the firmware. */
+     84          	ERROR_MP_NOT_ENABLED        /**<  0x0C - Motor Profiler not enabled. */
+     85          } ERROR_CODE;
+     86          
+
+   \                                 In section .bss, align 4
+     87          MPInfo_t MPInfo = {0, 0};
+   \                     MPInfo:
+   \        0x0                      DS8 8
+     88          
+     89          /**
+     90          * @brief  Initializes  MCP component parameters
+     91          *
+     92          * @param  pHandle Pointer on the handle of the component to initialize.
+     93          * @param  pFCP Pointer on Frame communication protocol component's handle to use.
+     94          * @param  fFcpSend Pointer on FCP's send message function
+     95          * @param  fFcpReceive Pointer on FCP's receive message function
+     96          * @param  fFcpAbortReceive Pointer on FCP's abort receive message function
+     97          * @param  pDAC Pointer on DAC component.
+     98          * @param  s_fwVer Pointer on string containing FW release version.
+     99          */
+
+   \                                 In section .text, align 4
+    100          __weak void MCP_Init( MCP_Handle_t *pHandle, 
+    101                         FCP_Handle_t * pFCP,
+    102                         FCP_SendFct_t fFcpSend, 
+    103                         FCP_ReceiveFct_t fFcpReceive, 
+    104                         FCP_AbortReceiveFct_t fFcpAbortReceive, 
+    105                         DAC_UI_Handle_t * pDAC, 
+    106                         const char* s_fwVer )
+    107          {
+   \                     MCP_Init: (+1)
+   \        0x0   0xB5F8             PUSH     {R3-R7,LR}
+   \        0x2   0x4604             MOV      R4,R0
+   \        0x4   0x4608             MOV      R0,R1
+   \        0x6   0x4615             MOV      R5,R2
+   \        0x8   0x461E             MOV      R6,R3
+   \        0xA   0x9F06             LDR      R7,[SP, #+24]
+   \        0xC   0x9907             LDR      R1,[SP, #+28]
+   \        0xE   0x9A08             LDR      R2,[SP, #+32]
+    108            pHandle->pFCP = pFCP;
+   \       0x10   0x6320             STR      R0,[R4, #+48]
+    109            pHandle->pDAC = pDAC;
+   \       0x12   0xF104 0x03C0      ADD      R3,R4,#+192
+   \       0x16   0x6059             STR      R1,[R3, #+4]
+    110            pHandle->s_fwVer = s_fwVer;
+   \       0x18   0x601A             STR      R2,[R3, #+0]
+    111            FCP_SetClient( pFCP, pHandle,
+    112                           (FCP_SentFrameCallback_t) & MCP_SentFrame,
+    113                           (FCP_ReceivedFrameCallback_t) & MCP_ReceivedFrame,
+    114                           (FCP_RxTimeoutCallback_t) & MCP_OnTimeOut );
+   \       0x1A   0x4907             LDR.N    R1,??MCP_Init_0
+   \       0x1C   0x4B07             LDR.N    R3,??MCP_Init_0+0x4
+   \       0x1E   0x4A08             LDR.N    R2,??MCP_Init_0+0x8
+   \       0x20   0x9100             STR      R1,[SP, #+0]
+   \       0x22   0x4621             MOV      R1,R4
+   \       0x24   0x....'....        BL       FCP_SetClient
+    115            pHandle->fFcpSend = fFcpSend;
+   \       0x28   0x6365             STR      R5,[R4, #+52]
+    116            pHandle->fFcpReceive = fFcpReceive;
+   \       0x2A   0x63A6             STR      R6,[R4, #+56]
+    117            pHandle->fFcpAbortReceive = fFcpAbortReceive;
+   \       0x2C   0x63E7             STR      R7,[R4, #+60]
+    118          
+    119            MCP_WaitNextFrame(pHandle);
+   \       0x2E   0x4620             MOV      R0,R4
+   \       0x30   0xE8BD 0x40F2      POP      {R1,R4-R7,LR}
+   \       0x34   0x....'....        B.W      MCP_WaitNextFrame
+   \                     ??MCP_Init_0:
+   \       0x38   0x....'....        DC32     MCP_OnTimeOut
+   \       0x3C   0x....'....        DC32     MCP_ReceivedFrame
+   \       0x40   0x....'....        DC32     MCP_SentFrame
+    120          }
+    121          
+    122          /**
+    123          * @brief  Function used to set and report the Time Out.
+    124          *
+    125          * @param  pHandle Pointer on the handle of the component.
+    126          */
+
+   \                                 In section .text, align 2
+    127          __weak void MCP_OnTimeOut(MCP_Handle_t *pHandle)
+    128          {
+    129               MCP_WaitNextFrame(pHandle);
+   \                     MCP_OnTimeOut: (+1)
+   \        0x0   0x....'....        B.W      MCP_WaitNextFrame
+    130          }
+    131          
+    132          /**
+    133          * @brief  Function used to check next reception frame
+    134          *
+    135          * @param  pHandle Pointer on the handle of the component.
+    136          */
+
+   \                                 In section .text, align 2
+    137          __weak void MCP_WaitNextFrame(MCP_Handle_t *pHandle)
+    138          {
+   \                     MCP_WaitNextFrame: (+1)
+   \        0x0   0xB510             PUSH     {R4,LR}
+   \        0x2   0x4604             MOV      R4,R0
+    139            pHandle->fFcpAbortReceive(pHandle->pFCP);
+   \        0x4   0x6B20             LDR      R0,[R4, #+48]
+   \        0x6   0x6BE1             LDR      R1,[R4, #+60]
+   \        0x8   0x4788             BLX      R1
+    140            pHandle->BufferSize = FCP_MAX_PAYLOAD_SIZE;
+   \        0xA   0x2080             MOVS     R0,#+128
+   \        0xC   0xF884 0x00C8      STRB     R0,[R4, #+200]
+    141            pHandle->fFcpReceive(pHandle->pFCP);
+   \       0x10   0x6BA1             LDR      R1,[R4, #+56]
+   \       0x12   0x6B20             LDR      R0,[R4, #+48]
+   \       0x14   0xE8BD 0x4010      POP      {R4,LR}
+   \       0x18   0x4708             BX       R1
+    142          }
+    143          
+    144          /**
+    145          * @brief  Function used to transmit the data
+    146          *
+    147          * @param  pHandle Pointer on the handle of the component.
+    148          * @param  Code code value of frame to send.
+    149          * @param  buffer frame data buffer.
+    150          * @param  Size size of data frame.
+    151          */
+
+   \                                 In section .text, align 2
+    152          __weak void MCP_SentFrame(MCP_Handle_t *pHandle, uint8_t Code, uint8_t *buffer, uint8_t Size)
+    153          {
+    154              MCP_WaitNextFrame(pHandle);
+   \                     MCP_SentFrame: (+1)
+   \        0x0   0x....'....        B.W      MCP_WaitNextFrame
+    155          }
+    156          
+    157          /**
+    158          * @brief  Function used to decode received data
+    159          *
+    160          * @param  pHandle Pointer on the handle of the component.
+    161          * @param  Code code value of frame to send.
+    162          * @param  buffer frame data buffer.
+    163          * @param  Size size of data frame.
+    164          */
+
+   \                                 In section .text, align 4
+    165          __weak void MCP_ReceivedFrame(MCP_Handle_t *pHandle, uint8_t Code, uint8_t *buffer, uint8_t Size)
+    166          {
+   \                     MCP_ReceivedFrame: (+1)
+   \        0x0   0xE92D 0x43F8      PUSH     {R3-R9,LR}
+   \        0x4   0xB08A             SUB      SP,SP,#+40
+   \        0x6   0x4605             MOV      R5,R0
+   \        0x8   0x4688             MOV      R8,R1
+    167            bool RequireAck = true;
+    168            bool bNoError = false; // Default is error
+   \        0xA   0x2000             MOVS     R0,#+0
+    169            uint8_t bErrorCode;
+    170          
+    171            /* Protocol version >3.3 motor selection inside Frame ID */
+    172            uint8_t bMotorSelection = (Code & 0xE0) >> 5; /* Mask: 1110|0000 */
+   \        0xC   0xEA5F 0x1458      LSRS     R4,R8,#+5
+   \       0x10   0x4617             MOV      R7,R2
+   \       0x12   0x4699             MOV      R9,R3
+   \       0x14   0xF88D 0x0004      STRB     R0,[SP, #+4]
+    173            if (bMotorSelection != 0)
+   \       0x18   0xF105 0x06C0      ADD      R6,R5,#+192
+   \       0x1C   0xD012             BEQ.N    ??MCP_ReceivedFrame_2
+    174            {
+    175              if (UI_SetReg(&pHandle->_Super, MC_PROTOCOL_REG_TARGET_MOTOR, bMotorSelection - 1))
+   \       0x1E   0x1E64             SUBS     R4,R4,#+1
+   \       0x20   0x4622             MOV      R2,R4
+   \       0x22   0x2100             MOVS     R1,#+0
+   \       0x24   0x4628             MOV      R0,R5
+   \       0x26   0x....'....        BL       UI_SetReg
+   \       0x2A   0xB918             CBNZ.N   R0,??MCP_ReceivedFrame_3
+   \       0x2C   0x200B             MOVS     R0,#+11
+   \       0x2E   0xF88D 0x0005      STRB     R0,[SP, #+5]
+   \       0x32   0xE1E9             B.N      ??MCP_ReceivedFrame_4
+    176              {
+    177                Code &= 0x1F; /* Mask: 0001|1111 */
+    178          
+    179                /* Change also the DAC selected motor */
+    180                if (pHandle->pDAC)
+   \                     ??MCP_ReceivedFrame_3: (+1)
+   \       0x34   0x6870             LDR      R0,[R6, #+4]
+   \       0x36   0xF008 0x081F      AND      R8,R8,#0x1F
+   \       0x3A   0xB118             CBZ.N    R0,??MCP_ReceivedFrame_2
+    181                {
+    182                  UI_SetReg(&pHandle->pDAC->_Super, MC_PROTOCOL_REG_TARGET_MOTOR, bMotorSelection - 1);
+   \       0x3C   0x4622             MOV      R2,R4
+   \       0x3E   0x2100             MOVS     R1,#+0
+   \       0x40   0x....'....        BL       UI_SetReg
+    183                }
+    184              }
+    185              else
+    186              {
+    187                Code = MC_PROTOCOL_CODE_NONE; /* Error */
+    188                bErrorCode = ERROR_BAD_MOTOR_SELECTED;
+    189              }
+    190            }
+    191          
+    192            switch (Code)
+   \                     ??MCP_ReceivedFrame_2: (+1)
+   \       0x44   0xF1B8 0x0F12      CMP      R8,#+18
+   \       0x48   0xF200 0x81DB      BHI.W    ??MCP_ReceivedFrame_5
+   \       0x4C   0xE8DF 0xF018      TBH      [PC, R8, LSL #+1]
+   \                     ??MCP_ReceivedFrame_0:
+   \       0x50   0x01DC 0x0013      DC16     0x1DC,0x13,0x71,0xFD
+
+   \               0x0071 0x00F
+
+   \              D
+   \       0x58   0x01D9 0x01D9      DC16     0x1D9,0x1D9,0x105,0x12C
+
+   \               0x0105 0x012
+
+   \              C
+   \       0x60   0x014D 0x017D      DC16     0x14D,0x17D,0x19F,0x1AD
+
+   \               0x019F 0x01A
+
+   \              D
+   \       0x68   0x01BE 0x013F      DC16     0x1BE,0x13F,0x1D9,0x1D9
+
+   \               0x01D9 0x01D
+
+   \              9
+   \       0x70   0x01D9 0x01D9      DC16     0x1D9,0x1D9,0x1DC
+
+   \               0x01DC
+    193            {
+    194            case MC_PROTOCOL_CODE_SET_REG:
+    195              {
+    196                MC_Protocol_REG_t bRegID = (MC_Protocol_REG_t)buffer[0];
+   \                     ??MCP_ReceivedFrame_6: (+1)
+   \       0x76   0x7839             LDRB     R1,[R7, #+0]
+    197                bErrorCode = ERROR_CODE_WRONG_SET;
+   \       0x78   0x2005             MOVS     R0,#+5
+    198          
+    199                switch (bRegID)
+   \       0x7A   0x000A             MOVS     R2,R1
+   \       0x7C   0xF88D 0x0005      STRB     R0,[SP, #+5]
+   \       0x80   0xD02B             BEQ.N    ??MCP_ReceivedFrame_7
+   \       0x82   0x1ECA             SUBS     R2,R1,#+3
+   \       0x84   0xD032             BEQ.N    ??MCP_ReceivedFrame_8
+   \       0x86   0x1E92             SUBS     R2,R2,#+2
+   \       0x88   0x2A0A             CMP      R2,#+10
+   \       0x8A   0xD93B             BLS.N    ??MCP_ReceivedFrame_9
+   \       0x8C   0x3A0B             SUBS     R2,R2,#+11
+   \       0x8E   0x2A01             CMP      R2,#+1
+   \       0x90   0xD93D             BLS.N    ??MCP_ReceivedFrame_10
+   \       0x92   0x1F12             SUBS     R2,R2,#+4
+   \       0x94   0x2A04             CMP      R2,#+4
+   \       0x96   0xD935             BLS.N    ??MCP_ReceivedFrame_9
+   \       0x98   0x3A08             SUBS     R2,R2,#+8
+   \       0x9A   0xD029             BEQ.N    ??MCP_ReceivedFrame_11
+   \       0x9C   0x1E52             SUBS     R2,R2,#+1
+   \       0x9E   0xD02B             BEQ.N    ??MCP_ReceivedFrame_12
+   \       0xA0   0x3A24             SUBS     R2,R2,#+36
+   \       0xA2   0xD02F             BEQ.N    ??MCP_ReceivedFrame_9
+   \       0xA4   0x1F52             SUBS     R2,R2,#+5
+   \       0xA6   0x2A02             CMP      R2,#+2
+   \       0xA8   0xD931             BLS.N    ??MCP_ReceivedFrame_10
+   \       0xAA   0x3A09             SUBS     R2,R2,#+9
+   \       0xAC   0xD02A             BEQ.N    ??MCP_ReceivedFrame_9
+   \       0xAE   0x1F12             SUBS     R2,R2,#+4
+   \       0xB0   0x2A06             CMP      R2,#+6
+   \       0xB2   0xD927             BLS.N    ??MCP_ReceivedFrame_9
+   \       0xB4   0x3A08             SUBS     R2,R2,#+8
+   \       0xB6   0xD02A             BEQ.N    ??MCP_ReceivedFrame_10
+   \       0xB8   0x1F92             SUBS     R2,R2,#+6
+   \       0xBA   0xD023             BEQ.N    ??MCP_ReceivedFrame_9
+   \       0xBC   0x1ED2             SUBS     R2,R2,#+3
+   \       0xBE   0x2A01             CMP      R2,#+1
+   \       0xC0   0xD920             BLS.N    ??MCP_ReceivedFrame_9
+   \       0xC2   0x3A10             SUBS     R2,R2,#+16
+   \       0xC4   0xD012             BEQ.N    ??MCP_ReceivedFrame_8
+   \       0xC6   0x1E52             SUBS     R2,R2,#+1
+   \       0xC8   0x2A04             CMP      R2,#+4
+   \       0xCA   0xBF84             ITT      HI
+   \       0xCC   0x3A08             SUBHI    R2,R2,#+8
+   \       0xCE   0x2A01             CMPHI    R2,#+1
+   \       0xD0   0xD91D             BLS.N    ??MCP_ReceivedFrame_10
+   \       0xD2   0x3A09             SUBS     R2,R2,#+9
+   \       0xD4   0x2A02             CMP      R2,#+2
+   \       0xD6   0xD915             BLS.N    ??MCP_ReceivedFrame_9
+   \       0xD8   0xE027             B.N      ??MCP_ReceivedFrame_13
+    200                {
+    201                case MC_PROTOCOL_REG_TARGET_MOTOR:
+    202                  {
+    203                    /* Deprecated */
+    204                    int32_t wValue = (int32_t)(buffer[1]);
+   \                     ??MCP_ReceivedFrame_7: (+1)
+   \       0xDA   0x787C             LDRB     R4,[R7, #+1]
+    205          
+    206                    UI_SetReg(&pHandle->pDAC->_Super, bRegID, wValue);
+   \       0xDC   0x6870             LDR      R0,[R6, #+4]
+   \       0xDE   0x4622             MOV      R2,R4
+   \       0xE0   0x2100             MOVS     R1,#+0
+   \       0xE2   0x....'....        BL       UI_SetReg
+    207                    bNoError = UI_SetReg(&pHandle->_Super, bRegID, wValue);
+   \       0xE6   0x4622             MOV      R2,R4
+   \       0xE8   0x2100             MOVS     R1,#+0
+   \       0xEA   0xE01A             B.N      ??MCP_ReceivedFrame_14
+    208                  }
+    209                  break;
+    210                case MC_PROTOCOL_REG_CONTROL_MODE:
+    211                case MC_PROTOCOL_REG_SC_PP:
+    212                  {
+    213                    /* 8bit variables */
+    214                    bNoError = UI_SetReg(&pHandle->_Super, bRegID, (int32_t)(buffer[1]));
+   \                     ??MCP_ReceivedFrame_8: (+1)
+   \       0xEC   0x787A             LDRB     R2,[R7, #+1]
+   \       0xEE   0xE018             B.N      ??MCP_ReceivedFrame_14
+    215                  }
+    216                  break;
+    217          
+    218                case MC_PROTOCOL_REG_DAC_OUT1:
+    219                  {
+    220                    UI_SetDAC(&pHandle->pDAC->_Super, DAC_CH0, (MC_Protocol_REG_t)(buffer[1]));
+   \                     ??MCP_ReceivedFrame_11: (+1)
+   \       0xF0   0x787A             LDRB     R2,[R7, #+1]
+   \       0xF2   0x6870             LDR      R0,[R6, #+4]
+   \       0xF4   0x2100             MOVS     R1,#+0
+   \       0xF6   0xE002             B.N      ??MCP_ReceivedFrame_15
+    221                    bNoError = true; /* No check inside class return always true*/
+    222                  }
+    223                  break;
+    224          
+    225                case MC_PROTOCOL_REG_DAC_OUT2:
+    226                  {
+    227                    UI_SetDAC(&pHandle->pDAC->_Super, DAC_CH1, (MC_Protocol_REG_t)(buffer[1]));
+   \                     ??MCP_ReceivedFrame_12: (+1)
+   \       0xF8   0x787A             LDRB     R2,[R7, #+1]
+   \       0xFA   0x6870             LDR      R0,[R6, #+4]
+   \       0xFC   0x2101             MOVS     R1,#+1
+   \                     ??MCP_ReceivedFrame_15: (+1)
+   \       0xFE   0x....'....        BL       UI_SetDAC
+    228                    bNoError = true; /* No check inside class return always true*/
+   \      0x102   0xE0CD             B.N      ??MCP_ReceivedFrame_16
+    229                  }
+    230                  break;
+    231          
+    232                case MC_PROTOCOL_REG_TORQUE_REF:
+    233                case MC_PROTOCOL_REG_FLUX_REF:
+    234                case MC_PROTOCOL_REG_SPEED_KP:
+    235                case MC_PROTOCOL_REG_SPEED_KI:
+    236                case MC_PROTOCOL_REG_SPEED_KD:
+    237                case MC_PROTOCOL_REG_TORQUE_KP:
+    238                case MC_PROTOCOL_REG_TORQUE_KI:
+    239                case MC_PROTOCOL_REG_TORQUE_KD:
+    240                case MC_PROTOCOL_REG_FLUX_KP:
+    241                case MC_PROTOCOL_REG_FLUX_KI:
+    242                case MC_PROTOCOL_REG_FLUX_KD:
+    243                case MC_PROTOCOL_REG_PLL_KI:
+    244                case MC_PROTOCOL_REG_PLL_KP:
+    245                case MC_PROTOCOL_REG_FLUXWK_KP:
+    246                case MC_PROTOCOL_REG_FLUXWK_KI:
+    247                case MC_PROTOCOL_REG_FLUXWK_BUS:
+    248                case MC_PROTOCOL_REG_IQ_SPEEDMODE:
+    249                case MC_PROTOCOL_REG_PFC_DCBUS_REF:
+    250                case MC_PROTOCOL_REG_PFC_I_KP:
+    251                case MC_PROTOCOL_REG_PFC_I_KI:
+    252                case MC_PROTOCOL_REG_PFC_I_KD:
+    253                case MC_PROTOCOL_REG_PFC_V_KP:
+    254                case MC_PROTOCOL_REG_PFC_V_KI:
+    255                case MC_PROTOCOL_REG_PFC_V_KD:
+    256                case MC_PROTOCOL_REG_PFC_STARTUP_DURATION:
+    257                case MC_PROTOCOL_REG_HFI_INIT_ANG_SAT_DIFF:
+    258                case MC_PROTOCOL_REG_HFI_PI_TRACK_KP:
+    259                case MC_PROTOCOL_REG_HFI_PI_TRACK_KI:
+    260                case MC_PROTOCOL_REG_POSITION_KP:
+    261                case MC_PROTOCOL_REG_POSITION_KI:
+    262                case MC_PROTOCOL_REG_POSITION_KD:
+    263                  {
+    264                    /* 16bit variables */
+    265                    int32_t wValue = buffer[1] + (buffer[2] << 8);
+    266                    bNoError = UI_SetReg(&pHandle->_Super, bRegID, wValue);
+   \                     ??MCP_ReceivedFrame_9: (+1)
+   \      0x104   0x7878             LDRB     R0,[R7, #+1]
+   \      0x106   0x78BA             LDRB     R2,[R7, #+2]
+   \      0x108   0xEB00 0x2202      ADD      R2,R0,R2, LSL #+8
+   \      0x10C   0xE009             B.N      ??MCP_ReceivedFrame_14
+    267                  }
+    268                  break;
+    269          
+    270                case MC_PROTOCOL_REG_OBSERVER_C1:
+    271                case MC_PROTOCOL_REG_OBSERVER_C2:
+    272                case MC_PROTOCOL_REG_FF_1Q:
+    273                case MC_PROTOCOL_REG_FF_1D:
+    274                case MC_PROTOCOL_REG_FF_2:
+    275                case MC_PROTOCOL_REG_RAMP_FINAL_SPEED:
+    276                case MC_PROTOCOL_REG_SC_CURRENT:
+    277                case MC_PROTOCOL_REG_SC_SPDBANDWIDTH:
+    278                case MC_PROTOCOL_REG_SC_LDLQRATIO:
+    279                case MC_PROTOCOL_REG_SC_NOMINAL_SPEED:
+    280                case MC_PROTOCOL_REG_SC_CURRBANDWIDTH:
+    281                case MC_PROTOCOL_REG_SC_STARTUP_SPEED:
+    282                case MC_PROTOCOL_REG_SC_STARTUP_ACC:
+    283                  {
+    284                    /* 32bit variables */
+    285                    int32_t wValue = buffer[1] + (buffer[2] << 8) + (buffer[3] << 16) + (buffer[4] << 24);
+    286                    bNoError = UI_SetReg(&pHandle->_Super, bRegID, wValue);
+   \                     ??MCP_ReceivedFrame_10: (+1)
+   \      0x10E   0x7878             LDRB     R0,[R7, #+1]
+   \      0x110   0x78BA             LDRB     R2,[R7, #+2]
+   \      0x112   0x793B             LDRB     R3,[R7, #+4]
+   \      0x114   0xEB00 0x2202      ADD      R2,R0,R2, LSL #+8
+   \      0x118   0x78F8             LDRB     R0,[R7, #+3]
+   \      0x11A   0xEB02 0x4200      ADD      R2,R2,R0, LSL #+16
+   \      0x11E   0xEB02 0x6203      ADD      R2,R2,R3, LSL #+24
+   \                     ??MCP_ReceivedFrame_14: (+1)
+   \      0x122   0x4628             MOV      R0,R5
+   \      0x124   0x....'....        BL       UI_SetReg
+   \      0x128   0xE12E             B.N      ??MCP_ReceivedFrame_17
+    287                  }
+    288                  break;
+    289          
+    290                default:
+    291                  {
+    292                    bErrorCode = ERROR_CODE_SET_READ_ONLY;
+   \                     ??MCP_ReceivedFrame_13: (+1)
+   \      0x12A   0x2102             MOVS     R1,#+2
+   \      0x12C   0xF88D 0x1005      STRB     R1,[SP, #+5]
+    293                  }
+    294                  break;
+   \      0x130   0xE16A             B.N      ??MCP_ReceivedFrame_4
+    295                }
+    296              }
+    297              break;
+    298          
+    299            case MC_PROTOCOL_CODE_GET_REG:
+    300              {
+    301                MC_Protocol_REG_t bRegID = (MC_Protocol_REG_t)buffer[0];
+   \                     ??MCP_ReceivedFrame_18: (+1)
+   \      0x132   0x7839             LDRB     R1,[R7, #+0]
+    302                bErrorCode = ERROR_CODE_GET_WRITE_ONLY;
+   \      0x134   0x2203             MOVS     R2,#+3
+    303          
+    304                switch (bRegID)
+   \      0x136   0x0008             MOVS     R0,R1
+   \      0x138   0xF88D 0x2005      STRB     R2,[SP, #+5]
+   \      0x13C   0xD04D             BEQ.N    ??MCP_ReceivedFrame_19
+   \      0x13E   0x1E48             SUBS     R0,R1,#+1
+   \      0x140   0xD076             BEQ.N    ??MCP_ReceivedFrame_20
+   \      0x142   0x1E40             SUBS     R0,R0,#+1
+   \      0x144   0x2801             CMP      R0,#+1
+   \      0x146   0xD948             BLS.N    ??MCP_ReceivedFrame_19
+   \      0x148   0x1E80             SUBS     R0,R0,#+2
+   \      0x14A   0xD071             BEQ.N    ??MCP_ReceivedFrame_20
+   \      0x14C   0x1E40             SUBS     R0,R0,#+1
+   \      0x14E   0x2816             CMP      R0,#+22
+   \      0x150   0xD963             BLS.N    ??MCP_ReceivedFrame_21
+   \      0x152   0x3817             SUBS     R0,R0,#+23
+   \      0x154   0xD04C             BEQ.N    ??MCP_ReceivedFrame_22
+   \      0x156   0x1E40             SUBS     R0,R0,#+1
+   \      0x158   0xD054             BEQ.N    ??MCP_ReceivedFrame_23
+   \      0x15A   0x1E40             SUBS     R0,R0,#+1
+   \      0x15C   0xD068             BEQ.N    ??MCP_ReceivedFrame_20
+   \      0x15E   0x1E40             SUBS     R0,R0,#+1
+   \      0x160   0x2802             CMP      R0,#+2
+   \      0x162   0xD95A             BLS.N    ??MCP_ReceivedFrame_21
+   \      0x164   0x1EC0             SUBS     R0,R0,#+3
+   \      0x166   0xD038             BEQ.N    ??MCP_ReceivedFrame_19
+   \      0x168   0x381F             SUBS     R0,R0,#+31
+   \      0x16A   0xD056             BEQ.N    ??MCP_ReceivedFrame_21
+   \      0x16C   0x1F40             SUBS     R0,R0,#+5
+   \      0x16E   0x2802             CMP      R0,#+2
+   \      0x170   0xD95E             BLS.N    ??MCP_ReceivedFrame_20
+   \      0x172   0x1EC0             SUBS     R0,R0,#+3
+   \      0x174   0x2803             CMP      R0,#+3
+   \      0x176   0xD950             BLS.N    ??MCP_ReceivedFrame_21
+   \      0x178   0x1F00             SUBS     R0,R0,#+4
+   \      0x17A   0xD02E             BEQ.N    ??MCP_ReceivedFrame_19
+   \      0x17C   0x1E40             SUBS     R0,R0,#+1
+   \      0x17E   0xD057             BEQ.N    ??MCP_ReceivedFrame_20
+   \      0x180   0x1E40             SUBS     R0,R0,#+1
+   \      0x182   0x280A             CMP      R0,#+10
+   \      0x184   0xD949             BLS.N    ??MCP_ReceivedFrame_21
+   \      0x186   0x380B             SUBS     R0,R0,#+11
+   \      0x188   0xD027             BEQ.N    ??MCP_ReceivedFrame_19
+   \      0x18A   0x1E40             SUBS     R0,R0,#+1
+   \      0x18C   0xD050             BEQ.N    ??MCP_ReceivedFrame_20
+   \      0x18E   0x1E80             SUBS     R0,R0,#+2
+   \      0x190   0x2804             CMP      R0,#+4
+   \      0x192   0xBF84             ITT      HI
+   \      0x194   0x1FC0             SUBHI    R0,R0,#+7
+   \      0x196   0x2801             CMPHI    R0,#+1
+   \      0x198   0xD93F             BLS.N    ??MCP_ReceivedFrame_21
+   \      0x19A   0x1E80             SUBS     R0,R0,#+2
+   \      0x19C   0x2801             CMP      R0,#+1
+   \      0x19E   0xD91C             BLS.N    ??MCP_ReceivedFrame_19
+   \      0x1A0   0x1E80             SUBS     R0,R0,#+2
+   \      0x1A2   0x2804             CMP      R0,#+4
+   \      0x1A4   0xD944             BLS.N    ??MCP_ReceivedFrame_20
+   \      0x1A6   0x1F40             SUBS     R0,R0,#+5
+   \      0x1A8   0xD017             BEQ.N    ??MCP_ReceivedFrame_19
+   \      0x1AA   0x1E40             SUBS     R0,R0,#+1
+   \      0x1AC   0x2801             CMP      R0,#+1
+   \      0x1AE   0xD934             BLS.N    ??MCP_ReceivedFrame_21
+   \      0x1B0   0x1E80             SUBS     R0,R0,#+2
+   \      0x1B2   0xD03D             BEQ.N    ??MCP_ReceivedFrame_20
+   \      0x1B4   0x1E80             SUBS     R0,R0,#+2
+   \      0x1B6   0x2801             CMP      R0,#+1
+   \      0x1B8   0xD92F             BLS.N    ??MCP_ReceivedFrame_21
+   \      0x1BA   0x1E80             SUBS     R0,R0,#+2
+   \      0x1BC   0xD00D             BEQ.N    ??MCP_ReceivedFrame_19
+   \      0x1BE   0x1E40             SUBS     R0,R0,#+1
+   \      0x1C0   0x280A             CMP      R0,#+10
+   \      0x1C2   0xD935             BLS.N    ??MCP_ReceivedFrame_20
+   \      0x1C4   0x380B             SUBS     R0,R0,#+11
+   \      0x1C6   0xD008             BEQ.N    ??MCP_ReceivedFrame_19
+   \      0x1C8   0x1E80             SUBS     R0,R0,#+2
+   \      0x1CA   0xD006             BEQ.N    ??MCP_ReceivedFrame_19
+   \      0x1CC   0x1E40             SUBS     R0,R0,#+1
+   \      0x1CE   0x2802             CMP      R0,#+2
+   \      0x1D0   0xD92E             BLS.N    ??MCP_ReceivedFrame_20
+   \      0x1D2   0x1EC0             SUBS     R0,R0,#+3
+   \      0x1D4   0x2802             CMP      R0,#+2
+   \      0x1D6   0xD920             BLS.N    ??MCP_ReceivedFrame_21
+   \                     ??MCP_ReceivedFrame_24: (+1)
+   \      0x1D8   0xE116             B.N      ??MCP_ReceivedFrame_4
+    305                {
+    306                case MC_PROTOCOL_REG_TARGET_MOTOR:
+    307                case MC_PROTOCOL_REG_STATUS:
+    308                case MC_PROTOCOL_REG_CONTROL_MODE:
+    309                case MC_PROTOCOL_REG_RUC_STAGE_NBR:
+    310                case MC_PROTOCOL_REG_PFC_STATUS:
+    311                case MC_PROTOCOL_REG_PFC_ENABLED:
+    312                case MC_PROTOCOL_REG_SC_CHECK:
+    313                case MC_PROTOCOL_REG_SC_STATE:
+    314                case MC_PROTOCOL_REG_SC_STEPS:
+    315                case MC_PROTOCOL_REG_SC_PP:
+    316                case MC_PROTOCOL_REG_SC_FOC_REP_RATE:
+    317                case MC_PROTOCOL_REG_SC_COMPLETED:
+    318                  {
+    319                    /* 8bit variables */
+    320                    int32_t value = UI_GetReg( &pHandle->_Super, bRegID, &bNoError );
+   \                     ??MCP_ReceivedFrame_19: (+1)
+   \      0x1DA   0xAA01             ADD      R2,SP,#+4
+   \      0x1DC   0x4628             MOV      R0,R5
+   \      0x1DE   0x....'....        BL       UI_GetReg
+   \      0x1E2   0x9000             STR      R0,[SP, #+0]
+    321                     if ( bNoError == true )
+   \      0x1E4   0xF89D 0x0004      LDRB     R0,[SP, #+4]
+   \      0x1E8   0x2801             CMP      R0,#+1
+   \      0x1EA   0xD1F5             BNE.N    ??MCP_ReceivedFrame_24
+    322                    {
+    323                      pHandle->fFcpSend(pHandle->pFCP, ACK_NOERROR, (uint8_t*)(&value), 1);
+   \      0x1EC   0x2301             MOVS     R3,#+1
+   \      0x1EE   0xE029             B.N      ??MCP_ReceivedFrame_25
+    324                      RequireAck = false;
+    325                    }
+    326                  }
+    327                  break;
+    328          
+    329                case MC_PROTOCOL_REG_DAC_OUT1:
+    330                  {
+    331                    if (pHandle->pDAC)
+   \                     ??MCP_ReceivedFrame_22: (+1)
+   \      0x1F0   0x6870             LDR      R0,[R6, #+4]
+   \      0x1F2   0x2800             CMP      R0,#+0
+   \      0x1F4   0xD0F0             BEQ.N    ??MCP_ReceivedFrame_24
+    332                    {
+    333                      MC_Protocol_REG_t value = UI_GetDAC(&pHandle->pDAC->_Super, DAC_CH0);
+   \      0x1F6   0x2100             MOVS     R1,#+0
+   \      0x1F8   0x....'....        BL       UI_GetDAC
+   \      0x1FC   0xF88D 0x0000      STRB     R0,[SP, #+0]
+    334                      pHandle->fFcpSend(pHandle->pFCP, ACK_NOERROR, (uint8_t*)(&value), 1);
+   \      0x200   0x2301             MOVS     R3,#+1
+   \      0x202   0xE01F             B.N      ??MCP_ReceivedFrame_25
+    335                      bNoError = true;
+    336                      RequireAck = false;
+    337                    }
+    338                  }
+    339                  break;
+    340          
+    341                case MC_PROTOCOL_REG_DAC_OUT2:
+    342                  {
+    343                    if (pHandle->pDAC)
+   \                     ??MCP_ReceivedFrame_23: (+1)
+   \      0x204   0x6870             LDR      R0,[R6, #+4]
+   \      0x206   0x2800             CMP      R0,#+0
+   \      0x208   0xD0E6             BEQ.N    ??MCP_ReceivedFrame_24
+    344                    {
+    345                      MC_Protocol_REG_t value = UI_GetDAC(&pHandle->pDAC->_Super, DAC_CH1);
+   \      0x20A   0x2101             MOVS     R1,#+1
+   \      0x20C   0x....'....        BL       UI_GetDAC
+   \      0x210   0xF88D 0x0000      STRB     R0,[SP, #+0]
+    346                      pHandle->fFcpSend(pHandle->pFCP, ACK_NOERROR, (uint8_t*)(&value), 1);
+   \      0x214   0x2301             MOVS     R3,#+1
+   \      0x216   0x466A             MOV      R2,SP
+   \      0x218   0xE03E             B.N      ??MCP_ReceivedFrame_26
+    347                      bNoError = true;
+    348                    }
+    349                  }
+    350                  break;
+    351          
+    352                case MC_PROTOCOL_REG_SPEED_KP:
+    353                case MC_PROTOCOL_REG_SPEED_KP_DIV:
+    354                case MC_PROTOCOL_REG_SPEED_KI:
+    355                case MC_PROTOCOL_REG_SPEED_KI_DIV:
+    356                case MC_PROTOCOL_REG_SPEED_KD:
+    357                case MC_PROTOCOL_REG_TORQUE_REF:
+    358                case MC_PROTOCOL_REG_TORQUE_KP:
+    359                case MC_PROTOCOL_REG_TORQUE_KI:
+    360                case MC_PROTOCOL_REG_TORQUE_KD:
+    361                case MC_PROTOCOL_REG_FLUX_REF:
+    362                case MC_PROTOCOL_REG_FLUX_KP:
+    363                case MC_PROTOCOL_REG_FLUX_KI:
+    364                case MC_PROTOCOL_REG_FLUX_KD:
+    365                case MC_PROTOCOL_REG_OBSERVER_C1:
+    366                case MC_PROTOCOL_REG_OBSERVER_C2:
+    367                case MC_PROTOCOL_REG_OBSERVER_CR_C1:
+    368                case MC_PROTOCOL_REG_OBSERVER_CR_C2:
+    369                case MC_PROTOCOL_REG_PLL_KP:
+    370                case MC_PROTOCOL_REG_PLL_KI:
+    371                case MC_PROTOCOL_REG_FLUXWK_KP:
+    372                case MC_PROTOCOL_REG_FLUXWK_KI:
+    373                case MC_PROTOCOL_REG_FLUXWK_BUS:
+    374                case MC_PROTOCOL_REG_BUS_VOLTAGE:
+    375                case MC_PROTOCOL_REG_HEATS_TEMP:
+    376                case MC_PROTOCOL_REG_MOTOR_POWER:
+    377                case MC_PROTOCOL_REG_TORQUE_MEAS:
+    378                case MC_PROTOCOL_REG_FLUX_MEAS:
+    379                case MC_PROTOCOL_REG_FLUXWK_BUS_MEAS:
+    380                case MC_PROTOCOL_REG_IQ_SPEEDMODE:
+    381                case MC_PROTOCOL_REG_FF_VQ:
+    382                case MC_PROTOCOL_REG_FF_VD:
+    383                case MC_PROTOCOL_REG_FF_VQ_PIOUT:
+    384                case MC_PROTOCOL_REG_FF_VD_PIOUT:
+    385                case MC_PROTOCOL_REG_PFC_DCBUS_REF:
+    386                case MC_PROTOCOL_REG_PFC_DCBUS_MEAS:
+    387                case MC_PROTOCOL_REG_PFC_ACBUS_FREQ:
+    388                case MC_PROTOCOL_REG_PFC_ACBUS_RMS:
+    389                case MC_PROTOCOL_REG_PFC_I_KP:
+    390                case MC_PROTOCOL_REG_PFC_I_KI:
+    391                case MC_PROTOCOL_REG_PFC_I_KD:
+    392                case MC_PROTOCOL_REG_PFC_V_KP:
+    393                case MC_PROTOCOL_REG_PFC_V_KI:
+    394                case MC_PROTOCOL_REG_PFC_V_KD:
+    395                case MC_PROTOCOL_REG_PFC_STARTUP_DURATION:
+    396                case MC_PROTOCOL_REG_HFI_EL_ANGLE:
+    397                case MC_PROTOCOL_REG_HFI_ROT_SPEED:
+    398                case MC_PROTOCOL_REG_HFI_CURRENT:
+    399                case MC_PROTOCOL_REG_HFI_INIT_ANG_PLL:
+    400                case MC_PROTOCOL_REG_HFI_INIT_ANG_SAT_DIFF:
+    401                case MC_PROTOCOL_REG_HFI_PI_TRACK_KP:
+    402                case MC_PROTOCOL_REG_HFI_PI_TRACK_KI:
+    403                case MC_PROTOCOL_REG_CTRBDID:
+    404                case MC_PROTOCOL_REG_PWBDID:
+    405                case MC_PROTOCOL_REG_POSITION_KP:
+    406                case MC_PROTOCOL_REG_POSITION_KI:
+    407                case MC_PROTOCOL_REG_POSITION_KD:
+    408                  {
+    409                    int32_t value = UI_GetReg( &pHandle->_Super, bRegID, &bNoError );
+   \                     ??MCP_ReceivedFrame_21: (+1)
+   \      0x21A   0xAA01             ADD      R2,SP,#+4
+   \      0x21C   0x4628             MOV      R0,R5
+   \      0x21E   0x....'....        BL       UI_GetReg
+   \      0x222   0x9000             STR      R0,[SP, #+0]
+    410                    if ( bNoError == true )
+   \      0x224   0xF89D 0x0004      LDRB     R0,[SP, #+4]
+   \      0x228   0x2801             CMP      R0,#+1
+   \      0x22A   0xD1D5             BNE.N    ??MCP_ReceivedFrame_24
+    411                    {
+    412                      /* 16bit variables */
+    413                      pHandle->fFcpSend(pHandle->pFCP, ACK_NOERROR, (uint8_t*)(&value), 2);
+   \      0x22C   0x2302             MOVS     R3,#+2
+   \      0x22E   0xE009             B.N      ??MCP_ReceivedFrame_25
+    414                      RequireAck = false;
+    415                    }
+    416                  }
+    417                  break;
+    418          
+    419                case MC_PROTOCOL_REG_FLAGS:
+    420                case MC_PROTOCOL_REG_SPEED_REF:
+    421                case MC_PROTOCOL_REG_SPEED_MEAS:
+    422                case MC_PROTOCOL_REG_FF_1Q:
+    423                case MC_PROTOCOL_REG_FF_1D:
+    424                case MC_PROTOCOL_REG_FF_2:
+    425                case MC_PROTOCOL_REG_PFC_FAULTS:
+    426                case MC_PROTOCOL_REG_RAMP_FINAL_SPEED:
+    427                case MC_PROTOCOL_REG_SC_RS:
+    428                case MC_PROTOCOL_REG_SC_LS:
+    429                case MC_PROTOCOL_REG_SC_KE:
+    430                case MC_PROTOCOL_REG_SC_VBUS:
+    431                case MC_PROTOCOL_REG_SC_MEAS_NOMINALSPEED:
+    432                case MC_PROTOCOL_REG_SC_CURRENT:
+    433                case MC_PROTOCOL_REG_SC_SPDBANDWIDTH:
+    434                case MC_PROTOCOL_REG_SC_LDLQRATIO:
+    435                case MC_PROTOCOL_REG_SC_NOMINAL_SPEED:
+    436                case MC_PROTOCOL_REG_SC_CURRBANDWIDTH:
+    437                case MC_PROTOCOL_REG_SC_J:
+    438                case MC_PROTOCOL_REG_SC_F:
+    439                case MC_PROTOCOL_REG_SC_MAX_CURRENT:
+    440                case MC_PROTOCOL_REG_SC_STARTUP_SPEED:
+    441                case MC_PROTOCOL_REG_SC_STARTUP_ACC:
+    442                case MC_PROTOCOL_REG_SC_PWM_FREQUENCY:
+    443                case MC_PROTOCOL_REG_UID:
+    444                  {
+    445                    int32_t value = UI_GetReg( &pHandle->_Super, bRegID, &bNoError);
+    446                    if ( bNoError == true )
+    447                    {
+    448                      /* 32bit variables */
+    449                      pHandle->fFcpSend(pHandle->pFCP, ACK_NOERROR, (uint8_t*)(&value), 4);
+    450                      RequireAck = false;
+    451                    }
+    452                  }
+    453                  break;
+    454          
+    455                case MC_PROTOCOL_REG_CURRENT_POSITION:
+    456                case MC_PROTOCOL_REG_TARGET_POSITION:
+    457                case MC_PROTOCOL_REG_MOVE_DURATION:
+    458                  {
+    459                    int32_t value = UI_GetReg( &pHandle->_Super, bRegID, &bNoError);
+   \                     ??MCP_ReceivedFrame_20: (+1)
+   \      0x230   0xAA01             ADD      R2,SP,#+4
+   \      0x232   0x4628             MOV      R0,R5
+   \      0x234   0x....'....        BL       UI_GetReg
+   \      0x238   0x9000             STR      R0,[SP, #+0]
+    460                    if ( bNoError == true )
+   \      0x23A   0xF89D 0x0004      LDRB     R0,[SP, #+4]
+   \      0x23E   0x2801             CMP      R0,#+1
+   \      0x240   0xD1CA             BNE.N    ??MCP_ReceivedFrame_24
+    461                    {
+    462                      /* 32bit variables */
+    463                      pHandle->fFcpSend(pHandle->pFCP, ACK_NOERROR, (uint8_t*)(&value), 4);
+   \      0x242   0x2304             MOVS     R3,#+4
+   \                     ??MCP_ReceivedFrame_25: (+1)
+   \      0x244   0x466A             MOV      R2,SP
+   \      0x246   0x21F0             MOVS     R1,#+240
+   \      0x248   0xE0EC             B.N      ??MCP_ReceivedFrame_27
+    464                      RequireAck = false;
+    465                    }
+    466                  }
+    467                  break;
+    468          
+    469                default:
+    470                  bErrorCode = ERROR_CODE_GET_WRITE_ONLY;
+    471                  break;
+    472                }
+    473              }
+    474              break;
+    475          
+    476            case MC_PROTOCOL_CODE_EXECUTE_CMD:
+    477              {
+    478                uint8_t bCmdID = buffer[0];
+   \                     ??MCP_ReceivedFrame_28: (+1)
+   \      0x24A   0x7839             LDRB     R1,[R7, #+0]
+    479                bErrorCode = ERROR_CODE_WRONG_CMD;
+   \      0x24C   0x2207             MOVS     R2,#+7
+   \      0x24E   0xF88D 0x2005      STRB     R2,[SP, #+5]
+    480                bNoError = UI_ExecCmd(&pHandle->_Super,bCmdID);
+   \      0x252   0x4628             MOV      R0,R5
+   \      0x254   0x....'....        BL       UI_ExecCmd
+   \      0x258   0xE096             B.N      ??MCP_ReceivedFrame_17
+    481              }
+    482              break;
+    483          
+    484            case MC_PROTOCOL_CODE_GET_BOARD_INFO:
+    485              {
+    486                /* GetBoardInfo */
+    487                unsigned char i;
+    488                uint8_t outBuff[32];
+    489                for (i = 0; i < 32; i++)
+    490                {
+    491                  outBuff[i] = 0;
+   \                     ??MCP_ReceivedFrame_29: (+1)
+   \      0x25A   0x2120             MOVS     R1,#+32
+   \      0x25C   0xA802             ADD      R0,SP,#+8
+   \      0x25E   0x....'....        BL       __aeabi_memclr4
+    492                }
+    493                for (i = 0; (i<29) && (pHandle->s_fwVer[i]!='\t'); i++)
+   \      0x262   0x2000             MOVS     R0,#+0
+   \      0x264   0xF10D 0x020B      ADD      R2,SP,#+11
+   \                     ??MCP_ReceivedFrame_30: (+1)
+   \      0x268   0x6831             LDR      R1,[R6, #+0]
+   \      0x26A   0x5C09             LDRB     R1,[R1, R0]
+   \      0x26C   0x2909             CMP      R1,#+9
+   \      0x26E   0xD003             BEQ.N    ??MCP_ReceivedFrame_31
+    494                {
+    495                  outBuff[3+i] = pHandle->s_fwVer[i];
+   \      0x270   0x5411             STRB     R1,[R2, R0]
+    496                }
+   \      0x272   0x1C40             ADDS     R0,R0,#+1
+   \      0x274   0x281D             CMP      R0,#+29
+   \      0x276   0xDBF7             BLT.N    ??MCP_ReceivedFrame_30
+    497                outBuff[0] = pHandle->s_fwVer[i+5];
+   \                     ??MCP_ReceivedFrame_31: (+1)
+   \      0x278   0x6831             LDR      R1,[R6, #+0]
+   \      0x27A   0x1D4A             ADDS     R2,R1,#+5
+    498                outBuff[1] = pHandle->s_fwVer[i+7];
+   \      0x27C   0xA902             ADD      R1,SP,#+8
+   \      0x27E   0x5C13             LDRB     R3,[R2, R0]
+   \      0x280   0xF88D 0x3008      STRB     R3,[SP, #+8]
+   \      0x284   0x6832             LDR      R2,[R6, #+0]
+   \      0x286   0x4402             ADD      R2,R2,R0
+   \      0x288   0x79D3             LDRB     R3,[R2, #+7]
+   \      0x28A   0x704B             STRB     R3,[R1, #+1]
+    499                outBuff[2] = pHandle->s_fwVer[i+9];
+   \      0x28C   0x6832             LDR      R2,[R6, #+0]
+   \      0x28E   0x4410             ADD      R0,R2,R0
+    500                pHandle->fFcpSend(pHandle->pFCP, ACK_NOERROR, outBuff, 32 );
+   \      0x290   0xAA02             ADD      R2,SP,#+8
+   \      0x292   0x7A43             LDRB     R3,[R0, #+9]
+   \      0x294   0x708B             STRB     R3,[R1, #+2]
+   \      0x296   0x2320             MOVS     R3,#+32
+   \                     ??MCP_ReceivedFrame_26: (+1)
+   \      0x298   0x6B28             LDR      R0,[R5, #+48]
+   \      0x29A   0x6B6C             LDR      R4,[R5, #+52]
+   \      0x29C   0x21F0             MOVS     R1,#+240
+   \      0x29E   0x47A0             BLX      R4
+    501                bNoError = true;
+   \                     ??MCP_ReceivedFrame_16: (+1)
+   \      0x2A0   0x2001             MOVS     R0,#+1
+   \      0x2A2   0xF88D 0x0004      STRB     R0,[SP, #+4]
+    502              }
+    503              break;
+   \      0x2A6   0xE0B2             B.N      ??MCP_ReceivedFrame_32
+    504          
+    505            case MC_PROTOCOL_CODE_SET_SPEED_RAMP:
+    506              {
+    507                uint16_t duration = buffer[4] + (buffer[5] << 8);
+    508                int32_t rpm = buffer[0] + (buffer[1] << 8) + (buffer[2] << 16) + (buffer[3] << 24);
+    509                bNoError = UI_ExecSpeedRamp(&pHandle->_Super, rpm,duration);
+   \                     ??MCP_ReceivedFrame_33: (+1)
+   \      0x2A8   0x7938             LDRB     R0,[R7, #+4]
+   \      0x2AA   0x7979             LDRB     R1,[R7, #+5]
+   \      0x2AC   0x78FB             LDRB     R3,[R7, #+3]
+   \      0x2AE   0xEB00 0x2201      ADD      R2,R0,R1, LSL #+8
+   \      0x2B2   0x7838             LDRB     R0,[R7, #+0]
+   \      0x2B4   0x7879             LDRB     R1,[R7, #+1]
+   \      0x2B6   0xEB00 0x2101      ADD      R1,R0,R1, LSL #+8
+   \      0x2BA   0x78B8             LDRB     R0,[R7, #+2]
+   \      0x2BC   0xEB01 0x4100      ADD      R1,R1,R0, LSL #+16
+   \      0x2C0   0xB292             UXTH     R2,R2
+   \      0x2C2   0xEB01 0x6103      ADD      R1,R1,R3, LSL #+24
+   \      0x2C6   0x4628             MOV      R0,R5
+   \      0x2C8   0x....'....        BL       UI_ExecSpeedRamp
+   \      0x2CC   0xE05C             B.N      ??MCP_ReceivedFrame_17
+    510              }
+    511              break;
+    512            case MC_PROTOCOL_CODE_SET_POSITION_CMD:
+    513              {
+    514              }
+    515              break;
+    516          
+    517            case MC_PROTOCOL_CODE_SET_TORQUE_RAMP:
+    518              {
+    519                uint16_t duration = buffer[4] + (buffer[5] << 8);
+    520                int32_t torque = buffer[0] + (buffer[1] << 8) + (buffer[2] << 16) + (buffer[3] << 24);
+    521                bNoError = UI_ExecTorqueRamp(&pHandle->_Super, torque,duration);
+   \                     ??MCP_ReceivedFrame_34: (+1)
+   \      0x2CE   0x7938             LDRB     R0,[R7, #+4]
+   \      0x2D0   0x7979             LDRB     R1,[R7, #+5]
+   \      0x2D2   0xEB00 0x2201      ADD      R2,R0,R1, LSL #+8
+   \      0x2D6   0x7838             LDRB     R0,[R7, #+0]
+   \      0x2D8   0x7879             LDRB     R1,[R7, #+1]
+   \      0x2DA   0xEB00 0x2101      ADD      R1,R0,R1, LSL #+8
+   \      0x2DE   0xB292             UXTH     R2,R2
+   \      0x2E0   0xB209             SXTH     R1,R1
+   \      0x2E2   0x4628             MOV      R0,R5
+   \      0x2E4   0x....'....        BL       UI_ExecTorqueRamp
+   \      0x2E8   0xE04E             B.N      ??MCP_ReceivedFrame_17
+    522              }
+    523              break;
+    524              
+    525            case MC_PROTOCOL_CODE_GET_REVUP_DATA:
+    526              {
+    527                uint8_t outBuff[8];
+    528                uint16_t Durationms;
+    529                int16_t FinalMecSpeedUnit;
+    530                int16_t FinalTorque;
+    531                int32_t rpm;
+    532                UI_GetRevupData(&pHandle->_Super, buffer[0], &Durationms, &FinalMecSpeedUnit, &FinalTorque);
+   \                     ??MCP_ReceivedFrame_35: (+1)
+   \      0x2EA   0xF10D 0x0006      ADD      R0,SP,#+6
+   \      0x2EE   0x9000             STR      R0,[SP, #+0]
+   \      0x2F0   0xF10D 0x030A      ADD      R3,SP,#+10
+   \      0x2F4   0x7839             LDRB     R1,[R7, #+0]
+   \      0x2F6   0xAA02             ADD      R2,SP,#+8
+   \      0x2F8   0x4628             MOV      R0,R5
+   \      0x2FA   0x....'....        BL       UI_GetRevupData
+    533                rpm = (FinalMecSpeedUnit * _RPM) / SPEED_UNIT;
+   \      0x2FE   0xF9BD 0x000A      LDRSH    R0,[SP, #+10]
+   \      0x302   0x213C             MOVS     R1,#+60
+   \      0x304   0xFB10 0xF101      SMULBB   R1,R0,R1
+   \      0x308   0x220A             MOVS     R2,#+10
+   \      0x30A   0xFB91 0xF0F2      SDIV     R0,R1,R2
+    534                outBuff[0] = (uint8_t)(rpm);
+    535                outBuff[1] = (uint8_t)(rpm >> 8);
+    536                outBuff[2] = (uint8_t)(rpm >> 16);
+   \      0x30E   0x1402             ASRS     R2,R0,#+16
+   \      0x310   0xF88D 0x000C      STRB     R0,[SP, #+12]
+   \      0x314   0xA903             ADD      R1,SP,#+12
+   \      0x316   0x1203             ASRS     R3,R0,#+8
+   \      0x318   0x708A             STRB     R2,[R1, #+2]
+    537                outBuff[3] = (uint8_t)(rpm >> 24);
+   \      0x31A   0x1600             ASRS     R0,R0,#+24
+    538                outBuff[4] = (uint8_t)(FinalTorque);
+    539                outBuff[5] = (uint8_t)(FinalTorque >> 8);
+   \      0x31C   0xF9BD 0x2006      LDRSH    R2,[SP, #+6]
+   \      0x320   0x70C8             STRB     R0,[R1, #+3]
+   \      0x322   0x1212             ASRS     R2,R2,#+8
+   \      0x324   0xF8BD 0x0006      LDRH     R0,[SP, #+6]
+   \      0x328   0x714A             STRB     R2,[R1, #+5]
+   \      0x32A   0x7108             STRB     R0,[R1, #+4]
+   \      0x32C   0x704B             STRB     R3,[R1, #+1]
+    540                outBuff[6] = (uint8_t)(Durationms);
+    541                outBuff[7] = (uint8_t)(Durationms >> 8);
+    542                pHandle->fFcpSend(pHandle->pFCP, ACK_NOERROR, outBuff, 8 );
+   \      0x32E   0x2308             MOVS     R3,#+8
+   \      0x330   0xF8BD 0x2008      LDRH     R2,[SP, #+8]
+   \      0x334   0xF8BD 0x0008      LDRH     R0,[SP, #+8]
+   \      0x338   0x7188             STRB     R0,[R1, #+6]
+   \      0x33A   0x0A12             LSRS     R2,R2,#+8
+   \      0x33C   0x71CA             STRB     R2,[R1, #+7]
+   \      0x33E   0x6B28             LDR      R0,[R5, #+48]
+   \      0x340   0x6B6C             LDR      R4,[R5, #+52]
+   \      0x342   0xAA03             ADD      R2,SP,#+12
+   \      0x344   0x21F0             MOVS     R1,#+240
+   \      0x346   0x47A0             BLX      R4
+    543              }
+    544              break;
+   \      0x348   0xE05E             B.N      ??MCP_ReceivedFrame_4
+    545          
+    546            case MC_PROTOCOL_CODE_SET_REVUP_DATA:
+    547              {
+    548                uint8_t bStage;
+    549                uint16_t hDurationms;
+    550                int16_t hFinalMecSpeedUnit;
+    551                int16_t hFinalTorque;
+    552                int32_t rpm;
+    553                bStage = buffer[0];
+    554                hDurationms = buffer[7] + (buffer[8] << 8);
+    555                rpm = buffer[1] + (buffer[2] << 8) + (buffer[3] << 16) + (buffer[4] << 24);
+    556                hFinalMecSpeedUnit = (rpm * SPEED_UNIT ) / _RPM ;
+    557                hFinalTorque = buffer[5] + (buffer[6] << 8);
+    558                bNoError = UI_SetRevupData( &pHandle->_Super, bStage, hDurationms, hFinalMecSpeedUnit, hFinalTorque );
+   \                     ??MCP_ReceivedFrame_36: (+1)
+   \      0x34A   0x7978             LDRB     R0,[R7, #+5]
+   \      0x34C   0x79B9             LDRB     R1,[R7, #+6]
+   \      0x34E   0xEB00 0x2201      ADD      R2,R0,R1, LSL #+8
+   \      0x352   0xB212             SXTH     R2,R2
+   \      0x354   0x9200             STR      R2,[SP, #+0]
+   \      0x356   0x7878             LDRB     R0,[R7, #+1]
+   \      0x358   0x78B9             LDRB     R1,[R7, #+2]
+   \      0x35A   0xEB00 0x2201      ADD      R2,R0,R1, LSL #+8
+   \      0x35E   0x78F8             LDRB     R0,[R7, #+3]
+   \      0x360   0x7939             LDRB     R1,[R7, #+4]
+   \      0x362   0xEB02 0x4200      ADD      R2,R2,R0, LSL #+16
+   \      0x366   0xEB02 0x6201      ADD      R2,R2,R1, LSL #+24
+   \      0x36A   0x200A             MOVS     R0,#+10
+   \      0x36C   0x79F9             LDRB     R1,[R7, #+7]
+   \      0x36E   0x4342             MULS     R2,R0,R2
+   \      0x370   0x7A38             LDRB     R0,[R7, #+8]
+   \      0x372   0x233C             MOVS     R3,#+60
+   \      0x374   0xFB92 0xF3F3      SDIV     R3,R2,R3
+   \      0x378   0xEB01 0x2200      ADD      R2,R1,R0, LSL #+8
+   \      0x37C   0x7839             LDRB     R1,[R7, #+0]
+   \      0x37E   0xB21B             SXTH     R3,R3
+   \      0x380   0xB292             UXTH     R2,R2
+   \      0x382   0x4628             MOV      R0,R5
+   \      0x384   0x....'....        BL       UI_SetRevupData
+   \                     ??MCP_ReceivedFrame_17: (+1)
+   \      0x388   0xF88D 0x0004      STRB     R0,[SP, #+4]
+    559              }
+    560              break;
+   \      0x38C   0xE03C             B.N      ??MCP_ReceivedFrame_4
+    561          
+    562            case MC_PROTOCOL_CODE_SET_CURRENT_REF:
+    563              {
+    564                int16_t hIqRef;
+    565                int16_t hIdRef;
+    566                hIqRef = buffer[0] + (buffer[1] << 8);
+    567                hIdRef = buffer[2] + (buffer[3] << 8);
+    568                UI_SetCurrentReferences(&pHandle->_Super, hIqRef, hIdRef);
+   \                     ??MCP_ReceivedFrame_37: (+1)
+   \      0x38E   0x78B8             LDRB     R0,[R7, #+2]
+   \      0x390   0x78F9             LDRB     R1,[R7, #+3]
+   \      0x392   0xEB00 0x2201      ADD      R2,R0,R1, LSL #+8
+   \      0x396   0x7838             LDRB     R0,[R7, #+0]
+   \      0x398   0x7879             LDRB     R1,[R7, #+1]
+   \      0x39A   0xEB00 0x2101      ADD      R1,R0,R1, LSL #+8
+   \      0x39E   0xB212             SXTH     R2,R2
+   \      0x3A0   0xB209             SXTH     R1,R1
+   \      0x3A2   0x4628             MOV      R0,R5
+   \      0x3A4   0x....'....        BL       UI_SetCurrentReferences
+    569                bNoError = true;
+   \      0x3A8   0xE027             B.N      ??MCP_ReceivedFrame_38
+    570              }
+    571              break;
+    572          
+    573            case MC_PROTOCOL_CODE_GET_MP_INFO:
+    574              {
+    575                MPInfo_t stepList;
+    576                stepList.data = buffer;
+    577                stepList.len = Size;
+    578                bErrorCode = ERROR_MP_NOT_ENABLED;
+   \                     ??MCP_ReceivedFrame_39: (+1)
+   \      0x3AA   0x210C             MOVS     R1,#+12
+   \      0x3AC   0xF88D 0x1005      STRB     R1,[SP, #+5]
+   \      0x3B0   0x9702             STR      R7,[SP, #+8]
+   \      0x3B2   0xF88D 0x900C      STRB     R9,[SP, #+12]
+    579                bNoError = UI_GetMPInfo(&stepList, &MPInfo);
+   \      0x3B6   0xA802             ADD      R0,SP,#+8
+   \      0x3B8   0x4C1D             LDR.N    R4,??MCP_ReceivedFrame_1
+   \      0x3BA   0x4621             MOV      R1,R4
+   \      0x3BC   0x....'....        BL       UI_GetMPInfo
+   \      0x3C0   0xF88D 0x0004      STRB     R0,[SP, #+4]
+    580          
+    581                if (bNoError)
+   \      0x3C4   0xB350             CBZ.N    R0,??MCP_ReceivedFrame_40
+    582                {
+    583                  pHandle->fFcpSend(pHandle->pFCP, ACK_NOERROR, MPInfo.data, MPInfo.len);
+   \      0x3C6   0x7923             LDRB     R3,[R4, #+4]
+   \      0x3C8   0x6822             LDR      R2,[R4, #+0]
+   \      0x3CA   0xE022             B.N      ??MCP_ReceivedFrame_41
+    584                  RequireAck = false;
+    585                }
+    586              }
+    587              break;
+    588              
+    589              case MC_PROTOCOL_CODE_GET_FW_VERSION:
+    590              {
+    591                /* Get Firmware Version */
+    592                unsigned char i;
+    593                uint8_t outBuff[32];
+    594                for (i = 0; (i<32) && (pHandle->s_fwVer[i]!=0); i++)
+   \                     ??MCP_ReceivedFrame_42: (+1)
+   \      0x3CC   0x2200             MOVS     R2,#+0
+   \      0x3CE   0xA902             ADD      R1,SP,#+8
+   \                     ??MCP_ReceivedFrame_43: (+1)
+   \      0x3D0   0x6830             LDR      R0,[R6, #+0]
+   \      0x3D2   0x5C80             LDRB     R0,[R0, R2]
+   \      0x3D4   0xB118             CBZ.N    R0,??MCP_ReceivedFrame_44
+    595                {
+    596                  outBuff[i] = pHandle->s_fwVer[i];
+   \      0x3D6   0x5488             STRB     R0,[R1, R2]
+    597                }
+   \      0x3D8   0x1C52             ADDS     R2,R2,#+1
+   \      0x3DA   0x2A20             CMP      R2,#+32
+   \      0x3DC   0xDBF8             BLT.N    ??MCP_ReceivedFrame_43
+    598                
+    599                for (; i < 32; i++)
+   \                     ??MCP_ReceivedFrame_44: (+1)
+   \      0x3DE   0x2A20             CMP      R2,#+32
+   \      0x3E0   0xDA05             BGE.N    ??MCP_ReceivedFrame_45
+    600                {
+    601                  outBuff[i] = 0;
+   \      0x3E2   0xA802             ADD      R0,SP,#+8
+   \      0x3E4   0xF1C2 0x0120      RSB      R1,R2,#+32
+   \      0x3E8   0x4410             ADD      R0,R0,R2
+   \      0x3EA   0x....'....        BL       __aeabi_memclr
+    602                }
+    603          
+    604                pHandle->fFcpSend(pHandle->pFCP, ACK_NOERROR, outBuff, 32 );
+   \                     ??MCP_ReceivedFrame_45: (+1)
+   \      0x3EE   0x6B28             LDR      R0,[R5, #+48]
+   \      0x3F0   0x6B6C             LDR      R4,[R5, #+52]
+   \      0x3F2   0x2320             MOVS     R3,#+32
+   \      0x3F4   0xAA02             ADD      R2,SP,#+8
+   \      0x3F6   0x21F0             MOVS     R1,#+240
+   \      0x3F8   0x47A0             BLX      R4
+    605                bNoError = true;
+   \                     ??MCP_ReceivedFrame_38: (+1)
+   \      0x3FA   0x2101             MOVS     R1,#+1
+   \      0x3FC   0xF88D 0x1004      STRB     R1,[SP, #+4]
+    606              }
+    607              break;
+   \      0x400   0xE005             B.N      ??MCP_ReceivedFrame_32
+    608          
+    609            case MC_PROTOCOL_CODE_NONE:
+    610              {
+    611              }
+    612              break;
+    613          
+    614            default:
+    615              {
+    616                bErrorCode = ERROR_BAD_FRAME_ID;
+   \                     ??MCP_ReceivedFrame_5: (+1)
+   \      0x402   0x2201             MOVS     R2,#+1
+   \      0x404   0xF88D 0x2005      STRB     R2,[SP, #+5]
+    617              }
+    618              break;
+    619            }
+    620          
+    621            if (RequireAck)
+    622            {
+    623              if (bNoError)
+   \                     ??MCP_ReceivedFrame_4: (+1)
+   \      0x408   0xF89D 0x0004      LDRB     R0,[SP, #+4]
+   \      0x40C   0xB130             CBZ.N    R0,??MCP_ReceivedFrame_40
+    624              {
+    625                pHandle->fFcpSend(pHandle->pFCP, ACK_NOERROR, MC_NULL, 0);
+   \                     ??MCP_ReceivedFrame_32: (+1)
+   \      0x40E   0x2300             MOVS     R3,#+0
+   \      0x410   0x2200             MOVS     R2,#+0
+   \                     ??MCP_ReceivedFrame_41: (+1)
+   \      0x412   0x6B28             LDR      R0,[R5, #+48]
+   \      0x414   0x6B6C             LDR      R4,[R5, #+52]
+   \      0x416   0x21F0             MOVS     R1,#+240
+   \      0x418   0x47A0             BLX      R4
+   \      0x41A   0xE006             B.N      ??MCP_ReceivedFrame_46
+    626              }
+    627              else
+    628              {
+    629                pHandle->fFcpSend(pHandle->pFCP, ACK_ERROR, &bErrorCode, 1);
+   \                     ??MCP_ReceivedFrame_40: (+1)
+   \      0x41C   0x2301             MOVS     R3,#+1
+   \      0x41E   0xF10D 0x0205      ADD      R2,SP,#+5
+   \      0x422   0x21FF             MOVS     R1,#+255
+   \                     ??MCP_ReceivedFrame_27: (+1)
+   \      0x424   0x6B28             LDR      R0,[R5, #+48]
+   \      0x426   0x6B6C             LDR      R4,[R5, #+52]
+   \      0x428   0x47A0             BLX      R4
+    630              }
+    631            }
+    632          }
+   \                     ??MCP_ReceivedFrame_46: (+1)
+   \      0x42A   0xB00B             ADD      SP,SP,#+44
+   \      0x42C   0xE8BD 0x83F0      POP      {R4-R9,PC}       ;; return
+   \                     ??MCP_ReceivedFrame_1:
+   \      0x430   0x....'....        DC32     MPInfo
+    633          
+    634          /**
+    635          * @brief  Allow to report the overrun error message.
+    636          *
+    637          * Called when received frame has not been received correctly due to the
+    638          * transmission speed too fast.
+    639          *
+    640          * @param  pHandle Pointer on the handle of the component.
+    641          */
+
+   \                                 In section .text, align 2
+    642          __weak void MCP_SendOverrunMessage(MCP_Handle_t *pHandle)
+    643          {
+   \                     MCP_SendOverrunMessage: (+1)
+   \        0x0   0xB51C             PUSH     {R2-R4,LR}
+   \        0x2   0x4604             MOV      R4,R0
+    644            uint8_t bErrorCode = ERROR_CODE_OVERRUN;
+   \        0x4   0x2008             MOVS     R0,#+8
+   \        0x6   0xF88D 0x0000      STRB     R0,[SP, #+0]
+    645            pHandle->fFcpSend(pHandle->pFCP, ACK_ERROR, &bErrorCode, 1);
+   \        0xA   0x2301             MOVS     R3,#+1
+   \        0xC   0x6B20             LDR      R0,[R4, #+48]
+   \        0xE   0x6B64             LDR      R4,[R4, #+52]
+   \       0x10   0x466A             MOV      R2,SP
+   \       0x12   0x21FF             MOVS     R1,#+255
+   \       0x14   0x47A0             BLX      R4
+    646          }
+   \       0x16   0xBD13             POP      {R0,R1,R4,PC}    ;; return
+    647          
+    648          /**
+    649          * @brief  Allow to report the time out error message.
+    650          *
+    651          * @param  pHandle Pointer on the handle of the component.
+    652          */
+
+   \                                 In section .text, align 2
+    653          __weak void MCP_SendTimeoutMessage(MCP_Handle_t *pHandle)
+    654          {
+   \                     MCP_SendTimeoutMessage: (+1)
+   \        0x0   0xB51C             PUSH     {R2-R4,LR}
+   \        0x2   0x4604             MOV      R4,R0
+    655            uint8_t bErrorCode = ERROR_CODE_TIMEOUT;
+   \        0x4   0x2009             MOVS     R0,#+9
+   \        0x6   0xF88D 0x0000      STRB     R0,[SP, #+0]
+    656            pHandle->fFcpSend(pHandle->pFCP, ACK_ERROR, &bErrorCode, 1);
+   \        0xA   0x2301             MOVS     R3,#+1
+   \        0xC   0x6B20             LDR      R0,[R4, #+48]
+   \        0xE   0x6B64             LDR      R4,[R4, #+52]
+   \       0x10   0x466A             MOV      R2,SP
+   \       0x12   0x21FF             MOVS     R1,#+255
+   \       0x14   0x47A0             BLX      R4
+    657          }
+   \       0x16   0xBD13             POP      {R0,R1,R4,PC}    ;; return
+    658          
+    659          /**
+    660          * @brief  Allow to send an ATR message.
+    661          *
+    662          * @param  pHandle Pointer on the handle of the component.
+    663          */
+
+   \                                 In section .text, align 2
+    664          __weak void MCP_SendATRMessage(MCP_Handle_t *pHandle)
+    665          {
+   \                     MCP_SendATRMessage: (+1)
+   \        0x0   0xE92D 0x41FF      PUSH     {R0-R8,LR}
+   \        0x4   0x4604             MOV      R4,R0
+    666            uint32_t wUID = UI_GetReg(&pHandle->_Super, MC_PROTOCOL_REG_UID, MC_NULL);
+   \        0x6   0x2200             MOVS     R2,#+0
+   \        0x8   0x2170             MOVS     R1,#+112
+   \        0xA   0x....'....        BL       UI_GetReg
+   \        0xE   0x4680             MOV      R8,R0
+    667            unsigned char i;
+    668            uint8_t bFWX;
+    669            uint8_t bFWY;
+    670            uint8_t bFWZ;
+    671            uint16_t hCBDID = UI_GetReg( &pHandle->_Super, MC_PROTOCOL_REG_CTRBDID, MC_NULL );
+   \       0x10   0x2200             MOVS     R2,#+0
+   \       0x12   0x2172             MOVS     R1,#+114
+   \       0x14   0x4620             MOV      R0,R4
+   \       0x16   0x....'....        BL       UI_GetReg
+   \       0x1A   0x4605             MOV      R5,R0
+    672            uint16_t hPBDID = UI_GetReg( &pHandle->_Super, MC_PROTOCOL_REG_PWBDID, MC_NULL );
+   \       0x1C   0x2200             MOVS     R2,#+0
+   \       0x1E   0x2173             MOVS     R1,#+115
+   \       0x20   0x4620             MOV      R0,R4
+   \       0x22   0x....'....        BL       UI_GetReg
+   \       0x26   0x4606             MOV      R6,R0
+    673            uint16_t hPBDID2 = UI_GetReg( &pHandle->_Super, MC_PROTOCOL_REG_PWBDID2, MC_NULL );
+   \       0x28   0x2200             MOVS     R2,#+0
+   \       0x2A   0x2181             MOVS     R1,#+129
+   \       0x2C   0x4620             MOV      R0,R4
+   \       0x2E   0x....'....        BL       UI_GetReg
+   \       0x32   0x4607             MOV      R7,R0
+   \       0x34   0x220D             MOVS     R2,#+13
+   \       0x36   0x2100             MOVS     R1,#+0
+   \       0x38   0x4668             MOV      R0,SP
+   \       0x3A   0x....'....        BL       memset
+    674            uint8_t buff[13]={0,0,0,0,0,0,0,0,0,0,0,0,0};
+    675          
+    676            for (i = 0; (i<29) && (pHandle->s_fwVer[i]!='\t'); i++);
+   \       0x3E   0xF8D4 0x10C0      LDR      R1,[R4, #+192]
+   \       0x42   0x2000             MOVS     R0,#+0
+   \                     ??MCP_SendATRMessage_0: (+1)
+   \       0x44   0x5C0A             LDRB     R2,[R1, R0]
+   \       0x46   0x2A09             CMP      R2,#+9
+   \       0x48   0xD002             BEQ.N    ??MCP_SendATRMessage_1
+   \       0x4A   0x1C40             ADDS     R0,R0,#+1
+   \       0x4C   0x281D             CMP      R0,#+29
+   \       0x4E   0xDBF9             BLT.N    ??MCP_SendATRMessage_0
+    677          
+    678            bFWX = pHandle->s_fwVer[i+5];
+   \                     ??MCP_SendATRMessage_1: (+1)
+   \       0x50   0x4408             ADD      R0,R1,R0
+   \       0x52   0x7941             LDRB     R1,[R0, #+5]
+    679            bFWY = pHandle->s_fwVer[i+7];
+   \       0x54   0x79C2             LDRB     R2,[R0, #+7]
+    680            bFWZ = pHandle->s_fwVer[i+9];
+   \       0x56   0x7A43             LDRB     R3,[R0, #+9]
+    681          
+    682            //*(uint32_t*)(&buff[0]) = wUID;
+    683            buff[0] = (uint8_t)(wUID & 0xff);
+    684            buff[1] = (uint8_t)((wUID >> 8)  & 0xff);
+    685            buff[2] = (uint8_t)((wUID >> 16) & 0xff);
+    686            buff[3] = (uint8_t)((wUID >> 24) & 0xff);
+    687            buff[4] = bFWX;
+    688            buff[5] = bFWY;
+    689            buff[6] = bFWZ;
+    690            buff[7] = (uint8_t)(hCBDID);
+   \       0x58   0xF88D 0x5007      STRB     R5,[SP, #+7]
+   \       0x5C   0xEA4F 0x2018      LSR      R0,R8,#+8
+   \       0x60   0xF88D 0x0001      STRB     R0,[SP, #+1]
+    691            buff[8] = (uint8_t)(hCBDID>>8);
+    692            buff[9] = (uint8_t)(hPBDID);
+   \       0x64   0xF88D 0x6009      STRB     R6,[SP, #+9]
+   \       0x68   0xEA4F 0x4018      LSR      R0,R8,#+16
+   \       0x6C   0xF88D 0x0002      STRB     R0,[SP, #+2]
+    693            buff[10]= (uint8_t)(hPBDID>>8);
+    694            buff[11] = (uint8_t)(hPBDID2);
+   \       0x70   0xF88D 0x700B      STRB     R7,[SP, #+11]
+   \       0x74   0xEA4F 0x6018      LSR      R0,R8,#+24
+   \       0x78   0x042D             LSLS     R5,R5,#+16
+   \       0x7A   0x0436             LSLS     R6,R6,#+16
+    695            buff[12]= (uint8_t)(hPBDID2>>8);
+   \       0x7C   0x043F             LSLS     R7,R7,#+16
+   \       0x7E   0xF88D 0x0003      STRB     R0,[SP, #+3]
+   \       0x82   0x0E2D             LSRS     R5,R5,#+24
+   \       0x84   0x0E36             LSRS     R6,R6,#+24
+   \       0x86   0x0E3F             LSRS     R7,R7,#+24
+   \       0x88   0xF88D 0x8000      STRB     R8,[SP, #+0]
+   \       0x8C   0xF88D 0x5008      STRB     R5,[SP, #+8]
+   \       0x90   0xF88D 0x600A      STRB     R6,[SP, #+10]
+   \       0x94   0xF88D 0x700C      STRB     R7,[SP, #+12]
+   \       0x98   0xF88D 0x1004      STRB     R1,[SP, #+4]
+   \       0x9C   0xF88D 0x2005      STRB     R2,[SP, #+5]
+   \       0xA0   0xF88D 0x3006      STRB     R3,[SP, #+6]
+    696          
+    697            pHandle->fFcpSend(pHandle->pFCP, ATR_FRAME_START, buff, 13);
+   \       0xA4   0x230D             MOVS     R3,#+13
+   \       0xA6   0x6B20             LDR      R0,[R4, #+48]
+   \       0xA8   0x6B64             LDR      R4,[R4, #+52]
+   \       0xAA   0x466A             MOV      R2,SP
+   \       0xAC   0x21E0             MOVS     R1,#+224
+   \       0xAE   0x47A0             BLX      R4
+    698          }
+   \       0xB0   0xE8BD 0x81FF      POP      {R0-R8,PC}       ;; return
+    699          
+    700          /**
+    701          * @brief  Allow to send back a BAD CRC message.
+    702          *
+    703          * @param  pHandle Pointer on the handle of the component.
+    704          */
+
+   \                                 In section .text, align 2
+    705          __weak void MCP_SendBadCRCMessage(MCP_Handle_t *pHandle)
+    706          {
+   \                     MCP_SendBadCRCMessage: (+1)
+   \        0x0   0xB51C             PUSH     {R2-R4,LR}
+   \        0x2   0x4604             MOV      R4,R0
+    707            uint8_t bErrorCode = ERROR_CODE_BAD_CRC;
+   \        0x4   0x200A             MOVS     R0,#+10
+   \        0x6   0xF88D 0x0000      STRB     R0,[SP, #+0]
+    708            pHandle->fFcpSend(pHandle->pFCP, ACK_ERROR, &bErrorCode, 1);
+   \        0xA   0x2301             MOVS     R3,#+1
+   \        0xC   0x6B20             LDR      R0,[R4, #+48]
+   \        0xE   0x6B64             LDR      R4,[R4, #+52]
+   \       0x10   0x466A             MOV      R2,SP
+   \       0x12   0x21FF             MOVS     R1,#+255
+   \       0x14   0x47A0             BLX      R4
+    709          }
+   \       0x16   0xBD13             POP      {R0,R1,R4,PC}    ;; return
+    710          
+    711          /**
+    712            * @}
+    713            */
+    714          
+    715          /**
+    716            * @}
+    717            */
+    718          
+    719          /**
+    720           * @}
+    721           */
+    722          
+    723          /**
+    724           * @}
+    725           */
+    726          
+    727          /************************ (C) COPYRIGHT 2019 STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      24   MCP_Init
+        24   -> FCP_SetClient
+         0   -> MCP_WaitNextFrame
+       0   MCP_OnTimeOut
+         0   -> MCP_WaitNextFrame
+      72   MCP_ReceivedFrame
+        72   -- Indirect call
+        72   -> UI_ExecCmd
+        72   -> UI_ExecSpeedRamp
+        72   -> UI_ExecTorqueRamp
+        72   -> UI_GetDAC
+        72   -> UI_GetMPInfo
+        72   -> UI_GetReg
+        72   -> UI_GetRevupData
+        72   -> UI_SetCurrentReferences
+        72   -> UI_SetDAC
+        72   -> UI_SetReg
+        72   -> UI_SetRevupData
+        72   -> __aeabi_memclr
+        72   -> __aeabi_memclr4
+      40   MCP_SendATRMessage
+        40   -- Indirect call
+        40   -> UI_GetReg
+        40   -> memset
+      16   MCP_SendBadCRCMessage
+        16   -- Indirect call
+      16   MCP_SendOverrunMessage
+        16   -- Indirect call
+      16   MCP_SendTimeoutMessage
+        16   -- Indirect call
+       0   MCP_SentFrame
+         0   -> MCP_WaitNextFrame
+       8   MCP_WaitNextFrame
+         0   -- Indirect call
+         8   -- Indirect call
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      68  MCP_Init
+       4  MCP_OnTimeOut
+   1'076  MCP_ReceivedFrame
+     180  MCP_SendATRMessage
+      24  MCP_SendBadCRCMessage
+      24  MCP_SendOverrunMessage
+      24  MCP_SendTimeoutMessage
+       4  MCP_SentFrame
+      26  MCP_WaitNextFrame
+       8  MPInfo
+
+ 
+     8 bytes in section .bss
+ 1'430 bytes in section .text
+ 
+ 0 bytes of CODE memory (+ 1'430 bytes shared)
+ 8 bytes of DATA memory
+
+Errors: none
+Warnings: none

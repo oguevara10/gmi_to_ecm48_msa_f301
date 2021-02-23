@@ -1,0 +1,659 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.50.9.278/W32 for ARM         23/Feb/2021  10:14:07
+# Copyright 1999-2020 IAR Systems AB.
+#
+#    Cpu mode             
+#    Endian            =  little
+#    Source file       =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\MCSDK_v5.4.4-Full\MotorControl\MCSDK\MCLib\Any\Src\state_machine.c
+#    Command line      =
+#        -f C:\Users\100001~1\AppData\Local\Temp\EW36B1.tmp
+#        (C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\MCSDK_v5.4.4-Full\MotorControl\MCSDK\MCLib\Any\Src\state_machine.c
+#        -D ARM_MATH_CM4 -D USE_FULL_LL_DRIVER -D USE_HAL_DRIVER -D STM32F302x8
+#        -lCN
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List
+#        -o
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj
+#        --debug --endian=little --cpu=Cortex-M4 -e --fpu=VFPv4_sp
+#        --dlib_config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.4\arm\inc\c\DLib_Config_Full.h" -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/Any/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/F3xx/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/UILibrary/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/SystemDriveParams\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/Device/ST/STM32F3xx/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/DSP/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Drivers\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Features\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Kernel\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Memory\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Regal\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\UniversalProtocol\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Motor\\
+#        -Ohz)
+#    Locale            =  C
+#    List file         =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List\state_machine.lst
+#    Object file       =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\state_machine.o
+#    Runtime model:       
+#      __SystemLibrary =  DLib
+#      __dlib_version  =  6
+#
+###############################################################################
+
+C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\MCSDK_v5.4.4-Full\MotorControl\MCSDK\MCLib\Any\Src\state_machine.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    state_machine.c
+      4            * @author  Motor Control SDK Team, ST Microelectronics
+      5            * @brief   This file provides firmware functions that implement the features
+      6            *          of the Motor Control State Machine component of the Motor Control SDK:
+      7            *
+      8            *           * Check that transition from one state to another is legal
+      9            *           * Handle the fault processing
+     10            *           * Provide accessor to State machine internal state
+     11            *           * Provide accessor to error state
+     12            *
+     13            ******************************************************************************
+     14            * @attention
+     15            *
+     16            * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
+     17            * All rights reserved.</center></h2>
+     18            *
+     19            * This software component is licensed by ST under Ultimate Liberty license
+     20            * SLA0044, the "License"; You may not use this file except in compliance with
+     21            * the License. You may obtain a copy of the License at:
+     22            *                             www.st.com/SLA0044
+     23            *
+     24            ******************************************************************************
+     25            */
+     26          
+     27          /* Includes ------------------------------------------------------------------*/
+     28          #include "state_machine.h"
+     29          
+     30          /** @addtogroup MCSDK
+     31            * @{
+     32            */
+     33          
+     34          /** @defgroup STATE_MACHINE Motor Control State Machine
+     35            * @brief Motor Control State Machine component of the Motor Control SDK
+     36            *
+     37            * @todo Document the Motor Control State Machine "module".
+     38            *
+     39            * @{
+     40            */
+     41          
+     42          /**
+     43            * @brief  Initializes all the object variables, usually it has to be called
+     44            *         once right after object creation.
+     45            * @param pHandle pointer on the component instance to initialize.
+     46            * @retval none.
+     47            */
+
+   \                                 In section .text, align 2
+     48          __weak void STM_Init( STM_Handle_t * pHandle )
+     49          {
+     50          
+     51            pHandle->bState = IDLE;
+   \                     STM_Init: (+1)
+   \        0x0   0x2100             MOVS     R1,#+0
+   \        0x2   0x7001             STRB     R1,[R0, #+0]
+     52            pHandle->hFaultNow = MC_NO_FAULTS;
+   \        0x4   0x8041             STRH     R1,[R0, #+2]
+     53            pHandle->hFaultOccurred = MC_NO_FAULTS;
+   \        0x6   0x8081             STRH     R1,[R0, #+4]
+     54          }
+   \        0x8   0x4770             BX       LR               ;; return
+     55          
+     56          /**
+     57            * @brief It submits the request for moving the state machine into the state
+     58            *        specified by bState (FAULT_NOW and FAUL_OVER are not handled by this
+     59            *        method). Accordingly with the current state, the command is really
+     60            *        executed (state machine set to bState) or discarded (no state
+     61            *        changes).
+     62            *        If requested state can't be reached the return value is false and the
+     63            *        MC_SW_ERROR is raised, but if requested state is IDLE_START,
+     64            *        IDLE_ALIGNMENT or ANY_STOP, that corresponds with the user actions:
+     65            *        Start Motor, Encoder Alignemnt and Stop Motor, the MC_SW_ERROR is
+     66            *        not raised.
+     67            * @param pHanlde pointer of type  STM_Handle_t.
+     68            * @param bState New requested state
+     69            * @retval bool It returns true if the state has been really set equal to
+     70            *         bState, false if the requested state can't be reached
+     71            */
+
+   \                                 In section .text, align 4
+     72          __weak bool STM_NextState( STM_Handle_t * pHandle, State_t bState )
+     73          {
+   \                     STM_NextState: (+1)
+   \        0x0   0xB510             PUSH     {R4,LR}
+     74            bool bChangeState = false;
+     75            State_t bCurrentState = pHandle->bState;
+     76            State_t bNewState = bCurrentState;
+     77          
+     78            switch ( bCurrentState )
+   \        0x2   0x7802             LDRB     R2,[R0, #+0]
+   \        0x4   0x2400             MOVS     R4,#+0
+   \        0x6   0x2A14             CMP      R2,#+20
+   \        0x8   0xD80E             BHI.N    ??STM_NextState_1
+   \        0xA   0xE8DF 0xF002      TBB      [PC, R2]
+   \                     ??STM_NextState_0:
+   \        0xE   0x18 0x1E          DC8      0x18,0x1E,0x4E,0x2A
+
+   \              0x4E 0x2A
+   \       0x12   0x41 0x4C          DC8      0x41,0x4C,0x4E,0x50
+
+   \              0x4E 0x50
+   \       0x16   0x52 0x55          DC8      0x52,0x55,0xD,0xD
+
+   \              0x0D 0x0D
+   \       0x1A   0x0B 0x24          DC8      0xB,0x24,0x26,0x28
+
+   \              0x26 0x28
+   \       0x1E   0x34 0x36          DC8      0x34,0x36,0x3E,0x45
+
+   \              0x3E 0x45
+   \       0x22   0x3C 0x00          DC8      0x3C,0x0
+     79            {
+     80              case ICLWAIT:
+     81                if ( bState == IDLE )
+   \                     ??STM_NextState_2: (+1)
+   \       0x24   0x000A             MOVS     R2,R1
+   \       0x26   0xD04B             BEQ.N    ??STM_NextState_3
+     82                {
+     83                  bNewState = bState;
+     84                  bChangeState = true;
+     85                }
+     86                break;
+     87              case IDLE:
+     88                if ( ( bState == IDLE_START ) || ( bState == IDLE_ALIGNMENT )
+     89                     || ( bState == ICLWAIT ) )
+     90                {
+     91                  bNewState = bState;
+     92                  bChangeState = true;
+     93                }
+     94                break;
+     95          
+     96              case IDLE_ALIGNMENT:
+     97                if ( ( bState == ANY_STOP ) || ( bState == ALIGN_CHARGE_BOOT_CAP )
+     98                     || ( bState == ALIGN_OFFSET_CALIB ) )
+     99                {
+    100                  bNewState = bState;
+    101                  bChangeState = true;
+    102                }
+    103                break;
+    104          
+    105              case ALIGN_CHARGE_BOOT_CAP:
+    106                if ( ( bState == ALIGN_OFFSET_CALIB ) || ( bState == ANY_STOP ) )
+    107                {
+    108                  bNewState = bState;
+    109                  bChangeState = true;
+    110                }
+    111                break;
+    112          
+    113              case ALIGN_OFFSET_CALIB:
+    114                if ( ( bState == ALIGN_CLEAR ) || ( bState == ANY_STOP ) )
+    115                {
+    116                  bNewState = bState;
+    117                  bChangeState = true;
+    118                }
+    119                break;
+    120          
+    121              case ALIGN_CLEAR:
+    122                if ( ( bState == ALIGNMENT ) || ( bState == ANY_STOP ) )
+    123                {
+    124                  bNewState = bState;
+    125                  bChangeState = true;
+    126                }
+    127                break;
+    128          
+    129              case ALIGNMENT:
+    130                if ( bState == ANY_STOP )
+    131                {
+    132                  bNewState = bState;
+    133                  bChangeState = true;
+    134                }
+    135                break;
+    136          
+    137              case IDLE_START:
+    138                if ( ( bState == ANY_STOP ) || ( bState == CHARGE_BOOT_CAP ) ||
+    139                     ( bState == START ) ||
+    140                     ( bState == OFFSET_CALIB ) || ( bState == IDLE_ALIGNMENT ) )
+    141                {
+    142                  bNewState = bState;
+    143                  bChangeState = true;
+    144                }
+    145                break;
+    146          
+    147              case CHARGE_BOOT_CAP:
+    148                if ( ( bState == OFFSET_CALIB ) || ( bState == ANY_STOP ) )
+    149                {
+    150                  bNewState = bState;
+    151                  bChangeState = true;
+    152                }
+    153                break;
+    154          
+    155              case OFFSET_CALIB:
+    156                if ( ( bState == CLEAR ) || ( bState == ANY_STOP ) || ( bState == WAIT_STOP_MOTOR ) )
+    157                {
+    158                  bNewState = bState;
+    159                  bChangeState = true;
+    160                }
+    161                break;
+    162          
+    163               case WAIT_STOP_MOTOR:
+    164                if ( ( bState == CLEAR ) || ( bState == ANY_STOP ) )
+    165                {
+    166                  bNewState = bState;
+    167                  bChangeState = true;
+    168                }
+    169                break;
+    170          
+    171              case CLEAR:
+    172                if ( ( bState == START ) || ( bState == ANY_STOP ) )
+    173                {
+    174                  bNewState = bState;
+    175                  bChangeState = true;
+    176                }
+    177                break;
+    178          
+    179              case START:
+    180                if ( ( bState == SWITCH_OVER ) || ( bState == ANY_STOP ) || (bState == START_RUN) )
+    181                {
+    182                  bNewState = bState;
+    183                  bChangeState = true;
+    184                }
+    185                break;
+    186          
+    187              case SWITCH_OVER:
+    188                if ( ( bState == START ) || ( bState == ANY_STOP ) || (bState == START_RUN) )
+    189                {
+    190                  bNewState = bState;
+    191                  bChangeState = true;
+    192                }
+    193                break;
+    194          
+    195              case START_RUN:
+    196                if ( ( bState == RUN ) || ( bState == ANY_STOP ) )
+    197                {
+    198                  bNewState = bState;
+    199                  bChangeState = true;
+    200                }
+    201                break;
+    202          
+    203              case RUN:
+    204                if ( bState == ANY_STOP )
+    205                {
+    206                  bNewState = bState;
+    207                  bChangeState = true;
+    208                }
+    209                break;
+    210          
+    211              case ANY_STOP:
+    212                if ( bState == STOP )
+    213                {
+    214                  bNewState = bState;
+    215                  bChangeState = true;
+    216                }
+    217                break;
+    218          
+    219              case STOP:
+    220                if ( bState == STOP_IDLE )
+    221                {
+    222                  bNewState = bState;
+    223                  bChangeState = true;
+    224                }
+    225                break;
+    226          
+    227              case STOP_IDLE:
+    228                if ( ( bState == IDLE ) || ( bState == ICLWAIT ) )
+    229                {
+    230                  bNewState = bState;
+    231                  bChangeState = true;
+    232                }
+    233                break;
+    234              default:
+    235                break;
+    236            }
+    237          
+    238            if ( bChangeState )
+    239            {
+    240              pHandle->bState = bNewState;
+    241            }
+    242            else
+    243            {
+    244              if ( !( ( bState == IDLE_START ) || ( bState == IDLE_ALIGNMENT )
+    245                      || ( bState == ANY_STOP ) ) )
+   \                     ??STM_NextState_1: (+1)
+   \       0x28   0x2903             CMP      R1,#+3
+   \       0x2A   0xBF1C             ITT      NE
+   \       0x2C   0x2901             CMPNE    R1,#+1
+   \       0x2E   0x2907             CMPNE    R1,#+7
+   \       0x30   0xD003             BEQ.N    ??STM_NextState_4
+    246              {
+    247                /* If new state is not a user command START/STOP raise a software error */
+    248                STM_FaultProcessing( pHandle, MC_SW_ERROR, 0u );
+   \       0x32   0x2200             MOVS     R2,#+0
+   \       0x34   0x2180             MOVS     R1,#+128
+   \       0x36   0x....'....        BL       STM_FaultProcessing
+    249              }
+    250            }
+    251          
+    252            return ( bChangeState );
+   \                     ??STM_NextState_4: (+1)
+   \       0x3A   0x4620             MOV      R0,R4
+   \       0x3C   0xBD10             POP      {R4,PC}          ;; return
+   \                     ??STM_NextState_5: (+1)
+   \       0x3E   0x460A             MOV      R2,R1
+   \       0x40   0x2A03             CMP      R2,#+3
+   \       0x42   0xD03D             BEQ.N    ??STM_NextState_3
+   \       0x44   0x2A01             CMP      R2,#+1
+   \       0x46   0xD139             BNE.N    ??STM_NextState_6
+   \       0x48   0xE03A             B.N      ??STM_NextState_3
+   \                     ??STM_NextState_7: (+1)
+   \       0x4A   0x2907             CMP      R1,#+7
+   \       0x4C   0xBF18             IT       NE
+   \       0x4E   0x290D             CMPNE    R1,#+13
+   \       0x50   0xD036             BEQ.N    ??STM_NextState_3
+   \       0x52   0x290E             CMP      R1,#+14
+   \       0x54   0xE02E             B.N      ??STM_NextState_8
+   \                     ??STM_NextState_9: (+1)
+   \       0x56   0x290E             CMP      R1,#+14
+   \       0x58   0xE018             B.N      ??STM_NextState_10
+   \                     ??STM_NextState_11: (+1)
+   \       0x5A   0x290F             CMP      R1,#+15
+   \       0x5C   0xE016             B.N      ??STM_NextState_10
+   \                     ??STM_NextState_12: (+1)
+   \       0x5E   0x2902             CMP      R1,#+2
+   \       0x60   0xE014             B.N      ??STM_NextState_10
+   \                     ??STM_NextState_13: (+1)
+   \       0x62   0x2907             CMP      R1,#+7
+   \       0x64   0xBF18             IT       NE
+   \       0x66   0x2910             CMPNE    R1,#+16
+   \       0x68   0xD02A             BEQ.N    ??STM_NextState_3
+   \       0x6A   0x2904             CMP      R1,#+4
+   \       0x6C   0xBF18             IT       NE
+   \       0x6E   0x2911             CMPNE    R1,#+17
+   \       0x70   0xD026             BEQ.N    ??STM_NextState_3
+   \       0x72   0x2901             CMP      R1,#+1
+   \       0x74   0xE01E             B.N      ??STM_NextState_8
+   \                     ??STM_NextState_14: (+1)
+   \       0x76   0x2911             CMP      R1,#+17
+   \       0x78   0xE008             B.N      ??STM_NextState_10
+   \                     ??STM_NextState_15: (+1)
+   \       0x7A   0x2912             CMP      R1,#+18
+   \       0x7C   0xBF18             IT       NE
+   \       0x7E   0x2907             CMPNE    R1,#+7
+   \       0x80   0xD01E             BEQ.N    ??STM_NextState_3
+   \       0x82   0x2914             CMP      R1,#+20
+   \       0x84   0xE016             B.N      ??STM_NextState_8
+   \                     ??STM_NextState_16: (+1)
+   \       0x86   0x2912             CMP      R1,#+18
+   \       0x88   0xE000             B.N      ??STM_NextState_10
+   \                     ??STM_NextState_17: (+1)
+   \       0x8A   0x2904             CMP      R1,#+4
+   \                     ??STM_NextState_10: (+1)
+   \       0x8C   0xD10D             BNE.N    ??STM_NextState_18
+   \       0x8E   0xE017             B.N      ??STM_NextState_3
+   \                     ??STM_NextState_19: (+1)
+   \       0x90   0x460A             MOV      R2,R1
+   \       0x92   0x2A13             CMP      R2,#+19
+   \       0x94   0xD103             BNE.N    ??STM_NextState_20
+   \       0x96   0xE013             B.N      ??STM_NextState_3
+   \                     ??STM_NextState_21: (+1)
+   \       0x98   0x460A             MOV      R2,R1
+   \       0x9A   0x2A04             CMP      R2,#+4
+   \       0x9C   0xD010             BEQ.N    ??STM_NextState_3
+   \                     ??STM_NextState_20: (+1)
+   \       0x9E   0x2A07             CMP      R2,#+7
+   \       0xA0   0xD00E             BEQ.N    ??STM_NextState_3
+   \       0xA2   0x2A05             CMP      R2,#+5
+   \       0xA4   0xE006             B.N      ??STM_NextState_8
+   \                     ??STM_NextState_22: (+1)
+   \       0xA6   0x2906             CMP      R1,#+6
+   \       0xA8   0xD00A             BEQ.N    ??STM_NextState_3
+   \                     ??STM_NextState_18: (+1)
+   \       0xAA   0x2907             CMP      R1,#+7
+   \       0xAC   0xE002             B.N      ??STM_NextState_8
+   \                     ??STM_NextState_23: (+1)
+   \       0xAE   0x2908             CMP      R1,#+8
+   \       0xB0   0xE000             B.N      ??STM_NextState_8
+   \                     ??STM_NextState_24: (+1)
+   \       0xB2   0x2909             CMP      R1,#+9
+   \                     ??STM_NextState_8: (+1)
+   \       0xB4   0xD1B8             BNE.N    ??STM_NextState_1
+   \       0xB6   0xE003             B.N      ??STM_NextState_3
+   \                     ??STM_NextState_25: (+1)
+   \       0xB8   0x000A             MOVS     R2,R1
+   \       0xBA   0xD001             BEQ.N    ??STM_NextState_3
+   \                     ??STM_NextState_6: (+1)
+   \       0xBC   0x2A0C             CMP      R2,#+12
+   \       0xBE   0xD1B3             BNE.N    ??STM_NextState_1
+   \                     ??STM_NextState_3: (+1)
+   \       0xC0   0x2401             MOVS     R4,#+1
+   \       0xC2   0x7001             STRB     R1,[R0, #+0]
+   \       0xC4   0xE7B9             B.N      ??STM_NextState_4
+    253          }
+    254          
+    255          /**
+    256            * @brief It clocks both HW and SW faults processing and update the state
+    257            *        machine accordingly with hSetErrors, hResetErrors and present state.
+    258            *        Refer to State_t description for more information about fault states.
+    259            * @param pHanlde pointer of type  STM_Handle_t
+    260            * @param hSetErrors Bit field reporting faults currently present
+    261            * @param hResetErrors Bit field reporting faults to be cleared
+    262            * @retval State_t New state machine state after fault processing
+    263            */
+
+   \                                 In section .text, align 2
+    264          __weak State_t STM_FaultProcessing( STM_Handle_t * pHandle, uint16_t hSetErrors, uint16_t
+    265                                       hResetErrors )
+    266          {
+   \                     STM_FaultProcessing: (+1)
+   \        0x0   0xB570             PUSH     {R4-R6,LR}
+   \        0x2   0x4603             MOV      R3,R0
+   \        0x4   0x781C             LDRB     R4,[R3, #+0]
+    267            State_t LocalState =  pHandle->bState;
+    268          
+    269            /* Set current errors */
+    270            pHandle->hFaultNow = ( pHandle->hFaultNow | hSetErrors ) & ( ~hResetErrors );
+   \        0x6   0x885D             LDRH     R5,[R3, #+2]
+    271            pHandle->hFaultOccurred |= hSetErrors;
+   \        0x8   0x889E             LDRH     R6,[R3, #+4]
+   \        0xA   0x4620             MOV      R0,R4
+   \        0xC   0x430D             ORRS     R5,R1,R5
+   \        0xE   0x4331             ORRS     R1,R1,R6
+    272          
+    273            if ( LocalState == FAULT_NOW )
+   \       0x10   0x280A             CMP      R0,#+10
+   \       0x12   0xEA25 0x0202      BIC      R2,R5,R2
+   \       0x16   0x8099             STRH     R1,[R3, #+4]
+   \       0x18   0xD103             BNE.N    ??STM_FaultProcessing_0
+    274            {
+    275              if ( pHandle->hFaultNow == MC_NO_FAULTS )
+   \       0x1A   0x0011             MOVS     R1,R2
+   \       0x1C   0xD105             BNE.N    ??STM_FaultProcessing_1
+    276              {
+    277                pHandle->bState = FAULT_OVER;
+   \       0x1E   0x240B             MOVS     R4,#+11
+    278                LocalState = FAULT_OVER;
+   \       0x20   0xE002             B.N      ??STM_FaultProcessing_2
+    279              }
+    280            }
+    281            else
+    282            {
+    283              if ( pHandle->hFaultNow != MC_NO_FAULTS )
+   \                     ??STM_FaultProcessing_0: (+1)
+   \       0x22   0x0011             MOVS     R1,R2
+   \       0x24   0xD001             BEQ.N    ??STM_FaultProcessing_1
+    284              {
+    285                pHandle->bState = FAULT_NOW;
+   \       0x26   0x240A             MOVS     R4,#+10
+    286                LocalState = FAULT_NOW;
+   \                     ??STM_FaultProcessing_2: (+1)
+   \       0x28   0x4620             MOV      R0,R4
+    287              }
+    288            }
+    289          
+    290            return ( LocalState );
+   \                     ??STM_FaultProcessing_1: (+1)
+   \       0x2A   0x701C             STRB     R4,[R3, #+0]
+   \       0x2C   0x805A             STRH     R2,[R3, #+2]
+   \       0x2E   0xBD70             POP      {R4-R6,PC}       ;; return
+    291          }
+    292          
+    293          #if defined (CCMRAM)
+    294          #if defined (__ICCARM__)
+    295          #pragma location = ".ccmram"
+    296          #elif defined (__CC_ARM) || defined(__GNUC__)
+    297          __attribute__( ( section ( ".ccmram" ) ) )
+    298          #endif
+    299          #endif
+    300          /**
+    301            * @brief  Returns the current state machine state
+    302            * @param  pHanlde pointer of type  STM_Handle_t
+    303            * @retval State_t Current state machine state
+    304            */
+
+   \                                 In section .text, align 2
+    305          __weak State_t STM_GetState( STM_Handle_t * pHandle )
+    306          {
+    307            return ( pHandle->bState );
+   \                     STM_GetState: (+1)
+   \        0x0   0x7800             LDRB     R0,[R0, #+0]
+   \        0x2   0x4770             BX       LR               ;; return
+    308          }
+    309          
+    310          
+    311          /**
+    312            * @brief It reports to the state machine that the fault state has been
+    313            *        acknowledged by the user. If the state machine is in FAULT_OVER state
+    314            *        then it is moved into STOP_IDLE and the bit field variable containing
+    315            *        information about the faults historically occured is cleared.
+    316            *        The method call is discarded if the state machine is not in FAULT_OVER
+    317            * @param pHanlde pointer of type  STM_Handle_t
+    318            * @retval bool true if the state machine has been moved to IDLE, false if the
+    319            *        method call had no effects
+    320            */
+
+   \                                 In section .text, align 2
+    321          __weak bool STM_FaultAcknowledged( STM_Handle_t * pHandle )
+    322          {
+   \                     STM_FaultAcknowledged: (+1)
+   \        0x0   0x4601             MOV      R1,R0
+    323            bool bToBeReturned = false;
+   \        0x2   0x2000             MOVS     R0,#+0
+    324          
+    325            if ( pHandle->bState == FAULT_OVER )
+   \        0x4   0x780A             LDRB     R2,[R1, #+0]
+   \        0x6   0x2A0B             CMP      R2,#+11
+   \        0x8   0xD104             BNE.N    ??STM_FaultAcknowledged_0
+    326            {
+    327              pHandle->bState = STOP_IDLE;
+   \        0xA   0x2009             MOVS     R0,#+9
+   \        0xC   0x7008             STRB     R0,[R1, #+0]
+    328              pHandle->hFaultOccurred = MC_NO_FAULTS;
+   \        0xE   0x2200             MOVS     R2,#+0
+   \       0x10   0x808A             STRH     R2,[R1, #+4]
+    329              bToBeReturned = true;
+   \       0x12   0x2001             MOVS     R0,#+1
+    330            }
+    331          
+    332            return ( bToBeReturned );
+   \                     ??STM_FaultAcknowledged_0: (+1)
+   \       0x14   0x4770             BX       LR               ;; return
+    333          }
+    334          
+    335          
+    336          /**
+    337            * @brief It returns two 16 bit fields containing information about both faults
+    338            *        currently present and faults historically occurred since the state
+    339            *        machine has been moved into state
+    340            * @param pHanlde pointer of type  STM_Handle_t.
+    341            * @retval uint32_t  Two 16 bit fields: in the most significant half are stored
+    342            *         the information about currently present faults. In the least
+    343            *         significant half are stored the information about the faults
+    344            *         historically occurred since the state machine has been moved into
+    345            *         FAULT_NOW state
+    346            */
+
+   \                                 In section .text, align 2
+    347          __weak uint32_t STM_GetFaultState( STM_Handle_t * pHandle )
+    348          {
+   \                     STM_GetFaultState: (+1)
+   \        0x0   0x4601             MOV      R1,R0
+    349            uint32_t LocalFaultState;
+    350          
+    351            LocalFaultState = ( uint32_t )( pHandle->hFaultOccurred );
+    352            LocalFaultState |= ( uint32_t )( pHandle->hFaultNow ) << 16;
+    353          
+    354            return LocalFaultState;
+   \        0x2   0x8888             LDRH     R0,[R1, #+4]
+   \        0x4   0x8849             LDRH     R1,[R1, #+2]
+   \        0x6   0xEA40 0x4001      ORR      R0,R0,R1, LSL #+16
+   \        0xA   0x4770             BX       LR               ;; return
+    355          }
+    356          
+    357          /**
+    358            * @}
+    359            */
+    360          
+    361          /**
+    362            * @}
+    363            */
+    364          
+    365          /******************* (C) COPYRIGHT 2019 STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   STM_FaultAcknowledged
+      16   STM_FaultProcessing
+       0   STM_GetFaultState
+       0   STM_GetState
+       0   STM_Init
+       8   STM_NextState
+         8   -> STM_FaultProcessing
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      22  STM_FaultAcknowledged
+      48  STM_FaultProcessing
+      12  STM_GetFaultState
+       4  STM_GetState
+      10  STM_Init
+     198  STM_NextState
+
+ 
+ 294 bytes in section .text
+ 
+ 0 bytes of CODE memory (+ 294 bytes shared)
+
+Errors: none
+Warnings: none

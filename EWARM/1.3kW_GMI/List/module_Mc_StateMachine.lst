@@ -1,0 +1,1820 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.50.9.278/W32 for ARM         23/Feb/2021  10:13:55
+# Copyright 1999-2020 IAR Systems AB.
+#
+#    Cpu mode                        
+#    Endian                       =  little
+#    Source file                  =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\FlexMouse\Motor\module_Mc_StateMachine.c
+#    Command line                 =
+#        -f C:\Users\100001~1\AppData\Local\Temp\EW816.tmp
+#        (C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\FlexMouse\Motor\module_Mc_StateMachine.c
+#        -D ARM_MATH_CM4 -D USE_FULL_LL_DRIVER -D USE_HAL_DRIVER -D STM32F302x8
+#        -lCN
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List
+#        -o
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj
+#        --debug --endian=little --cpu=Cortex-M4 -e --fpu=VFPv4_sp
+#        --dlib_config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.4\arm\inc\c\DLib_Config_Full.h" -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/Any/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/F3xx/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/UILibrary/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/SystemDriveParams\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/Device/ST/STM32F3xx/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/DSP/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Drivers\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Features\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Kernel\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Memory\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Regal\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\UniversalProtocol\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Motor\\
+#        -Ohz)
+#    Locale                       =  C
+#    List file                    =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List\module_Mc_StateMachine.lst
+#    Object file                  =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\module_Mc_StateMachine.o
+#    Runtime model:                  
+#      __SystemLibrary            =  DLib
+#      __dlib_full_locale_support =  1
+#      __dlib_version             =  6
+#
+###############################################################################
+
+C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\FlexMouse\Motor\module_Mc_StateMachine.c
+      1          /**
+      2          ********************************************************************************************************************************
+      3          * @file    module_Mc_StateMachine.c 
+      4          * @author  Pamela Lee
+      5          * @brief   The main motor interface with ST motor libraries.
+      6          * @details This module will keep track with the motor start/stop and running status, and perform startup fail retry, active breaking 
+      7          *          , on the fly startup and derating control for the motor
+      8          * @note    when de-rating was happening, the target speed will reduce to below the threshold value, will not go back to the orginial 
+      9          *          value until user override the speed with command again!
+     10          ********************************************************************************************************************************
+     11          */
+     12          
+     13          /* Includes --------------------------------------------------------------------------------------------------------------------*/
+     14          #include "ab_module_Mc_StateMachine.h"
+     15          #include "mc_api.h"
+     16          #include "state_machine.h"
+     17          #include "mc_config.h"
+     18          #include "math.h"
+     19          #include "zz_module_flash.h"
+
+   \                                 In section .rodata, at 0x800f000
+   \   __absolute uint16_t const A_POLE_PAIR_NUM
+   \                     A_POLE_PAIR_NUM:
+   \        0x0   0x0005             DC16 5
+
+   \                                 In section .rodata, at 0x800f002
+   \   __absolute uint16_t const A_RS
+   \                     A_RS:
+   \        0x0   0x0258             DC16 600
+
+   \                                 In section .rodata, at 0x800f004
+   \   __absolute uint16_t const A_LS
+   \                     A_LS:
+   \        0x0   0x0010             DC16 16
+
+   \                                 In section .rodata, at 0x800f006
+   \   __absolute uint16_t const A_NOMINAL_CURRENT
+   \                     A_NOMINAL_CURRENT:
+   \        0x0   0x6A1E             DC16 27'166
+
+   \                                 In section .rodata, at 0x800f008
+   \   __absolute uint16_t const A_MAX_APPLICATION_SPEED_RPM
+   \                     A_MAX_APPLICATION_SPEED_RPM:
+   \        0x0   0x08CA             DC16 2'250
+
+   \                                 In section .rodata, at 0x800f00a
+   \   __absolute uint16_t const A_MIN_APPLICATION_SPEED_RPM
+   \                     A_MIN_APPLICATION_SPEED_RPM:
+   \        0x0   0x0000             DC16 0
+
+   \                                 In section .rodata, at 0x800f00c
+   \   __absolute uint16_t const A_PLL_KP_GAIN
+   \                     A_PLL_KP_GAIN:
+   \        0x0   0x0214             DC16 532
+
+   \                                 In section .rodata, at 0x800f00e
+   \   __absolute uint16_t const A_PLL_KI_GAIN
+   \                     A_PLL_KI_GAIN:
+   \        0x0   0x0025             DC16 37
+
+   \                                 In section .rodata, at 0x800f010
+   \   __absolute uint16_t const A_PWM_FREQUENCY
+   \                     A_PWM_FREQUENCY:
+   \        0x0   0x2710             DC16 10'000
+
+   \                                 In section .rodata, at 0x800f012
+   \   __absolute uint16_t const A_PID_TORQUE_KP_DEFAULT
+   \                     A_PID_TORQUE_KP_DEFAULT:
+   \        0x0   0x0ECF             DC16 3'791
+
+   \                                 In section .rodata, at 0x800f014
+   \   __absolute uint16_t const A_PID_TORQUE_KI_DEFAULT
+   \                     A_PID_TORQUE_KI_DEFAULT:
+   \        0x0   0x0038             DC16 56
+
+   \                                 In section .rodata, at 0x800f016
+   \   __absolute uint16_t const A_PID_FLUX_KP_DEFAULT
+   \                     A_PID_FLUX_KP_DEFAULT:
+   \        0x0   0x14B7             DC16 5'303
+
+   \                                 In section .rodata, at 0x800f018
+   \   __absolute uint16_t const A_PID_FLUX_KI_DEFAULT
+   \                     A_PID_FLUX_KI_DEFAULT:
+   \        0x0   0x0038             DC16 56
+
+   \                                 In section .rodata, at 0x800f01a
+   \   __absolute uint16_t const A_PID_SPEED_KP_DEFAULT
+   \                     A_PID_SPEED_KP_DEFAULT:
+   \        0x0   0x0064             DC16 100
+
+   \                                 In section .rodata, at 0x800f01c
+   \   __absolute uint16_t const A_PID_SPEED_KI_DEFAULT
+   \                     A_PID_SPEED_KI_DEFAULT:
+   \        0x0   0x03E8             DC16 1'000
+
+   \                                 In section .rodata, at 0x800f01e
+   \   __absolute uint16_t const A_IQMAX
+   \                     A_IQMAX:
+   \        0x0   0x6A1E             DC16 27'166
+
+   \                                 In section .rodata, at 0x800f020
+   \   __absolute uint16_t const A_DEFAULT_CONTROL_MODE
+   \                     A_DEFAULT_CONTROL_MODE:
+   \        0x0   0x0001             DC16 1
+
+   \                                 In section .rodata, at 0x800f022
+   \   __absolute uint16_t const A_OV_VOLTAGE_THRESHOLD_V
+   \                     A_OV_VOLTAGE_THRESHOLD_V:
+   \        0x0   0x01EC             DC16 492
+
+   \                                 In section .rodata, at 0x800f024
+   \   __absolute uint16_t const A_UD_VOLTAGE_THRESHOLD_V
+   \                     A_UD_VOLTAGE_THRESHOLD_V:
+   \        0x0   0x00AF             DC16 175
+
+   \                                 In section .rodata, at 0x800f026
+   \   __absolute uint16_t const A_OV_TEMPERATURE_THRESHOLD_C
+   \                     A_OV_TEMPERATURE_THRESHOLD_C:
+   \        0x0   0x005F             DC16 95
+
+   \                                 In section .rodata, at 0x800f028
+   \   __absolute uint16_t const A_OV_TEMPERATURE_HYSTERESIS_C
+   \                     A_OV_TEMPERATURE_HYSTERESIS_C:
+   \        0x0   0x000A             DC16 10
+
+   \                                 In section .rodata, at 0x800f02a
+   \   __absolute uint16_t const A_PHASE1_DURATION
+   \                     A_PHASE1_DURATION:
+   \        0x0   0x03E8             DC16 1'000
+
+   \                                 In section .rodata, at 0x800f02c
+   \   __absolute uint16_t const A_PHASE1_FINAL_SPEED_UNIT
+   \                     A_PHASE1_FINAL_SPEED_UNIT:
+   \        0x0   0x0000             DC16 0
+
+   \                                 In section .rodata, at 0x800f02e
+   \   __absolute uint16_t const A_PHASE1_FINAL_CURRENT
+   \                     A_PHASE1_FINAL_CURRENT:
+   \        0x0   0x14F1             DC16 5'361
+
+   \                                 In section .rodata, at 0x800f030
+   \   __absolute uint16_t const A_PHASE2_DURATION
+   \                     A_PHASE2_DURATION:
+   \        0x0   0x1770             DC16 6'000
+
+   \                                 In section .rodata, at 0x800f032
+   \   __absolute uint16_t const A_PHASE2_FINAL_SPEED_UNIT
+   \                     A_PHASE2_FINAL_SPEED_UNIT:
+   \        0x0   0x00A6             DC16 166
+
+   \                                 In section .rodata, at 0x800f034
+   \   __absolute uint16_t const A_PHASE2_FINAL_CURRENT
+   \                     A_PHASE2_FINAL_CURRENT:
+   \        0x0   0x14F1             DC16 5'361
+
+   \                                 In section .rodata, at 0x800f036
+   \   __absolute uint16_t const A_PHASE3_DURATION
+   \                     A_PHASE3_DURATION:
+   \        0x0   0x0000             DC16 0
+
+   \                                 In section .rodata, at 0x800f038
+   \   __absolute uint16_t const A_PHASE3_FINAL_SPEED_UNIT
+   \                     A_PHASE3_FINAL_SPEED_UNIT:
+   \        0x0   0x00A6             DC16 166
+
+   \                                 In section .rodata, at 0x800f03a
+   \   __absolute uint16_t const A_PHASE3_FINAL_CURRENT
+   \                     A_PHASE3_FINAL_CURRENT:
+   \        0x0   0x14F1             DC16 5'361
+
+   \                                 In section .rodata, at 0x800f03c
+   \   __absolute uint16_t const A_PHASE4_DURATION
+   \                     A_PHASE4_DURATION:
+   \        0x0   0x0000             DC16 0
+
+   \                                 In section .rodata, at 0x800f03e
+   \   __absolute uint16_t const A_PHASE4_FINAL_SPEED_UNIT
+   \                     A_PHASE4_FINAL_SPEED_UNIT:
+   \        0x0   0x00A6             DC16 166
+
+   \                                 In section .rodata, at 0x800f040
+   \   __absolute uint16_t const A_PHASE4_FINAL_CURRENT
+   \                     A_PHASE4_FINAL_CURRENT:
+   \        0x0   0x14F1             DC16 5'361
+
+   \                                 In section .rodata, at 0x800f042
+   \   __absolute uint16_t const A_PHASE5_DURATION
+   \                     A_PHASE5_DURATION:
+   \        0x0   0x0000             DC16 0
+
+   \                                 In section .rodata, at 0x800f044
+   \   __absolute uint16_t const A_PHASE5_FINAL_SPEED_UNIT
+   \                     A_PHASE5_FINAL_SPEED_UNIT:
+   \        0x0   0x00A6             DC16 166
+
+   \                                 In section .rodata, at 0x800f046
+   \   __absolute uint16_t const A_PHASE5_FINAL_CURRENT
+   \                     A_PHASE5_FINAL_CURRENT:
+   \        0x0   0x14F1             DC16 5'361
+
+   \                                 In section .rodata, at 0x800f048
+   \   __absolute uint16_t const A_TRANSITION_DURATION
+   \                     A_TRANSITION_DURATION:
+   \        0x0   0x01F4             DC16 500
+
+   \                                 In section .rodata, at 0x800f04a
+   \   __absolute uint16_t const D_HALL_SENSORS_PLACEMENT
+   \                     D_HALL_SENSORS_PLACEMENT:
+   \        0x0   0x0000             DC16 0
+
+   \                                 In section .rodata, at 0x800f04c
+   \   __absolute uint16_t const D_HALL_PHASE_SHIFT
+   \                     D_HALL_PHASE_SHIFT:
+   \        0x0   0x012C             DC16 300
+
+   \                                 In section .rodata, at 0x800f04e
+   \   __absolute uint16_t const D_M1_ENCODER_PPR
+   \                     D_M1_ENCODER_PPR:
+   \        0x0   0x0190             DC16 400
+
+   \                                 In section .rodata, at 0x800f050
+   \   __absolute int16_t const A_GAIN1
+   \                     A_GAIN1:
+   \        0x0   0xA02E             DC16 -24'530
+
+   \                                 In section .rodata, at 0x800f052
+   \   __absolute int16_t const A_GAIN2
+   \                     A_GAIN2:
+   \        0x0   0x5EA3             DC16 24'227
+     20          #include "regal_mc_lib.h"
+     21          
+     22          
+     23          /* Content ---------------------------------------------------------------------------------------------------------------------*/
+     24          extern MCT_Handle_t MCT[NBR_OF_MOTORS];
+     25          static MCT_Handle_t *pMCT = &MCT[M1];                          /* pointer on motor control tuning handler */
+     26          extern PQD_MotorPowMeas_Handle_t *pMPM[NBR_OF_MOTORS];
+     27          
+     28          extern ProcessInfo processInfoTable[];
+     29          Module_StateMachineControl  module_StateMachineControl;
+     30          
+     31          /************************************ All the setting should be mapped into FLash *********************************************/
+     32          //__weak __no_init const uint16_t   MIN_COMMANDABLE_SPEED	       @(FLASH_USER_START_ADDR + (2 *  Index_MIN_COMMANDABLE_SPEED	   ) );
+
+   \                                 In section .rodata, at 0x800f054
+     33          __weak const uint16_t   MIN_COMMANDABLE_SPEED	     @(FLASH_USER_START_ADDR + (2 *  Index_MIN_COMMANDABLE_SPEED	) ) = 300       ;             
+   \                     MIN_COMMANDABLE_SPEED:
+   \        0x0   0x012C             DC16 300
+
+   \                                 In section .rodata, at 0x800f056
+     34          __weak const uint16_t   MAX_COMMANDABLE_SPEED        @(FLASH_USER_START_ADDR + (2 *  Index_MAX_COMMANDABLE_SPEED        ) ) = 2500      ;             
+   \                     MAX_COMMANDABLE_SPEED:
+   \        0x0   0x09C4             DC16 2'500
+
+   \                                 In section .rodata, at 0x800f058
+     35          __weak const uint16_t   SPEED_UP_RAMP_RATE           @(FLASH_USER_START_ADDR + (2 *  Index_SPEED_UP_RAMP_RATE           ) ) = 75        ;             
+   \                     SPEED_UP_RAMP_RATE:
+   \        0x0   0x004B             DC16 75
+
+   \                                 In section .rodata, at 0x800f05a
+     36          __weak const uint16_t   SPEED_DOWN_RAMP_RATE         @(FLASH_USER_START_ADDR + (2 *  Index_SPEED_DOWN_RAMP_RATE         ) ) = 100       ;             
+   \                     SPEED_DOWN_RAMP_RATE:
+   \        0x0   0x0064             DC16 100
+
+   \                                 In section .rodata, at 0x800f05c
+     37          __weak const uint16_t   SPEED_CONSIDERED_STOPPED     @(FLASH_USER_START_ADDR + (2 *  Index_SPEED_CONSIDERED_STOPPED     ) ) = 200       ;             
+   \                     SPEED_CONSIDERED_STOPPED:
+   \        0x0   0x00C8             DC16 200
+
+   \                                 In section .rodata, at 0x800f05e
+     38          __weak const uint16_t   MotSpinTimeOut               @(FLASH_USER_START_ADDR + (2 *  Index_MotSpinTimeOut               ) ) = 4         ;             
+   \                     MotSpinTimeOut:
+   \        0x0   0x0004             DC16 4
+
+   \                                 In section .rodata, at 0x800f060
+     39          __weak const uint16_t   SpinPollPeriod               @(FLASH_USER_START_ADDR + (2 *  Index_SpinPollPeriod               ) ) = 1000      ;             
+   \                     SpinPollPeriod:
+   \        0x0   0x03E8             DC16 1'000
+
+   \                                 In section .rodata, at 0x800f062
+     40          __weak const uint16_t   numOfStartRetry              @(FLASH_USER_START_ADDR + (2 *  Index_numOfStartRetry              ) ) = 6         ;             
+   \                     numOfStartRetry:
+   \        0x0   0x0006             DC16 6
+
+   \                                 In section .rodata, at 0x800f064
+     41          __weak const uint16_t   StartRetryPeriod             @(FLASH_USER_START_ADDR + (2 *  Index_StartRetryPeriod             ) ) = 2000      ;             
+   \                     StartRetryPeriod:
+   \        0x0   0x07D0             DC16 2'000
+
+   \                                 In section .rodata, at 0x800f066
+     42          __weak const uint16_t   StartPeriodInc               @(FLASH_USER_START_ADDR + (2 *  Index_StartPeriodInc               ) ) = 10000     ;             
+   \                     StartPeriodInc:
+   \        0x0   0x2710             DC16 10'000
+
+   \                                 In section .rodata, at 0x800f068
+     43          __weak const uint16_t   over_current_threshold       @(FLASH_USER_START_ADDR + (2 *  Index_over_current_threshold       ) ) = 10000      ;             
+   \                     over_current_threshold:
+   \        0x0   0x2710             DC16 10'000
+
+   \                                 In section .rodata, at 0x800f06a
+     44          __weak const uint16_t   over_current_rpm_Reduce      @(FLASH_USER_START_ADDR + (2 *  Index_over_current_rpm_Reduce      ) ) = 10        ;             
+   \                     over_current_rpm_Reduce:
+   \        0x0   0x000A             DC16 10
+
+   \                                 In section .rodata, at 0x800f06c
+     45          __weak const uint16_t   OvCurrent_derate_period      @(FLASH_USER_START_ADDR + (2 *  Index_OvCurrent_derate_period      ) ) = 200       ;             
+   \                     OvCurrent_derate_period:
+   \        0x0   0x00C8             DC16 200
+
+   \                                 In section .rodata, at 0x800f06e
+     46          __weak const uint16_t   over_power_threshold         @(FLASH_USER_START_ADDR + (2 *  Index_over_power_threshold         ) ) = 3000      ;             
+   \                     over_power_threshold:
+   \        0x0   0x0BB8             DC16 3'000
+
+   \                                 In section .rodata, at 0x800f070
+     47          __weak const uint16_t   over_power_rpm_Reduce        @(FLASH_USER_START_ADDR + (2 *  Index_over_power_rpm_Reduce        ) ) = 10        ;             
+   \                     over_power_rpm_Reduce:
+   \        0x0   0x000A             DC16 10
+
+   \                                 In section .rodata, at 0x800f072
+     48          __weak const uint16_t   OvPower_derate_period        @(FLASH_USER_START_ADDR + (2 *  Index_OvPower_derate_period        ) ) = 200       ;             
+   \                     OvPower_derate_period:
+   \        0x0   0x00C8             DC16 200
+
+   \                                 In section .rodata, at 0x800f074
+     49          __weak const uint16_t   over_temperature_threshold   @(FLASH_USER_START_ADDR + (2 *  Index_over_temperature_threshold   ) ) = 60        ;             
+   \                     over_temperature_threshold:
+   \        0x0   0x003C             DC16 60
+
+   \                                 In section .rodata, at 0x800f076
+     50          __weak const uint16_t   over_temperature_rpm_Reduce  @(FLASH_USER_START_ADDR + (2 *  Index_over_temperature_rpm_Reduce  ) ) = 10        ;             
+   \                     over_temperature_rpm_Reduce:
+   \        0x0   0x000A             DC16 10
+
+   \                                 In section .rodata, at 0x800f078
+     51          __weak const uint16_t   OvTemp_derate_period         @(FLASH_USER_START_ADDR + (2 *  Index_OvTemp_derate_period         ) ) = 30000     ;      
+   \                     OvTemp_derate_period:
+   \        0x0   0x7530             DC16 30'000
+
+   \                                 In section .data, align 8
+   \                     module_StateMachineControl:
+   \        0x0                      DS8 8
+     52          
+     53          
+     54          // Application Constants
+     55          
+     56          //#define MIN_COMMANDABLE_SPEED		300     	// RPM
+     57          //#define MAX_COMMANDABLE_SPEED		2500                    //MAX_APPLICATION_SPEED_RPM 
+     58          //#define SPEED_UP_RAMP_RATE		75		// RPM/Sec
+     59          //#define SPEED_DOWN_RAMP_RATE		100		// RPM/Sec
+     60          //#define SPEED_CONSIDERED_STOPPED	200		// RPM              
+     61          
+     62          int32_t target_speed = 0;                               //Actural speed to submit into ST motor libaries                        
+     63          int16_t act_dir = 1;
+     64          /************************ Motor start spinning timing parameter  ********************************************************/
+     65          static uint16_t MotSpinPollCount = 0;
+     66          //#define MotSpinTimeOut 4                        //max motor spin poll count for time out measurement
+     67          //#define SpinPollPeriod 1000                     //time period for checking and sending 0-10V and speed data to motor board
+     68          uint64_t tt_SpinPollTime;
+     69          
+     70          /**********************************   Start-up retry  *******************************************/                           
+     71          /***  total re-start waiting period = StartRetryPeriod +(StartPeriodInc * numOfStartRetry) ms  **/
+     72          //#define numOfStartRetry   6                     //number of retry when start-up fail
+     73          //#define StartRetryPeriod  2000                  //fundamental delay time for start-up retry delay
+     74          //#define StartPeriodInc    10000                 //Each number of failure additional time delay        
+     75          uint16_t StartRetryCounter = 0;
+     76          uint64_t tt_StartUpRetryTime;
+     77          uint64_t tt_FaultOTFWaitTime_u64 = 0;
+     78          #define OTF_WAIT_TIME 30000  // 30 sec wait time to allow motor to coast down to 0 RPM
+     79          
+     80          /************************************* de_rating parameters  *********************************************/
+     81          //#define over_current_threshold         1000              //over current theardhold (need convert to actual value!!!!!!!!!!!!)
+     82          //#define over_current_rpm_Reduce         10              //rpm reduce in every loop of derating
+     83          //#define OvCurrent_derate_period         200             //over current derate poll time duration ms
+     84          uint64_t tt_derateCurrentPollTime;
+     85          int32_t avrCurrentRd[]={0,0,0,0};
+     86          int32_t avrCurrentRdOP = 0;
+     87          
+     88          
+     89          //#define over_power_threshold           3000
+     90          //#define over_power_rpm_Reduce           10              //rpm reduce in every loop of derating
+     91          //#define OvPower_derate_period           200             //over power derate poll time duration ms
+     92          uint64_t tt_deratePowerPollTime;
+     93          
+     94          //#define over_temperature_threshold      33              //Actural temperature in degree C
+     95          //#define over_temperature_rpm_Reduce     10              //rpm reduce in every loop of derating
+     96          //#define OvTemp_derate_period            30000             //over power derate poll time duration ms
+     97          uint64_t tt_derateTempPollTime;
+     98          
+     99          //RPa: Stop and Brake
+    100          uint64_t tt_TurnOnLowSideTime;
+    101          
+    102          //RPa: OTF temporary fix
+    103          uint64_t tt_FaultOTFWaitTime;
+    104          
+    105          /****************** local fault status ************************/
+    106          /** GMI_FaultStatus => 0x01 = start-up retry error            */
+    107          /**                    0x02 = ST_Motor fault error persisting */
+    108          uint8_t GMI_FaultStatus = 0; //GMI statemachine Error message status for report to module_err_logHandle      
+   \                     GMI_FaultStatus:
+   \        0x8   0x00               DC8 0
+   \        0x9   0x00               DC8 0
+   \                     act_dir:
+   \        0xA   0x0001             DC16 1
+   \        0xC   0x0000             DC16 0
+   \                     StartRetryCounter:
+   \        0xE   0x0000             DC16 0
+   \                     tt_SpinPollTime:
+   \       0x10                      DS8 8
+   \                     tt_StartUpRetryTime:
+   \       0x18                      DS8 8
+   \                     tt_FaultOTFWaitTime_u64:
+   \       0x20   0x0000'0000'0      DC64 0
+
+   \              000'0000
+   \                     tt_derateCurrentPollTime:
+   \       0x28                      DS8 8
+   \                     tt_deratePowerPollTime:
+   \       0x30                      DS8 8
+   \                     tt_derateTempPollTime:
+   \       0x38                      DS8 8
+   \                     tt_TurnOnLowSideTime:
+   \       0x40                      DS8 8
+   \       0x48                      DS8 4
+   \                     target_speed:
+   \       0x4C   0x0000'0000        DC32 0
+
+   \                                 In section .data, align 4
+   \        0x0   0x....'....        DC32 MCT
+    109          
+    110          int16_t tmpryTempature = 0;
+    111          
+    112          
+
+   \                                 In section .text, align 2, keep-with-next
+    113          uint8_t module_Mc_StateMachine_u32(uint8_t module_id_u8, uint8_t prev_state_u8, uint8_t next_State_u8,
+    114                                             uint8_t irq_id_u8) 
+    115          {
+   \                     module_Mc_StateMachine_u32: (+1)
+   \        0x0   0xE92D 0x43FE      PUSH     {R1-R9,LR}
+   \        0x4   0x4606             MOV      R6,R0
+   \        0x6   0x4617             MOV      R7,R2
+    116            uint8_t return_state_u8 = 0;
+    117            /** pre-process the Motor stop speed command or fault status, both get higher priority in the state machine**/
+    118            updateAvrCurrent();
+   \        0x8   0x....'....        BL       updateAvrCurrent
+    119            if((!module_StateMachineControl.motorEnable) && (next_State_u8 != INIT_MODULE)){
+   \        0xC   0x....'....        LDR.W    R4,??DataTable3
+   \       0x10   0x7960             LDRB     R0,[R4, #+5]
+   \       0x12   0xB918             CBNZ.N   R0,??module_Mc_StateMachine_u32_0
+   \       0x14   0x0038             MOVS     R0,R7
+   \       0x16   0xBF1C             ITT      NE
+   \       0x18   0x2000             MOVNE    R0,#+0
+   \       0x1A   0x6020             STRNE    R0,[R4, #+0]
+    120              module_StateMachineControl.command_Speed = 0; //disable the motor
+    121              return_state_u8 = IDLE_MODULE;  
+    122            }
+    123            if( MC_GetSTMStateMotor1() == FAULT_NOW) {
+   \                     ??module_Mc_StateMachine_u32_0: (+1)
+   \       0x1C   0x....'....        BL       MC_GetSTMStateMotor1
+   \       0x20   0x280A             CMP      R0,#+10
+   \       0x22   0xD116             BNE.N    ??module_Mc_StateMachine_u32_1
+    124              GMI_FaultStatus = 0x02;              //ST_Motor fault error persisting
+   \       0x24   0x2002             MOVS     R0,#+2
+    125              next_State_u8 = FAULT_REPORT_MODULE; //report fault and return
+   \       0x26   0x210C             MOVS     R1,#+12
+   \       0x28   0x7220             STRB     R0,[R4, #+8]
+   \       0x2A   0x7121             STRB     R1,[R4, #+4]
+    126            }
+    127            else if(MC_GetSTMStateMotor1() == FAULT_OVER) next_State_u8 = FAULT_PROCESS_MODULE; //after fault over then can process the fault and restart
+    128            else if((next_State_u8 != INIT_MODULE)&& (next_State_u8 != IRQ_MODULE))
+    129            {        
+    130              if(module_StateMachineControl.command_Speed == 0) {   // any situation see stop command will change to stop state, unless IRQ and stopping states
+    131                switch (next_State_u8){
+    132                case PRE_START_MODULE:
+    133                case OTF_STARTUP_MODULE:
+    134                case MOTOR_RUNNING_MODULE:
+    135                case CURRENT_DERATING_MODULE:
+    136                case POWER_DERATING_MODULE:
+    137                case TEMPERATURE_DERATING_MODULE:
+    138                  next_State_u8 = STOP_MOTOR_MODULE;
+    139                default:
+    140                  break;
+    141                } 
+    142              }
+    143              else {  
+    144                if(module_StateMachineControl.command_Speed < MIN_COMMANDABLE_SPEED) module_StateMachineControl.command_Speed = MIN_COMMANDABLE_SPEED; //check command speed lower than min speed
+    145                if(module_StateMachineControl.command_Speed > MAX_COMMANDABLE_SPEED) module_StateMachineControl.command_Speed = MAX_COMMANDABLE_SPEED; //check command speed lower than min speed       
+    146              }
+    147            }
+    148            module_StateMachineControl.current_State = (ModuleMotorStates)next_State_u8;
+    149            /** pre-process the Motor stop speed command or fault status, both get higher priority in the state machine end**/
+    150            
+    151            switch (next_State_u8) {
+    152            case INIT_MODULE: {          
+    153              //init this module 
+    154              Mc_StateMachineStructMem_u32 =  StructMem_CreateInstance(MODULE_MC_STATEMACHINE, sizeof(Module_StateMachineControl), ACCESS_MODE_WRITE_ONLY, NULL, EMPTY_LIST);//System call create a structured memory for this driver [should map it back to this driver local struct]
+    155              (*Mc_StateMachineStructMem_u32).p_ramBuf_u8 = (uint8_t *)&module_StateMachineControl ; //map the generated module's control memory into the structured memory
+    156              uint8_t module_Mc_StateMachine_Index = getProcessInfoIndex(MODULE_MC_STATEMACHINE);
+    157              processInfoTable[module_Mc_StateMachine_Index].Sched_ModuleData.p_masterSharedMem_u32 = Mc_StateMachineStructMem_u32; //also map it back to module_paramters under kernel 
+    158              
+    159              //init motor from boot 
+    160              /*** check the motor setting and init all motor setting ***/            
+    161              module_StateMachineControl.command_Speed = 0;            
+    162              module_StateMachineControl.errorCode_u8 = 0;
+    163              module_StateMachineControl.motorDir = 1; //CW
+    164              module_StateMachineControl.motorEnable = TRUE;
+    165              //init motor flag
+    166              return_state_u8 = IDLE_MODULE;
+    167              break;
+    168            }
+    169            case IDLE_MODULE: {
+    170              if(module_StateMachineControl.command_Speed != 0)
+    171              {
+    172                return_state_u8 = PRE_START_MODULE;
+    173                break;
+    174              }
+    175              StartRetryCounter = 0;        //this variable combine with StartRetryPeriod to form the timeout of start retry
+    176              MotSpinPollCount = 0;         //this value combine the startRetryTime delay to form the timeout 
+    177              return_state_u8 = IDLE_MODULE;
+    178              break;
+    179            }
+    180            case PRE_START_MODULE: {        //calculate the actual execution time according to the current motor speed and the target speed in RPM
+    181              target_speed = module_StateMachineControl.command_Speed;
+    182                      setSpeed(module_StateMachineControl.command_Speed * (int32_t) module_StateMachineControl.motorDir);                                                                 //Command ST motor libraries for running the speed of module_StateMachineControl.targetSpeed
+    183                      MC_StartMotor1();
+    184                      act_dir = MC_GetImposedDirectionMotor1();
+    185                      // Temporary integrator limits to avoid regen when decelerating, a dc bus control method will be implemented soon
+    186                      if (act_dir == 1)
+    187                      {
+    188                        PIDSpeedHandle_M1.hLowerOutputLimit=0;
+    189                        PIDSpeedHandle_M1.wLowerIntegralLimit=0;
+    190                        PIDSpeedHandle_M1.wUpperIntegralLimit = (int32_t)A_IQMAX * (int32_t)SP_KIDIV;
+    191                        PIDSpeedHandle_M1.hUpperOutputLimit = (int16_t)A_IQMAX;              
+    192                      }
+    193                      else if (act_dir == -1)
+    194                      {
+    195                        PIDSpeedHandle_M1.hUpperOutputLimit=0;
+    196                        PIDSpeedHandle_M1.wUpperIntegralLimit=0;          
+    197                        PIDSpeedHandle_M1.wLowerIntegralLimit = -(int32_t)A_IQMAX * (int32_t)SP_KIDIV;
+    198                        PIDSpeedHandle_M1.hLowerOutputLimit = -(int16_t)A_IQMAX;
+    199                      }
+    200              MotSpinPollCount = 0;                               //Reset motor spinning loop count as timeout counter
+    201              tt_SpinPollTime = getSysCount() + SpinPollPeriod;   //prepare next time tick value for OTF_STARTUP_MODULE
+    202              return_state_u8 = OTF_STARTUP_MODULE;
+    203              break;
+    204            }
+    205            case OTF_STARTUP_MODULE: {      //monitor the startup process and check motor is running successfully
+    206              // startup successfully proof 
+    207              //ST motor state in either START_RUN or RUN, no fault state, measured speed normal, 
+    208              if(MC_GetOccurredFaultsMotor1()){  //if any fault happen
+    209                MC_StopMotor1();                 //stop the motor first
+    210                MC_AcknowledgeFaultMotor1();     //clear the fault
+    211                MotSpinPollCount = 0;            //this value combine the startRetryTime delay to form the timeout 
+    212                tt_StartUpRetryTime = getSysCount() + StartRetryPeriod +(StartPeriodInc * StartRetryCounter);
+    213                return_state_u8 = MOTOR_START_RETRY_MODULE;
+    214                break;
+    215              }    
+    216              State_t tmpryMC_State = MC_GetSTMStateMotor1();
+    217              if (getSysCount() >= tt_SpinPollTime) {        //wait for motor spin up to speed   
+    218                if(MotSpinPollCount++ >= MotSpinTimeOut){    //motor spin-up time-out, timeout period = SpinPollPeriod * MotSpinTimeOut
+    219                  MC_StopMotor1();                           //stop the motor first
+    220                  MC_AcknowledgeFaultMotor1();               //clear the fault
+    221                  MotSpinPollCount = 0;                      //this value combine the startRetryTime delay to form the timeout 
+    222                  tt_StartUpRetryTime = getSysCount() + StartRetryPeriod +(StartPeriodInc * StartRetryCounter);
+    223                  return_state_u8 = MOTOR_START_RETRY_MODULE;   
+    224                  break;
+    225                } 
+    226                tt_SpinPollTime = getSysCount() + SpinPollPeriod;           //update next time tick value 
+    227              }
+    228              if((tmpryMC_State == START_RUN) || ( tmpryMC_State == RUN)){  //ST motor libries in correct state?
+    229                if(abs((MC_GetMecSpeedAverageMotor1() * 6 * act_dir) - target_speed) <= ((abs(target_speed) *8)/10)) {                 //check motor actual running at more than +-20% of target speed
+    230                  MotSpinPollCount = 0;    
+    231                  StartRetryCounter = 0;    
+    232                  return_state_u8 = MOTOR_RUNNING_MODULE;
+    233                  break;   
+    234                }   
+    235              }
+    236              return_state_u8 = OTF_STARTUP_MODULE;
+    237              break;
+    238            }
+    239            
+    240            case MOTOR_RUNNING_MODULE: {                  //keep tracking over_temperature, over_current, over_power
+    241              uint8_t recent_derateCheck = deratingCheck();
+    242              return_state_u8 = MOTOR_RUNNING_MODULE;
+    243              if (recent_derateCheck == CURRENT_DERATING_MODULE){
+    244                tt_derateCurrentPollTime = getSysCount(); //prepare next time tick value for CURRENT_DERATING_MODULE
+    245                return_state_u8 = CURRENT_DERATING_MODULE;
+    246              }
+    247              if (recent_derateCheck ==  POWER_DERATING_MODULE){
+    248                tt_deratePowerPollTime = getSysCount();  //prepare next time tick value for POWER_DERATING_MODULE
+    249                return_state_u8 = POWER_DERATING_MODULE;
+    250              }
+    251              if (recent_derateCheck == TEMPERATURE_DERATING_MODULE){
+    252                tt_derateTempPollTime = getSysCount();  //prepare next time tick value for TEMPATURE_DERATING_MODULE  
+    253                return_state_u8 = TEMPERATURE_DERATING_MODULE;
+    254              } 
+    255              
+    256              // May need to check motor running status where  running properly 
+    257              /*        if(abs((MC_GetMecSpeedAverageMotor1() * 6) - target_speed) > ((target_speed *5)/10)) { //check motor actual running lower than within +-50% of target speed
+    258              module_StateMachineControl.command_Speed = 0;
+    259              next_State_u8 = STOP_MOTOR_MODULE;   //assume this is an abnormal operation, only stop motor at this stage.
+    260              break;   
+    261            }   */
+    262              //if can run to this line means no de-rating happen, then will update the new speed 
+    263                    if (module_StateMachineControl.motorDir != act_dir)
+    264                    {
+    265                      module_StateMachineControl.command_Speed = 0;
+    266                      return_state_u8 = STOP_MOTOR_MODULE;           
+    267                    }
+    268                    else
+    269                    {
+    270                      if(target_speed != module_StateMachineControl.command_Speed){   
+    271                        
+    272                        target_speed = module_StateMachineControl.command_Speed;
+    273                        setSpeed(module_StateMachineControl.command_Speed * (int32_t) act_dir);   
+    274                      }
+    275                    }
+    276              break;
+    277            }
+    278            
+    279            
+    280            //derating feature/s will use the higher priority one to follow (over-temperature, over-current, or fire-mode)
+    281            case CURRENT_DERATING_MODULE: { 
+    282              uint32_t tmpryDrate = -(uint32_t)over_current_rpm_Reduce;
+    283              return_state_u8 = CURRENT_DERATING_MODULE;
+    284              if (target_speed > module_StateMachineControl.command_Speed)
+    285              {
+    286                  if (module_StateMachineControl.motorDir == act_dir)//collinear
+    287                  {
+    288                    target_speed = module_StateMachineControl.command_Speed;
+    289                    setSpeed(module_StateMachineControl.command_Speed * (int32_t) act_dir);   
+    290                  }
+    291                  else
+    292                  {
+    293                    module_StateMachineControl.command_Speed = 0;
+    294                    return_state_u8 = STOP_MOTOR_MODULE;
+    295                  }   
+    296                }
+    297              
+    298              if(deratingCheck() != CURRENT_DERATING_MODULE){ //check the same de-rating is presist 
+    299                if( target_speed < module_StateMachineControl.command_Speed) tmpryDrate = -tmpryDrate; //increase speed after de_rate condition over
+    300                else {
+    301                    if (module_StateMachineControl.motorDir == act_dir)//collinear
+    302                    {
+    303                      target_speed = module_StateMachineControl.command_Speed;
+    304                      setSpeed(module_StateMachineControl.command_Speed * (int32_t) act_dir);  
+    305                      return_state_u8 = MOTOR_RUNNING_MODULE;
+    306                    }
+    307                    else
+    308                    {
+    309                      module_StateMachineControl.command_Speed = 0;
+    310                      return_state_u8 = STOP_MOTOR_MODULE;
+    311                    }                                             //after speed get back to command then jump out       
+    312                  }
+    313                }
+    314                if (getSysCount() >= tt_derateCurrentPollTime) {                                                    //wait for motor spin down to reach the lower threshold
+    315                  target_speed += tmpryDrate;                                                                         //reduce the speed 
+    316                  if (target_speed < MIN_COMMANDABLE_SPEED)
+    317                  {
+    318                    module_StateMachineControl.command_Speed = 0;   
+    319                    return_state_u8 = STOP_MOTOR_MODULE;// Stop the motor and go back to IDLE
+    320                  }            
+    321                  setSpeed(target_speed * (int32_t) act_dir);                                                                           //Command ST motor libraries for running the speed of target_speed
+    322                tt_derateCurrentPollTime = getSysCount() + OvCurrent_derate_period; //prepare next time tick value for CURRENT_DERATING_MODULE 
+    323              }
+    324              break;
+    325            }
+    326            //derating feature/s will use the higher priority one to follow (over-temperature, over-current, or fire-mode)
+    327            case POWER_DERATING_MODULE: { 
+    328              uint32_t tmpryDrate = -(uint32_t)over_power_rpm_Reduce;
+    329              return_state_u8 = POWER_DERATING_MODULE;
+    330              if (target_speed > module_StateMachineControl.command_Speed)
+    331              {
+    332                  if (module_StateMachineControl.motorDir == act_dir)//collinear
+    333                  {
+    334                    target_speed = module_StateMachineControl.command_Speed;
+    335                    setSpeed(module_StateMachineControl.command_Speed * (int32_t) act_dir);   
+    336                  }
+    337                  else
+    338                  {
+    339                    module_StateMachineControl.command_Speed = 0;
+    340                    return_state_u8 = STOP_MOTOR_MODULE;
+    341                  }   
+    342                }
+    343                
+    344                if(deratingCheck() != POWER_DERATING_MODULE){                                                     //check the same de-rating is presist 
+    345                  if( target_speed < module_StateMachineControl.command_Speed) tmpryDrate = -tmpryDrate;               //increase speed after de_rate condition over
+    346                  else {
+    347                    if (module_StateMachineControl.motorDir == act_dir)//collinear
+    348                    {
+    349                      target_speed = module_StateMachineControl.command_Speed;
+    350                      setSpeed(module_StateMachineControl.command_Speed * (int32_t) act_dir);  
+    351                      return_state_u8 = MOTOR_RUNNING_MODULE;
+    352                    }
+    353                    else
+    354                    {
+    355                      module_StateMachineControl.command_Speed = 0;
+    356                      return_state_u8 = STOP_MOTOR_MODULE;
+    357                    }                                             //after speed get back to command then jump out
+    358                    
+    359                  }
+    360                }
+    361                if (getSysCount() >= tt_deratePowerPollTime) {                                                        //wait for motor spin down to reach the lower threshold  
+    362                  target_speed += tmpryDrate;                                                                         //reduce the speed 
+    363                  if (target_speed < MIN_COMMANDABLE_SPEED)
+    364                  {
+    365                    module_StateMachineControl.command_Speed = 0;   
+    366                    return_state_u8 = STOP_MOTOR_MODULE;// Stop the motor and go back to IDLE
+    367                  }
+    368                  setSpeed(target_speed * (int32_t) act_dir);    
+    369                  tt_deratePowerPollTime = getSysCount() + OvPower_derate_period;                                     //prepare next time tick value for POWER_DERATING_MODULE
+    370                }
+    371                break;
+    372              }
+    373              //derating feature/s will use the higher priority one to follow (over-temperature, over-current, or fire-mode)
+    374              case TEMPERATURE_DERATING_MODULE: {  
+    375                uint32_t tmpryDrate = -(uint32_t)over_temperature_rpm_Reduce;
+    376                return_state_u8 = TEMPERATURE_DERATING_MODULE;
+    377                if ((target_speed > module_StateMachineControl.command_Speed))
+    378                {
+    379                  if(module_StateMachineControl.motorDir == act_dir)
+    380                  {
+    381                    target_speed = module_StateMachineControl.command_Speed;
+    382                    setSpeed(module_StateMachineControl.command_Speed * (int32_t) act_dir); 
+    383                  }
+    384                  else
+    385                  {
+    386                    module_StateMachineControl.command_Speed = 0;
+    387                    return_state_u8 = STOP_MOTOR_MODULE;
+    388                  } 
+    389                }
+    390                
+    391                if(deratingCheck() != TEMPERATURE_DERATING_MODULE) {                                                     //check the same de-rating is presist 
+    392                  if( target_speed < module_StateMachineControl.command_Speed) tmpryDrate = -tmpryDrate;               //increase speed after de_rate condition over
+    393                  else {
+    394                    if (module_StateMachineControl.motorDir == act_dir)//collinear
+    395                    {
+    396                      target_speed = module_StateMachineControl.command_Speed;
+    397                      setSpeed(module_StateMachineControl.command_Speed * (int32_t) act_dir); 
+    398                      return_state_u8 = MOTOR_RUNNING_MODULE;
+    399                    }
+    400                    else
+    401                    {
+    402                      module_StateMachineControl.command_Speed = 0;
+    403                      return_state_u8 = STOP_MOTOR_MODULE;
+    404                    }                                         //after speed get back to command then jump out
+    405                    
+    406                  }
+    407                }
+    408                if (getSysCount() >= tt_derateTempPollTime) {                                                         //wait for motor spin down to reach the lower threshold           
+    409                  target_speed += tmpryDrate;                                                                         //reduce the speed 
+    410                  if ((target_speed < MIN_COMMANDABLE_SPEED))
+    411                  {
+    412                    module_StateMachineControl.command_Speed = 0;   
+    413                    return_state_u8 = STOP_MOTOR_MODULE;// Stop the motor and go back to IDLE
+    414                  }
+    415                  setSpeed(target_speed * (int32_t) act_dir);   
+    416                  tt_derateTempPollTime = getSysCount() + OvTemp_derate_period;                                     //prepare next time tick value for TEMPATURE_DERATING_MODULE  ;    
+    417                }          
+    418              break;
+    419            }
+    420            
+    421            //Error retry handling
+    422            case MOTOR_START_RETRY_MODULE: {
+    423              if (getSysCount() >= tt_StartUpRetryTime) {  //wait for motor spin up to speed
+    424                if( StartRetryCounter++ < numOfStartRetry -1){
+    425                  return_state_u8 = PRE_START_MODULE;
+    426                  break;
+    427                }  
+    428                else
+    429                {
+    430                  StartRetryCounter = 0;
+    431                  module_StateMachineControl.command_Speed = 0;
+    432                  GMI_FaultStatus = 0x01;   //start-up retry error
+    433                  return_state_u8 = FAULT_PROCESS_MODULE;
+    434                  break;     
+    435                }
+    436              }      
+    437              return_state_u8 = MOTOR_START_RETRY_MODULE;
+    438              break;
+    439            }
+    440            
+    441            //Error report 
+    442            case FAULT_PROCESS_MODULE: {
+    443              //     if( setting status ){  //Fault command will be issued according to user setting!!
+    444              MC_AcknowledgeFaultMotor1();  //CLear ST motor libraries fault status
+    445              //     }
+    446              MotSpinPollCount = 0;         //Reset motor spinning loop count as timeout counter
+    447              return_state_u8 = FAULT_REPORT_MODULE;
+    448              break;
+    449            }
+    450            
+    451            case FAULT_REPORT_MODULE: {
+    452              setupSoftwareIRQ(module_id_u8, MODULE_ERR_LOGHANDLE, 0xEF, GMI_FaultStatus, 0x00, NULL);  //Note: in FAULT_NOW situation will continue to issue fault to error-module 
+   \                     ??module_Mc_StateMachine_u32_2: (+1)
+   \       0x2C   0x2000             MOVS     R0,#+0
+   \       0x2E   0x9001             STR      R0,[SP, #+4]
+   \       0x30   0x9000             STR      R0,[SP, #+0]
+   \       0x32   0x22EF             MOVS     R2,#+239
+   \       0x34   0x7A23             LDRB     R3,[R4, #+8]
+   \       0x36   0x2109             MOVS     R1,#+9
+   \       0x38   0x4630             MOV      R0,R6
+   \       0x3A   0x....'....        BL       setupSoftwareIRQ
+    453              tt_FaultOTFWaitTime_u64 = getSysCount() + OTF_WAIT_TIME; // Motor need to coast down to 0RPM before retry
+   \       0x3E   0x....'....        BL       getSysCount
+   \       0x42   0xF247 0x5230      MOVW     R2,#+30000
+   \       0x46   0x....'....        BL       ?Subroutine2
+   \                     ??CrossCallReturnLabel_9: (+1)
+   \       0x4A   0xE9C4 0x0108      STRD     R0,R1,[R4, #+32]
+    454              return_state_u8 = FAULT_WAIT_MODULE;
+   \       0x4E   0x270E             MOVS     R7,#+14
+    455              break;
+   \       0x50   0xE1CF             B.N      ??module_Mc_StateMachine_u32_3
+    456            }      
+   \                     ??module_Mc_StateMachine_u32_1: (+1)
+   \       0x52   0x....'....        BL       MC_GetSTMStateMotor1
+   \       0x56   0x280B             CMP      R0,#+11
+   \       0x58   0xD107             BNE.N    ??module_Mc_StateMachine_u32_4
+   \       0x5A   0x200D             MOVS     R0,#+13
+   \       0x5C   0x7120             STRB     R0,[R4, #+4]
+   \                     ??module_Mc_StateMachine_u32_5: (+1)
+   \       0x5E   0x....'....        BL       MC_AcknowledgeFaultMotor1
+   \       0x62   0x2000             MOVS     R0,#+0
+   \       0x64   0x81A0             STRH     R0,[R4, #+12]
+   \       0x66   0x270C             MOVS     R7,#+12
+   \       0x68   0xE1C3             B.N      ??module_Mc_StateMachine_u32_3
+   \                     ??module_Mc_StateMachine_u32_4: (+1)
+   \       0x6A   0x0038             MOVS     R0,R7
+   \       0x6C   0xD102             BNE.N    ??module_Mc_StateMachine_u32_6
+   \       0x6E   0x2000             MOVS     R0,#+0
+   \       0x70   0x7120             STRB     R0,[R4, #+4]
+   \       0x72   0xE048             B.N      ??module_Mc_StateMachine_u32_7
+   \                     ??module_Mc_StateMachine_u32_6: (+1)
+   \       0x74   0x2FC8             CMP      R7,#+200
+   \       0x76   0xBF08             IT       EQ
+   \       0x78   0x7127             STRBEQ   R7,[R4, #+4]
+    457            
+    458            case FAULT_WAIT_MODULE: { // Wait for fan to stop before restart
+    459              if(getSysCount() >= tt_FaultOTFWaitTime_u64)
+    460              {
+    461                return_state_u8 = IDLE_MODULE;
+    462              } else
+    463              {
+    464                return_state_u8 = FAULT_WAIT_MODULE; 
+    465              }
+    466              break;    
+    467            }
+    468            
+    469            //Motor stop
+    470            case STOP_MOTOR_MODULE: {
+    471              //check motor current situation to perform motor stop sequency
+    472              MC_StopMotor1();
+    473              return_state_u8 = MOTOR_STOPPING_MODULE;
+    474              break;
+    475            }
+    476            case MOTOR_STOPPING_MODULE: {
+    477              if (BrakeHandle_M1.BrakingPhase == STARTRAMP)
+    478              {
+    479                  tt_TurnOnLowSideTime = getSysCount() + 2000;
+    480                  return_state_u8 = MOTOR_BRAKING_MODULE;
+    481                  break;
+    482                }   
+    483                else{
+    484                  return_state_u8 = MOTOR_STOPPING_MODULE;
+    485                  break;
+    486                }
+    487                
+    488                break;
+    489              }
+    490              case MOTOR_BRAKING_MODULE: {
+    491                if (getSysCount()>= tt_TurnOnLowSideTime)
+    492                {
+    493                  return_state_u8 = IDLE_MODULE;
+    494                  break;
+    495                }
+    496                else{
+    497                  return_state_u8 = MOTOR_BRAKING_MODULE;
+    498                  break;
+    499                }
+    500                break; 
+    501              }             
+    502            
+    503            case IRQ_MODULE: {
+    504              return_state_u8 = IDLE_MODULE;
+   \       0x7A   0xD043             BEQ.N    ??module_Mc_StateMachine_u32_8
+    505              break;
+    506            }
+   \       0x7C   0x....'....        LDR.W    R9,??DataTable3_1  ;; 0x800f01e
+   \       0x80   0x6820             LDR      R0,[R4, #+0]
+   \       0x82   0xF8B9 0x8036      LDRH     R8,[R9, #+54]
+   \       0x86   0x4601             MOV      R1,R0
+   \       0x88   0xB938             CBNZ.N   R0,??module_Mc_StateMachine_u32_9
+   \       0x8A   0x1EB8             SUBS     R0,R7,#+2
+   \       0x8C   0x2802             CMP      R0,#+2
+   \       0x8E   0xBF84             ITT      HI
+   \       0x90   0x1F80             SUBHI    R0,R0,#+6
+   \       0x92   0x2802             CMPHI    R0,#+2
+   \       0x94   0xD809             BHI.N    ??module_Mc_StateMachine_u32_10
+   \       0x96   0x2705             MOVS     R7,#+5
+   \       0x98   0xE007             B.N      ??module_Mc_StateMachine_u32_10
+   \                     ??module_Mc_StateMachine_u32_9: (+1)
+   \       0x9A   0x4540             CMP      R0,R8
+   \       0x9C   0xF8B9 0x0038      LDRH     R0,[R9, #+56]
+   \       0xA0   0xBFB8             IT       LT
+   \       0xA2   0x4641             MOVLT    R1,R8
+   \       0xA4   0x4288             CMP      R0,R1
+   \       0xA6   0xBFB8             IT       LT
+   \       0xA8   0x4601             MOVLT    R1,R0
+   \                     ??module_Mc_StateMachine_u32_10: (+1)
+   \       0xAA   0xF9B4 0x000A      LDRSH    R0,[R4, #+10]
+   \       0xAE   0x6CE2             LDR      R2,[R4, #+76]
+   \       0xB0   0x....'....        LDR.W    R5,??DataTable3_2  ;; 0x800f05e
+   \       0xB4   0x6021             STR      R1,[R4, #+0]
+   \       0xB6   0x7127             STRB     R7,[R4, #+4]
+   \       0xB8   0xB32F             CBZ.N    R7,??module_Mc_StateMachine_u32_7
+   \       0xBA   0x2F01             CMP      R7,#+1
+   \       0xBC   0xD040             BEQ.N    ??module_Mc_StateMachine_u32_11
+   \       0xBE   0x2F02             CMP      R7,#+2
+   \       0xC0   0xD045             BEQ.N    ??module_Mc_StateMachine_u32_12
+   \       0xC2   0x2F03             CMP      R7,#+3
+   \       0xC4   0xD072             BEQ.N    ??module_Mc_StateMachine_u32_13
+   \       0xC6   0x2F04             CMP      R7,#+4
+   \       0xC8   0xF000 0x80BD      BEQ.W    ??module_Mc_StateMachine_u32_14
+   \       0xCC   0x2F05             CMP      R7,#+5
+   \       0xCE   0xF000 0x81A4      BEQ.W    ??module_Mc_StateMachine_u32_15
+   \       0xD2   0x2F06             CMP      R7,#+6
+   \       0xD4   0xF000 0x81A5      BEQ.W    ??module_Mc_StateMachine_u32_16
+   \       0xD8   0x2F07             CMP      R7,#+7
+   \       0xDA   0xF000 0x81B0      BEQ.W    ??module_Mc_StateMachine_u32_17
+   \       0xDE   0x2F08             CMP      R7,#+8
+   \       0xE0   0xF000 0x80DA      BEQ.W    ??module_Mc_StateMachine_u32_18
+   \       0xE4   0x2F09             CMP      R7,#+9
+   \       0xE6   0xF000 0x810B      BEQ.W    ??module_Mc_StateMachine_u32_19
+   \       0xEA   0x2F0A             CMP      R7,#+10
+   \       0xEC   0xF000 0x813C      BEQ.W    ??module_Mc_StateMachine_u32_20
+   \       0xF0   0x2F0B             CMP      R7,#+11
+   \       0xF2   0xF000 0x816D      BEQ.W    ??module_Mc_StateMachine_u32_21
+   \       0xF6   0x2F0C             CMP      R7,#+12
+   \       0xF8   0xD098             BEQ.N    ??module_Mc_StateMachine_u32_2
+   \       0xFA   0x2F0D             CMP      R7,#+13
+   \       0xFC   0xD0AF             BEQ.N    ??module_Mc_StateMachine_u32_5
+   \       0xFE   0x2F0E             CMP      R7,#+14
+   \      0x100   0xF000 0x8180      BEQ.W    ??module_Mc_StateMachine_u32_22
+   \                     ??module_Mc_StateMachine_u32_8: (+1)
+   \      0x104   0xE187             B.N      ??module_Mc_StateMachine_u32_23
+   \                     ??module_Mc_StateMachine_u32_7: (+1)
+   \      0x106   0x2000             MOVS     R0,#+0
+   \      0x108   0x9000             STR      R0,[SP, #+0]
+   \      0x10A   0x2300             MOVS     R3,#+0
+   \      0x10C   0x2202             MOVS     R2,#+2
+   \      0x10E   0x2108             MOVS     R1,#+8
+   \      0x110   0x2002             MOVS     R0,#+2
+   \      0x112   0x....'....        BL       StructMem_CreateInstance
+   \      0x116   0x2701             MOVS     R7,#+1
+   \      0x118   0x6004             STR      R4,[R0, #+0]
+   \      0x11A   0x64A0             STR      R0,[R4, #+72]
+   \      0x11C   0x2002             MOVS     R0,#+2
+   \      0x11E   0x....'....        BL       getProcessInfoIndex
+   \      0x122   0x2116             MOVS     R1,#+22
+   \      0x124   0x....'....        LDR.W    R2,??DataTable3_3
+   \      0x128   0x4348             MULS     R0,R1,R0
+   \      0x12A   0x4410             ADD      R0,R2,R0
+   \      0x12C   0x6CA2             LDR      R2,[R4, #+72]
+   \      0x12E   0xF8C0 0x200B      STR      R2,[R0, #+11]
+   \      0x132   0x2000             MOVS     R0,#+0
+   \      0x134   0x2201             MOVS     R2,#+1
+   \      0x136   0x6020             STR      R0,[R4, #+0]
+   \      0x138   0x71A0             STRB     R0,[R4, #+6]
+   \      0x13A   0x71E2             STRB     R2,[R4, #+7]
+   \      0x13C   0x7162             STRB     R2,[R4, #+5]
+   \      0x13E   0xE158             B.N      ??module_Mc_StateMachine_u32_3
+   \                     ??module_Mc_StateMachine_u32_11: (+1)
+   \      0x140   0x2900             CMP      R1,#+0
+   \      0x142   0xBF03             ITTTE    EQ
+   \      0x144   0x81E1             STRHEQ   R1,[R4, #+14]
+   \      0x146   0x2100             MOVEQ    R1,#+0
+   \      0x148   0x81A1             STRHEQ   R1,[R4, #+12]
+   \      0x14A   0x2702             MOVNE    R7,#+2
+   \      0x14C   0xE151             B.N      ??module_Mc_StateMachine_u32_3
+   \                     ??module_Mc_StateMachine_u32_12: (+1)
+   \      0x14E   0x4608             MOV      R0,R1
+   \      0x150   0x64E0             STR      R0,[R4, #+76]
+   \      0x152   0xF994 0x1007      LDRSB    R1,[R4, #+7]
+   \      0x156   0x4348             MULS     R0,R1,R0
+   \      0x158   0x....'....        BL       setSpeed
+   \      0x15C   0x....'....        BL       MC_StartMotor1
+   \      0x160   0x....'....        BL       MC_GetImposedDirectionMotor1
+   \      0x164   0xF8B9 0x1000      LDRH     R1,[R9, #+0]
+   \      0x168   0x....'....        LDR.W    R3,??DataTable3_4
+   \      0x16C   0x2801             CMP      R0,#+1
+   \      0x16E   0x460A             MOV      R2,R1
+   \      0x170   0xD106             BNE.N    ??module_Mc_StateMachine_u32_24
+   \      0x172   0x2700             MOVS     R7,#+0
+   \      0x174   0x0392             LSLS     R2,R2,#+14
+   \      0x176   0x82DF             STRH     R7,[R3, #+22]
+   \      0x178   0x611F             STR      R7,[R3, #+16]
+   \      0x17A   0x60DA             STR      R2,[R3, #+12]
+   \      0x17C   0x8299             STRH     R1,[R3, #+20]
+   \      0x17E   0xE00C             B.N      ??module_Mc_StateMachine_u32_25
+   \                     ??module_Mc_StateMachine_u32_24: (+1)
+   \      0x180   0xF04F 0x37FF      MOV      R7,#-1
+   \      0x184   0x42B8             CMP      R0,R7
+   \      0x186   0xD108             BNE.N    ??module_Mc_StateMachine_u32_25
+   \      0x188   0x4252             RSBS     R2,R2,#+0
+   \      0x18A   0xB209             SXTH     R1,R1
+   \      0x18C   0x2600             MOVS     R6,#+0
+   \      0x18E   0x0392             LSLS     R2,R2,#+14
+   \      0x190   0x4249             RSBS     R1,R1,#+0
+   \      0x192   0x829E             STRH     R6,[R3, #+20]
+   \      0x194   0x60DE             STR      R6,[R3, #+12]
+   \      0x196   0x611A             STR      R2,[R3, #+16]
+   \      0x198   0x82D9             STRH     R1,[R3, #+22]
+   \                     ??module_Mc_StateMachine_u32_25: (+1)
+   \      0x19A   0x2100             MOVS     R1,#+0
+   \      0x19C   0x81A1             STRH     R1,[R4, #+12]
+   \      0x19E   0x8160             STRH     R0,[R4, #+10]
+   \      0x1A0   0x....'....        BL       getSysCount
+   \      0x1A4   0x....'....        BL       ?Subroutine1
+   \                     ??CrossCallReturnLabel_7: (+1)
+   \      0x1A8   0x2703             MOVS     R7,#+3
+   \      0x1AA   0xE122             B.N      ??module_Mc_StateMachine_u32_3
+   \                     ??module_Mc_StateMachine_u32_13: (+1)
+   \      0x1AC   0x....'....        BL       MC_GetOccurredFaultsMotor1
+   \      0x1B0   0xB988             CBNZ.N   R0,??module_Mc_StateMachine_u32_26
+   \      0x1B2   0x....'....        BL       MC_GetSTMStateMotor1
+   \      0x1B6   0x4606             MOV      R6,R0
+   \      0x1B8   0x....'....        BL       getSysCount
+   \      0x1BC   0xE9D4 0x2304      LDRD     R2,R3,[R4, #+16]
+   \      0x1C0   0x4299             CMP      R1,R3
+   \      0x1C2   0xD322             BCC.N    ??CrossCallReturnLabel_8
+   \      0x1C4   0xD801             BHI.N    ??module_Mc_StateMachine_u32_27
+   \      0x1C6   0x4290             CMP      R0,R2
+   \      0x1C8   0xD31F             BCC.N    ??CrossCallReturnLabel_8
+   \                     ??module_Mc_StateMachine_u32_27: (+1)
+   \      0x1CA   0x89A0             LDRH     R0,[R4, #+12]
+   \      0x1CC   0x1C41             ADDS     R1,R0,#+1
+   \      0x1CE   0x81A1             STRH     R1,[R4, #+12]
+   \      0x1D0   0x882A             LDRH     R2,[R5, #+0]
+   \      0x1D2   0x4290             CMP      R0,R2
+   \      0x1D4   0xD315             BCC.N    ??module_Mc_StateMachine_u32_28
+   \                     ??module_Mc_StateMachine_u32_26: (+1)
+   \      0x1D6   0x....'....        BL       MC_StopMotor1
+   \      0x1DA   0x....'....        BL       MC_AcknowledgeFaultMotor1
+   \      0x1DE   0x2000             MOVS     R0,#+0
+   \      0x1E0   0x81A0             STRH     R0,[R4, #+12]
+   \      0x1E2   0x....'....        BL       getSysCount
+   \      0x1E6   0x88EA             LDRH     R2,[R5, #+6]
+   \      0x1E8   0x2300             MOVS     R3,#+0
+   \      0x1EA   0x1882             ADDS     R2,R0,R2
+   \      0x1EC   0x414B             ADCS     R3,R1,R3
+   \      0x1EE   0x8928             LDRH     R0,[R5, #+8]
+   \      0x1F0   0x89E1             LDRH     R1,[R4, #+14]
+   \      0x1F2   0x4348             MULS     R0,R1,R0
+   \      0x1F4   0x1812             ADDS     R2,R2,R0
+   \      0x1F6   0xEB43 0x73E0      ADC      R3,R3,R0, ASR #+31
+   \      0x1FA   0xE9C4 0x2306      STRD     R2,R3,[R4, #+24]
+   \      0x1FE   0x270B             MOVS     R7,#+11
+   \                     ??module_Mc_StateMachine_u32_29: (+1)
+   \      0x200   0xE0F7             B.N      ??module_Mc_StateMachine_u32_3
+   \                     ??module_Mc_StateMachine_u32_28: (+1)
+   \      0x202   0x....'....        BL       getSysCount
+   \      0x206   0x....'....        BL       ?Subroutine1
+   \                     ??CrossCallReturnLabel_8: (+1)
+   \      0x20A   0x2E05             CMP      R6,#+5
+   \      0x20C   0xBF18             IT       NE
+   \      0x20E   0x2E06             CMPNE    R6,#+6
+   \      0x210   0xD1F6             BNE.N    ??module_Mc_StateMachine_u32_29
+   \      0x212   0x6CE5             LDR      R5,[R4, #+76]
+   \      0x214   0x2D00             CMP      R5,#+0
+   \      0x216   0xBF48             IT       MI
+   \      0x218   0x426D             RSBMI    R5,R5,#+0
+   \      0x21A   0x....'....        BL       MC_GetMecSpeedAverageMotor1
+   \      0x21E   0xF9B4 0x100A      LDRSH    R1,[R4, #+10]
+   \      0x222   0xFB10 0xF101      SMULBB   R1,R0,R1
+   \      0x226   0x2006             MOVS     R0,#+6
+   \      0x228   0x4341             MULS     R1,R0,R1
+   \      0x22A   0x6CE0             LDR      R0,[R4, #+76]
+   \      0x22C   0x1A08             SUBS     R0,R1,R0
+   \      0x22E   0xBF48             IT       MI
+   \      0x230   0x4240             RSBMI    R0,R0,#+0
+   \      0x232   0x00ED             LSLS     R5,R5,#+3
+   \      0x234   0x210A             MOVS     R1,#+10
+   \      0x236   0xFB95 0xF1F1      SDIV     R1,R5,R1
+   \      0x23A   0x4281             CMP      R1,R0
+   \      0x23C   0xDB02             BLT.N    ??module_Mc_StateMachine_u32_30
+   \      0x23E   0x2000             MOVS     R0,#+0
+   \      0x240   0x60E0             STR      R0,[R4, #+12]
+   \      0x242   0x2704             MOVS     R7,#+4
+   \                     ??module_Mc_StateMachine_u32_30: (+1)
+   \      0x244   0xE0D5             B.N      ??module_Mc_StateMachine_u32_3
+   \                     ??module_Mc_StateMachine_u32_14: (+1)
+   \      0x246   0x....'....        BL       deratingCheck
+   \      0x24A   0x2808             CMP      R0,#+8
+   \      0x24C   0xD105             BNE.N    ??module_Mc_StateMachine_u32_31
+   \      0x24E   0x....'....        BL       getSysCount
+   \      0x252   0xE9C4 0x010A      STRD     R0,R1,[R4, #+40]
+   \      0x256   0x2708             MOVS     R7,#+8
+   \      0x258   0xE00E             B.N      ??module_Mc_StateMachine_u32_32
+   \                     ??module_Mc_StateMachine_u32_31: (+1)
+   \      0x25A   0x2809             CMP      R0,#+9
+   \      0x25C   0xD105             BNE.N    ??module_Mc_StateMachine_u32_33
+   \      0x25E   0x....'....        BL       getSysCount
+   \      0x262   0xE9C4 0x010C      STRD     R0,R1,[R4, #+48]
+   \      0x266   0x2709             MOVS     R7,#+9
+   \      0x268   0xE006             B.N      ??module_Mc_StateMachine_u32_32
+   \                     ??module_Mc_StateMachine_u32_33: (+1)
+   \      0x26A   0x280A             CMP      R0,#+10
+   \      0x26C   0xD104             BNE.N    ??module_Mc_StateMachine_u32_32
+   \      0x26E   0x....'....        BL       getSysCount
+   \      0x272   0xE9C4 0x010E      STRD     R0,R1,[R4, #+56]
+   \      0x276   0x270A             MOVS     R7,#+10
+   \                     ??module_Mc_StateMachine_u32_32: (+1)
+   \      0x278   0xF9B4 0x000A      LDRSH    R0,[R4, #+10]
+   \      0x27C   0xF994 0x1007      LDRSB    R1,[R4, #+7]
+   \      0x280   0x4281             CMP      R1,R0
+   \      0x282   0xD002             BEQ.N    ??module_Mc_StateMachine_u32_34
+   \      0x284   0x....'....        BL       ?Subroutine0
+   \                     ??CrossCallReturnLabel_0: (+1)
+   \      0x288   0xE0B3             B.N      ??module_Mc_StateMachine_u32_3
+   \                     ??module_Mc_StateMachine_u32_34: (+1)
+   \      0x28A   0x6821             LDR      R1,[R4, #+0]
+   \      0x28C   0x6CE2             LDR      R2,[R4, #+76]
+   \      0x28E   0x428A             CMP      R2,R1
+   \      0x290   0xD0FA             BEQ.N    ??CrossCallReturnLabel_0
+   \      0x292   0x....'....        BL       ?Subroutine6
+   \                     ??CrossCallReturnLabel_25: (+1)
+   \      0x296   0xE0AC             B.N      ??module_Mc_StateMachine_u32_3
+   \                     ??module_Mc_StateMachine_u32_18: (+1)
+   \      0x298   0xF8B5 0x900C      LDRH     R9,[R5, #+12]
+   \      0x29C   0x4291             CMP      R1,R2
+   \      0x29E   0xF1C9 0x0600      RSB      R6,R9,#+0
+   \      0x2A2   0xDA08             BGE.N    ??CrossCallReturnLabel_1
+   \      0x2A4   0xF994 0x2007      LDRSB    R2,[R4, #+7]
+   \      0x2A8   0x4282             CMP      R2,R0
+   \      0x2AA   0xD102             BNE.N    ??module_Mc_StateMachine_u32_35
+   \      0x2AC   0x....'....        BL       ?Subroutine6
+   \                     ??CrossCallReturnLabel_24: (+1)
+   \      0x2B0   0xE001             B.N      ??CrossCallReturnLabel_1
+   \                     ??module_Mc_StateMachine_u32_35: (+1)
+   \      0x2B2   0x....'....        BL       ?Subroutine0
+   \                     ??CrossCallReturnLabel_1: (+1)
+   \      0x2B6   0x....'....        BL       deratingCheck
+   \      0x2BA   0x2808             CMP      R0,#+8
+   \      0x2BC   0xD00D             BEQ.N    ??CrossCallReturnLabel_2
+   \      0x2BE   0x6820             LDR      R0,[R4, #+0]
+   \      0x2C0   0x6CE1             LDR      R1,[R4, #+76]
+   \      0x2C2   0x4281             CMP      R1,R0
+   \      0x2C4   0xBFB8             IT       LT
+   \      0x2C6   0x464E             MOVLT    R6,R9
+   \      0x2C8   0xDB07             BLT.N    ??CrossCallReturnLabel_2
+   \      0x2CA   0x....'....        BL       ?Subroutine5
+   \                     ??CrossCallReturnLabel_19: (+1)
+   \      0x2CE   0xD102             BNE.N    ??module_Mc_StateMachine_u32_36
+   \      0x2D0   0x....'....        BL       ?Subroutine4
+   \                     ??CrossCallReturnLabel_18: (+1)
+   \      0x2D4   0xE001             B.N      ??CrossCallReturnLabel_2
+   \                     ??module_Mc_StateMachine_u32_36: (+1)
+   \      0x2D6   0x....'....        BL       ?Subroutine0
+   \                     ??CrossCallReturnLabel_2: (+1)
+   \      0x2DA   0x....'....        BL       getSysCount
+   \      0x2DE   0xE9D4 0x230A      LDRD     R2,R3,[R4, #+40]
+   \      0x2E2   0x4299             CMP      R1,R3
+   \      0x2E4   0xD30B             BCC.N    ??module_Mc_StateMachine_u32_37
+   \      0x2E6   0xD801             BHI.N    ??module_Mc_StateMachine_u32_38
+   \      0x2E8   0x4290             CMP      R0,R2
+   \      0x2EA   0xD308             BCC.N    ??module_Mc_StateMachine_u32_37
+   \                     ??module_Mc_StateMachine_u32_38: (+1)
+   \      0x2EC   0x....'....        BL       ?Subroutine3
+   \                     ??CrossCallReturnLabel_15: (+1)
+   \      0x2F0   0x....'....        BL       getSysCount
+   \      0x2F4   0x89EA             LDRH     R2,[R5, #+14]
+   \      0x2F6   0x....'....        BL       ?Subroutine2
+   \                     ??CrossCallReturnLabel_10: (+1)
+   \      0x2FA   0xE9C4 0x010A      STRD     R0,R1,[R4, #+40]
+   \                     ??module_Mc_StateMachine_u32_37: (+1)
+   \      0x2FE   0xE078             B.N      ??module_Mc_StateMachine_u32_3
+   \                     ??module_Mc_StateMachine_u32_19: (+1)
+   \      0x300   0xF8B5 0x9012      LDRH     R9,[R5, #+18]
+   \      0x304   0x4291             CMP      R1,R2
+   \      0x306   0xF1C9 0x0600      RSB      R6,R9,#+0
+   \      0x30A   0xDA08             BGE.N    ??CrossCallReturnLabel_3
+   \      0x30C   0xF994 0x2007      LDRSB    R2,[R4, #+7]
+   \      0x310   0x4282             CMP      R2,R0
+   \      0x312   0xD102             BNE.N    ??module_Mc_StateMachine_u32_39
+   \      0x314   0x....'....        BL       ?Subroutine6
+   \                     ??CrossCallReturnLabel_23: (+1)
+   \      0x318   0xE001             B.N      ??CrossCallReturnLabel_3
+   \                     ??module_Mc_StateMachine_u32_39: (+1)
+   \      0x31A   0x....'....        BL       ?Subroutine0
+   \                     ??CrossCallReturnLabel_3: (+1)
+   \      0x31E   0x....'....        BL       deratingCheck
+   \      0x322   0x2809             CMP      R0,#+9
+   \      0x324   0xD00D             BEQ.N    ??CrossCallReturnLabel_4
+   \      0x326   0x6820             LDR      R0,[R4, #+0]
+   \      0x328   0x6CE1             LDR      R1,[R4, #+76]
+   \      0x32A   0x4281             CMP      R1,R0
+   \      0x32C   0xBFB8             IT       LT
+   \      0x32E   0x464E             MOVLT    R6,R9
+   \      0x330   0xDB07             BLT.N    ??CrossCallReturnLabel_4
+   \      0x332   0x....'....        BL       ?Subroutine5
+   \                     ??CrossCallReturnLabel_20: (+1)
+   \      0x336   0xD102             BNE.N    ??module_Mc_StateMachine_u32_40
+   \      0x338   0x....'....        BL       ?Subroutine4
+   \                     ??CrossCallReturnLabel_17: (+1)
+   \      0x33C   0xE001             B.N      ??CrossCallReturnLabel_4
+   \                     ??module_Mc_StateMachine_u32_40: (+1)
+   \      0x33E   0x....'....        BL       ?Subroutine0
+   \                     ??CrossCallReturnLabel_4: (+1)
+   \      0x342   0x....'....        BL       getSysCount
+   \      0x346   0xE9D4 0x230C      LDRD     R2,R3,[R4, #+48]
+   \      0x34A   0x4299             CMP      R1,R3
+   \      0x34C   0xD351             BCC.N    ??module_Mc_StateMachine_u32_3
+   \      0x34E   0xD801             BHI.N    ??module_Mc_StateMachine_u32_41
+   \      0x350   0x4290             CMP      R0,R2
+   \      0x352   0xD34E             BCC.N    ??module_Mc_StateMachine_u32_3
+   \                     ??module_Mc_StateMachine_u32_41: (+1)
+   \      0x354   0x....'....        BL       ?Subroutine3
+   \                     ??CrossCallReturnLabel_14: (+1)
+   \      0x358   0x....'....        BL       getSysCount
+   \      0x35C   0x8AAA             LDRH     R2,[R5, #+20]
+   \      0x35E   0x....'....        BL       ?Subroutine2
+   \                     ??CrossCallReturnLabel_11: (+1)
+   \      0x362   0xE9C4 0x010C      STRD     R0,R1,[R4, #+48]
+   \      0x366   0xE044             B.N      ??module_Mc_StateMachine_u32_3
+   \                     ??module_Mc_StateMachine_u32_20: (+1)
+   \      0x368   0xF8B5 0x9018      LDRH     R9,[R5, #+24]
+   \      0x36C   0x4291             CMP      R1,R2
+   \      0x36E   0xF1C9 0x0600      RSB      R6,R9,#+0
+   \      0x372   0xDA08             BGE.N    ??CrossCallReturnLabel_5
+   \      0x374   0xF994 0x2007      LDRSB    R2,[R4, #+7]
+   \      0x378   0x4282             CMP      R2,R0
+   \      0x37A   0xD102             BNE.N    ??module_Mc_StateMachine_u32_42
+   \      0x37C   0x....'....        BL       ?Subroutine6
+   \                     ??CrossCallReturnLabel_22: (+1)
+   \      0x380   0xE001             B.N      ??CrossCallReturnLabel_5
+   \                     ??module_Mc_StateMachine_u32_42: (+1)
+   \      0x382   0x....'....        BL       ?Subroutine0
+   \                     ??CrossCallReturnLabel_5: (+1)
+   \      0x386   0x....'....        BL       deratingCheck
+   \      0x38A   0x280A             CMP      R0,#+10
+   \      0x38C   0xD00D             BEQ.N    ??CrossCallReturnLabel_6
+   \      0x38E   0x6820             LDR      R0,[R4, #+0]
+   \      0x390   0x6CE1             LDR      R1,[R4, #+76]
+   \      0x392   0x4281             CMP      R1,R0
+   \      0x394   0xBFB8             IT       LT
+   \      0x396   0x464E             MOVLT    R6,R9
+   \      0x398   0xDB07             BLT.N    ??CrossCallReturnLabel_6
+   \      0x39A   0x....'....        BL       ?Subroutine5
+   \                     ??CrossCallReturnLabel_21: (+1)
+   \      0x39E   0xD102             BNE.N    ??module_Mc_StateMachine_u32_43
+   \      0x3A0   0x....'....        BL       ?Subroutine4
+   \                     ??CrossCallReturnLabel_16: (+1)
+   \      0x3A4   0xE001             B.N      ??CrossCallReturnLabel_6
+   \                     ??module_Mc_StateMachine_u32_43: (+1)
+   \      0x3A6   0x....'....        BL       ?Subroutine0
+   \                     ??CrossCallReturnLabel_6: (+1)
+   \      0x3AA   0x....'....        BL       getSysCount
+   \      0x3AE   0xE9D4 0x230E      LDRD     R2,R3,[R4, #+56]
+   \      0x3B2   0x4299             CMP      R1,R3
+   \      0x3B4   0xD31D             BCC.N    ??module_Mc_StateMachine_u32_3
+   \      0x3B6   0xD801             BHI.N    ??module_Mc_StateMachine_u32_44
+   \      0x3B8   0x4290             CMP      R0,R2
+   \      0x3BA   0xD31A             BCC.N    ??module_Mc_StateMachine_u32_3
+   \                     ??module_Mc_StateMachine_u32_44: (+1)
+   \      0x3BC   0x....'....        BL       ?Subroutine3
+   \                     ??CrossCallReturnLabel_13: (+1)
+   \      0x3C0   0x....'....        BL       getSysCount
+   \      0x3C4   0x8B6A             LDRH     R2,[R5, #+26]
+   \      0x3C6   0x....'....        BL       ?Subroutine2
+   \                     ??CrossCallReturnLabel_12: (+1)
+   \      0x3CA   0xE9C4 0x010E      STRD     R0,R1,[R4, #+56]
+   \      0x3CE   0xE010             B.N      ??module_Mc_StateMachine_u32_3
+   \                     ??module_Mc_StateMachine_u32_21: (+1)
+   \      0x3D0   0x....'....        BL       getSysCount
+   \      0x3D4   0xE9D4 0x2306      LDRD     R2,R3,[R4, #+24]
+   \      0x3D8   0x4299             CMP      R1,R3
+   \      0x3DA   0xD30A             BCC.N    ??module_Mc_StateMachine_u32_3
+   \      0x3DC   0xD801             BHI.N    ??module_Mc_StateMachine_u32_45
+   \      0x3DE   0x4290             CMP      R0,R2
+   \      0x3E0   0xD307             BCC.N    ??module_Mc_StateMachine_u32_3
+   \                     ??module_Mc_StateMachine_u32_45: (+1)
+   \      0x3E2   0x89E1             LDRH     R1,[R4, #+14]
+   \      0x3E4   0x88AA             LDRH     R2,[R5, #+4]
+   \      0x3E6   0x1C48             ADDS     R0,R1,#+1
+   \      0x3E8   0x1E52             SUBS     R2,R2,#+1
+   \      0x3EA   0x4291             CMP      R1,R2
+   \      0x3EC   0xDA04             BGE.N    ??module_Mc_StateMachine_u32_46
+   \      0x3EE   0x2702             MOVS     R7,#+2
+   \                     ??module_Mc_StateMachine_u32_47: (+1)
+   \      0x3F0   0x81E0             STRH     R0,[R4, #+14]
+    507            case STOP_MODULE: {
+    508              return_state_u8 = IDLE_MODULE;
+    509              break;
+    510            }
+    511            default: {
+    512              return_state_u8 = IDLE_MODULE;
+    513              break;
+    514            }
+    515            }
+    516            return return_state_u8;
+   \                     ??module_Mc_StateMachine_u32_3: (+1)
+   \      0x3F2   0x4638             MOV      R0,R7
+   \      0x3F4   0xE8BD 0x83FE      POP      {R1-R9,PC}       ;; return
+   \                     ??module_Mc_StateMachine_u32_46: (+1)
+   \      0x3F8   0x2000             MOVS     R0,#+0
+   \      0x3FA   0x2201             MOVS     R2,#+1
+   \      0x3FC   0x6020             STR      R0,[R4, #+0]
+   \      0x3FE   0x7222             STRB     R2,[R4, #+8]
+   \      0x400   0x270D             MOVS     R7,#+13
+   \      0x402   0xE7F5             B.N      ??module_Mc_StateMachine_u32_47
+   \                     ??module_Mc_StateMachine_u32_22: (+1)
+   \      0x404   0x....'....        BL       getSysCount
+   \      0x408   0xE9D4 0x2308      LDRD     R2,R3,[R4, #+32]
+   \                     ??module_Mc_StateMachine_u32_48: (+1)
+   \      0x40C   0x4299             CMP      R1,R3
+   \      0x40E   0xD3F0             BCC.N    ??module_Mc_StateMachine_u32_3
+   \      0x410   0xD801             BHI.N    ??module_Mc_StateMachine_u32_23
+   \      0x412   0x4290             CMP      R0,R2
+   \      0x414   0xD3ED             BCC.N    ??module_Mc_StateMachine_u32_3
+   \                     ??module_Mc_StateMachine_u32_23: (+1)
+   \      0x416   0x2701             MOVS     R7,#+1
+   \      0x418   0xE7EB             B.N      ??module_Mc_StateMachine_u32_3
+   \                     ??module_Mc_StateMachine_u32_15: (+1)
+   \      0x41A   0x....'....        BL       MC_StopMotor1
+   \      0x41E   0x2706             MOVS     R7,#+6
+   \      0x420   0xE7E7             B.N      ??module_Mc_StateMachine_u32_3
+   \                     ??module_Mc_StateMachine_u32_16: (+1)
+   \      0x422   0x....             LDR.N    R1,??DataTable3_5
+   \      0x424   0x7808             LDRB     R0,[R1, #+0]
+   \      0x426   0x2800             CMP      R0,#+0
+   \      0x428   0xD1E3             BNE.N    ??module_Mc_StateMachine_u32_3
+   \      0x42A   0x....'....        BL       getSysCount
+   \      0x42E   0xF510 0x60FA      ADDS     R0,R0,#+2000
+   \      0x432   0xF141 0x0100      ADC      R1,R1,#+0
+   \      0x436   0xE9C4 0x0110      STRD     R0,R1,[R4, #+64]
+   \      0x43A   0x2707             MOVS     R7,#+7
+   \      0x43C   0xE7D9             B.N      ??module_Mc_StateMachine_u32_3
+   \                     ??module_Mc_StateMachine_u32_17: (+1)
+   \      0x43E   0x....'....        BL       getSysCount
+   \      0x442   0xE9D4 0x2310      LDRD     R2,R3,[R4, #+64]
+   \      0x446   0xE7E1             B.N      ??module_Mc_StateMachine_u32_48
+   \      0x448                      REQUIRE MIN_COMMANDABLE_SPEED
+   \      0x448                      REQUIRE MAX_COMMANDABLE_SPEED
+   \      0x448                      REQUIRE A_IQMAX
+   \      0x448                      REQUIRE SpinPollPeriod
+   \      0x448                      REQUIRE StartRetryPeriod
+   \      0x448                      REQUIRE StartPeriodInc
+   \      0x448                      REQUIRE MotSpinTimeOut
+   \      0x448                      REQUIRE over_current_rpm_Reduce
+   \      0x448                      REQUIRE OvCurrent_derate_period
+   \      0x448                      REQUIRE over_power_rpm_Reduce
+   \      0x448                      REQUIRE OvPower_derate_period
+   \      0x448                      REQUIRE over_temperature_rpm_Reduce
+   \      0x448                      REQUIRE OvTemp_derate_period
+   \      0x448                      REQUIRE numOfStartRetry
+    517          }
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine6: (+1)
+   \        0x0   0x64E1             STR      R1,[R4, #+76]
+   \        0x2   0x4348             MULS     R0,R0,R1
+   \        0x4   0x....             B.N      setSpeed
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine5: (+1)
+   \        0x0   0xF9B4 0x100A      LDRSH    R1,[R4, #+10]
+   \        0x4   0xF994 0x2007      LDRSB    R2,[R4, #+7]
+   \        0x8   0x428A             CMP      R2,R1
+   \        0xA   0x4770             BX       LR
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine4: (+1)
+   \        0x0   0x64E0             STR      R0,[R4, #+76]
+   \        0x2   0x2704             MOVS     R7,#+4
+   \        0x4   0x4348             MULS     R0,R1,R0
+   \        0x6   0x....             B.N      setSpeed
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine3: (+1)
+   \        0x0   0x6CE1             LDR      R1,[R4, #+76]
+   \        0x2   0x1870             ADDS     R0,R6,R1
+   \        0x4   0x4540             CMP      R0,R8
+   \        0x6   0xDA02             BGE.N    ??Subroutine3_0
+   \        0x8   0x2100             MOVS     R1,#+0
+   \        0xA   0x6021             STR      R1,[R4, #+0]
+   \        0xC   0x2705             MOVS     R7,#+5
+   \                     ??Subroutine3_0: (+1)
+   \        0xE   0x64E0             STR      R0,[R4, #+76]
+   \       0x10   0xF9B4 0x100A      LDRSH    R1,[R4, #+10]
+   \       0x14   0x4348             MULS     R0,R1,R0
+   \       0x16   0x....             B.N      setSpeed
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine2: (+1)
+   \        0x0   0x2300             MOVS     R3,#+0
+   \        0x2   0x1880             ADDS     R0,R0,R2
+   \        0x4   0x4159             ADCS     R1,R1,R3
+   \        0x6   0x4770             BX       LR
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine1: (+1)
+   \        0x0   0x886A             LDRH     R2,[R5, #+2]
+   \        0x2   0x2300             MOVS     R3,#+0
+   \        0x4   0x1880             ADDS     R0,R0,R2
+   \        0x6   0x4159             ADCS     R1,R1,R3
+   \        0x8   0xE9C4 0x0104      STRD     R0,R1,[R4, #+16]
+   \        0xC   0x4770             BX       LR
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine0: (+1)
+   \        0x0   0x2000             MOVS     R0,#+0
+   \        0x2   0x6020             STR      R0,[R4, #+0]
+   \        0x4   0x2705             MOVS     R7,#+5
+   \        0x6   0x4770             BX       LR
+    518          
+
+   \                                 In section .text, align 2, keep-with-next
+    519          void setSpeed(int32_t target_speed){
+   \                     setSpeed: (+1)
+   \        0x0   0xB538             PUSH     {R3-R5,LR}
+   \        0x2   0x4604             MOV      R4,R0
+    520            int32_t current_speed = MC_GetMecSpeedAverageMotor1() * 6;   //convert to rpm
+    521            uint32_t speed_ramp_up_duration = (abs(current_speed - target_speed ) * 1000) / SPEED_UP_RAMP_RATE;
+   \        0x4   0x....'....        BL       MC_GetMecSpeedAverageMotor1
+   \        0x8   0x2106             MOVS     R1,#+6
+   \        0xA   0xFB10 0xF001      SMULBB   R0,R0,R1
+    522            MC_ProgramSpeedRampMotor1( target_speed / 6, speed_ramp_up_duration );    
+   \        0xE   0x....             LDR.N    R2,??DataTable3_6  ;; 0x800f058
+   \       0x10   0x8813             LDRH     R3,[R2, #+0]
+   \       0x12   0x1B01             SUBS     R1,R0,R4
+   \       0x14   0xBF48             IT       MI
+   \       0x16   0x4249             RSBMI    R1,R1,#+0
+   \       0x18   0xF44F 0x707A      MOV      R0,#+1000
+   \       0x1C   0x4341             MULS     R1,R0,R1
+   \       0x1E   0x2506             MOVS     R5,#+6
+   \       0x20   0xFB91 0xF1F3      SDIV     R1,R1,R3
+   \       0x24   0xFB94 0xF0F5      SDIV     R0,R4,R5
+   \       0x28   0xE8BD 0x4034      POP      {R2,R4,R5,LR}
+   \       0x2C   0xB289             UXTH     R1,R1
+   \       0x2E   0xB200             SXTH     R0,R0
+   \       0x30   0x....'....        B.W      MC_ProgramSpeedRampMotor1
+   \       0x34                      REQUIRE SPEED_UP_RAMP_RATE
+    523          }
+
+   \                                 In section .bss, align 4
+    524          
+    525          //uint8_t AvrCurrentIndx = 1;
+    526          uint8_t AvrCurrentIndx = 0;
+   \                     AvrCurrentIndx:
+   \        0x0                      DS8 1
+   \        0x1                      DS8 1
+   \                     tmpryTempature:
+   \        0x2                      DS8 2
+   \                     avrCurrentRd:
+   \        0x4                      DS8 16
+   \                     avrCurrentRdOP:
+   \       0x14                      DS8 4
+
+   \                                 In section .bss, align 8
+   \                     tt_FaultOTFWaitTime:
+   \        0x0                      DS8 8
+    527          
+
+   \                                 In section .text, align 2, keep-with-next
+    528          void updateAvrCurrent(void){  //average current for fault monitor 
+   \                     updateAvrCurrent: (+1)
+   \        0x0   0xB5F8             PUSH     {R3-R7,LR}
+    529            qd_t Iqd = pMPM[M1]->pFOCVars->Iqd;
+   \        0x2   0x....             LDR.N    R0,??DataTable3_7
+    530            avrCurrentRd[AvrCurrentIndx] = ( int32_t )(sqrt((( int32_t )Iqd.q * (int32_t) Iqd.q)+ (( int32_t )Iqd.d * (int32_t) Iqd.d)));
+   \        0x4   0x....             LDR.N    R4,??DataTable3_8
+   \        0x6   0x6801             LDR      R1,[R0, #+0]
+   \        0x8   0xF8D1 0x110C      LDR      R1,[R1, #+268]
+   \        0xC   0xF9B1 0x000C      LDRSH    R0,[R1, #+12]
+   \       0x10   0xF9B1 0x100E      LDRSH    R1,[R1, #+14]
+   \       0x14   0x7825             LDRB     R5,[R4, #+0]
+   \       0x16   0x4349             MULS     R1,R1,R1
+   \       0x18   0xFB10 0x1000      SMLABB   R0,R0,R0,R1
+   \       0x1C   0x....'....        BL       __aeabi_i2d
+   \       0x20   0xEC41 0x0B10      VMOV     D0,R0,R1
+   \       0x24   0x....'....        BL       sqrt
+   \       0x28   0xEC51 0x0B10      VMOV     R0,R1,D0
+   \       0x2C   0x....'....        BL       __aeabi_d2iz
+   \       0x30   0x1D26             ADDS     R6,R4,#+4
+   \       0x32   0x462F             MOV      R7,R5
+   \       0x34   0xF846 0x0027      STR      R0,[R6, R7, LSL #+2]
+    531            AvrCurrentIndx++;
+   \       0x38   0x1C6D             ADDS     R5,R5,#+1
+    532            if(AvrCurrentIndx == 4) {
+   \       0x3A   0xB2E8             UXTB     R0,R5
+   \       0x3C   0x2804             CMP      R0,#+4
+   \       0x3E   0xD10E             BNE.N    ??updateAvrCurrent_0
+    533              avrCurrentRdOP = abs((avrCurrentRd[0] + avrCurrentRd[1] + avrCurrentRd[2] + avrCurrentRd[3])/4);
+   \       0x40   0x6862             LDR      R2,[R4, #+4]
+   \       0x42   0x68A0             LDR      R0,[R4, #+8]
+   \       0x44   0x68E1             LDR      R1,[R4, #+12]
+   \       0x46   0x1882             ADDS     R2,R0,R2
+   \       0x48   0x6920             LDR      R0,[R4, #+16]
+   \       0x4A   0x188A             ADDS     R2,R1,R2
+   \       0x4C   0x1882             ADDS     R2,R0,R2
+   \       0x4E   0x1053             ASRS     R3,R2,#+1
+   \       0x50   0xEB02 0x7293      ADD      R2,R2,R3, LSR #+30
+   \       0x54   0x1090             ASRS     R0,R2,#+2
+   \       0x56   0xBF48             IT       MI
+   \       0x58   0x4240             RSBMI    R0,R0,#+0
+   \       0x5A   0x6160             STR      R0,[R4, #+20]
+    534              AvrCurrentIndx = 0;
+   \       0x5C   0x2500             MOVS     R5,#+0
+    535            }
+    536          }
+   \                     ??updateAvrCurrent_0: (+1)
+   \       0x5E   0x7025             STRB     R5,[R4, #+0]
+   \       0x60   0xBDF1             POP      {R0,R4-R7,PC}    ;; return
+    537          
+
+   \                                 In section .text, align 2, keep-with-next
+    538          ModuleMotorStates deratingCheck(void){
+   \                     deratingCheck: (+1)
+   \        0x0   0xB570             PUSH     {R4-R6,LR}
+    539            if( avrCurrentRdOP >= over_current_threshold) return (CURRENT_DERATING_MODULE);                        //check for over current de-rating
+   \        0x2   0x....             LDR.N    R4,??DataTable3_9  ;; 0x800f068
+   \        0x4   0x....             LDR.N    R5,??DataTable3_8
+   \        0x6   0x8821             LDRH     R1,[R4, #+0]
+   \        0x8   0x6968             LDR      R0,[R5, #+20]
+   \        0xA   0x4288             CMP      R0,R1
+   \        0xC   0xDB01             BLT.N    ??deratingCheck_0
+   \        0xE   0x2008             MOVS     R0,#+8
+   \       0x10   0xBD70             POP      {R4-R6,PC}
+    540            else if( MPM_GetAvrgElMotorPowerW(pMCT->pMPM) >= over_power_threshold) return (POWER_DERATING_MODULE); //check for over power de-rating
+   \                     ??deratingCheck_0: (+1)
+   \       0x12   0x....             LDR.N    R6,??DataTable3_10
+   \       0x14   0x6BF0             LDR      R0,[R6, #+60]
+   \       0x16   0x....'....        BL       MPM_GetAvrgElMotorPowerW
+   \       0x1A   0x88E1             LDRH     R1,[R4, #+6]
+   \       0x1C   0x4288             CMP      R0,R1
+   \       0x1E   0xDB01             BLT.N    ??deratingCheck_1
+   \       0x20   0x2009             MOVS     R0,#+9
+   \       0x22   0xBD70             POP      {R4-R6,PC}
+    541            else if( (tmpryTempature = NTC_GetAvTemp_C(pMCT->pTemperatureSensor)) >= over_temperature_threshold) return (TEMPERATURE_DERATING_MODULE); //check for over temperature de-rating
+   \                     ??deratingCheck_1: (+1)
+   \       0x24   0x6AF0             LDR      R0,[R6, #+44]
+   \       0x26   0x....'....        BL       NTC_GetAvTemp_C
+   \       0x2A   0x8068             STRH     R0,[R5, #+2]
+   \       0x2C   0x89A1             LDRH     R1,[R4, #+12]
+   \       0x2E   0x4288             CMP      R0,R1
+   \       0x30   0xDB01             BLT.N    ??deratingCheck_2
+   \       0x32   0x200A             MOVS     R0,#+10
+   \       0x34   0xBD70             POP      {R4-R6,PC}
+    542            return ((ModuleMotorStates)IDLE_MODULE);
+   \                     ??deratingCheck_2: (+1)
+   \       0x36   0x2001             MOVS     R0,#+1
+   \       0x38   0xBD70             POP      {R4-R6,PC}       ;; return
+   \       0x3A                      REQUIRE over_current_threshold
+   \       0x3A                      REQUIRE over_power_threshold
+   \       0x3A                      REQUIRE over_temperature_threshold
+    543          }
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable3:
+   \        0x0   0x....'....        DC32     module_StateMachineControl
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable3_1:
+   \        0x0   0x0800'F01E        DC32     0x800f01e
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable3_2:
+   \        0x0   0x0800'F05E        DC32     0x800f05e
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable3_3:
+   \        0x0   0x....'....        DC32     processInfoTable
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable3_4:
+   \        0x0   0x....'....        DC32     PIDSpeedHandle_M1
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable3_5:
+   \        0x0   0x....'....        DC32     BrakeHandle_M1
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable3_6:
+   \        0x0   0x0800'F058        DC32     0x800f058
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable3_7:
+   \        0x0   0x....'....        DC32     pMPM
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable3_8:
+   \        0x0   0x....'....        DC32     AvrCurrentIndx
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable3_9:
+   \        0x0   0x0800'F068        DC32     0x800f068
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable3_10:
+   \        0x0   0x....'....        DC32     MCT
+    544          
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      16   deratingCheck
+        16   -> MPM_GetAvrgElMotorPowerW
+        16   -> NTC_GetAvTemp_C
+      40   module_Mc_StateMachine_u32
+        40   -> MC_AcknowledgeFaultMotor1
+        40   -> MC_GetImposedDirectionMotor1
+        40   -> MC_GetMecSpeedAverageMotor1
+        40   -> MC_GetOccurredFaultsMotor1
+        40   -> MC_GetSTMStateMotor1
+        40   -> MC_StartMotor1
+        40   -> MC_StopMotor1
+        40   -> StructMem_CreateInstance
+        40   -> deratingCheck
+        40   -> getProcessInfoIndex
+        40   -> getSysCount
+        40   -> setSpeed
+        40   -> setupSoftwareIRQ
+        40   -> updateAvrCurrent
+      16   setSpeed
+        16   -> MC_GetMecSpeedAverageMotor1
+         0   -> MC_ProgramSpeedRampMotor1
+      24   updateAvrCurrent
+        24   -> __aeabi_d2iz
+        24   -> __aeabi_i2d
+        24   -> sqrt
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable3
+       4  ??DataTable3_1
+       4  ??DataTable3_10
+       4  ??DataTable3_2
+       4  ??DataTable3_3
+       4  ??DataTable3_4
+       4  ??DataTable3_5
+       4  ??DataTable3_6
+       4  ??DataTable3_7
+       4  ??DataTable3_8
+       4  ??DataTable3_9
+       8  ?Subroutine0
+      14  ?Subroutine1
+       8  ?Subroutine2
+      24  ?Subroutine3
+       8  ?Subroutine4
+      12  ?Subroutine5
+       6  ?Subroutine6
+       2  A_DEFAULT_CONTROL_MODE
+       2  A_GAIN1
+       2  A_GAIN2
+       2  A_IQMAX
+       2  A_LS
+       2  A_MAX_APPLICATION_SPEED_RPM
+       2  A_MIN_APPLICATION_SPEED_RPM
+       2  A_NOMINAL_CURRENT
+       2  A_OV_TEMPERATURE_HYSTERESIS_C
+       2  A_OV_TEMPERATURE_THRESHOLD_C
+       2  A_OV_VOLTAGE_THRESHOLD_V
+       2  A_PHASE1_DURATION
+       2  A_PHASE1_FINAL_CURRENT
+       2  A_PHASE1_FINAL_SPEED_UNIT
+       2  A_PHASE2_DURATION
+       2  A_PHASE2_FINAL_CURRENT
+       2  A_PHASE2_FINAL_SPEED_UNIT
+       2  A_PHASE3_DURATION
+       2  A_PHASE3_FINAL_CURRENT
+       2  A_PHASE3_FINAL_SPEED_UNIT
+       2  A_PHASE4_DURATION
+       2  A_PHASE4_FINAL_CURRENT
+       2  A_PHASE4_FINAL_SPEED_UNIT
+       2  A_PHASE5_DURATION
+       2  A_PHASE5_FINAL_CURRENT
+       2  A_PHASE5_FINAL_SPEED_UNIT
+       2  A_PID_FLUX_KI_DEFAULT
+       2  A_PID_FLUX_KP_DEFAULT
+       2  A_PID_SPEED_KI_DEFAULT
+       2  A_PID_SPEED_KP_DEFAULT
+       2  A_PID_TORQUE_KI_DEFAULT
+       2  A_PID_TORQUE_KP_DEFAULT
+       2  A_PLL_KI_GAIN
+       2  A_PLL_KP_GAIN
+       2  A_POLE_PAIR_NUM
+       2  A_PWM_FREQUENCY
+       2  A_RS
+       2  A_TRANSITION_DURATION
+       2  A_UD_VOLTAGE_THRESHOLD_V
+      24  AvrCurrentIndx
+          tmpryTempature
+          avrCurrentRd
+          avrCurrentRdOP
+       2  D_HALL_PHASE_SHIFT
+       2  D_HALL_SENSORS_PLACEMENT
+       2  D_M1_ENCODER_PPR
+       2  MAX_COMMANDABLE_SPEED
+       2  MIN_COMMANDABLE_SPEED
+       2  MotSpinTimeOut
+       2  OvCurrent_derate_period
+       2  OvPower_derate_period
+       2  OvTemp_derate_period
+       2  SPEED_CONSIDERED_STOPPED
+       2  SPEED_DOWN_RAMP_RATE
+       2  SPEED_UP_RAMP_RATE
+       2  SpinPollPeriod
+       2  StartPeriodInc
+       2  StartRetryPeriod
+      58  deratingCheck
+   1'096  module_Mc_StateMachine_u32
+      80  module_StateMachineControl
+          GMI_FaultStatus
+          act_dir
+          MotSpinPollCount
+          StartRetryCounter
+          tt_SpinPollTime
+          tt_StartUpRetryTime
+          tt_FaultOTFWaitTime_u64
+          tt_derateCurrentPollTime
+          tt_deratePowerPollTime
+          tt_derateTempPollTime
+          tt_TurnOnLowSideTime
+          Mc_StateMachineStructMem_u32
+          target_speed
+       2  numOfStartRetry
+       2  over_current_rpm_Reduce
+       2  over_current_threshold
+       2  over_power_rpm_Reduce
+       2  over_power_threshold
+       2  over_temperature_rpm_Reduce
+       2  over_temperature_threshold
+       4  pMCT
+      52  setSpeed
+       8  tt_FaultOTFWaitTime
+      98  updateAvrCurrent
+
+ 
+    32 bytes in section .bss
+    84 bytes in section .data
+   122 bytes in section .rodata  (abs)
+ 1'428 bytes in section .text
+ 
+ 1'428 bytes of CODE  memory
+     0 bytes of CONST memory (+ 122 bytes shared)
+   116 bytes of DATA  memory
+
+Errors: none
+Warnings: 1

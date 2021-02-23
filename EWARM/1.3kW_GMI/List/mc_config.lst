@@ -1,0 +1,1646 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.50.9.278/W32 for ARM         23/Feb/2021  10:13:50
+# Copyright 1999-2020 IAR Systems AB.
+#
+#    Cpu mode                        
+#    Endian                       =  little
+#    Source file                  =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\ST_Regal\mc_config.c
+#    Command line                 =
+#        -f C:\Users\100001~1\AppData\Local\Temp\EWF28F.tmp
+#        (C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\ST_Regal\mc_config.c
+#        -D ARM_MATH_CM4 -D USE_FULL_LL_DRIVER -D USE_HAL_DRIVER -D STM32F302x8
+#        -lCN
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List
+#        -o
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj
+#        --debug --endian=little --cpu=Cortex-M4 -e --fpu=VFPv4_sp
+#        --dlib_config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.4\arm\inc\c\DLib_Config_Full.h" -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/Any/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/F3xx/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/UILibrary/Inc\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/SystemDriveParams\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/Device/ST/STM32F3xx/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/DSP/Include\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Drivers\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Features\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Kernel\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Memory\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Regal\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\UniversalProtocol\\
+#        -I
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Motor\\
+#        -Ohz)
+#    Locale                       =  C
+#    List file                    =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List\mc_config.lst
+#    Object file                  =
+#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\mc_config.o
+#    Runtime model:                  
+#      __SystemLibrary            =  DLib
+#      __dlib_full_locale_support =  1
+#      __dlib_version             =  6
+#
+###############################################################################
+
+C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\ST_Regal\mc_config.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    mc_config.c 
+      4            * @author  Motor Control SDK Team, ST Microelectronics
+      5            * @brief   Motor Control Subsystem components configuration and handler structures.
+      6            ******************************************************************************
+      7            * @attention
+      8            *
+      9            * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
+     10            * All rights reserved.</center></h2>
+     11            *
+     12            * This software component is licensed by ST under Ultimate Liberty license
+     13            * SLA0044, the "License"; You may not use this file except in compliance with
+     14            * the License. You may obtain a copy of the License at:
+     15            *                             www.st.com/SLA0044
+     16            *
+     17            ******************************************************************************
+     18            */ 
+     19          #include "main.h"
+     20          #include "mc_type.h"
+     21          #include "parameters_conversion.h"
+     22          #include "mc_parameters.h"
+     23          #include "mc_config.h"
+     24          #include "zz_module_flash.h"
+
+   \                                 In section .rodata, at 0x800f000
+   \   __absolute uint16_t const A_POLE_PAIR_NUM
+   \                     A_POLE_PAIR_NUM:
+   \        0x0   0x0005             DC16 5
+
+   \                                 In section .rodata, at 0x800f002
+   \   __absolute uint16_t const A_RS
+   \                     A_RS:
+   \        0x0   0x0258             DC16 600
+
+   \                                 In section .rodata, at 0x800f004
+   \   __absolute uint16_t const A_LS
+   \                     A_LS:
+   \        0x0   0x0010             DC16 16
+
+   \                                 In section .rodata, at 0x800f006
+   \   __absolute uint16_t const A_NOMINAL_CURRENT
+   \                     A_NOMINAL_CURRENT:
+   \        0x0   0x6A1E             DC16 27'166
+
+   \                                 In section .rodata, at 0x800f008
+   \   __absolute uint16_t const A_MAX_APPLICATION_SPEED_RPM
+   \                     A_MAX_APPLICATION_SPEED_RPM:
+   \        0x0   0x08CA             DC16 2'250
+
+   \                                 In section .rodata, at 0x800f00a
+   \   __absolute uint16_t const A_MIN_APPLICATION_SPEED_RPM
+   \                     A_MIN_APPLICATION_SPEED_RPM:
+   \        0x0   0x0000             DC16 0
+
+   \                                 In section .rodata, at 0x800f00c
+   \   __absolute uint16_t const A_PLL_KP_GAIN
+   \                     A_PLL_KP_GAIN:
+   \        0x0   0x0214             DC16 532
+
+   \                                 In section .rodata, at 0x800f00e
+   \   __absolute uint16_t const A_PLL_KI_GAIN
+   \                     A_PLL_KI_GAIN:
+   \        0x0   0x0025             DC16 37
+
+   \                                 In section .rodata, at 0x800f010
+   \   __absolute uint16_t const A_PWM_FREQUENCY
+   \                     A_PWM_FREQUENCY:
+   \        0x0   0x2710             DC16 10'000
+
+   \                                 In section .rodata, at 0x800f012
+   \   __absolute uint16_t const A_PID_TORQUE_KP_DEFAULT
+   \                     A_PID_TORQUE_KP_DEFAULT:
+   \        0x0   0x0ECF             DC16 3'791
+
+   \                                 In section .rodata, at 0x800f014
+   \   __absolute uint16_t const A_PID_TORQUE_KI_DEFAULT
+   \                     A_PID_TORQUE_KI_DEFAULT:
+   \        0x0   0x0038             DC16 56
+
+   \                                 In section .rodata, at 0x800f016
+   \   __absolute uint16_t const A_PID_FLUX_KP_DEFAULT
+   \                     A_PID_FLUX_KP_DEFAULT:
+   \        0x0   0x14B7             DC16 5'303
+
+   \                                 In section .rodata, at 0x800f018
+   \   __absolute uint16_t const A_PID_FLUX_KI_DEFAULT
+   \                     A_PID_FLUX_KI_DEFAULT:
+   \        0x0   0x0038             DC16 56
+
+   \                                 In section .rodata, at 0x800f01a
+   \   __absolute uint16_t const A_PID_SPEED_KP_DEFAULT
+   \                     A_PID_SPEED_KP_DEFAULT:
+   \        0x0   0x0064             DC16 100
+
+   \                                 In section .rodata, at 0x800f01c
+   \   __absolute uint16_t const A_PID_SPEED_KI_DEFAULT
+   \                     A_PID_SPEED_KI_DEFAULT:
+   \        0x0   0x03E8             DC16 1'000
+
+   \                                 In section .rodata, at 0x800f01e
+   \   __absolute uint16_t const A_IQMAX
+   \                     A_IQMAX:
+   \        0x0   0x6A1E             DC16 27'166
+
+   \                                 In section .rodata, at 0x800f020
+   \   __absolute uint16_t const A_DEFAULT_CONTROL_MODE
+   \                     A_DEFAULT_CONTROL_MODE:
+   \        0x0   0x0001             DC16 1
+
+   \                                 In section .rodata, at 0x800f022
+   \   __absolute uint16_t const A_OV_VOLTAGE_THRESHOLD_V
+   \                     A_OV_VOLTAGE_THRESHOLD_V:
+   \        0x0   0x01EC             DC16 492
+
+   \                                 In section .rodata, at 0x800f024
+   \   __absolute uint16_t const A_UD_VOLTAGE_THRESHOLD_V
+   \                     A_UD_VOLTAGE_THRESHOLD_V:
+   \        0x0   0x00AF             DC16 175
+
+   \                                 In section .rodata, at 0x800f026
+   \   __absolute uint16_t const A_OV_TEMPERATURE_THRESHOLD_C
+   \                     A_OV_TEMPERATURE_THRESHOLD_C:
+   \        0x0   0x005F             DC16 95
+
+   \                                 In section .rodata, at 0x800f028
+   \   __absolute uint16_t const A_OV_TEMPERATURE_HYSTERESIS_C
+   \                     A_OV_TEMPERATURE_HYSTERESIS_C:
+   \        0x0   0x000A             DC16 10
+
+   \                                 In section .rodata, at 0x800f02a
+   \   __absolute uint16_t const A_PHASE1_DURATION
+   \                     A_PHASE1_DURATION:
+   \        0x0   0x03E8             DC16 1'000
+
+   \                                 In section .rodata, at 0x800f02c
+   \   __absolute uint16_t const A_PHASE1_FINAL_SPEED_UNIT
+   \                     A_PHASE1_FINAL_SPEED_UNIT:
+   \        0x0   0x0000             DC16 0
+
+   \                                 In section .rodata, at 0x800f02e
+   \   __absolute uint16_t const A_PHASE1_FINAL_CURRENT
+   \                     A_PHASE1_FINAL_CURRENT:
+   \        0x0   0x14F1             DC16 5'361
+
+   \                                 In section .rodata, at 0x800f030
+   \   __absolute uint16_t const A_PHASE2_DURATION
+   \                     A_PHASE2_DURATION:
+   \        0x0   0x1770             DC16 6'000
+
+   \                                 In section .rodata, at 0x800f032
+   \   __absolute uint16_t const A_PHASE2_FINAL_SPEED_UNIT
+   \                     A_PHASE2_FINAL_SPEED_UNIT:
+   \        0x0   0x00A6             DC16 166
+
+   \                                 In section .rodata, at 0x800f034
+   \   __absolute uint16_t const A_PHASE2_FINAL_CURRENT
+   \                     A_PHASE2_FINAL_CURRENT:
+   \        0x0   0x14F1             DC16 5'361
+
+   \                                 In section .rodata, at 0x800f036
+   \   __absolute uint16_t const A_PHASE3_DURATION
+   \                     A_PHASE3_DURATION:
+   \        0x0   0x0000             DC16 0
+
+   \                                 In section .rodata, at 0x800f038
+   \   __absolute uint16_t const A_PHASE3_FINAL_SPEED_UNIT
+   \                     A_PHASE3_FINAL_SPEED_UNIT:
+   \        0x0   0x00A6             DC16 166
+
+   \                                 In section .rodata, at 0x800f03a
+   \   __absolute uint16_t const A_PHASE3_FINAL_CURRENT
+   \                     A_PHASE3_FINAL_CURRENT:
+   \        0x0   0x14F1             DC16 5'361
+
+   \                                 In section .rodata, at 0x800f03c
+   \   __absolute uint16_t const A_PHASE4_DURATION
+   \                     A_PHASE4_DURATION:
+   \        0x0   0x0000             DC16 0
+
+   \                                 In section .rodata, at 0x800f03e
+   \   __absolute uint16_t const A_PHASE4_FINAL_SPEED_UNIT
+   \                     A_PHASE4_FINAL_SPEED_UNIT:
+   \        0x0   0x00A6             DC16 166
+
+   \                                 In section .rodata, at 0x800f040
+   \   __absolute uint16_t const A_PHASE4_FINAL_CURRENT
+   \                     A_PHASE4_FINAL_CURRENT:
+   \        0x0   0x14F1             DC16 5'361
+
+   \                                 In section .rodata, at 0x800f042
+   \   __absolute uint16_t const A_PHASE5_DURATION
+   \                     A_PHASE5_DURATION:
+   \        0x0   0x0000             DC16 0
+
+   \                                 In section .rodata, at 0x800f044
+   \   __absolute uint16_t const A_PHASE5_FINAL_SPEED_UNIT
+   \                     A_PHASE5_FINAL_SPEED_UNIT:
+   \        0x0   0x00A6             DC16 166
+
+   \                                 In section .rodata, at 0x800f046
+   \   __absolute uint16_t const A_PHASE5_FINAL_CURRENT
+   \                     A_PHASE5_FINAL_CURRENT:
+   \        0x0   0x14F1             DC16 5'361
+
+   \                                 In section .rodata, at 0x800f048
+   \   __absolute uint16_t const A_TRANSITION_DURATION
+   \                     A_TRANSITION_DURATION:
+   \        0x0   0x01F4             DC16 500
+
+   \                                 In section .rodata, at 0x800f04a
+   \   __absolute uint16_t const D_HALL_SENSORS_PLACEMENT
+   \                     D_HALL_SENSORS_PLACEMENT:
+   \        0x0   0x0000             DC16 0
+
+   \                                 In section .rodata, at 0x800f04c
+   \   __absolute uint16_t const D_HALL_PHASE_SHIFT
+   \                     D_HALL_PHASE_SHIFT:
+   \        0x0   0x012C             DC16 300
+
+   \                                 In section .rodata, at 0x800f04e
+   \   __absolute uint16_t const D_M1_ENCODER_PPR
+   \                     D_M1_ENCODER_PPR:
+   \        0x0   0x0190             DC16 400
+
+   \                                 In section .rodata, at 0x800f050
+   \   __absolute int16_t const A_GAIN1
+   \                     A_GAIN1:
+   \        0x0   0xA02E             DC16 -24'530
+
+   \                                 In section .rodata, at 0x800f052
+   \   __absolute int16_t const A_GAIN2
+   \                     A_GAIN2:
+   \        0x0   0x5EA3             DC16 24'227
+     25          
+     26          /* USER CODE BEGIN Additional include */
+     27          
+     28          /* USER CODE END Additional include */ 
+     29          
+     30          #define FREQ_RATIO 1                /* Dummy value for single drive */
+     31          #define FREQ_RELATION HIGHEST_FREQ  /* Dummy value for single drive */
+     32          
+     33          #define OFFCALIBRWAIT_MS     0
+     34          #define OFFCALIBRWAIT_MS2    0     
+     35          #include "pqd_motor_power_measurement.h"
+     36          /* USER CODE BEGIN Additional define */
+     37          
+     38          /* USER CODE END Additional define */ 
+     39          
+
+   \                                 In section .data, align 4
+     40          PQD_MotorPowMeas_Handle_t PQD_MotorPowMeasM1 =
+   \                     PQD_MotorPowMeasM1:
+   \        0x0   0x0000             DC16 0
+   \        0x2                      DS8 254
+   \      0x100                      DS8 6
+   \      0x106                      DS8 2
+   \      0x108   0x0000'7C0B        DC32 31'755
+   \      0x10C                      DS8 8
+     41          {
+     42            .wConvFact = PQD_CONVERSION_FACTOR
+     43          };
+
+   \                                 In section .data, align 4
+     44          PQD_MotorPowMeas_Handle_t *pPQD_MotorPowMeasM1 = &PQD_MotorPowMeasM1; 
+   \                     pPQD_MotorPowMeasM1:
+   \        0x0   0x....'....        DC32 PQD_MotorPowMeasM1
+     45          
+     46          /**
+     47            * @brief  PI / PID Speed loop parameters Motor 1
+     48            */
+     49          PID_Handle_t PIDSpeedHandle_M1 =
+     50          {
+     51          //  .hDefKpGain          = (int16_t)PID_SPEED_KP_DEFAULT,
+     52          //  .hDefKiGain          = (int16_t)PID_SPEED_KI_DEFAULT, 
+     53          //  .wUpperIntegralLimit = (int32_t)IQMAX * (int32_t)SP_KIDIV,
+     54          //  .wLowerIntegralLimit = -(int32_t)IQMAX * (int32_t)SP_KIDIV,
+     55          //  .hUpperOutputLimit       = (int16_t)IQMAX, 
+     56          //  .hLowerOutputLimit       = -(int16_t)IQMAX,
+     57            .hKpDivisor          = (uint16_t)SP_KPDIV,
+     58            .hKiDivisor          = (uint16_t)SP_KIDIV,
+     59            .hKpDivisorPOW2      = (uint16_t)SP_KPDIV_LOG,
+     60            .hKiDivisorPOW2      = (uint16_t)SP_KIDIV_LOG,
+     61            .hDefKdGain           = 0x0000U,
+     62            .hKdDivisor           = 0x0000U,
+     63            .hKdDivisorPOW2       = 0x0000U,
+     64          };
+     65          
+     66          /**
+     67            * @brief  PI / PID Iq loop parameters Motor 1
+     68            */
+     69          PID_Handle_t PIDIqHandle_M1 =
+     70          {
+     71          //  .hDefKpGain          = (int16_t)PID_TORQUE_KP_DEFAULT,
+     72          //  .hDefKiGain          = (int16_t)PID_TORQUE_KI_DEFAULT,
+     73            .wUpperIntegralLimit = (int32_t)INT16_MAX * TF_KIDIV,
+     74            .wLowerIntegralLimit = (int32_t)-INT16_MAX * TF_KIDIV,   
+     75            .hUpperOutputLimit       = INT16_MAX,     
+     76            .hLowerOutputLimit       = -INT16_MAX,           
+     77            .hKpDivisor          = (uint16_t)TF_KPDIV,       
+     78            .hKiDivisor          = (uint16_t)TF_KIDIV,       
+     79            .hKpDivisorPOW2      = (uint16_t)TF_KPDIV_LOG,       
+     80            .hKiDivisorPOW2      = (uint16_t)TF_KIDIV_LOG,        
+     81            .hDefKdGain           = 0x0000U,
+     82            .hKdDivisor           = 0x0000U,
+     83            .hKdDivisorPOW2       = 0x0000U,
+     84          };
+     85          
+     86          /**
+     87            * @brief  PI / PID Id loop parameters Motor 1
+     88            */
+     89          PID_Handle_t PIDIdHandle_M1 =
+     90          {
+     91          //  .hDefKpGain          = (int16_t)PID_FLUX_KP_DEFAULT, 
+     92          //  .hDefKiGain          = (int16_t)PID_FLUX_KI_DEFAULT, 
+     93            .wUpperIntegralLimit = (int32_t)INT16_MAX * TF_KIDIV, 
+     94            .wLowerIntegralLimit = (int32_t)-INT16_MAX * TF_KIDIV,
+     95            .hUpperOutputLimit       = INT16_MAX,                 
+     96            .hLowerOutputLimit       = -INT16_MAX,                
+     97            .hKpDivisor          = (uint16_t)TF_KPDIV,          
+     98            .hKiDivisor          = (uint16_t)TF_KIDIV,          
+     99            .hKpDivisorPOW2      = (uint16_t)TF_KPDIV_LOG,       
+    100            .hKiDivisorPOW2      = (uint16_t)TF_KIDIV_LOG,       
+    101            .hDefKdGain           = 0x0000U,
+    102            .hKdDivisor           = 0x0000U,
+    103            .hKdDivisorPOW2       = 0x0000U,
+    104          };
+    105          
+    106          /**
+    107            * @brief  SpeednTorque Controller parameters Motor 1
+    108            */
+    109          SpeednTorqCtrl_Handle_t SpeednTorqCtrlM1 =
+    110          {
+    111            .STCFrequencyHz =           		MEDIUM_FREQUENCY_TASK_RATE, 	 
+    112          //  .MaxAppPositiveMecSpeedUnit =	(uint16_t)(MAX_APPLICATION_SPEED_UNIT), 
+    113          //  .MinAppPositiveMecSpeedUnit =	(uint16_t)(MIN_APPLICATION_SPEED_UNIT), 
+    114          //  .MaxAppNegativeMecSpeedUnit =	(int16_t)(-MIN_APPLICATION_SPEED_UNIT), 
+    115          //  .MinAppNegativeMecSpeedUnit =	(int16_t)(-MAX_APPLICATION_SPEED_UNIT),
+    116           // .MaxPositiveTorque =				(int16_t)NOMINAL_CURRENT,		 
+    117           // .MinNegativeTorque =				-(int16_t)NOMINAL_CURRENT,       
+    118           // .ModeDefault =					DEFAULT_CONTROL_MODE,            
+    119            .MecSpeedRefUnitDefault =		(int16_t)(DEFAULT_TARGET_SPEED_UNIT),
+    120            .TorqueRefDefault =				(int16_t)DEFAULT_TORQUE_COMPONENT,
+    121            .IdrefDefault =					(int16_t)DEFAULT_FLUX_COMPONENT,                                                                     
+    122          };
+    123          RevUpCtrl_Handle_t RevUpControlM1 =
+    124          {
+    125            .hRUCFrequencyHz         = MEDIUM_FREQUENCY_TASK_RATE,   
+    126            .hStartingMecAngle       = (int16_t)((int32_t)(STARTING_ANGLE_DEG)* 65536/360),
+    127            .bFirstAccelerationStage = (ENABLE_SL_ALGO_FROM_PHASE-1u),   
+    128            .hMinStartUpValidSpeed   = OBS_MINIMUM_SPEED_UNIT, 
+    129            .hMinStartUpFlySpeed     = (int16_t)(OBS_MINIMUM_SPEED_UNIT/2),  
+    130            .OTFStartupEnabled       = false,  
+    131            .OTFPhaseParams         = {(uint16_t)500,                 
+    132                                                   0,                 
+    133                                       (int16_t)PHASE5_FINAL_CURRENT,
+    134                                       (void*)MC_NULL},
+    135          /*  .ParamsData             = {{(uint16_t)A_PHASE1_DURATION,(int16_t)(PHASE1_FINAL_SPEED_UNIT),(int16_t)PHASE1_FINAL_CURRENT,&RevUpControlM1.ParamsData[1]},
+    136                                       {(uint16_t)PHASE2_DURATION,(int16_t)(PHASE2_FINAL_SPEED_UNIT),(int16_t)PHASE2_FINAL_CURRENT,&RevUpControlM1.ParamsData[2]},
+    137                                       {(uint16_t)PHASE3_DURATION,(int16_t)(PHASE3_FINAL_SPEED_UNIT),(int16_t)PHASE3_FINAL_CURRENT,&RevUpControlM1.ParamsData[3]},
+    138                                       {(uint16_t)PHASE4_DURATION,(int16_t)(PHASE4_FINAL_SPEED_UNIT),(int16_t)PHASE4_FINAL_CURRENT,&RevUpControlM1.ParamsData[4]},
+    139                                       {(uint16_t)PHASE5_DURATION,(int16_t)(PHASE5_FINAL_SPEED_UNIT),(int16_t)PHASE5_FINAL_CURRENT,(void*)MC_NULL},
+    140                                      },*/
+    141          };
+    142          PWMC_R3_1_Handle_t PWM_Handle_M1 =
+    143          {
+    144            {
+    145              .pFctGetPhaseCurrents              = &R3_1_GetPhaseCurrents,    
+    146              .pFctSwitchOffPwm                  = &R3_1_SwitchOffPWM,             
+    147              .pFctSwitchOnPwm                   = &R3_1_SwitchOnPWM,              
+    148              .pFctCurrReadingCalib              = &R3_1_CurrentReadingPolarization,
+    149              .pFctTurnOnLowSides                = &R3_1_TurnOnLowSides,         
+    150              .pFctIsOverCurrentOccurred         = &R3_1_IsOverCurrentOccurred,    
+    151              .pFctOCPSetReferenceVoltage        = MC_NULL,
+    152              .pFctRLDetectionModeEnable         = &R3_1_RLDetectionModeEnable,    
+    153              .pFctRLDetectionModeDisable        = &R3_1_RLDetectionModeDisable,   
+    154              .pFctRLDetectionModeSetDuty        = &R3_1_RLDetectionModeSetDuty,    
+    155          //    .hT_Sqrt3 = (PWM_PERIOD_CYCLES*SQRT3FACTOR)/16384u,   
+    156              .Sector = 0,    
+    157              .CntPhA = 0,
+    158              .CntPhB = 0,
+    159              .CntPhC = 0,
+    160              .SWerror = 0,
+    161              .TurnOnLowSidesAction = false, 
+    162              .OffCalibrWaitTimeCounter = 0, 
+    163              .Motor = M1,     
+    164              .RLDetectionMode = false, 
+    165              .Ia = 0, 
+    166              .Ib = 0, 
+    167              .Ic = 0, 
+    168              .DTTest = 0,   
+    169              .DTCompCnt = DTCOMPCNT, 
+    170          //    .PWMperiod          = PWM_PERIOD_CYCLES,
+    171              .OffCalibrWaitTicks = (uint16_t)((SYS_TICK_FREQUENCY * OFFCALIBRWAIT_MS)/ 1000),
+    172              .Ton                 = TON,                              
+    173              .Toff                = TOFF
+    174            },
+    175            .PhaseAOffset = 0,   
+    176            .PhaseBOffset = 0,   
+    177            .PhaseCOffset = 0,   
+    178          //  .Half_PWMPeriod = PWM_PERIOD_CYCLES/2u, 
+    179            .OverCurrentFlag = false,    
+    180            .OverVoltageFlag = false,    
+    181            .BrakeActionLock = false,                               
+    182            .pParams_str = &R3_1_ParamsM1
+    183          };
+    184          
+    185          /**
+    186            * @brief  SpeedNPosition sensor parameters Motor 1 - Base Class
+    187            */
+    188          VirtualSpeedSensor_Handle_t VirtualSpeedSensorM1 =
+    189          {
+    190            
+    191            ._Super = {
+    192          //    .bElToMecRatio                     =	POLE_PAIR_NUM, 
+    193          //    .hMaxReliableMecSpeedUnit          =	(uint16_t)(1.15*MAX_APPLICATION_SPEED_UNIT),
+    194          //    .hMinReliableMecSpeedUnit          =	(uint16_t)(MIN_APPLICATION_SPEED_UNIT),
+    195              .bMaximumSpeedErrorsNumber         =	MEAS_ERRORS_BEFORE_FAULTS,      
+    196              .hMaxReliableMecAccelUnitP         =	65535,                             
+    197          //    .hMeasurementFrequency             =	(uint16_t) ((uint32_t)(PWM_FREQUENCY)/(REGULATION_EXECUTION_RATE*PWM_FREQ_SCALING)),
+    198              .DPPConvFactor                     =  DPP_CONV_FACTOR,       
+    199              },
+    200            .hSpeedSamplingFreqHz =	MEDIUM_FREQUENCY_TASK_RATE, 
+    201          //  .hTransitionSteps     =	(int16_t)(TF_REGULATION_RATE * TRANSITION_DURATION/ 1000.0),
+    202                                     
+    203          };
+    204          
+    205          /**
+    206            * @brief  SpeedNPosition sensor parameters Motor 1 - State Observer + PLL
+    207            */
+    208          STO_PLL_Handle_t STO_PLL_M1 =
+    209          {
+    210            ._Super = {
+    211          //	.bElToMecRatio                     =	POLE_PAIR_NUM,
+    212              .SpeedUnit                         = SPEED_UNIT,
+    213          //    .hMaxReliableMecSpeedUnit          =	(uint16_t)(1.15*MAX_APPLICATION_SPEED_UNIT),
+    214          //    .hMinReliableMecSpeedUnit          =	(uint16_t)(MIN_APPLICATION_SPEED_UNIT),
+    215              .bMaximumSpeedErrorsNumber         =	MEAS_ERRORS_BEFORE_FAULTS,           
+    216              .hMaxReliableMecAccelUnitP         =	65535,                               
+    217          //    .hMeasurementFrequency             =	(uint16_t) ((uint32_t)(PWM_FREQUENCY)/(REGULATION_EXECUTION_RATE*PWM_FREQ_SCALING)),
+    218              .DPPConvFactor                     =  DPP_CONV_FACTOR,    
+    219            },
+    220           .hC1                         =	C1,                             
+    221          // .hC2                         =	C2,                             
+    222          // .hC3                         =	C3,                             
+    223          // .hC4                         =	C4,                             
+    224           .hC5                         =	C5,                             
+    225           .hF1                         =	F1,                             
+    226           .hF2                         =	F2,                             
+    227           .PIRegulator = {
+    228            //   .hDefKpGain = PLL_KP_GAIN, 
+    229            //   .hDefKiGain = PLL_KI_GAIN, 
+    230          	 .hDefKdGain = 0x0000U,     
+    231               .hKpDivisor = PLL_KPDIV,   
+    232               .hKiDivisor = PLL_KIDIV,   
+    233          	 .hKdDivisor = 0x0000U,			 
+    234               .wUpperIntegralLimit = INT32_MAX, 
+    235               .wLowerIntegralLimit = -INT32_MAX,
+    236               .hUpperOutputLimit = INT16_MAX, 
+    237               .hLowerOutputLimit = -INT16_MAX, 
+    238               .hKpDivisorPOW2 = PLL_KPDIV_LOG,  
+    239               .hKiDivisorPOW2 = PLL_KIDIV_LOG, 
+    240               .hKdDivisorPOW2       = 0x0000U, 
+    241             },      			
+    242           .SpeedBufferSizeUnit                =	STO_FIFO_DEPTH_UNIT,           
+    243           .SpeedBufferSizeDpp                 =	STO_FIFO_DEPTH_DPP,            
+    244           .VariancePercentage                 =	PERCENTAGE_FACTOR,             
+    245           .SpeedValidationBand_H              =	SPEED_BAND_UPPER_LIMIT,        
+    246           .SpeedValidationBand_L              =	SPEED_BAND_LOWER_LIMIT,        
+    247           .MinStartUpValidSpeed               =	OBS_MINIMUM_SPEED_UNIT,             
+    248           .StartUpConsistThreshold            =	NB_CONSECUTIVE_TESTS,  	       
+    249           .Reliability_hysteresys             =	OBS_MEAS_ERRORS_BEFORE_FAULTS, 
+    250           .BemfConsistencyCheck               =	BEMF_CONSISTENCY_TOL,          
+    251           .BemfConsistencyGain                =	BEMF_CONSISTENCY_GAIN,         
+    252          // .MaxAppPositiveMecSpeedUnit         =	(uint16_t)(MAX_APPLICATION_SPEED_UNIT*1.15), 
+    253           .F1LOG                              =	F1_LOG,                            
+    254           .F2LOG                              =	F2_LOG,                            
+    255           .SpeedBufferSizeDppLOG              =	STO_FIFO_DEPTH_DPP_LOG             
+    256          };
+    257          STO_PLL_Handle_t *pSTO_PLL_M1 = &STO_PLL_M1; 
+    258          
+    259          STO_Handle_t STO_M1 = 
+    260          {
+    261            ._Super                        = (SpeednPosFdbk_Handle_t*)&STO_PLL_M1,
+    262            .pFctForceConvergency1         = &STO_PLL_ForceConvergency1,
+    263            .pFctForceConvergency2         = &STO_PLL_ForceConvergency2,
+    264            .pFctStoOtfResetPLL            = &STO_OTF_ResetPLL,
+    265            .pFctSTO_SpeedReliabilityCheck = &STO_PLL_IsVarianceTight                              
+    266          };
+    267          
+    268          /**
+    269            * @brief  SpeedNPosition sensor parameters Motor 1 - HALL
+    270            */
+    271          
+    272          /*HALL_Handle_t HALL_M1 =
+    273          {
+    274            ._Super = {
+    275            //  .bElToMecRatio                     =	POLE_PAIR_NUM,               
+    276          //   .hMaxReliableMecSpeedUnit          =	(uint16_t)(1.15*MAX_APPLICATION_SPEED_UNIT),
+    277          //   .hMinReliableMecSpeedUnit          =	(uint16_t)(MIN_APPLICATION_SPEED_UNIT),
+    278              .bMaximumSpeedErrorsNumber         =	MEAS_ERRORS_BEFORE_FAULTS,            
+    279              .hMaxReliableMecAccelUnitP         =	65535,                             
+    280          //    .hMeasurementFrequency             =	(uint16_t) ((uint32_t)(PWM_FREQUENCY)/(REGULATION_EXECUTION_RATE*PWM_FREQ_SCALING)),
+    281              .DPPConvFactor                     =  DPP_CONV_FACTOR,       
+    282            }, 
+    283          //  .SensorPlacement     = HALL_SENSORS_PLACEMENT,
+    284          //  .PhaseShift          = (int16_t)(HALL_PHASE_SHIFT * 65536/360),
+    285            .SpeedSamplingFreqHz = MEDIUM_FREQUENCY_TASK_RATE,
+    286            .SpeedBufferSize     = HALL_AVERAGING_FIFO_DEPTH, 
+    287           .TIMClockFreq       = HALL_TIM_CLK,         
+    288           .TIMx                = TIM2, 
+    289           
+    290           .ICx_Filter          = M1_HALL_IC_FILTER,
+    291           
+    292           .PWMFreqScaling      = PWM_FREQ_SCALING,
+    293           .HallMtpa            = HALL_MTPA,  
+    294          
+    295           .H1Port             =  M1_HALL_H1_GPIO_Port, 
+    296           .H1Pin              =  M1_HALL_H1_Pin,       
+    297           .H2Port             =  M1_HALL_H2_GPIO_Port, 
+    298           .H2Pin              =  M1_HALL_H2_Pin,       
+    299           .H3Port             =  M1_HALL_H3_GPIO_Port, 
+    300           .H3Pin              =  M1_HALL_H3_Pin,       									 
+    301          };
+    302          */
+    303          ICL_Handle_t ICL_M1 =
+    304          {
+    305            .ICLstate		=	ICL_INACTIVE,						
+    306            .hICLTicksCounter	=	0u,    								
+    307            .hICLTotalTicks	=	UINT16_MAX,							
+    308            .hICLFrequencyHz 	=	SPEED_LOOP_FREQUENCY_HZ,			
+    309            .hICLDurationms	=	INRUSH_CURRLIMIT_CHANGE_AFTER_MS,	
+    310          };
+    311          
+    312          /**
+    313            * temperature sensor parameters Motor 1
+    314            */
+    315          NTC_Handle_t TempSensorParamsM1 =
+    316          {
+    317            .bSensorType = REAL_SENSOR,
+    318            .TempRegConv =
+    319            {
+    320              .regADC = ADC1,
+    321              .channel = MC_ADC_CHANNEL_14, //MC_ADC_CHANNEL_12,
+    322              .samplingTime = M1_TEMP_SAMPLING_TIME,   
+    323            },  
+    324            .hLowPassFilterBW        = M1_TEMP_SW_FILTER_BW_FACTOR,
+    325          //  .hOverTempThreshold      = (uint16_t)(OV_TEMPERATURE_THRESHOLD_d),
+    326          //  .hOverTempDeactThreshold = (uint16_t)(OV_TEMPERATURE_THRESHOLD_d - OV_TEMPERATURE_HYSTERESIS_d),
+    327            .hSensitivity            = (uint16_t)(ADC_REFERENCE_VOLTAGE/dV_dT),
+    328            .wV0                     = (uint16_t)(V0_V *65536/ ADC_REFERENCE_VOLTAGE),
+    329            .hT0                     = T0_C,											 
+    330          };
+    331          
+    332          /* Bus voltage sensor value filter buffer */
+
+   \                                 In section .bss, align 4
+    333          uint16_t RealBusVoltageSensorFilterBufferM1[M1_VBUS_SW_FILTER_BW_FACTOR];
+   \                     RealBusVoltageSensorFilterBufferM1:
+   \        0x0                      DS8 12
+
+   \                                 In section .data, align 4
+   \                     STO_PLL_M1:
+   \        0x0   0x00 0x00          DC8 0, 0, 10, 3
+
+   \              0x0A 0x03
+   \        0x4   0x0000 0x0000      DC16 0, 0
+   \        0x8   0x0000'0000        DC32 0
+   \        0xC   0x0000 0x0000      DC16 0, 0, 0, 0, 0, 0, 65'535, 0
+
+   \               0x0000 0x000
+
+   \              0 0x0000 0x00
+
+   \              00 0xFFFF 0x0
+
+   \              000
+   \       0x1C   0x0001'0000        DC32 65'536
+   \       0x20   0x003C 0x0000      DC16 60, 0, 0, 0, 3'341, 0, 16'384, 4'096, 0, 0, 0, 0, 0, 0
+
+   \               0x0000 0x000
+
+   \              0 0x0D0D 0x00
+
+   \              00 0x4000 0x1
+
+   \              000 0x0000 0x
+
+   \              0000 0x0000 0
+
+   \              x0000 0x0000 
+
+   \              0x0000
+   \       0x3C   0x0000'0000        DC32 0, 2'147'483'647, -2'147'483'647
+
+   \              0x7FFF'FFFF  
+
+   \              0x8000'0001
+   \       0x48   0x7FFF 0x8001      DC16 32'767, -32'767, 16'384, 65'535, 14, 16, 0, 0, 0, 0
+
+   \               0x4000 0xFFF
+
+   \              F 0x000E 0x00
+
+   \              10 0x0000 0x0
+
+   \              000 0x0000 0x
+
+   \              0000
+   \       0x5C                      DS8 4
+   \       0x60   0x0000'0000        DC32 0, 0, 0, 0
+
+   \              0x0000'0000  
+
+   \              0x0000'0000  
+
+   \              0x0000'0000
+   \       0x70   0x0000 0x0000      DC16 0, 0, 0
+
+   \               0x0000
+   \       0x76                      DS8 126
+   \       0xF4   0x00 0x00          DC8 0, 0, 0, 0, 0, 0
+
+   \              0x00 0x00    
+
+   \              0x00 0x00
+   \       0xFA                      DS8 2
+   \       0xFC   0x0000'0000        DC32 0, 0
+
+   \              0x0000'0000
+   \      0x104   0x00               DC8 0
+   \      0x105                      DS8 3
+   \      0x108   0x0000'0000        DC32 0
+   \      0x10C   0x0000             DC16 0
+   \      0x10E   0x40 0x40          DC8 64, 64
+   \      0x110   0x000C             DC16 12
+   \      0x112   0x11 0x0F          DC8 17, 15
+   \      0x114   0x0053             DC16 83
+   \      0x116   0x02 0x03          DC8 2, 3, 64, 64
+
+   \              0x40 0x40
+   \      0x11A   0x0000 0x000E      DC16 0, 14, 12, 6
+
+   \               0x000C 0x000
+
+   \              6
+   \      0x122                      DS8 6
+   \                     PWM_Handle_M1:
+   \      0x128   0x0000'0000        DC32 0x0, R3_1_GetPhaseCurrents, R3_1_SwitchOffPWM, R3_1_SwitchOnPWM
+
+   \              0x....'....  
+
+   \              0x....'....  
+
+   \              0x....'....
+   \      0x138   0x....'....        DC32 R3_1_CurrentReadingPolarization, R3_1_TurnOnLowSides, 0x0
+
+   \              0x....'....  
+
+   \              0x0000'0000
+   \      0x144   0x....'....        DC32 R3_1_IsOverCurrentOccurred, 0x0, R3_1_RLDetectionModeEnable
+
+   \              0x0000'0000  
+
+   \              0x....'....
+   \      0x150   0x....'....        DC32 R3_1_RLDetectionModeDisable, R3_1_RLDetectionModeSetDuty
+
+   \              0x....'....
+   \      0x158   0x0000 0x0000      DC16 0, 0, 0, 0, 0
+
+   \               0x0000 0x000
+
+   \              0 0x0000
+   \      0x162   0x00               DC8 0
+   \      0x163                      DS8 1
+   \      0x164   0x0000 0x0000      DC16 0, 0, 0
+
+   \               0x0000
+   \      0x16A   0x00               DC8 0
+   \      0x16B                      DS8 1
+   \      0x16C   0x0000             DC16 0
+   \      0x16E   0x00 0x00          DC8 0, 0
+   \      0x170   0x0000 0x0000      DC16 0, 0, 0, 0, 0, 0, 48, 16, 16
+
+   \               0x0000 0x000
+
+   \              0 0x0000 0x00
+
+   \              00 0x0030 0x0
+
+   \              010 0x0010
+   \      0x182                      DS8 2
+   \      0x184   0x0000'0000        DC32 0, 0, 0
+
+   \              0x0000'0000  
+
+   \              0x0000'0000
+   \      0x190   0x0000 0x0000      DC16 0, 0, 0
+
+   \               0x0000
+   \      0x196   0x00 0x00          DC8 0, 0, 0, 0, 0
+
+   \              0x00 0x00    
+
+   \              0x00
+   \      0x19B                      DS8 1
+   \      0x19C   0x....'....        DC32 R3_1_ParamsM1
+   \                     SpeednTorqCtrlM1:
+   \      0x1A0   0x00               DC8 0
+   \      0x1A1                      DS8 1
+   \      0x1A2   0x0000             DC16 0
+   \      0x1A4   0x0000'0000        DC32 0, 0, 0, 0x0, 0x0, 0
+
+   \              0x0000'0000  
+
+   \              0x0000'0000  
+
+   \              0x0000'0000  
+
+   \              0x0000'0000  
+
+   \              0x0000'0000
+   \      0x1BC   0x03E8 0x0000      DC16 1'000, 0, 0, 0, 0, 0, 0
+
+   \               0x0000 0x000
+
+   \              0 0x0000 0x00
+
+   \              00 0x0000
+   \      0x1CA   0x00               DC8 0
+   \      0x1CB                      DS8 1
+   \      0x1CC   0x00A6 0x0000      DC16 166, 0, 0
+
+   \               0x0000
+   \      0x1D2                      DS8 2
+   \                     VirtualSpeedSensorM1:
+   \      0x1D4   0x00 0x00          DC8 0, 0, 0, 3
+
+   \              0x00 0x03
+   \      0x1D8   0x0000 0x0000      DC16 0, 0
+   \      0x1DC   0x0000'0000        DC32 0
+   \      0x1E0   0x0000 0x0000      DC16 0, 0, 0, 0, 0, 0, 65'535, 0
+
+   \               0x0000 0x000
+
+   \              0 0x0000 0x00
+
+   \              00 0xFFFF 0x0
+
+   \              000
+   \      0x1F0   0x0001'0000        DC32 65'536, 0, 0
+
+   \              0x0000'0000  
+
+   \              0x0000'0000
+   \      0x1FC   0x0000 0x0000      DC16 0, 0
+   \      0x200   0x00 0x00          DC8 0, 0
+   \      0x202   0x0000 0x0000      DC16 0, 0
+   \      0x206   0x00 0x00          DC8 0, 0
+   \      0x208   0x03E8             DC16 1'000
+   \      0x20A                      DS8 2
+   \                     RevUpControlM1:
+   \      0x20C   0x03E8 0x4000      DC16 1'000, 16'384, 0, 0
+
+   \               0x0000 0x000
+
+   \              0
+   \      0x214   0x0000'0000        DC32 0x0
+   \      0x218   0x0000             DC16 0
+   \      0x21A                      DS8 10
+   \      0x224                      DS8 48
+   \      0x254   0x00 0x01          DC8 0, 1
+   \      0x256   0x0053 0x0029      DC16 83, 41, 0, 0
+
+   \               0x0000 0x000
+
+   \              0
+   \      0x25E   0x00 0x00          DC8 0, 0, 0, 0, 0, 0, 0
+
+   \              0x00 0x00    
+
+   \              0x00 0x00    
+
+   \              0x00
+   \      0x265                      DS8 3
+   \      0x268   0x01F4 0x0000      DC16 500, 0, 5'361
+
+   \               0x14F1
+   \      0x26E                      DS8 2
+   \      0x270   0x0000'0000        DC32 0x0
+   \      0x274                      DS8 16
+   \                     TempSensorParamsM1:
+   \      0x284   0x00               DC8 0
+   \      0x285                      DS8 3
+   \      0x288   0x5000'0000        DC32 0x5000'0000
+   \      0x28C   0x0E               DC8 14
+   \      0x28D                      DS8 3
+   \      0x290   0x0000'0005        DC32 5
+   \      0x294   0x0000 0x0000      DC16 0, 0, 0, 0, 250, 0, 0, 143
+
+   \               0x0000 0x000
+
+   \              0 0x00FA 0x00
+
+   \              00 0x0000 0x0
+
+   \              08F
+   \      0x2A4   0x0000'E3AF        DC32 58'287
+   \      0x2A8   0x001E             DC16 30
+   \      0x2AA                      DS8 2
+    334          
+    335          /**
+    336            * Bus voltage sensor parameters Motor 1
+    337            */
+    338          RDivider_Handle_t RealBusVoltageSensorParamsM1 =
+   \                     RealBusVoltageSensorParamsM1:
+   \      0x2AC   0x00               DC8 0
+   \      0x2AD                      DS8 1
+   \      0x2AE   0x020B             DC16 523
+   \      0x2B0                      DS8 6
+   \      0x2B6                      DS8 2
+   \      0x2B8   0x5000'0000        DC32 0x5000'0000
+   \      0x2BC   0x0B               DC8 11
+   \      0x2BD                      DS8 3
+   \      0x2C0   0x0000'0005        DC32 5
+   \      0x2C4   0x0006 0x0000      DC16 6, 0, 0
+
+   \               0x0000
+   \      0x2CA                      DS8 2
+   \      0x2CC   0x....'....        DC32 RealBusVoltageSensorFilterBufferM1
+   \      0x2D0                      DS8 4
+   \                     PIDSpeedHandle_M1:
+   \      0x2D4   0x0000 0x0000      DC16 0, 0, 0, 0
+
+   \               0x0000 0x000
+
+   \              0
+   \      0x2DC   0x0000'0000        DC32 0, 0, 0
+
+   \              0x0000'0000  
+
+   \              0x0000'0000
+   \      0x2E8   0x0000 0x0000      DC16 0, 0, 16, 16'384, 4, 14, 0, 0, 0, 0
+
+   \               0x0010 0x400
+
+   \              0 0x0004 0x00
+
+   \              0E 0x0000 0x0
+
+   \              000 0x0000 0x
+
+   \              0000
+   \      0x2FC                      DS8 4
+   \                     PIDIqHandle_M1:
+   \      0x300   0x0000 0x0000      DC16 0, 0, 0, 0
+
+   \               0x0000 0x000
+
+   \              0
+   \      0x308   0x0000'0000        DC32 0, 536'854'528, -536'854'528
+
+   \              0x1FFF'C000  
+
+   \              0xE000'4000
+   \      0x314   0x7FFF 0x8001      DC16 32'767, -32'767, 4'096, 16'384, 12, 14, 0, 0, 0, 0
+
+   \               0x1000 0x400
+
+   \              0 0x000C 0x00
+
+   \              0E 0x0000 0x0
+
+   \              000 0x0000 0x
+
+   \              0000
+   \      0x328                      DS8 4
+   \                     PIDIdHandle_M1:
+   \      0x32C   0x0000 0x0000      DC16 0, 0, 0, 0
+
+   \               0x0000 0x000
+
+   \              0
+   \      0x334   0x0000'0000        DC32 0, 536'854'528, -536'854'528
+
+   \              0x1FFF'C000  
+
+   \              0xE000'4000
+   \      0x340   0x7FFF 0x8001      DC16 32'767, -32'767, 4'096, 16'384, 12, 14, 0, 0, 0, 0
+
+   \               0x1000 0x400
+
+   \              0 0x000C 0x00
+
+   \              0E 0x0000 0x0
+
+   \              000 0x0000 0x
+
+   \              0000
+   \      0x354                      DS8 4
+    339          {
+    340            ._Super                =
+    341            {
+    342              .SensorType          = REAL_SENSOR,                 
+    343              .ConversionFactor    = (uint16_t)(ADC_REFERENCE_VOLTAGE / VBUS_PARTITIONING_FACTOR),                                                   
+    344            },
+    345            
+    346            .VbusRegConv =
+    347            {
+    348              .regADC = ADC1,
+    349              .channel = MC_ADC_CHANNEL_11,
+    350              .samplingTime = M1_VBUS_SAMPLING_TIME,   
+    351            },
+    352            .LowPassFilterBW       =  M1_VBUS_SW_FILTER_BW_FACTOR,  
+    353          //  .OverVoltageThreshold  = OVERVOLTAGE_THRESHOLD_d,   
+    354          //  .UnderVoltageThreshold =  UNDERVOLTAGE_THRESHOLD_d,  
+    355            .aBuffer = RealBusVoltageSensorFilterBufferM1,
+    356          };
+    357          
+    358          UI_Handle_t UI_Params =
+    359          {
+    360            .bDriveNum = 0,
+    361            .pFct_DACInit = &DAC_Init,               
+    362            .pFct_DACExec = &DAC_Exec,
+    363            .pFctDACSetChannelConfig    = &DAC_SetChannelConfig,
+    364            .pFctDACGetChannelConfig    = &DAC_GetChannelConfig,
+    365            .pFctDACSetUserChannelValue = &DAC_SetUserChannelValue,
+    366            .pFctDACGetUserChannelValue = &DAC_GetUserChannelValue,
+    367           
+    368          };
+    369          
+    370          DAC_UI_Handle_t DAC_UI_Params = 
+    371          {
+    372            .hDAC_CH1_ENABLED = ENABLE,  
+    373            .hDAC_CH2_ENABLED = DISABLE
+    374          };
+    375          
+    376          /** RAMP for Motor1.
+    377            *
+    378            */
+    379          RampExtMngr_Handle_t RampExtMngrHFParamsM1;/* =
+   \                     RampExtMngrHFParamsM1:
+   \      0x358                      DS8 24
+
+   \                                 In section .data, align 4
+   \                     pSTO_PLL_M1:
+   \        0x0   0x....'....        DC32 STO_PLL_M1
+
+   \                                 In section .data, align 4
+   \                     STO_M1:
+   \        0x0   0x....'....        DC32 STO_PLL_M1, STO_PLL_ForceConvergency1, STO_PLL_ForceConvergency2
+
+   \              0x....'....  
+
+   \              0x....'....
+   \        0xC   0x....'....        DC32 STO_OTF_ResetPLL, STO_PLL_IsVarianceTight
+
+   \              0x....'....
+
+   \                                 In section .data, align 4
+   \                     ICL_M1:
+   \        0x0   0x0000'0000        DC32 0x0, 0x0
+
+   \              0x0000'0000
+   \        0x8   0x04               DC8 4
+   \        0x9                      DS8 1
+   \        0xA   0x0000 0xFFFF      DC16 0, 65'535, 1'000, 2'000
+
+   \               0x03E8 0x07D
+
+   \              0
+   \       0x12                      DS8 2
+
+   \                                 In section .data, align 4
+   \                     UI_Params:
+   \        0x0   0x0000'0000        DC32 0x0, DAC_SetChannelConfig, DAC_GetChannelConfig
+
+   \              0x....'....  
+
+   \              0x....'....
+   \        0xC   0x....'....        DC32 DAC_SetUserChannelValue, DAC_GetUserChannelValue, DAC_Init
+
+   \              0x....'....  
+
+   \              0x....'....
+   \       0x18   0x....'....        DC32 DAC_Exec
+   \       0x1C   0x00               DC8 0
+   \       0x1D                      DS8 19
+
+   \                                 In section .data, align 4
+   \                     DAC_UI_Params:
+   \        0x0   0x0000'0000        DC32 0x0
+   \        0x4                      DS8 44
+   \       0x30   0x00               DC8 0
+   \       0x31                      DS8 1
+   \       0x32   0x0000             DC16 0
+   \       0x34                      DS8 2
+   \       0x36   0x0001 0x0000      DC16 1, 0
+   \       0x3A                      DS8 2
+    380          {
+    381            .FrequencyHz = TF_REGULATION_RATE 
+    382          };*/
+    383          
+    384          /**
+    385            * @brief  CircleLimitation Component parameters Motor 1 - Base Component
+    386            */
+
+   \                                 In section .data, align 4
+    387          CircleLimitation_Handle_t CircleLimitationM1 =
+   \                     CircleLimitationM1:
+   \        0x0   0x7FFF 0x7998      DC16 32'767, 31'128, 32'767, 32'390, 32'146, 31'907, 31'673, 31'444
+
+   \               0x7FFF 0x7E8
+
+   \              6 0x7D92 0x7C
+
+   \              A3 0x7BB9 0x7
+
+   \              AD4
+   \       0x10   0x79F4 0x7919      DC16 31'220, 31'001, 30'787, 30'577, 30'371, 30'169, 29'971, 29'777
+
+   \               0x7843 0x777
+
+   \              1 0x76A3 0x75
+
+   \              D9 0x7513 0x7
+
+   \              451
+   \       0x20   0x7393 0x72D8      DC16 29'587, 29'400, 29'217, 29'037, 28'861, 28'687, 28'517, 28'350
+
+   \               0x7221 0x716
+
+   \              D 0x70BD 0x70
+
+   \              0F 0x6F65 0x6
+
+   \              EBE
+   \       0x30   0x6E19 0x6D78      DC16 28'185, 28'024, 27'865, 27'709, 27'555, 27'404, 27'256, 27'110
+
+   \               0x6CD9 0x6C3
+
+   \              D 0x6BA3 0x6B
+
+   \              0C 0x6A78 0x6
+
+   \              9E6
+   \       0x40   0x6956 0x68C8      DC16 26'966, 26'824, 26'685, 26'548, 26'413, 26'280, 26'149, 26'019
+
+   \               0x683D 0x67B
+
+   \              4 0x672D 0x66
+
+   \              A8 0x6625 0x6
+
+   \              5A3
+   \       0x50   0x6524 0x64A7      DC16 25'892, 25'767, 25'643, 25'521, 25'401, 25'283, 25'166, 25'051
+
+   \               0x642B 0x63B
+
+   \              1 0x6339 0x62
+
+   \              C3 0x624E 0x6
+
+   \              1DB
+   \       0x60   0x6169 0x60F9      DC16 24'937, 24'825, 24'715, 24'606, 24'498, 24'392, 24'287, 24'183
+
+   \               0x608B 0x601
+
+   \              E 0x5FB2 0x5F
+
+   \              48 0x5EDF 0x5
+
+   \              E77
+   \       0x70   0x5E11 0x5DAC      DC16 24'081, 23'980, 23'880, 23'782, 23'684, 23'588, 23'493, 23'400
+
+   \               0x5D48 0x5CE
+
+   \              6 0x5C84 0x5C
+
+   \              24 0x5BC5 0x5
+
+   \              B68
+   \       0x80   0x5B0B 0x5AAF      DC16 23'307, 23'215, 23'125
+
+   \               0x5A55
+   \       0x86                      DS8 44
+   \       0xB2   0x3F               DC8 63
+   \       0xB3                      DS8 1
+    388          {
+    389            .MaxModule          = MAX_MODULE,
+    390            .MaxVd          	  = (uint16_t)(MAX_MODULE * 950 / 1000),
+    391            .Circle_limit_table = MMITABLE,        	
+    392            .Start_index        = START_INDEX, 		
+    393          };
+
+   \                                 In section .bss, align 4
+    394          DOUT_handle_t ICLDOUTParamsM1 =
+   \                     ICLDOUTParamsM1:
+   \        0x0                      DS8 12
+    395          {
+    396            .OutputState       = INACTIVE,                   
+    397            //hDOutputPort      = M1_ICL_SHUT_OUT_GPIO_Port,
+    398            //.hDOutputPin       = M1_ICL_SHUT_OUT_Pin,		
+    399            .bDOutputPolarity  = DOUT_ACTIVE_LOW		
+    400          };
+    401          
+
+   \                                 In section .data, align 4
+    402          UFCP_Handle_t pUSART =
+   \                     pUSART:
+   \        0x0   0x0000'0000        DC32 0x0, 0x0, 0x0, 0x0
+
+   \              0x0000'0000  
+
+   \              0x0000'0000  
+
+   \              0x0000'0000
+   \       0x10   0x0000             DC16 0
+   \       0x12                      DS8 270
+   \      0x120   0x4001'3800        DC32 0x4001'3800
+   \      0x124                      DS8 24
+    403          {
+    404            ._Super.RxTimeout = 0,
+    405            .USARTx = USART1,
+    406                 
+    407          };
+    408          
+    409          /**------------- Regal flash setting redirection for all ST motor libraries user updatable parameters  -------*/
+
+   \                                 In section .text, align 4, keep-with-next
+    410          void RegalSetting_Init(void){
+   \                     RegalSetting_Init: (+1)
+   \        0x0   0xE92D 0x4FF8      PUSH     {R3-R11,LR}
+    411            
+    412            VirtualSpeedSensorM1._Super.bElToMecRatio = A_POLE_PAIR_NUM;
+   \        0x4   0x4C82             LDR.N    R4,??RegalSetting_Init_0  ;; 0x800f000
+   \        0x6   0x4D83             LDR.N    R5,??RegalSetting_Init_0+0x4
+    413            
+    414            STO_PLL_M1._Super.bElToMecRatio =  A_POLE_PAIR_NUM;
+    415            
+    416            //HALL_M1._Super.bElToMecRatio =  A_POLE_PAIR_NUM;
+    417            
+    418            SpeednTorqCtrlM1.MaxPositiveTorque = (int16_t)A_NOMINAL_CURRENT;		 
+    419            SpeednTorqCtrlM1.MinNegativeTorque =	-(int16_t)A_NOMINAL_CURRENT;   
+    420            SpeednTorqCtrlM1.ModeDefault = (STC_Modality_t)A_DEFAULT_CONTROL_MODE,    
+    421            
+    422          
+    423            
+    424            PIDIqHandle_M1.hDefKpGain = (int16_t)A_PID_TORQUE_KP_DEFAULT;
+    425            PIDIqHandle_M1.hDefKiGain = (int16_t)A_PID_TORQUE_KI_DEFAULT;
+    426          
+    427            PIDIdHandle_M1.hDefKpGain = (int16_t)A_PID_FLUX_KP_DEFAULT;
+   \        0x8   0xF8DF 0x920C      LDR.W    R9,??RegalSetting_Init_0+0x8
+    428            PIDIdHandle_M1.hDefKiGain = (int16_t)A_PID_FLUX_KI_DEFAULT;
+    429          
+    430            PIDSpeedHandle_M1.hDefKpGain = (int16_t)A_PID_SPEED_KP_DEFAULT;
+    431            PIDSpeedHandle_M1.hDefKiGain = (int16_t)A_PID_SPEED_KI_DEFAULT;
+    432          
+    433            PIDSpeedHandle_M1.wUpperIntegralLimit = (int32_t)A_IQMAX * (int32_t)SP_KIDIV;
+    434            PIDSpeedHandle_M1.wLowerIntegralLimit = -(int32_t)A_IQMAX * (int32_t)SP_KIDIV;
+    435            PIDSpeedHandle_M1.hUpperOutputLimit = (int16_t)A_IQMAX;
+    436            PIDSpeedHandle_M1.hLowerOutputLimit = -(int16_t)A_IQMAX;
+    437            
+    438            RevUpControlM1.ParamsData[0].hDurationms = (uint16_t)A_PHASE1_DURATION;
+    439            RevUpControlM1.ParamsData[0].hFinalMecSpeedUnit = (int16_t)(A_PHASE1_FINAL_SPEED_UNIT);
+    440            RevUpControlM1.ParamsData[0].hFinalTorque = (int16_t)A_PHASE1_FINAL_CURRENT;
+    441            RevUpControlM1.ParamsData[0].pNext = &RevUpControlM1.ParamsData[1];
+    442          
+    443            RevUpControlM1.ParamsData[1].hDurationms = (uint16_t)A_PHASE2_DURATION;
+    444            RevUpControlM1.ParamsData[1].hFinalMecSpeedUnit = (int16_t)(A_PHASE2_FINAL_SPEED_UNIT);
+    445            RevUpControlM1.ParamsData[1].hFinalTorque = (int16_t)A_PHASE2_FINAL_CURRENT;
+    446            RevUpControlM1.ParamsData[1].pNext = &RevUpControlM1.ParamsData[2];
+    447              
+    448            RevUpControlM1.ParamsData[2].hDurationms = (uint16_t)A_PHASE3_DURATION;
+    449            RevUpControlM1.ParamsData[2].hFinalMecSpeedUnit = (int16_t)(A_PHASE3_FINAL_SPEED_UNIT);
+    450            RevUpControlM1.ParamsData[2].hFinalTorque = (int16_t)A_PHASE3_FINAL_CURRENT;
+    451            RevUpControlM1.ParamsData[2].pNext = &RevUpControlM1.ParamsData[3];
+    452           
+    453            RevUpControlM1.ParamsData[3].hDurationms = (uint16_t)A_PHASE4_DURATION;
+    454            RevUpControlM1.ParamsData[2].hFinalMecSpeedUnit = (int16_t)(A_PHASE4_FINAL_SPEED_UNIT);
+    455            RevUpControlM1.ParamsData[2].hFinalTorque = (int16_t)A_PHASE4_FINAL_CURRENT;
+   \        0xC   0xF8DF 0xA20C      LDR.W    R10,??RegalSetting_Init_0+0xC  ;; 0x800f040
+   \       0x10   0xED2D 0x8B02      VPUSH    {D8}
+   \       0x14   0x8820             LDRH     R0,[R4, #+0]
+   \       0x16   0x7068             STRB     R0,[R5, #+1]
+   \       0x18   0xF505 0x76DF      ADD      R6,R5,#+446
+   \       0x1C   0xF205 0x289E      ADDW     R8,R5,#+670
+   \       0x20   0x75F0             STRB     R0,[R6, #+23]
+    456            RevUpControlM1.ParamsData[2].pNext = &RevUpControlM1.ParamsData[4];
+    457              
+    458            RevUpControlM1.ParamsData[3].hDurationms = (uint16_t)A_PHASE5_DURATION;
+    459            RevUpControlM1.ParamsData[2].hFinalMecSpeedUnit = (int16_t)(A_PHASE5_FINAL_SPEED_UNIT);
+    460            RevUpControlM1.ParamsData[2].hFinalTorque = (int16_t)A_PHASE5_FINAL_CURRENT;
+    461            RevUpControlM1.ParamsData[2].pNext = (void*)MC_NULL;
+    462            
+    463            
+    464            //MAX_APPLICATION_SPEED_RPM parameter dependance => MAX_BEMF_VOLTAGE parameter dependance => C3
+    465            STO_PLL_M1.hC3 = (int32_t)((((int16_t)F1)* (uint16_t)((MAX_APPLICATION_SPEED_RPM * 1.2 * MOTOR_VOLTAGE_CONSTANT*SQRT_2)/(1000u*SQRT_3)))/(LS*MAX_CURRENT*TF_REGULATION_RATE));     
+    466            
+    467            //MAX_APPLICATION_SPEED_RPM parameter dependance => MAX_APPLICATION_SPEED_UNIT
+    468            SpeednTorqCtrlM1.MaxAppPositiveMecSpeedUnit =	(int16_t)((A_MAX_APPLICATION_SPEED_RPM*SPEED_UNIT)/_RPM);
+   \       0x22   0x270A             MOVS     R7,#+10
+   \       0x24   0x88E0             LDRH     R0,[R4, #+6]
+   \       0x26   0x8130             STRH     R0,[R6, #+8]
+   \       0x28   0xF04F 0x0B3C      MOV      R11,#+60
+   \       0x2C   0xB200             SXTH     R0,R0
+   \       0x2E   0x4240             RSBS     R0,R0,#+0
+   \       0x30   0x8170             STRH     R0,[R6, #+10]
+   \       0x32   0x8C20             LDRH     R0,[R4, #+32]
+   \       0x34   0x7330             STRB     R0,[R6, #+12]
+   \       0x36   0xF505 0x7038      ADD      R0,R5,#+736
+   \       0x3A   0xF9B4 0x1012      LDRSH    R1,[R4, #+18]
+   \       0x3E   0x8401             STRH     R1,[R0, #+32]
+   \       0x40   0xF9B4 0x2014      LDRSH    R2,[R4, #+20]
+   \       0x44   0x8442             STRH     R2,[R0, #+34]
+   \       0x46   0xF9B4 0x1016      LDRSH    R1,[R4, #+22]
+   \       0x4A   0xF8A9 0x1000      STRH     R1,[R9, #+0]
+   \       0x4E   0xF9B4 0x2018      LDRSH    R2,[R4, #+24]
+   \       0x52   0xF8A9 0x2002      STRH     R2,[R9, #+2]
+   \       0x56   0xF9B4 0x101A      LDRSH    R1,[R4, #+26]
+   \       0x5A   0xF8A8 0x1036      STRH     R1,[R8, #+54]
+   \       0x5E   0xF9B4 0x201C      LDRSH    R2,[R4, #+28]
+   \       0x62   0xF8A8 0x2038      STRH     R2,[R8, #+56]
+   \       0x66   0x8BE1             LDRH     R1,[R4, #+30]
+   \       0x68   0x8101             STRH     R1,[R0, #+8]
+   \       0x6A   0x460A             MOV      R2,R1
+   \       0x6C   0xB209             SXTH     R1,R1
+   \       0x6E   0x0393             LSLS     R3,R2,#+14
+   \       0x70   0x4252             RSBS     R2,R2,#+0
+   \       0x72   0x0392             LSLS     R2,R2,#+14
+   \       0x74   0x4249             RSBS     R1,R1,#+0
+   \       0x76   0x6003             STR      R3,[R0, #+0]
+   \       0x78   0x6042             STR      R2,[R0, #+4]
+   \       0x7A   0x8141             STRH     R1,[R0, #+10]
+   \       0x7C   0xF205 0x210A      ADDW     R1,R5,#+522
+   \       0x80   0x8D60             LDRH     R0,[R4, #+42]
+   \       0x82   0x81C8             STRH     R0,[R1, #+14]
+   \       0x84   0xF505 0x7209      ADD      R2,R5,#+548
+   \       0x88   0xF9B4 0x002C      LDRSH    R0,[R4, #+44]
+   \       0x8C   0x8208             STRH     R0,[R1, #+16]
+   \       0x8E   0xF9B4 0x002E      LDRSH    R0,[R4, #+46]
+   \       0x92   0x8248             STRH     R0,[R1, #+18]
+   \       0x94   0xF505 0x7008      ADD      R0,R5,#+544
+   \       0x98   0x6002             STR      R2,[R0, #+0]
+   \       0x9A   0x8E21             LDRH     R1,[R4, #+48]
+   \       0x9C   0x8081             STRH     R1,[R0, #+4]
+   \       0x9E   0xF9B4 0x2032      LDRSH    R2,[R4, #+50]
+   \       0xA2   0x80C2             STRH     R2,[R0, #+6]
+   \       0xA4   0xF505 0x720C      ADD      R2,R5,#+560
+   \       0xA8   0xF9B4 0x1034      LDRSH    R1,[R4, #+52]
+   \       0xAC   0x8101             STRH     R1,[R0, #+8]
+   \       0xAE   0x60C2             STR      R2,[R0, #+12]
+   \       0xB0   0x8EE1             LDRH     R1,[R4, #+54]
+   \       0xB2   0x8201             STRH     R1,[R0, #+16]
+   \       0xB4   0xF9B4 0x2038      LDRSH    R2,[R4, #+56]
+   \       0xB8   0x8242             STRH     R2,[R0, #+18]
+   \       0xBA   0xF505 0x720F      ADD      R2,R5,#+572
+   \       0xBE   0xF9B4 0x103A      LDRSH    R1,[R4, #+58]
+   \       0xC2   0x8281             STRH     R1,[R0, #+20]
+   \       0xC4   0x6182             STR      R2,[R0, #+24]
+   \       0xC6   0x8FA1             LDRH     R1,[R4, #+60]
+   \       0xC8   0x8381             STRH     R1,[R0, #+28]
+   \       0xCA   0xF9B4 0x203E      LDRSH    R2,[R4, #+62]
+   \       0xCE   0x8242             STRH     R2,[R0, #+18]
+   \       0xD0   0xF505 0x7212      ADD      R2,R5,#+584
+   \       0xD4   0xF9BA 0x1000      LDRSH    R1,[R10, #+0]
+   \       0xD8   0x8281             STRH     R1,[R0, #+20]
+   \       0xDA   0x6182             STR      R2,[R0, #+24]
+   \       0xDC   0xF8BA 0x1002      LDRH     R1,[R10, #+2]
+   \       0xE0   0x8381             STRH     R1,[R0, #+28]
+   \       0xE2   0xF9BA 0x2004      LDRSH    R2,[R10, #+4]
+   \       0xE6   0x8242             STRH     R2,[R0, #+18]
+   \       0xE8   0x2200             MOVS     R2,#+0
+   \       0xEA   0xF9BA 0x1006      LDRSH    R1,[R10, #+6]
+   \       0xEE   0x8281             STRH     R1,[R0, #+20]
+   \       0xF0   0x6182             STR      R2,[R0, #+24]
+   \       0xF2   0xF240 0x60D4      MOVW     R0,#+1748
+   \       0xF6   0x84A8             STRH     R0,[R5, #+36]
+    469            SpeednTorqCtrlM1.MinAppNegativeMecSpeedUnit =	(int16_t)(-((A_MAX_APPLICATION_SPEED_RPM*SPEED_UNIT)/_RPM));
+   \       0xF8   0xF06F 0x023B      MVN      R2,#+59
+   \       0xFC   0x8921             LDRH     R1,[R4, #+8]
+   \       0xFE   0x4379             MULS     R1,R1,R7
+   \      0x100   0xFB91 0xF0FB      SDIV     R0,R1,R11
+   \      0x104   0xFB91 0xF1F2      SDIV     R1,R1,R2
+   \      0x108   0x8030             STRH     R0,[R6, #+0]
+   \      0x10A   0x80F1             STRH     R1,[R6, #+6]
+    470            VirtualSpeedSensorM1._Super.hMaxReliableMecSpeedUnit = (uint16_t)(1.15*((A_MAX_APPLICATION_SPEED_RPM*SPEED_UNIT)/_RPM));
+   \      0x10C   0x....'....        BL       __aeabi_i2d
+   \      0x110   0xF04F 0x3266      MOV      R2,#+1717986918
+   \      0x114   0x4B42             LDR.N    R3,??RegalSetting_Init_0+0x10  ;; 0x3ff26666
+   \      0x116   0x....'....        BL       __aeabi_dmul
+   \      0x11A   0x....'....        BL       __aeabi_d2iz
+   \      0x11E   0x8570             STRH     R0,[R6, #+42]
+    471            STO_PLL_M1._Super.hMaxReliableMecSpeedUnit = (uint16_t)(1.15*((A_MAX_APPLICATION_SPEED_RPM*SPEED_UNIT)/_RPM));
+   \      0x120   0x82A8             STRH     R0,[R5, #+20]
+    472            STO_PLL_M1.MaxAppPositiveMecSpeedUnit = (uint16_t)(((A_MAX_APPLICATION_SPEED_RPM*SPEED_UNIT)/_RPM)*1.15);
+   \      0x122   0xF8A5 0x011A      STRH     R0,[R5, #+282]
+    473            
+    474            //MIN_APPLICATION_SPEED_RPM parameter dependance => MIN_APPLICATION_SPEED_UNIT
+    475            SpeednTorqCtrlM1.MinAppPositiveMecSpeedUnit =	(uint16_t)((A_MIN_APPLICATION_SPEED_RPM*SPEED_UNIT)/_RPM); 
+    476            SpeednTorqCtrlM1.MaxAppNegativeMecSpeedUnit =	(int16_t)(-((A_MIN_APPLICATION_SPEED_RPM*SPEED_UNIT)/_RPM));
+   \      0x126   0xF06F 0x023B      MVN      R2,#+59
+   \      0x12A   0x8960             LDRH     R0,[R4, #+10]
+   \      0x12C   0x4347             MULS     R7,R7,R0
+   \      0x12E   0xFB97 0xF0FB      SDIV     R0,R7,R11
+   \      0x132   0xFB97 0xF2F2      SDIV     R2,R7,R2
+   \      0x136   0x8070             STRH     R0,[R6, #+2]
+   \      0x138   0x80B2             STRH     R2,[R6, #+4]
+    477            VirtualSpeedSensorM1._Super.hMinReliableMecSpeedUnit = (uint16_t)(((A_MIN_APPLICATION_SPEED_RPM*SPEED_UNIT)/_RPM));
+   \      0x13A   0x85B0             STRH     R0,[R6, #+44]
+    478            STO_PLL_M1._Super.hMinReliableMecSpeedUnit = (uint16_t)(((A_MIN_APPLICATION_SPEED_RPM*SPEED_UNIT)/_RPM));
+   \      0x13C   0x82E8             STRH     R0,[R5, #+22]
+    479          
+    480            //PWM_FREQUENCY parameter dependance => TF_REGULATION_RATE 
+    481            RampExtMngrHFParamsM1.FrequencyHz = (uint32_t) ((uint32_t)(A_PWM_FREQUENCY)/(REGULATION_EXECUTION_RATE));  // TF_REGULATION_RATE  
+   \      0x13E   0x8A27             LDRH     R7,[R4, #+16]
+   \      0x140   0xF8C9 0x702C      STR      R7,[R9, #+44]
+    482            VirtualSpeedSensorM1.hTransitionSteps = (int16_t)((uint32_t) ((uint32_t)(A_PWM_FREQUENCY)/(REGULATION_EXECUTION_RATE)) * A_TRANSITION_DURATION/ 1000.0); // TF_REGULATION_RATE
+   \      0x144   0xF8BA 0x0008      LDRH     R0,[R10, #+8]
+   \      0x148   0x4378             MULS     R0,R0,R7
+   \      0x14A   0x....'....        BL       __aeabi_ui2d
+   \      0x14E   0x2200             MOVS     R2,#+0
+   \      0x150   0x4B34             LDR.N    R3,??RegalSetting_Init_0+0x14  ;; 0x408f4000
+   \      0x152   0x....'....        BL       __aeabi_ddiv
+   \      0x156   0x....'....        BL       __aeabi_d2iz
+   \      0x15A   0xF8A5 0x020A      STRH     R0,[R5, #+522]
+    483            VirtualSpeedSensorM1._Super.hMeasurementFrequency  =	(uint16_t) ((uint32_t)(A_PWM_FREQUENCY)/(REGULATION_EXECUTION_RATE*PWM_FREQ_SCALING)); // TF_REGULATION_RATE
+   \      0x15E   0x8637             STRH     R7,[R6, #+48]
+    484            STO_PLL_M1._Super.hMeasurementFrequency            =	(uint16_t) ((uint32_t)(A_PWM_FREQUENCY)/(REGULATION_EXECUTION_RATE*PWM_FREQ_SCALING)); // TF_REGULATION_RATE
+   \      0x160   0x836F             STRH     R7,[R5, #+26]
+    485            PWM_Handle_M1._Super.hT_Sqrt3 = ((uint16_t)(ADV_TIM_CLK_MHz* (uint32_t)1000000u/((uint32_t)(A_PWM_FREQUENCY)))*SQRT3FACTOR)/16384u; 
+   \      0x162   0xF64D 0x50B4      MOVW     R0,#+56756
+   \      0x166   0x4930             LDR.N    R1,??RegalSetting_Init_0+0x18  ;; 0x3d09000
+   \      0x168   0xFBB1 0xF1F7      UDIV     R1,R1,R7
+   \      0x16C   0xB28A             UXTH     R2,R1
+   \      0x16E   0x4342             MULS     R2,R0,R2
+    486            PWM_Handle_M1._Super.PWMperiod = (uint16_t)(ADV_TIM_CLK_MHz* (uint32_t)1000000u/((uint32_t)(A_PWM_FREQUENCY)));
+   \      0x170   0xF505 0x70BC      ADD      R0,R5,#+376
+   \      0x174   0xF505 0x738D      ADD      R3,R5,#+282
+   \      0x178   0x8001             STRH     R1,[R0, #+0]
+   \      0x17A   0x0B92             LSRS     R2,R2,#+14
+    487            PWM_Handle_M1.Half_PWMPeriod = (uint16_t)(ADV_TIM_CLK_MHz* (uint32_t)1000000u/((uint32_t)(A_PWM_FREQUENCY)))/2u;
+   \      0x17C   0x0409             LSLS     R1,R1,#+16
+   \      0x17E   0x0C49             LSRS     R1,R1,#+17
+   \      0x180   0x87DA             STRH     R2,[R3, #+62]
+   \      0x182   0x8301             STRH     R1,[R0, #+24]
+    488            
+    489            RealBusVoltageSensorParamsM1.OverVoltageThreshold  = (uint16_t)(A_OV_VOLTAGE_THRESHOLD_V*65535/(ADC_REFERENCE_VOLTAGE/VBUS_PARTITIONING_FACTOR));
+   \      0x184   0x8C60             LDRH     R0,[R4, #+34]
+   \      0x186   0xEBC0 0x4000      RSB      R0,R0,R0, LSL #+16
+   \      0x18A   0x....'....        BL       __aeabi_i2d
+   \      0x18E   0x4A27             LDR.N    R2,??RegalSetting_Init_0+0x1C  ;; 0xe79e79e7
+   \      0x190   0x4B27             LDR.N    R3,??RegalSetting_Init_0+0x20  ;; 0x40805e79
+   \      0x192   0x....'....        BL       __aeabi_ddiv
+   \      0x196   0x....'....        BL       __aeabi_d2iz
+   \      0x19A   0xF8A8 0x0028      STRH     R0,[R8, #+40]
+    490            RealBusVoltageSensorParamsM1.UnderVoltageThreshold = (uint16_t)((A_UD_VOLTAGE_THRESHOLD_V*65535)/((uint16_t)(ADC_REFERENCE_VOLTAGE/VBUS_PARTITIONING_FACTOR)));
+   \      0x19E   0xF240 0x210B      MOVW     R1,#+523
+   \      0x1A2   0x8CA0             LDRH     R0,[R4, #+36]
+   \      0x1A4   0xEBC0 0x4000      RSB      R0,R0,R0, LSL #+16
+   \      0x1A8   0xFB90 0xF1F1      SDIV     R1,R0,R1
+   \      0x1AC   0xF8A8 0x102A      STRH     R1,[R8, #+42]
+    491            
+    492            TempSensorParamsM1.hOverTempThreshold      = (uint16_t)(((V0_V + (dV_dT * (A_OV_TEMPERATURE_THRESHOLD_C- T0_C)))*INT_SUPPLY_VOLTAGE));
+   \      0x1B0   0x8CE0             LDRH     R0,[R4, #+38]
+   \      0x1B2   0x381E             SUBS     R0,R0,#+30
+   \      0x1B4   0x....'....        BL       __aeabi_i2d
+   \      0x1B8   0x4A1E             LDR.N    R2,??RegalSetting_Init_0+0x24  ;; 0xdf3b645a
+   \      0x1BA   0x4B1F             LDR.N    R3,??RegalSetting_Init_0+0x28  ;; 0x3f978d4f
+   \      0x1BC   0x....'....        BL       __aeabi_dmul
+   \      0x1C0   0x4A1E             LDR.N    R2,??RegalSetting_Init_0+0x2C  ;; 0x47ae147b
+   \      0x1C2   0x4B1F             LDR.N    R3,??RegalSetting_Init_0+0x30  ;; 0x40077ae1
+   \      0x1C4   0x....'....        BL       __aeabi_dadd
+   \      0x1C8   0x2200             MOVS     R2,#+0
+   \      0x1CA   0x4B1E             LDR.N    R3,??RegalSetting_Init_0+0x34  ;; 0x40d364c0
+   \      0x1CC   0x....'....        BL       __aeabi_dmul
+   \      0x1D0   0xEC41 0x0B18      VMOV     D8,R0,R1
+   \      0x1D4   0x....'....        BL       __aeabi_d2iz
+   \      0x1D8   0xF8A8 0x0000      STRH     R0,[R8, #+0]
+    493            TempSensorParamsM1.hOverTempDeactThreshold = (uint16_t)(((V0_V + (dV_dT * (A_OV_TEMPERATURE_THRESHOLD_C- T0_C)))*INT_SUPPLY_VOLTAGE) - ((dV_dT * OV_TEMPERATURE_HYSTERESIS_C)*INT_SUPPLY_VOLTAGE));
+   \      0x1DC   0xEC53 0x2B18      VMOV     R2,R3,D8
+   \      0x1E0   0x4819             LDR.N    R0,??RegalSetting_Init_0+0x38  ;; 0xeb851eb8
+   \      0x1E2   0x491A             LDR.N    R1,??RegalSetting_Init_0+0x3C  ;; 0xc0b1d791
+   \      0x1E4   0x....'....        BL       __aeabi_dadd
+   \      0x1E8   0x....'....        BL       __aeabi_d2iz
+   \      0x1EC   0xF8A8 0x0002      STRH     R0,[R8, #+2]
+    494            
+    495            
+    496          #ifdef GAIN1 //Config as PLL observer STO_PLL_M1 //
+    497            STO_PLL_M1.PIRegulator.hDefKpGain = A_PLL_KP_GAIN;
+   \      0x1F0   0xF9B4 0x000C      LDRSH    R0,[R4, #+12]
+   \      0x1F4   0x86A8             STRH     R0,[R5, #+52]
+    498            STO_PLL_M1.PIRegulator.hDefKiGain = A_PLL_KI_GAIN;
+   \      0x1F6   0xF9B4 0x100E      LDRSH    R1,[R4, #+14]
+   \      0x1FA   0x86E9             STRH     R1,[R5, #+54]
+    499            STO_PLL_M1.hC2 = (int32_t) A_GAIN1;    
+   \      0x1FC   0xF8BA 0x0010      LDRH     R0,[R10, #+16]
+   \      0x200   0x8468             STRH     R0,[R5, #+34]
+    500            STO_PLL_M1.hC4 = (int32_t) A_GAIN2; 
+   \      0x202   0xF8BA 0x1012      LDRH     R1,[R10, #+18]
+   \      0x206   0x84E9             STRH     R1,[R5, #+38]
+    501          #endif
+    502            
+    503          #ifdef CORD_GAIN1 //config as CORDIC observer STO_CR_M1 //
+    504            
+    505            STO_CR_M1.hC2 =(int32_t) D_CORD_GAIN1;
+    506            STO_CR_M1.hC4 =(int32_t) D_CORD_GAIN2;
+    507          #endif 
+    508            
+    509          #ifdef HALL_M1
+    510            HALL_M1.SensorPlacement     = D_HALL_SENSORS_PLACEMENT;
+    511            HALL_M1.PhaseShift          = (int16_t)(D_HALL_PHASE_SHIFT * 65536/360);
+    512            HALL_M1._Super.hMeasurementFrequency = (uint16_t) ((uint32_t)(A_PWM_FREQUENCY)/(REGULATION_EXECUTION_RATE*PWM_FREQ_SCALING)); // TF_REGULATION_RATE
+    513            HALL_M1._Super.hMaxReliableMecSpeedUnit = (uint16_t)(1.15*((A_MAX_APPLICATION_SPEED_RPM*SPEED_UNIT)/_RPM));
+    514            HALL_M1._Super.hMinReliableMecSpeedUnit = (uint16_t)(((MIN_APPLICATION_SPEED_RPM*SPEED_UNIT)/_RPM));
+    515          
+    516          #endif
+    517          
+    518          
+    519          }
+   \      0x208   0xECBD 0x8B02      VPOP     {D8}
+   \      0x20C   0xE8BD 0x8FF1      POP      {R0,R4-R11,PC}   ;; return
+   \                     ??RegalSetting_Init_0:
+   \      0x210   0x0800'F000        DC32     0x800f000
+   \      0x214   0x....'....        DC32     STO_PLL_M1
+   \      0x218   0x....'....        DC32     STO_PLL_M1+0x32C
+   \      0x21C   0x0800'F040        DC32     0x800f040
+   \      0x220   0x3FF2'6666        DC32     0x3ff26666
+   \      0x224   0x408F'4000        DC32     0x408f4000
+   \      0x228   0x03D0'9000        DC32     0x3d09000
+   \      0x22C   0xE79E'79E7        DC32     0xe79e79e7
+   \      0x230   0x4080'5E79        DC32     0x40805e79
+   \      0x234   0xDF3B'645A        DC32     0xdf3b645a
+   \      0x238   0x3F97'8D4F        DC32     0x3f978d4f
+   \      0x23C   0x47AE'147B        DC32     0x47ae147b
+   \      0x240   0x4007'7AE1        DC32     0x40077ae1
+   \      0x244   0x40D3'64C0        DC32     0x40d364c0
+   \      0x248   0xEB85'1EB8        DC32     0xeb851eb8
+   \      0x24C   0xC0B1'D791        DC32     0xc0b1d791
+   \      0x250                      REQUIRE A_POLE_PAIR_NUM
+   \      0x250                      REQUIRE A_NOMINAL_CURRENT
+   \      0x250                      REQUIRE A_DEFAULT_CONTROL_MODE
+   \      0x250                      REQUIRE A_PID_TORQUE_KP_DEFAULT
+   \      0x250                      REQUIRE A_PID_TORQUE_KI_DEFAULT
+   \      0x250                      REQUIRE A_PID_FLUX_KP_DEFAULT
+   \      0x250                      REQUIRE A_PID_FLUX_KI_DEFAULT
+   \      0x250                      REQUIRE A_PID_SPEED_KP_DEFAULT
+   \      0x250                      REQUIRE A_PID_SPEED_KI_DEFAULT
+   \      0x250                      REQUIRE A_IQMAX
+   \      0x250                      REQUIRE A_PHASE1_DURATION
+   \      0x250                      REQUIRE A_PHASE1_FINAL_SPEED_UNIT
+   \      0x250                      REQUIRE A_PHASE1_FINAL_CURRENT
+   \      0x250                      REQUIRE A_PHASE2_DURATION
+   \      0x250                      REQUIRE A_PHASE2_FINAL_SPEED_UNIT
+   \      0x250                      REQUIRE A_PHASE2_FINAL_CURRENT
+   \      0x250                      REQUIRE A_PHASE3_DURATION
+   \      0x250                      REQUIRE A_PHASE3_FINAL_SPEED_UNIT
+   \      0x250                      REQUIRE A_PHASE3_FINAL_CURRENT
+   \      0x250                      REQUIRE A_PHASE4_DURATION
+   \      0x250                      REQUIRE A_PHASE4_FINAL_SPEED_UNIT
+   \      0x250                      REQUIRE A_PHASE4_FINAL_CURRENT
+   \      0x250                      REQUIRE A_PHASE5_DURATION
+   \      0x250                      REQUIRE A_PHASE5_FINAL_SPEED_UNIT
+   \      0x250                      REQUIRE A_PHASE5_FINAL_CURRENT
+   \      0x250                      REQUIRE A_MAX_APPLICATION_SPEED_RPM
+   \      0x250                      REQUIRE A_MIN_APPLICATION_SPEED_RPM
+   \      0x250                      REQUIRE A_PWM_FREQUENCY
+   \      0x250                      REQUIRE A_TRANSITION_DURATION
+   \      0x250                      REQUIRE A_OV_VOLTAGE_THRESHOLD_V
+   \      0x250                      REQUIRE A_UD_VOLTAGE_THRESHOLD_V
+   \      0x250                      REQUIRE A_OV_TEMPERATURE_THRESHOLD_C
+   \      0x250                      REQUIRE A_PLL_KP_GAIN
+   \      0x250                      REQUIRE A_PLL_KI_GAIN
+   \      0x250                      REQUIRE A_GAIN1
+   \      0x250                      REQUIRE A_GAIN2
+    520          		
+    521          
+    522          /* USER CODE BEGIN Additional configuration */
+    523          
+    524          /* USER CODE END Additional configuration */ 
+    525          
+    526          /******************* (C) COPYRIGHT 2019 STMicroelectronics *****END OF FILE****/
+    527          
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      48   RegalSetting_Init
+        48   -> __aeabi_d2iz
+        48   -> __aeabi_dadd
+        48   -> __aeabi_ddiv
+        48   -> __aeabi_dmul
+        48   -> __aeabi_i2d
+        48   -> __aeabi_ui2d
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       2  A_DEFAULT_CONTROL_MODE
+       2  A_GAIN1
+       2  A_GAIN2
+       2  A_IQMAX
+       2  A_LS
+       2  A_MAX_APPLICATION_SPEED_RPM
+       2  A_MIN_APPLICATION_SPEED_RPM
+       2  A_NOMINAL_CURRENT
+       2  A_OV_TEMPERATURE_HYSTERESIS_C
+       2  A_OV_TEMPERATURE_THRESHOLD_C
+       2  A_OV_VOLTAGE_THRESHOLD_V
+       2  A_PHASE1_DURATION
+       2  A_PHASE1_FINAL_CURRENT
+       2  A_PHASE1_FINAL_SPEED_UNIT
+       2  A_PHASE2_DURATION
+       2  A_PHASE2_FINAL_CURRENT
+       2  A_PHASE2_FINAL_SPEED_UNIT
+       2  A_PHASE3_DURATION
+       2  A_PHASE3_FINAL_CURRENT
+       2  A_PHASE3_FINAL_SPEED_UNIT
+       2  A_PHASE4_DURATION
+       2  A_PHASE4_FINAL_CURRENT
+       2  A_PHASE4_FINAL_SPEED_UNIT
+       2  A_PHASE5_DURATION
+       2  A_PHASE5_FINAL_CURRENT
+       2  A_PHASE5_FINAL_SPEED_UNIT
+       2  A_PID_FLUX_KI_DEFAULT
+       2  A_PID_FLUX_KP_DEFAULT
+       2  A_PID_SPEED_KI_DEFAULT
+       2  A_PID_SPEED_KP_DEFAULT
+       2  A_PID_TORQUE_KI_DEFAULT
+       2  A_PID_TORQUE_KP_DEFAULT
+       2  A_PLL_KI_GAIN
+       2  A_PLL_KP_GAIN
+       2  A_POLE_PAIR_NUM
+       2  A_PWM_FREQUENCY
+       2  A_RS
+       2  A_TRANSITION_DURATION
+       2  A_UD_VOLTAGE_THRESHOLD_V
+     180  CircleLimitationM1
+      60  DAC_UI_Params
+       2  D_HALL_PHASE_SHIFT
+       2  D_HALL_SENSORS_PLACEMENT
+       2  D_M1_ENCODER_PPR
+      12  ICLDOUTParamsM1
+      20  ICL_M1
+     276  PQD_MotorPowMeasM1
+      12  RealBusVoltageSensorFilterBufferM1
+     592  RegalSetting_Init
+      20  STO_M1
+     880  STO_PLL_M1
+          PWM_Handle_M1
+          SpeednTorqCtrlM1
+          VirtualSpeedSensorM1
+          RevUpControlM1
+          TempSensorParamsM1
+          RealBusVoltageSensorParamsM1
+          PIDSpeedHandle_M1
+          PIDIqHandle_M1
+          PIDIdHandle_M1
+          RampExtMngrHFParamsM1
+      48  UI_Params
+       4  pPQD_MotorPowMeasM1
+       4  pSTO_PLL_M1
+     316  pUSART
+
+ 
+    24 bytes in section .bss
+ 1'808 bytes in section .data
+    84 bytes in section .rodata  (abs)
+   592 bytes in section .text
+ 
+   592 bytes of CODE  memory
+     0 bytes of CONST memory (+ 84 bytes shared)
+ 1'832 bytes of DATA  memory
+
+Errors: none
+Warnings: 1
