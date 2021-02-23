@@ -1,69 +1,69 @@
 ###############################################################################
 #
-# IAR ANSI C/C++ Compiler V8.50.9.278/W32 for ARM         23/Feb/2021  10:14:07
+# IAR ANSI C/C++ Compiler V8.50.9.278/W32 for ARM         23/Feb/2021  11:13:03
 # Copyright 1999-2020 IAR Systems AB.
 #
 #    Cpu mode             
 #    Endian            =  little
 #    Source file       =
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\stm32f30x_mc_it.c
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Src\stm32f30x_mc_it.c
 #    Command line      =
-#        -f C:\Users\100001~1\AppData\Local\Temp\EW3720.tmp
-#        (C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\stm32f30x_mc_it.c
+#        -f C:\Users\100001~1\AppData\Local\Temp\EW2E25.tmp
+#        (C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Src\stm32f30x_mc_it.c
 #        -D ARM_MATH_CM4 -D USE_FULL_LL_DRIVER -D USE_HAL_DRIVER -D STM32F302x8
 #        -lCN
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\List
 #        -o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj
 #        --debug --endian=little --cpu=Cortex-M4 -e --fpu=VFPv4_sp
 #        --dlib_config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
 #        8.4\arm\inc\c\DLib_Config_Full.h" -I
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Inc\\
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM/../Inc\\
 #        -I
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc\\
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc\\
 #        -I
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy\\
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy\\
 #        -I
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/Any/Inc\\
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/Any/Inc\\
 #        -I
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/F3xx/Inc\\
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/MCLib/F3xx/Inc\\
 #        -I
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/UILibrary/Inc\\
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/UILibrary/Inc\\
 #        -I
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/SystemDriveParams\\
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM/../MCSDK_v5.4.4-Full/MotorControl/MCSDK/SystemDriveParams\\
 #        -I
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/Device/ST/STM32F3xx/Include\\
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM/../Drivers/CMSIS/Device/ST/STM32F3xx/Include\\
 #        -I
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/Include\\
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM/../Drivers/CMSIS/Include\\
 #        -I
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/../Drivers/CMSIS/DSP/Include\\
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM/../Drivers/CMSIS/DSP/Include\\
 #        -I
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Drivers\\
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\..\FlexMouse\Drivers\\
 #        -I
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Features\\
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\..\FlexMouse\Features\\
 #        -I
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Kernel\\
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\..\FlexMouse\Kernel\\
 #        -I
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Memory\\
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\..\FlexMouse\Memory\\
 #        -I
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Regal\\
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\..\FlexMouse\Regal\\
 #        -I
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\UniversalProtocol\\
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\..\FlexMouse\UniversalProtocol\\
 #        -I
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\..\FlexMouse\Motor\\
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\..\FlexMouse\Motor\\
 #        -Ohz)
 #    Locale            =  C
 #    List file         =
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List\stm32f30x_mc_it.lst
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\List\stm32f30x_mc_it.lst
 #    Object file       =
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f30x_mc_it.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f30x_mc_it.o
 #    Runtime model:       
 #      __SystemLibrary =  DLib
 #      __dlib_version  =  6
 #
 ###############################################################################
 
-C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\stm32f30x_mc_it.c
+C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\Src\stm32f30x_mc_it.c
       1          
       2          /**
       3            ******************************************************************************
@@ -298,7 +298,7 @@ C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\stm32f30x_mc_it.c
    \                                 In section .text, align 2, keep-with-next
     189          void USART_IRQHandler(void)
     190          {
-   \                     USART1_IRQHandler: (+1)
+   \                     USART_IRQHandler: (+1)
    \        0x0   0xB510             PUSH     {R4,LR}
     191          
     192           /* USER CODE BEGIN USART_IRQn 0 */
@@ -309,7 +309,7 @@ C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\stm32f30x_mc_it.c
    \        0x4   0xF8D4 0x0120      LDR      R0,[R4, #+288]
    \        0x8   0x69C1             LDR      R1,[R0, #+28]
    \        0xA   0x068A             LSLS     R2,R1,#+26
-   \        0xC   0xD50B             BPL.N    ??USART1_IRQHandler_0
+   \        0xC   0xD50B             BPL.N    ??USART_IRQHandler_0
     196            {
     197              uint16_t retVal;
     198              retVal = *(uint16_t*)UFCP_RX_IRQ_Handler(&pUSART,LL_USART_ReceiveData8(pUSART.USARTx));
@@ -318,14 +318,14 @@ C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\stm32f30x_mc_it.c
    \       0x12   0x8800             LDRH     R0,[R0, #+0]
     199              if (retVal == 1)
    \       0x14   0x2801             CMP      R0,#+1
-   \       0x16   0xD102             BNE.N    ??USART1_IRQHandler_1
+   \       0x16   0xD102             BNE.N    ??USART_IRQHandler_1
     200              {
     201                UI_SerialCommunicationTimeOutStart();
    \       0x18   0x....'....        BL       UI_SerialCommunicationTimeOutStart
-   \       0x1C   0xE003             B.N      ??USART1_IRQHandler_0
+   \       0x1C   0xE003             B.N      ??USART_IRQHandler_0
     202              }
     203              if (retVal == 2)
-   \                     ??USART1_IRQHandler_1: (+1)
+   \                     ??USART_IRQHandler_1: (+1)
    \       0x1E   0x2802             CMP      R0,#+2
    \       0x20   0xBF08             IT       EQ
     204              {
@@ -338,7 +338,7 @@ C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\stm32f30x_mc_it.c
     210            }
     211          
     212            if (LL_USART_IsActiveFlag_TXE(pUSART.USARTx))
-   \                     ??USART1_IRQHandler_0: (+1)
+   \                     ??USART_IRQHandler_0: (+1)
    \       0x26   0xF8D4 0x0120      LDR      R0,[R4, #+288]
    \       0x2A   0x69C0             LDR      R0,[R0, #+28]
    \       0x2C   0x0600             LSLS     R0,R0,#+24
@@ -356,7 +356,7 @@ C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\stm32f30x_mc_it.c
    \       0x36   0xF8D4 0x0120      LDR      R0,[R4, #+288]
    \       0x3A   0x69C0             LDR      R0,[R0, #+28]
    \       0x3C   0x0700             LSLS     R0,R0,#+28
-   \       0x3E   0xD50A             BPL.N    ??USART1_IRQHandler_2
+   \       0x3E   0xD50A             BPL.N    ??USART_IRQHandler_2
     221            {
     222              /* Send Overrun message */
     223              UFCP_OVR_IRQ_Handler(&pUSART);
@@ -378,7 +378,7 @@ C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\stm32f30x_mc_it.c
     232            /* USER CODE END USART_IRQn 1 */
     233          
     234          }
-   \                     ??USART1_IRQHandler_2: (+1)
+   \                     ??USART_IRQHandler_2: (+1)
    \       0x56   0xBD10             POP      {R4,PC}          ;; return
 
    \                                 In section .text, align 2, keep-with-next
@@ -583,7 +583,7 @@ C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\stm32f30x_mc_it.c
         16   -> R3_1_BRK_IRQHandler
        0   TIM1_UP_TIM16_IRQHandler
          0   -> R3_1_TIMx_UP_IRQHandler
-       8   USART1_IRQHandler
+       8   USART_IRQHandler
          8   -> UFCP_OVR_IRQ_Handler
          8   -> UFCP_RX_IRQ_Handler
          8   -> UFCP_TX_IRQ_Handler
@@ -607,7 +607,7 @@ C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\Src\stm32f30x_mc_it.c
        1  SystickDividerCounter
       50  TIM1_BRK_TIM15_IRQHandler
       14  TIM1_UP_TIM16_IRQHandler
-      88  USART1_IRQHandler
+      88  USART_IRQHandler
 
  
    1 byte  in section .data

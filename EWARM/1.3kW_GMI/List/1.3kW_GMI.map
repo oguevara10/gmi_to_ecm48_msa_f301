@@ -1,119 +1,108 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.50.9.278/W32 for ARM                  23/Feb/2021  10:14:24
+# IAR ELF Linker V8.50.9.278/W32 for ARM                  23/Feb/2021  11:13:19
 # Copyright 2007-2020 IAR Systems AB.
 #
 #    Output file  =
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Exe\1.3kW_GMI.out
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Exe\1.3kW_GMI.out
 #    Map file     =
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List\1.3kW_GMI.map
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\List\1.3kW_GMI.map
 #    Command line =
-#        -f C:\Users\100001~1\AppData\Local\Temp\EW7DB2.tmp
-#        (C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\bus_voltage_sensor.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\circle_limitation.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\dac_common_ui.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\dac_ui.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\digital_output.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\driver_usart1.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\frame_communication_protocol.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\hall_speed_pos_fdbk.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\inrush_current_limiter.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\main.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\mc_api.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\mc_config.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\mc_interface.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\mc_math.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\mc_parameters.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\mc_tasks.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\module_app.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\module_AutoAck.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\module_err_logHande.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\module_flash.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\module_FlashRegisterCmd.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\module_FlashUpdateCmd.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\module_Mc_StateMachine.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\module_ReplyCmd.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\module_ShortCmd.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\module_usart1.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\motor_control_protocol.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\motor_power_measurement.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\motorcontrol.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\ntc_temperature_sensor.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\open_loop.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\pid_regulator.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\pqd_motor_power_measurement.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\pwm_common.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\pwm_curr_fdbk.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\r3_1_f30x_pwm_curr_fdbk.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\r_divider_bus_voltage_sensor.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\ram_buffer.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\ramp_ext_mngr.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\regal_mc_lib.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\regular_conversion_manager.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\revup_ctrl.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\ring_buffer.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\scheduler.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\sequential_memory.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\speed_pos_fdbk.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\speed_torq_ctrl.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\startup_stm32f302x8.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\state_machine.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f30x_mc_it.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_cortex.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_dma.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_exti.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_flash.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_flash_ex.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_gpio.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_i2c.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_i2c_ex.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_msp.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_pwr.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_pwr_ex.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_rcc.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_rcc_ex.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_tim.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_tim_ex.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_it.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_ll_adc.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_ll_dac.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_ll_dma.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_ll_exti.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_ll_gpio.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_ll_rcc.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_ll_tim.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_ll_usart.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\stm32f3xx_ll_utils.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\sto_pll_speed_pos_fdbk.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\structured_memory.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\system_stm32f3xx.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\ui_irq_handler.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\ui_task.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\usart_frame_communication_protocol.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\user_interface.o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\virtual_speed_sensor.o
+#        -f C:\Users\100001~1\AppData\Local\Temp\EW6F19.tmp
+#        (C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\bus_voltage_sensor.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\circle_limitation.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\dac_common_ui.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\dac_ui.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\digital_output.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\driver_usart1.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\frame_communication_protocol.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\hall_speed_pos_fdbk.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\inrush_current_limiter.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\main.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\mc_api.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\mc_config.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\mc_interface.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\mc_math.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\mc_parameters.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\mc_tasks.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\module_app.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\module_AutoAck.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\module_err_logHande.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\module_flash.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\module_FlashRegisterCmd.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\module_FlashUpdateCmd.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\module_Mc_StateMachine.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\module_ReplyCmd.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\module_ShortCmd.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\module_usart1.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\motor_control_protocol.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\motor_power_measurement.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\motorcontrol.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\ntc_temperature_sensor.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\open_loop.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\pid_regulator.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\pqd_motor_power_measurement.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\pwm_common.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\pwm_curr_fdbk.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\r3_1_f30x_pwm_curr_fdbk.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\r_divider_bus_voltage_sensor.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\ram_buffer.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\ramp_ext_mngr.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\regal_mc_lib.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\regular_conversion_manager.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\revup_ctrl.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\ring_buffer.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\scheduler.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\sequential_memory.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\speed_pos_fdbk.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\speed_torq_ctrl.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\startup_stm32f302x8.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\state_machine.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f30x_mc_it.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_cortex.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_dma.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_exti.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_flash.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_flash_ex.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_gpio.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_i2c.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_i2c_ex.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_msp.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_pwr.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_pwr_ex.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_rcc.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_rcc_ex.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_tim.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_hal_tim_ex.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_it.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_ll_adc.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_ll_dac.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_ll_dma.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_ll_exti.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_ll_gpio.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_ll_rcc.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_ll_tim.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_ll_usart.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\stm32f3xx_ll_utils.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\sto_pll_speed_pos_fdbk.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\structured_memory.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\system_stm32f3xx.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\ui_irq_handler.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\ui_task.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\usart_frame_communication_protocol.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\user_interface.o
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj\virtual_speed_sensor.o
 #        --redirect _Printf=_PrintfFull --redirect _Scanf=_ScanfFull
 #        --no_out_extension -o
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Exe\1.3kW_GMI.out
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Exe\1.3kW_GMI.out
 #        --map
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\List\1.3kW_GMI.map
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\List\1.3kW_GMI.map
 #        --config
-#        C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM/stm32f302x8_flash.icf
+#        C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM/stm32f302x8_flash.icf
 #        --semihosting --entry __iar_program_start --vfe --text_out locale)
 #
 ###############################################################################
-
-*******************************************************************************
-*** MESSAGES
-***
-
-Error[Li006]: duplicate definitions for "USART1_IRQHandler"; in "C:\Users\10000
-          1305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj\driver
-          _usart1.o"
-          , and "C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM
-          \1.3kW_GMI\Obj\stm32f30x_mc_it.o"
-
 
 *******************************************************************************
 *** RUNTIME MODEL ATTRIBUTES
@@ -706,7 +695,7 @@ command line/config:
     ------------------------------------------------------------------------
     Total:
 
-C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj: [1]
+C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj: [1]
     bus_voltage_sensor.o                       20
     circle_limitation.o                        76
     dac_common_ui.o                            34
@@ -1632,7 +1621,7 @@ waitForPolarizationEnd   0x800'3e0f   0x40  Code  Wk  pwm_common.o [1]
 wholeFramebuf           0x2000'1034    0x4  Data  Gb  driver_usart1.o [1]
 
 
-[1] = C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\1.3kW_GMI\Obj
+[1] = C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\1.3kW_GMI\Obj
 [2] = dl7M_tlf.a
 [3] = m7M_tls.a
 [4] = rt7M_tl.a
@@ -1642,5 +1631,5 @@ wholeFramebuf           0x2000'1034    0x4  Data  Gb  driver_usart1.o [1]
    1'377 bytes of readonly  data memory (+ 106 absolute)
    9'459 bytes of readwrite data memory
 
-Errors: 1
+Errors: none
 Warnings: none

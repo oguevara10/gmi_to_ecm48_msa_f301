@@ -23,9 +23,9 @@
 
 if ($debugfile -eq "")
 {
-& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.4\common\bin\cspybat" -f "C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\settings\4.5kW_GMI_DecStar.1.3kW_GMI.general.xcl" --backend -f "C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\settings\4.5kW_GMI_DecStar.1.3kW_GMI.driver.xcl" 
+& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.4\common\bin\cspybat" -f "C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\settings\4.5kW_GMI_DecStar.1.3kW_GMI.general.xcl" --backend -f "C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\settings\4.5kW_GMI_DecStar.1.3kW_GMI.driver.xcl" 
 }
 else
 {
-& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.4\common\bin\cspybat" -f "C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\settings\4.5kW_GMI_DecStar.1.3kW_GMI.general.xcl" --debug_file=$debugfile --backend -f "C:\Users\100001305\Documents\GitHub\ecm48_motor_drive_us\EWARM\settings\4.5kW_GMI_DecStar.1.3kW_GMI.driver.xcl" 
+& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.4\common\bin\cspybat" -f "C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\settings\4.5kW_GMI_DecStar.1.3kW_GMI.general.xcl" --debug_file=$debugfile --backend -f "C:\Users\100001305\Documents\GitHub\gmi_to_ecm48_msa_f301\EWARM\settings\4.5kW_GMI_DecStar.1.3kW_GMI.driver.xcl" 
 }
