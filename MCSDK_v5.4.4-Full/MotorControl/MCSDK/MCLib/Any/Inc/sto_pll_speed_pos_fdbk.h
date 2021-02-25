@@ -178,7 +178,7 @@ typedef struct
   bool ForceConvergency;       /*!< Variable to force observer convergence.*/
   bool ForceConvergency2;      /*!< Variable to force observer convergence.*/
 
-  int16_t hForcedAvrSpeed_VSS;  
+  int8_t hForcedDirection;
   
 } STO_PLL_Handle_t;
 
@@ -259,6 +259,9 @@ void STO_PLL_ForceConvergency2( STO_Handle_t * pHandle );
 
 /* It set absolute value of minimum mechanical speed required to validate the start-up. */
 void STO_SetMinStartUpValidSpeedUnit( STO_PLL_Handle_t * pHandle, uint16_t hMinStartUpValidSpeed );
+
+/* @brief  forces the rotation direction */
+__weak void STO_SetDirection( STO_PLL_Handle_t * pHandle, uint8_t direction );
 
 /**
   * @}

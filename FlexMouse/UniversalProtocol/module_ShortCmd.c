@@ -36,7 +36,7 @@ unsigned char* protocolBuf_ShortCmd ;
 uint8_t moduleShortCmd_u32(uint8_t module_id_u8, uint8_t prev_state_u8, uint8_t next_State_u8,
                         uint8_t irq_id_u8)                 
 { 
-  uint8_t     returnStage = 0;  
+  uint8_t     returnStage = 0;
   
   switch (next_State_u8)
     {

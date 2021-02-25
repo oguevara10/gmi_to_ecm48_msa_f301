@@ -43,16 +43,16 @@
                                                             estimates (percentage) */
 /* State observer scaling factors F1 */                    
 #define F1                               16384
-#define F2                               4096
+#define F2                               2048
 #define F1_LOG                           LOG2(16384)
-#define F2_LOG                           LOG2(4096)
+#define F2_LOG                           LOG2(2048)
 
 /* State observer constants */
-#define GAIN1                            -24530
-#define GAIN2                            24227
+#define GAIN1                            -24537
+#define GAIN2                            18616
 /*Only in case PLL is used, PLL gains */
-#define PLL_KP_GAIN                      532
-#define PLL_KI_GAIN                      37
+#define PLL_KP_GAIN                      598
+#define PLL_KI_GAIN                      42
 #define PLL_KPDIV     16384
 #define PLL_KPDIV_LOG LOG2(PLL_KPDIV)
 #define PLL_KIDIV     65535
@@ -95,18 +95,18 @@
 #define REGULATION_EXECUTION_RATE     1    /*!< FOC execution rate in 
                                                            number of PWM cycles */     
 /* Gains values for torque and flux control loops */
-#define PID_TORQUE_KP_DEFAULT         3791       
-#define PID_TORQUE_KI_DEFAULT         56
+#define PID_TORQUE_KP_DEFAULT         3285       
+#define PID_TORQUE_KI_DEFAULT         84
 #define PID_TORQUE_KD_DEFAULT         100
-#define PID_FLUX_KP_DEFAULT           5303
-#define PID_FLUX_KI_DEFAULT           56
+#define PID_FLUX_KP_DEFAULT           2464
+#define PID_FLUX_KI_DEFAULT           84
 #define PID_FLUX_KD_DEFAULT           100
 
 /* Torque/Flux control loop gains dividers*/
-#define TF_KPDIV                      4096
+#define TF_KPDIV                      2048
 #define TF_KIDIV                      16384
 #define TF_KDDIV                      8192
-#define TF_KPDIV_LOG                  LOG2(4096)
+#define TF_KPDIV_LOG                  LOG2(2048)
 #define TF_KIDIV_LOG                  LOG2(16384)
 #define TF_KDDIV_LOG                  LOG2(8192)
 #define TFDIFFERENTIAL_TERM_ENABLING  DISABLE
@@ -131,12 +131,12 @@
 /* USER CODE END PID_SPEED_INTEGRAL_INIT_DIV */
 
 #define SPD_DIFFERENTIAL_TERM_ENABLING DISABLE
-#define IQMAX                          27166
+#define IQMAX                          25736
 
 /* Default settings */
 #define DEFAULT_CONTROL_MODE           STC_SPEED_MODE /*!< STC_TORQUE_MODE or 
                                                         STC_SPEED_MODE */
-#define DEFAULT_TARGET_SPEED_RPM      1000
+#define DEFAULT_TARGET_SPEED_RPM      1800
 #define DEFAULT_TARGET_SPEED_UNIT      (DEFAULT_TARGET_SPEED_RPM*SPEED_UNIT/_RPM)
 #define DEFAULT_TORQUE_COMPONENT       0
 #define DEFAULT_FLUX_COMPONENT         0
@@ -146,14 +146,14 @@
 #define UV_VOLTAGE_PROT_ENABLING        ENABLE
 #define OV_VOLTAGE_THRESHOLD_V          492 /*!< Over-voltage 
                                                          threshold */
-#define UD_VOLTAGE_THRESHOLD_V          175 /*!< Under-voltage 
+#define UD_VOLTAGE_THRESHOLD_V          60	 /*!< Under-voltage 
                                                           threshold */
 #if 0
 #define ON_OVER_VOLTAGE                 TURN_OFF_PWM /*!< TURN_OFF_PWM, 
                                                          TURN_ON_R_BRAKE or 
                                                          TURN_ON_LOW_SIDES */
 #endif /* 0 */
-#define R_BRAKE_SWITCH_OFF_THRES_V      360
+#define R_BRAKE_SWITCH_OFF_THRES_V      357
 
 #define OV_TEMPERATURE_THRESHOLD_C      95 /*!< Celsius degrees */
 #define OV_TEMPERATURE_HYSTERESIS_C     10 /*!< Celsius degrees */
@@ -167,31 +167,31 @@
 /******************************   START-UP PARAMETERS   **********************/
 
 /* Phase 1 */
-#define PHASE1_DURATION                1000 /*milliseconds */
+#define PHASE1_DURATION                3000 /*milliseconds */
 #define PHASE1_FINAL_SPEED_UNIT         (0*SPEED_UNIT/_RPM) 
-#define PHASE1_FINAL_CURRENT           5361
+#define PHASE1_FINAL_CURRENT           10723
 /* Phase 2 */
-#define PHASE2_DURATION                6000 /*milliseconds */
+#define PHASE2_DURATION                3000 /*milliseconds */
 #define PHASE2_FINAL_SPEED_UNIT         (1000*SPEED_UNIT/_RPM)
-#define PHASE2_FINAL_CURRENT           5361
+#define PHASE2_FINAL_CURRENT           10723
 /* Phase 3 */
 #define PHASE3_DURATION                0 /*milliseconds */
 #define PHASE3_FINAL_SPEED_UNIT         (1000*SPEED_UNIT/_RPM)
-#define PHASE3_FINAL_CURRENT           5361
+#define PHASE3_FINAL_CURRENT           10723
 /* Phase 4 */
 #define PHASE4_DURATION                0 /*milliseconds */
 #define PHASE4_FINAL_SPEED_UNIT         (1000*SPEED_UNIT/_RPM)
-#define PHASE4_FINAL_CURRENT           5361
+#define PHASE4_FINAL_CURRENT           10723
 /* Phase 5 */
 #define PHASE5_DURATION                0 /* milliseconds */
 #define PHASE5_FINAL_SPEED_UNIT         (1000*SPEED_UNIT/_RPM)
-#define PHASE5_FINAL_CURRENT           5361
+#define PHASE5_FINAL_CURRENT           10723
 
 #define ENABLE_SL_ALGO_FROM_PHASE      2
 /* Sensor-less rev-up sequence */
 #define STARTING_ANGLE_DEG             90  /*!< degrees [0...359] */                                                             
 /* Observer start-up output conditions  */
-#define OBS_MINIMUM_SPEED_RPM          500
+#define OBS_MINIMUM_SPEED_RPM          600
 
 #define NB_CONSECUTIVE_TESTS           2 /* corresponding to 
                                                          former NB_CONSECUTIVE_TESTS/
@@ -208,7 +208,7 @@
                                                              without being considered wrong.
                                                              In 1/16 of forced speed */ 
                                                                                     
-#define TRANSITION_DURATION            500  /* Switch over duration, ms */ 
+#define TRANSITION_DURATION            25  /* Switch over duration, ms */ 
 /******************************   BUS VOLTAGE Motor 1  **********************/
 #define  M1_VBUS_SAMPLING_TIME  LL_ADC_SAMPLING_CYCLE(61)
 /******************************   Temperature sensing Motor 1  **********************/

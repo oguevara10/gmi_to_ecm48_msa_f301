@@ -6,13 +6,14 @@
   * @details This file has declarations for motor control algorithms such as on-the-fly and non-regenerative braking
   ********************************************************************************************************************************
   */
-
+    
 #include "drive_parameters.h"
 #include "regal_mc_lib.h"
 #include "bus_voltage_sensor.h"
 #include "mc_math.h"
 #include "mc_api.h"
 #include "mc_config.h"
+#include "revup_ctrl.h"
 
 /*Private Variables */
 static uint8_t Imax_count = 0;
@@ -25,10 +26,10 @@ PID_Handle_t PIDBkHandle_M1 =
 {
   .hDefKpGain          = (int16_t)PID_BRAKE_KP_DEFAULT,
   .hDefKiGain          = (int16_t)PID_BRAKE_KI_DEFAULT,
-  .wUpperIntegralLimit = (int32_t)100 * (int32_t)BK_KIDIV, //GMI 200
-  .wLowerIntegralLimit = -(int32_t)100 * (int32_t)BK_KIDIV, //GMI: -200
+  .wUpperIntegralLimit = (int32_t)100 * (int32_t)BK_KIDIV,
+  .wLowerIntegralLimit = -(int32_t)100 * (int32_t)BK_KIDIV,
   .hUpperOutputLimit       = 0, //Rpa: a factor of the OVP, temp is for 60V
-  .hLowerOutputLimit       = -2000,//RPa: a factor of the UVP, temp is for 60V, GMI -3000
+  .hLowerOutputLimit       = -2000,//RPa: a factor of the UVP, temp is for 60V
   .hKpDivisor          = (uint16_t)BK_KPDIV,
   .hKiDivisor          = (uint16_t)BK_KIDIV,
   .hKpDivisorPOW2      = (uint16_t)BK_KPDIV_LOG,
@@ -66,10 +67,29 @@ Braking_Handle_t BrakeHandle_M1 =
 {
   .Nbar = 205,
   .BrakingPhase = STARTRAMP,
-  .IMax_Ref = 500,// GMI: 2000
+  .IMax_Ref = 2500,
   .FeedForward_term = 0,
-  .Vbus_Add = 20, //GMI: 60, Blender: 40.
+  .Vbus_Add = BK_VBUS_ADD
 };
+
+/**
+  * @brief  OTF Parameters Motor 1
+  */
+OTF_Handle_t OTFHandle_M1 =
+{
+  .hdir = 1, /* check for collinearity during detection phase */
+  .hSyncTRef = TREF_SYNC, /* Reference Iq during transition to speed control, can be set to the final ramp current in the drive parameters (or 70% of it) */
+  .CoilShortSpeed = 10, /* speed in the syncrhonisation phase when turning the low-side is safe and be done to put motor to stationary position */
+  .MaxSyncSpeed = OTF_MAX_SYNC_SPEED, /* Maximum speed for motor to synchronise */
+  .MinSyncSpeed = OTF_MIN_SYNC_SPEED, /* Minimum speed for motor to synchronise */
+  .seamless_transfer = 0, /* tracking the different phase of revup and used for integrator seeding */
+  .bemfg_alpha = 256, /* alpha gain of the bemf */
+  .bemfg_beta = 256, /* beta gain of the bemf */
+  .detect_bemfg = OTF_DBEMFG, /* bemf gain for good detection */
+  .max_bemfg = OTF_MAX_BEMFG, /* maximum gain to clip vbus without causing instability to the observer or OCP tripping */
+  .min_bemfg = OTF_MIN_BEMFG /* minimum gain for vbus clipping without causing OVP tripping, at the nominal voltage, can be set to 256 to flatten out dc bus */
+};
+
 
 
 /**
@@ -129,8 +149,8 @@ void BrakingStruct_Init(Braking_Handle_t * pHandle, SpeednTorqCtrl_Handle_t * pS
 {
   pHandle->rMeasuredSpeed = SPD_GetAvrgMecSpeedUnit( pSTCHandle->SPD );
   //RPa: take the absolute value of speed measure
-  pHandle->Adapt_IMax = (int32_t)((RAMP_a * (int32_t) pHandle->rMeasuredSpeed * (int32_t) pHandle->rMeasuredSpeed)>>BYTE_SHIFT) + \
-    (int32_t)(RAMP_b * (int32_t)pHandle->rMeasuredSpeed) + RAMP_c;
+  pHandle->Adapt_IMax = (int32_t)((BK_RAMP_a * (int32_t) pHandle->rMeasuredSpeed * (int32_t) pHandle->rMeasuredSpeed)>>BYTE_SHIFT) + \
+    (int32_t)(BK_RAMP_b * (int32_t)pHandle->rMeasuredSpeed) + BK_RAMP_c;
 }
 
 /**
@@ -146,8 +166,8 @@ void MotorBraking_StateMachine(Braking_Handle_t * pBkHandle, PID_Handle_t * pPID
   //RPa: IMax trajectory is controlled to always be within the motor loss ellipse (copper+iron losses)
   if (Imax_count >= 2) //RPa: does an IMax trajectory sampling every 2msec but sampling can be increased
   {
-    pBkHandle->Adapt_IMax = (int32_t)((RAMP_a * (int32_t) MeasuredSpeedAbsValue * (int32_t) MeasuredSpeedAbsValue)>>BYTE_SHIFT) + \
-      (int32_t)(RAMP_b * (int32_t)MeasuredSpeedAbsValue) + RAMP_c;
+    pBkHandle->Adapt_IMax = (int32_t)((BK_RAMP_a * (int32_t) MeasuredSpeedAbsValue * (int32_t) MeasuredSpeedAbsValue)>>BYTE_SHIFT) + \
+      (int32_t)(BK_RAMP_b * (int32_t)MeasuredSpeedAbsValue) + BK_RAMP_c;
     Imax_count = 0;
   }
   Imax_count++;
@@ -263,14 +283,226 @@ void FOCStop_CalcCurrRef(Braking_Handle_t * pBrakeHandle, PID_Handle_t * pPIDBus
 */
 void RegenControlM1(Braking_Handle_t * pBkHandle, PID_Handle_t * pPIDBusHandle, PID_Handle_t * pPIDSpeedHandle, SpeednTorqCtrl_Handle_t * pSTCHandle, RDivider_Handle_t * pBSHandle)
 {
-    if ((MC_GetImposedDirectionMotor1()==1)&&((pSTCHandle->SPD->hAvrMecSpeedUnit - pSTCHandle->TargetFinal) > 5))
+    if ((MC_GetImposedDirectionMotor1()==1)&&((pSTCHandle->SPD->hAvrMecSpeedUnit - pSTCHandle->TargetFinal) > 1))
     {//FWD direction
       pPIDSpeedHandle->hLowerOutputLimit = FOC_BusVoltageControlM1(pBkHandle, pPIDBusHandle, pBSHandle); 
       pPIDSpeedHandle->wLowerIntegralLimit = (int32_t) pPIDSpeedHandle->hLowerOutputLimit * (int32_t)SP_KIDIV;
     }
-    else if ((MC_GetImposedDirectionMotor1()==-1)&&((pSTCHandle->SPD->hAvrMecSpeedUnit - pSTCHandle->TargetFinal) < -5))
+    else if ((MC_GetImposedDirectionMotor1()==-1)&&((pSTCHandle->SPD->hAvrMecSpeedUnit - pSTCHandle->TargetFinal) < -1))
     {//REV direction
       pPIDSpeedHandle->hUpperOutputLimit = FOC_BusVoltageControlM1(pBkHandle, pPIDBusHandle, pBSHandle);
       pPIDSpeedHandle->wUpperIntegralLimit = (int32_t) pPIDSpeedHandle->hUpperOutputLimit * (int32_t)SP_KIDIV;
     }  
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+  * @brief  Main revup controller procedure executing overall programmed phases and
+  *         on-the-fly startup handling.
+  */
+__weak bool Regal_OTF_Exec( RevUpCtrl_Handle_t * pHandle, OTF_Handle_t *pOTFHandle )
+{
+  bool IsSpeedReliable;
+  bool retVal = true;
+  bool condition = false;
+
+  if ( pHandle->hPhaseRemainingTicks > 0u )
+  {
+    /* Decrease the hPhaseRemainingTicks.*/
+    pHandle->hPhaseRemainingTicks--;
+
+    /* OTF start-up */
+    if ( pHandle->bStageCnt == 0u )
+    {
+      if ( pHandle->EnteredZone1 == false )
+      {
+        if ( pHandle->pSNSL->pFctStoOtfResetPLL != MC_NULL )
+        {
+          pHandle->bResetPLLCnt++;
+          if ( pHandle->bResetPLLCnt > pHandle->bResetPLLTh )
+          {
+            pHandle->pSNSL->pFctStoOtfResetPLL( pHandle->pSNSL );
+            pHandle->bOTFRelCounter = 0u;
+            pHandle->bResetPLLCnt = 0u;
+          }
+        }
+
+        IsSpeedReliable = pHandle->pSNSL->pFctSTO_SpeedReliabilityCheck( pHandle->pSNSL );
+
+        if ( IsSpeedReliable )
+        {
+          if ( pHandle->bOTFRelCounter < 127u ) pHandle->bOTFRelCounter++;
+        }
+        else
+        {
+          pHandle->bOTFRelCounter = 0u;
+        }
+
+        if ( pHandle->pSNSL->pFctStoOtfResetPLL != MC_NULL )
+        {
+          if ( pHandle->bOTFRelCounter == ( pHandle->bResetPLLTh >> 1 ) ) condition = true;
+        }
+        else
+        {
+          if ( pHandle->bOTFRelCounter == 127 ) condition = true;
+        }
+
+        if ( condition == true )
+        {
+          bool bCollinearSpeed = false;
+          int16_t hObsSpeedUnit = SPD_GetAvrgMecSpeedUnit( pHandle->pSNSL->_Super );
+          int16_t hObsSpeedUnitAbsValue =
+                  ( hObsSpeedUnit < 0 ? ( -hObsSpeedUnit ) : ( hObsSpeedUnit ) ); /* hObsSpeedUnit absolute value */
+
+          if ( pHandle->hDirection > 0 )
+          {
+            if ( hObsSpeedUnit > 0 ) bCollinearSpeed = true; /* actual and reference speed are collinear*/
+          }
+          else
+          {
+            if ( hObsSpeedUnit < 0 ) bCollinearSpeed = true; /* actual and reference speed are collinear*/
+          }
+
+          if ( bCollinearSpeed == false )
+          {
+            /*reverse speed management*/
+            pHandle->bOTFRelCounter = 0u;
+            pOTFHandle->hdir = -1;
+          }
+          else /*speeds are collinear*/
+          {
+            if ( ( uint16_t )( hObsSpeedUnitAbsValue ) > pHandle->hMinStartUpFlySpeed )
+            {
+              pHandle->hPhaseRemainingTicks = 0u;          
+              pOTFHandle->seamless_transfer = 1;
+              pHandle->bStageCnt = 1u;
+              pOTFHandle->hdir = 1;
+            } /* speed > MinStartupFly */
+            else
+            {
+              pOTFHandle->hdir = -1; /* this would also be the case when speed is lower than the hMinStartUpFlySpeed */
+            }
+          } /* speeds are collinear */
+        } /* speed is reliable */
+      }/*EnteredZone1 1 is false */
+      else
+      {
+        pHandle->pSNSL->pFctForceConvergency1( pHandle->pSNSL );
+      }
+    } /*stage 0: detection stage*/
+    
+    if ( pHandle->bStageCnt == 1u )
+    {     
+      int16_t hObsSpeedUnit = SPD_GetAvrgMecSpeedUnit( pHandle->pSNSL->_Super );
+      int16_t hObsSpeedUnitAbsValue =
+        ( hObsSpeedUnit < 0 ? ( -hObsSpeedUnit ) : ( hObsSpeedUnit ) ); /* hObsSpeedUnit absolute value */    
+            
+      if (pOTFHandle->hdir == -1)
+      {
+        if (hObsSpeedUnitAbsValue > pOTFHandle->CoilShortSpeed)
+        {
+          pHandle->hPhaseRemainingTicks++;
+        }
+        else
+        {
+          if (pHandle->OTFSCLowside == false)
+          {
+            PWMC_SwitchOffPWM( pHandle->pPWM );
+            pHandle->OTFSCLowside = true;
+            PWMC_TurnOnLowSides( pHandle->pPWM );         
+          } /* check of coil shorting */
+        } /* check of absolute speed */
+      }/* hdir check of reversal */
+      else if (pOTFHandle->hdir == 1)
+      {
+        if ((hObsSpeedUnitAbsValue > pOTFHandle->MaxSyncSpeed)||((hObsSpeedUnitAbsValue < pOTFHandle->MinSyncSpeed)&&(hObsSpeedUnitAbsValue >= pOTFHandle->CoilShortSpeed)))
+        {
+          pHandle->hPhaseRemainingTicks++;
+        }
+        else if ((hObsSpeedUnitAbsValue <= pOTFHandle->MaxSyncSpeed)&&(hObsSpeedUnitAbsValue >= pOTFHandle->MinSyncSpeed))
+        {   
+          VSS_SetCopyObserver( pHandle->pVSS );
+          pHandle->pSNSL->pFctForceConvergency2( pHandle->pSNSL );      
+          
+          STC_ExecRamp( pHandle->pSTC, pHandle->hDirection * pOTFHandle->hSyncTRef, 0u );
+          
+          pHandle->hPhaseRemainingTicks = 1u;
+          
+          pHandle->pCurrentPhaseParams = &pHandle->OTFPhaseParams;       
+          
+          pHandle->bStageCnt = 6u;               
+        }
+        else if (hObsSpeedUnitAbsValue < pOTFHandle->CoilShortSpeed)
+        {
+          if (pHandle->OTFSCLowside == false)
+          {
+            PWMC_SwitchOffPWM( pHandle->pPWM );
+            pHandle->OTFSCLowside = true;
+            PWMC_TurnOnLowSides( pHandle->pPWM );         
+          } /* check of coil shorting */
+        } /* check of absolute speed */
+      }/*hdir check for forward*/
+    }/*stage 1: synchronization phase*/
+    
+  } /* hPhaseRemainingTicks > 0 */
+  
+  
+  
+  if ( pHandle->hPhaseRemainingTicks == 0u )
+  {
+    if ( pHandle->pCurrentPhaseParams != MC_NULL )
+    {
+      if ( pHandle->bStageCnt == 0u )
+      {
+        /*end of OTF*/
+        pHandle->bOTFRelCounter = 0u;
+      }
+      else if ( ( pHandle->bStageCnt == 1u ) )
+      {
+        PWMC_SwitchOnPWM( pHandle->pPWM );
+        pHandle->OTFSCLowside = false;
+      }
+      else
+      {
+      }
+
+      /* If it becomes zero the current phase has been completed.*/
+      /* Gives the next command to STC and VSS.*/
+      STC_ExecRamp( pHandle->pSTC, pHandle->pCurrentPhaseParams->hFinalTorque * pHandle->hDirection,
+                    ( uint32_t )( pHandle->pCurrentPhaseParams->hDurationms ) );
+
+      VSS_SetMecAcceleration( pHandle->pVSS,
+                              pHandle->pCurrentPhaseParams->hFinalMecSpeedUnit * pHandle->hDirection,
+                              pHandle->pCurrentPhaseParams->hDurationms );
+
+      /* Compute hPhaseRemainingTicks.*/
+      pHandle->hPhaseRemainingTicks =
+              ( uint16_t )( ( ( uint32_t )pHandle->pCurrentPhaseParams->hDurationms *
+                      ( uint32_t )pHandle->hRUCFrequencyHz ) / 1000u );
+      pHandle->hPhaseRemainingTicks++;
+
+      /*Set the next phases parameter pointer.*/
+      pHandle->pCurrentPhaseParams = pHandle->pCurrentPhaseParams->pNext;
+
+      /*Increases the rev up stages counter.*/
+      pHandle->bStageCnt++;
+    }
+    else
+    {
+      if ( pHandle->bStageCnt == pHandle->bPhaseNbr - 1 ) /* End of user programmed revup */
+      {
+        retVal = false;
+      }
+      else if ( pHandle->bStageCnt == 7u ) /* End of first OTF runs */
+      {
+        pHandle->bStageCnt = 0u; /* Breaking state */
+        pHandle->hPhaseRemainingTicks = 0u;
+      }
+      else
+      {
+      }
+    }
+  }
+  return retVal;
 }

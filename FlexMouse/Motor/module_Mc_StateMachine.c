@@ -27,6 +27,7 @@ extern PQD_MotorPowMeas_Handle_t *pMPM[NBR_OF_MOTORS];
 
 extern ProcessInfo processInfoTable[];
 Module_StateMachineControl  module_StateMachineControl;
+static Ram_Buf_Handle Mc_StateMachineStructMem_u32;
 
 /************************************ All the setting should be mapped into FLash *********************************************/
 //__weak __no_init const uint16_t   MIN_COMMANDABLE_SPEED	       @(FLASH_USER_START_ADDR + (2 *  Index_MIN_COMMANDABLE_SPEED	   ) );
@@ -74,8 +75,6 @@ uint64_t tt_SpinPollTime;
 //#define StartPeriodInc    10000                 //Each number of failure additional time delay        
 uint16_t StartRetryCounter = 0;
 uint64_t tt_StartUpRetryTime;
-uint64_t tt_FaultOTFWaitTime_u64 = 0;
-#define OTF_WAIT_TIME 30000  // 30 sec wait time to allow motor to coast down to 0 RPM
 
 /************************************* de_rating parameters  *********************************************/
 //#define over_current_threshold         1000              //over current theardhold (need convert to actual value!!!!!!!!!!!!)
@@ -100,7 +99,8 @@ uint64_t tt_derateTempPollTime;
 uint64_t tt_TurnOnLowSideTime;
 
 //RPa: OTF temporary fix
-uint64_t tt_FaultOTFWaitTime;
+uint64_t tt_FaultOTFWaitTime_u64 = 0;
+#define FAULT_WAIT_TIME 5000 // When fault occurs, give motor time to stabilise before starting back again, this would also give the fan to decelerate a bit for next start-up
 
 /****************** local fault status ************************/
 /** GMI_FaultStatus => 0x01 = start-up retry error            */
@@ -120,11 +120,11 @@ uint8_t module_Mc_StateMachine_u32(uint8_t module_id_u8, uint8_t prev_state_u8, 
     module_StateMachineControl.command_Speed = 0; //disable the motor
     return_state_u8 = IDLE_MODULE;  
   }
-  if( MC_GetSTMStateMotor1() == FAULT_NOW) {
+    if((next_State_u8 != INIT_MODULE)&&( MC_GetSTMStateMotor1() == FAULT_NOW)) {//
     GMI_FaultStatus = 0x02;              //ST_Motor fault error persisting
     next_State_u8 = FAULT_REPORT_MODULE; //report fault and return
   }
-  else if(MC_GetSTMStateMotor1() == FAULT_OVER) next_State_u8 = FAULT_PROCESS_MODULE; //after fault over then can process the fault and restart
+    else if((next_State_u8 != INIT_MODULE)&&(MC_GetSTMStateMotor1() == FAULT_OVER)) next_State_u8 = FAULT_PROCESS_MODULE;                         //after fault over then can process the fault and restart             //
   else if((next_State_u8 != INIT_MODULE)&& (next_State_u8 != IRQ_MODULE))
   {        
     if(module_StateMachineControl.command_Speed == 0) {   // any situation see stop command will change to stop state, unless IRQ and stopping states
@@ -141,8 +141,9 @@ uint8_t module_Mc_StateMachine_u32(uint8_t module_id_u8, uint8_t prev_state_u8, 
       } 
     }
     else {  
-      if(module_StateMachineControl.command_Speed < MIN_COMMANDABLE_SPEED) module_StateMachineControl.command_Speed = MIN_COMMANDABLE_SPEED; //check command speed lower than min speed
-      if(module_StateMachineControl.command_Speed > MAX_COMMANDABLE_SPEED) module_StateMachineControl.command_Speed = MAX_COMMANDABLE_SPEED; //check command speed lower than min speed       
+          //RPa: direction commands 
+            if(module_StateMachineControl.command_Speed < MIN_COMMANDABLE_SPEED) module_StateMachineControl.command_Speed = MIN_COMMANDABLE_SPEED; 
+            if(module_StateMachineControl.command_Speed > MAX_COMMANDABLE_SPEED) module_StateMachineControl.command_Speed = MAX_COMMANDABLE_SPEED;  
     }
   }
   module_StateMachineControl.current_State = (ModuleMotorStates)next_State_u8;
@@ -154,7 +155,7 @@ uint8_t module_Mc_StateMachine_u32(uint8_t module_id_u8, uint8_t prev_state_u8, 
     Mc_StateMachineStructMem_u32 =  StructMem_CreateInstance(MODULE_MC_STATEMACHINE, sizeof(Module_StateMachineControl), ACCESS_MODE_WRITE_ONLY, NULL, EMPTY_LIST);//System call create a structured memory for this driver [should map it back to this driver local struct]
     (*Mc_StateMachineStructMem_u32).p_ramBuf_u8 = (uint8_t *)&module_StateMachineControl ; //map the generated module's control memory into the structured memory
     uint8_t module_Mc_StateMachine_Index = getProcessInfoIndex(MODULE_MC_STATEMACHINE);
-    processInfoTable[module_Mc_StateMachine_Index].Sched_ModuleData.p_masterSharedMem_u32 = Mc_StateMachineStructMem_u32; //also map it back to module_paramters under kernel 
+    processInfoTable[module_Mc_StateMachine_Index].Sched_ModuleData.p_masterSharedMem_u32 =(Ram_Buf_Handle) Mc_StateMachineStructMem_u32; //also map it back to module_paramters under kernel 
     
     //init motor from boot 
     /*** check the motor setting and init all motor setting ***/            
@@ -179,24 +180,9 @@ uint8_t module_Mc_StateMachine_u32(uint8_t module_id_u8, uint8_t prev_state_u8, 
   }
   case PRE_START_MODULE: {        //calculate the actual execution time according to the current motor speed and the target speed in RPM
     target_speed = module_StateMachineControl.command_Speed;
-            setSpeed(module_StateMachineControl.command_Speed * (int32_t) module_StateMachineControl.motorDir);                                                                 //Command ST motor libraries for running the speed of module_StateMachineControl.targetSpeed
-            MC_StartMotor1();
-            act_dir = MC_GetImposedDirectionMotor1();
-            // Temporary integrator limits to avoid regen when decelerating, a dc bus control method will be implemented soon
-            if (act_dir == 1)
-            {
-              PIDSpeedHandle_M1.hLowerOutputLimit=0;
-              PIDSpeedHandle_M1.wLowerIntegralLimit=0;
-              PIDSpeedHandle_M1.wUpperIntegralLimit = (int32_t)A_IQMAX * (int32_t)SP_KIDIV;
-              PIDSpeedHandle_M1.hUpperOutputLimit = (int16_t)A_IQMAX;              
-            }
-            else if (act_dir == -1)
-            {
-              PIDSpeedHandle_M1.hUpperOutputLimit=0;
-              PIDSpeedHandle_M1.wUpperIntegralLimit=0;          
-              PIDSpeedHandle_M1.wLowerIntegralLimit = -(int32_t)A_IQMAX * (int32_t)SP_KIDIV;
-              PIDSpeedHandle_M1.hLowerOutputLimit = -(int16_t)A_IQMAX;
-            }
+    setSpeed(module_StateMachineControl.command_Speed * (int32_t) module_StateMachineControl.motorDir);                                                                 //Command ST motor libraries for running the speed of module_StateMachineControl.targetSpeed
+    MC_StartMotor1();
+    act_dir = MC_GetImposedDirectionMotor1();
     MotSpinPollCount = 0;                               //Reset motor spinning loop count as timeout counter
     tt_SpinPollTime = getSysCount() + SpinPollPeriod;   //prepare next time tick value for OTF_STARTUP_MODULE
     return_state_u8 = OTF_STARTUP_MODULE;
@@ -450,19 +436,22 @@ uint8_t module_Mc_StateMachine_u32(uint8_t module_id_u8, uint8_t prev_state_u8, 
   
   case FAULT_REPORT_MODULE: {
     setupSoftwareIRQ(module_id_u8, MODULE_ERR_LOGHANDLE, 0xEF, GMI_FaultStatus, 0x00, NULL);  //Note: in FAULT_NOW situation will continue to issue fault to error-module 
-    tt_FaultOTFWaitTime_u64 = getSysCount() + OTF_WAIT_TIME; // Motor need to coast down to 0RPM before retry
+    tt_FaultOTFWaitTime_u64 = getSysCount() + FAULT_WAIT_TIME; // An arbitrary wait time for stability after fault
     return_state_u8 = FAULT_WAIT_MODULE;
     break;
   }      
   
-  case FAULT_WAIT_MODULE: { // Wait for fan to stop before restart
+  case FAULT_WAIT_MODULE: { 
     if(getSysCount() >= tt_FaultOTFWaitTime_u64)
     {
       return_state_u8 = IDLE_MODULE;
-    } else
-    {
-      return_state_u8 = FAULT_WAIT_MODULE; 
+      break;
     }
+    else
+    {
+      
+    }
+    return_state_u8 = FAULT_WAIT_MODULE; 
     break;    
   }
   
@@ -522,9 +511,7 @@ void setSpeed(int32_t target_speed){
   MC_ProgramSpeedRampMotor1( target_speed / 6, speed_ramp_up_duration );    
 }
 
-//uint8_t AvrCurrentIndx = 1;
 uint8_t AvrCurrentIndx = 0;
-
 void updateAvrCurrent(void){  //average current for fault monitor 
   qd_t Iqd = pMPM[M1]->pFOCVars->Iqd;
   avrCurrentRd[AvrCurrentIndx] = ( int32_t )(sqrt((( int32_t )Iqd.q * (int32_t) Iqd.q)+ (( int32_t )Iqd.d * (int32_t) Iqd.d)));

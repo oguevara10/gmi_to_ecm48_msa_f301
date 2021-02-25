@@ -96,6 +96,10 @@ PID_Handle_t *pPIDBk[NBR_OF_MOTORS]; //RPa
 PID_Handle_t *pPIDIm[NBR_OF_MOTORS]; //RPa
 Braking_Handle_t *pBrakeId[NBR_OF_MOTORS];
 #endif
+
+#if (REGAL_OTF==1)
+OTF_Handle_t *pOTFId[NBR_OF_MOTORS];
+#endif
 /* USER CODE END Private Variables */
 
 /* Private functions ---------------------------------------------------------*/
@@ -268,6 +272,10 @@ __weak void MCboot( MCI_Handle_t* pMCIList[NBR_OF_MOTORS],MCT_Handle_t* pMCTList
   pPIDIm[M1] = &PIDImHandle_M1;//RPa
   pBrakeId[M1] = &BrakeHandle_M1;
 #endif
+  
+#if (REGAL_OTF==1)
+  pOTFId[M1] = &OTFHandle_M1;
+#endif
   /* USER CODE END MCboot 2 */
 
   bMCBootCompleted = 1;
@@ -416,10 +424,15 @@ __weak void TSK_MediumFrequencyTaskM1(void)
     {
 #if (CONTROLLED_BRAKING==1)
       BrakeHandle_M1.Adapt_BusVoltageRef = VBS_GetAvBusVoltage_V(&(pBusSensorM1->_Super)) + BrakeHandle_M1.Vbus_Add;
-      pPIDSpeed[M1]->wUpperIntegralLimit = (int32_t)IQMAX * (int32_t)SP_KIDIV;
-      pPIDSpeed[M1]->wLowerIntegralLimit = -(int32_t)IQMAX * (int32_t)SP_KIDIV;
-      pPIDSpeed[M1]->hUpperOutputLimit = (int16_t)IQMAX;
-      pPIDSpeed[M1]->hLowerOutputLimit = -(int16_t)IQMAX;
+      pPIDSpeed[M1]->wUpperIntegralLimit = (int32_t)A_IQMAX * (int32_t)SP_KIDIV;
+      pPIDSpeed[M1]->wLowerIntegralLimit = -(int32_t)A_IQMAX * (int32_t)SP_KIDIV;
+      pPIDSpeed[M1]->hUpperOutputLimit = (int16_t)A_IQMAX;
+      pPIDSpeed[M1]->hLowerOutputLimit = -(int16_t)A_IQMAX;
+#endif 
+#if (REGAL_OTF==1)
+      pOTFId[M1]->bemfg_alpha = pOTFId[M1]->max_bemfg;
+      pOTFId[M1]->bemfg_beta = pOTFId[M1]->max_bemfg;
+      OTFHandle_M1.seamless_transfer = 0;	  
 #endif      
       FOC_Clear( M1 );
 
@@ -436,8 +449,12 @@ __weak void TSK_MediumFrequencyTaskM1(void)
       bool ObserverConverged = false;
 
       /* Execute the Rev Up procedure */
+#if (REGAL_OTF==1)
+      if ( ! Regal_OTF_Exec( &RevUpControlM1, &OTFHandle_M1 ))
+#else	  
       if( ! RUC_Exec( &RevUpControlM1 ) )
-      {
+#endif
+	  {
         /* The time allowed for the startup sequence has expired */
         STM_FaultProcessing( &STM[M1], MC_START_UP, 0 );  
       }
@@ -457,9 +474,33 @@ __weak void TSK_MediumFrequencyTaskM1(void)
       if (RUC_FirstAccelerationStageReached(&RevUpControlM1) == true)
       {
         ObserverConverged = STO_PLL_IsObserverConverged( &STO_PLL_M1,hForcedMecSpeedUnit );
-        (void) VSS_SetStartTransition( &VirtualSpeedSensorM1, ObserverConverged );
+         STO_SetDirection(&STO_PLL_M1, MCI_GetImposedMotorDirection( &Mci[M1]));
+       (void) VSS_SetStartTransition( &VirtualSpeedSensorM1, ObserverConverged );
       }
 
+#if (REGAL_OTF==1)
+      if(pOTFId[M1]->seamless_transfer == 1)
+      {
+        pOTFId[M1]->seamless_transfer = 2;
+      }
+      
+      /////////////////////////////////////////////////////////////////
+      if (RevUpControlM1.bStageCnt == 0)
+      {
+        if (pOTFId[M1]->bemfg_alpha >= pOTFId[M1]->detect_bemfg)
+        {pOTFId[M1]->bemfg_alpha -= BEMF_DEC;}
+        if (pOTFId[M1]->bemfg_beta >= pOTFId[M1]->detect_bemfg)
+        {pOTFId[M1]->bemfg_beta -= BEMF_DEC;}
+      }
+      else if (RevUpControlM1.bStageCnt == 1)
+      {
+        if (pOTFId[M1]->bemfg_alpha >= pOTFId[M1]->min_bemfg)
+        {pOTFId[M1]->bemfg_alpha -= BEMF_DEC;}
+        if (pOTFId[M1]->bemfg_beta >=pOTFId[M1]->min_bemfg)
+        {pOTFId[M1]->bemfg_beta -= BEMF_DEC;}
+      }
+#endif
+      //////////////////////////////////////////////////////////////////
       if ( ObserverConverged )
       {
         qd_t StatorCurrent = MCM_Park( FOCVars[M1].Ialphabeta, SPD_GetElAngle( &STO_PLL_M1._Super ) );
@@ -467,8 +508,8 @@ __weak void TSK_MediumFrequencyTaskM1(void)
         /* Start switch over ramp. This ramp will transition from the revup to the closed loop FOC. */
         REMNG_Init( pREMNG[M1] );
         REMNG_ExecRamp( pREMNG[M1], FOCVars[M1].Iqdref.q, 0 );
-        REMNG_ExecRamp( pREMNG[M1], StatorCurrent.q, TRANSITION_DURATION );
-        
+        REMNG_ExecRamp( pREMNG[M1], StatorCurrent.q, A_TRANSITION_DURATION );
+         
         STM_NextState( &STM[M1], SWITCH_OVER );
       }
     }
@@ -480,9 +521,12 @@ __weak void TSK_MediumFrequencyTaskM1(void)
       bool LoopClosed;
       int16_t hForcedMecSpeedUnit;
       
-       
+#if (REGAL_OTF==1)
+      if ( ! Regal_OTF_Exec( &RevUpControlM1, &OTFHandle_M1 ))
+#else       
       if( ! RUC_Exec( &RevUpControlM1 ) )
-      {
+#endif
+	  {
           /* The time allowed for the startup sequence has expired */
           STM_FaultProcessing( &STM[M1], MC_START_UP, 0 );  
       } 
@@ -498,7 +542,24 @@ __weak void TSK_MediumFrequencyTaskM1(void)
            The state machine transitions to the START_RUN state. */
         if ( LoopClosed == true ) 
         {
-          #if ( PID_SPEED_INTEGRAL_INIT_DIV == 0 )  
+#if (REGAL_OTF==1)          
+          if(pOTFId[M1]->seamless_transfer == 2)
+          {
+            /////////////////////////////////////////////////////
+            // The following lines are for seeding the q and d integrators
+            alphabeta_t Vab = FOCVars[M1].Valphabeta;
+            int16_t angle = FOCVars[M1].hElAngle;
+            //seeding
+            qd_t Vdq_seed = MCM_Park(Vab,angle);
+            int16_t h_Vd_seed = Vdq_seed.d;
+            int16_t h_Vq_seed = Vdq_seed.q;
+            PID_SetIntegralTerm(pPIDIq[M1], (int32_t) ((int32_t) h_Vq_seed * PID_GetKIDivisor(pPIDIq[M1])));
+            PID_SetIntegralTerm(pPIDId[M1], (int32_t) ((int32_t) h_Vd_seed * PID_GetKIDivisor(pPIDId[M1])));   
+            //////////////////////////////////////////////////////////////////////////////////////////////////
+            pOTFId[M1]->seamless_transfer = 3;
+          }
+#endif 
+		  #if ( PID_SPEED_INTEGRAL_INIT_DIV == 0 )  
           PID_SetIntegralTerm( pPIDSpeed[M1], 0 );
           #else
           PID_SetIntegralTerm( pPIDSpeed[M1],
@@ -534,6 +595,22 @@ __weak void TSK_MediumFrequencyTaskM1(void)
 
   case RUN:
     /* USER CODE BEGIN MediumFrequencyTask M1 2 */
+#if (REGAL_OTF==1)     
+    if (pOTFId[M1]->seamless_transfer == 3)
+    {
+      /////////////////////////////////////////////////////
+      // The following lines are for seeding the q and d integrators
+      alphabeta_t Vab = FOCVars[M1].Valphabeta;
+      int16_t angle = FOCVars[M1].hElAngle;
+      //seeding
+      qd_t Vdq_seed = MCM_Park(Vab,angle);
+      int16_t h_Vd_seed = Vdq_seed.d;
+      int16_t h_Vq_seed = Vdq_seed.q;
+      PID_SetIntegralTerm(pPIDIq[M1], (int32_t) ((int32_t) h_Vq_seed * PID_GetKIDivisor(pPIDIq[M1])));
+      PID_SetIntegralTerm(pPIDId[M1], (int32_t) ((int32_t) h_Vd_seed * PID_GetKIDivisor(pPIDId[M1])));   
+      pOTFId[M1]->seamless_transfer = 4;
+    }
+#endif	
 #if (CONTROLLED_BRAKING==1)
     //Regenerative control during motor run state
     RegenControlM1(pBrakeId[M1], pPIDBk[M1],pPIDSpeed[M1], pSTC[M1], pBusSensorM1);
@@ -564,8 +641,8 @@ __weak void TSK_MediumFrequencyTaskM1(void)
     pBrakeId[M1]->IMax_Ref = BRAKING_CURRENTSEEDING; //RPa: seeding of current reference
     pBrakeId[M1]->BrakingPhase = STARTRAMP;
     pBrakeId[M1]->rMeasuredSpeed = SPD_GetAvrgMecSpeedUnit( pSTC[M1]->SPD );
-    pBrakeId[M1]->Adapt_IMax = (int32_t)((RAMP_a * (int32_t) pBrakeId[M1]->rMeasuredSpeed * (int32_t) pBrakeId[M1]->rMeasuredSpeed)>>BYTE_SHIFT) + \
-      (int32_t)(RAMP_b * (int32_t)pBrakeId[M1]->rMeasuredSpeed) + RAMP_c;
+    pBrakeId[M1]->Adapt_IMax = (int32_t)((BK_RAMP_a * (int32_t) pBrakeId[M1]->rMeasuredSpeed * (int32_t) pBrakeId[M1]->rMeasuredSpeed)>>BYTE_SHIFT) + \
+      (int32_t)(BK_RAMP_b * (int32_t)pBrakeId[M1]->rMeasuredSpeed) + BK_RAMP_c;
 #endif
     /* USER CODE END MediumFrequencyTask M1 4 */
 
@@ -781,13 +858,15 @@ __weak uint8_t TSK_HighFrequencyTask(void)
       FOCVars[M1].Iqdref.q = REMNG_Calc(pREMNG[M1]);
     }
   }
-  /* USER CODE BEGIN HighFrequencyTask SINGLEDRIVE_1 */
-
-  /* USER CODE END HighFrequencyTask SINGLEDRIVE_1 */
+  if(!RUC_Get_SCLowsideOTF_Status(&RevUpControlM1))
+  {
   hFOCreturn = FOC_CurrControllerM1();
-  /* USER CODE BEGIN HighFrequencyTask SINGLEDRIVE_2 */
-
-  /* USER CODE END HighFrequencyTask SINGLEDRIVE_2 */
+    hState = STM_GetState(&STM[M1]);
+  }
+  else
+  {
+    hFOCreturn = MC_NO_ERROR;
+  }
   if(hFOCreturn == MC_FOC_DURATION)
   {
     STM_FaultProcessing(&STM[M1], MC_FOC_DURATION, 0);
@@ -861,6 +940,16 @@ inline uint16_t FOC_CurrControllerM1(void)
   Vqd = Circle_Limitation(pCLM[M1], Vqd);
   hElAngle += SPD_GetInstElSpeedDpp(speedHandle)*REV_PARK_ANGLE_COMPENSATION_FACTOR;
   Valphabeta = MCM_Rev_Park(Vqd, hElAngle);
+    
+#if (REGAL_OTF==1) 
+  //RPa: add code to remove dc bus boosting during OTF
+  if ((START==STM_GetState( &STM[M1]))&&(RevUpControlM1.bStageCnt < 2))// do for phase detection and braking
+  {
+    Valphabeta.alpha += (int16_t) (((int32_t)pOTFId[M1]->bemfg_alpha * (int32_t)STO_PLL_M1.hBemf_alfa_est)>>BYTE_SHIFT);
+    Valphabeta.beta += (int16_t)(((int32_t)pOTFId[M1]->bemfg_beta * (int32_t) STO_PLL_M1.hBemf_beta_est)>>BYTE_SHIFT); 
+  }
+#endif
+    
   hCodeError = PWMC_SetPhaseVoltage(pwmcHandle[M1], Valphabeta);
   FOCVars[M1].Vqd = Vqd;
   FOCVars[M1].Iab = Iab;

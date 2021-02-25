@@ -309,21 +309,30 @@ __weak int16_t STO_PLL_CalcElAngle( STO_PLL_Handle_t * pHandle, Observer_Inputs_
   wAux = pHandle->_Super.hElSpeedDpp * wAux;
   wBemf_beta_est_Next -= wAux;
 
-  if(pHandle->hForcedAvrSpeed_VSS >=0)
-  {
-    wDirection = 1;
-  }
-  else
-  {
-    wDirection = -1;
-  }
-
   /*Calls the PLL blockset*/
   pHandle->hBemf_alfa_est = hAux_Alfa;
   pHandle->hBemf_beta_est = hAux_Beta;
 
-  hAux_Alfa = ( int16_t )( hAux_Alfa * wDirection );
-  hAux_Beta = ( int16_t )( hAux_Beta * wDirection );
+  if (pHandle->hForcedDirection ==0)
+  {
+    /* we are in auxiliary mode, then rely on the speed detected */
+    if(pHandle->_Super.hElSpeedDpp >= 0)
+    {
+      wDirection = 1;
+    }
+    else
+    {
+      wDirection = -1;
+    }
+  }
+  else
+  {
+    /* we are in main sensor mode, use a forced direction */
+    wDirection = pHandle->hForcedDirection;
+  }
+
+  hAux_Alfa = ( int16_t )( hAux_Alfa * wDirection  );
+  hAux_Beta = ( int16_t )( hAux_Beta * wDirection  );
 
   hRotor_Speed = STO_ExecutePLL( pHandle, hAux_Alfa, -hAux_Beta );
   pHandle->_Super.InstantaneousElSpeedDpp = hRotor_Speed;
@@ -665,10 +674,6 @@ __weak bool STO_PLL_IsObserverConverged( STO_PLL_Handle_t * pHandle, int16_t hFo
   int32_t wAux;
   bool bAux = false;
   int32_t wtemp;
-
-  
-  pHandle->hForcedAvrSpeed_VSS = hForcedMecSpeedUnit;
-  
   
   if ( pHandle->ForceConvergency2 == true )
   {
@@ -984,6 +989,16 @@ __weak void STO_SetMinStartUpValidSpeedUnit( STO_PLL_Handle_t * pHandle, uint16_
 {
   pHandle->MinStartUpValidSpeed = hMinStartUpValidSpeed;
 }
+
+/**
+  * @brief  forces the rotation direction
+  * @param  direction: imposed direction
+  */
+__weak void STO_SetDirection( STO_PLL_Handle_t * pHandle, uint8_t direction )
+{
+  pHandle->hForcedDirection = direction;
+}
+
 
 /**
   * @}

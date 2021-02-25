@@ -252,7 +252,8 @@ STO_PLL_Handle_t STO_PLL_M1 =
 // .MaxAppPositiveMecSpeedUnit         =	(uint16_t)(MAX_APPLICATION_SPEED_UNIT*1.15), 
  .F1LOG                              =	F1_LOG,                            
  .F2LOG                              =	F2_LOG,                            
- .SpeedBufferSizeDppLOG              =	STO_FIFO_DEPTH_DPP_LOG             
+ .SpeedBufferSizeDppLOG              =	STO_FIFO_DEPTH_DPP_LOG,
+ .hForcedDirection                   =  0x0000U       
 };
 STO_PLL_Handle_t *pSTO_PLL_M1 = &STO_PLL_M1; 
 
@@ -451,15 +452,15 @@ void RegalSetting_Init(void){
   RevUpControlM1.ParamsData[2].pNext = &RevUpControlM1.ParamsData[3];
  
   RevUpControlM1.ParamsData[3].hDurationms = (uint16_t)A_PHASE4_DURATION;
-  RevUpControlM1.ParamsData[2].hFinalMecSpeedUnit = (int16_t)(A_PHASE4_FINAL_SPEED_UNIT);
-  RevUpControlM1.ParamsData[2].hFinalTorque = (int16_t)A_PHASE4_FINAL_CURRENT;
-  RevUpControlM1.ParamsData[2].pNext = &RevUpControlM1.ParamsData[4];
+  RevUpControlM1.ParamsData[3].hFinalMecSpeedUnit = (int16_t)(A_PHASE4_FINAL_SPEED_UNIT);
+  RevUpControlM1.ParamsData[3].hFinalTorque = (int16_t)A_PHASE4_FINAL_CURRENT;
+  RevUpControlM1.ParamsData[3].pNext = &RevUpControlM1.ParamsData[4];
     
-  RevUpControlM1.ParamsData[3].hDurationms = (uint16_t)A_PHASE5_DURATION;
-  RevUpControlM1.ParamsData[2].hFinalMecSpeedUnit = (int16_t)(A_PHASE5_FINAL_SPEED_UNIT);
-  RevUpControlM1.ParamsData[2].hFinalTorque = (int16_t)A_PHASE5_FINAL_CURRENT;
-  RevUpControlM1.ParamsData[2].pNext = (void*)MC_NULL;
-  
+  RevUpControlM1.ParamsData[4].hDurationms = (uint16_t)A_PHASE5_DURATION;
+  RevUpControlM1.ParamsData[4].hFinalMecSpeedUnit = (int16_t)(A_PHASE5_FINAL_SPEED_UNIT);
+  RevUpControlM1.ParamsData[4].hFinalTorque = (int16_t)A_PHASE5_FINAL_CURRENT;
+  RevUpControlM1.ParamsData[4].pNext = (void*)MC_NULL; 
+
   
   //MAX_APPLICATION_SPEED_RPM parameter dependance => MAX_BEMF_VOLTAGE parameter dependance => C3
   STO_PLL_M1.hC3 = (int32_t)((((int16_t)F1)* (uint16_t)((MAX_APPLICATION_SPEED_RPM * 1.2 * MOTOR_VOLTAGE_CONSTANT*SQRT_2)/(1000u*SQRT_3)))/(LS*MAX_CURRENT*TF_REGULATION_RATE));     
