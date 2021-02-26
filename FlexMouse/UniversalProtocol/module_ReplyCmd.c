@@ -31,10 +31,11 @@ typedef enum                                                            //data r
   MotThermMech = 0x6F,           //item5
   MotTorque = 0x61,                     //item6
   HeartBeat = 0x4E,                    //item7
+  BulkMonitoring = 0x4D,                // BulkMonitoring
 }ReplyCMD;
          //         item       0  1  2    3    4    5   6   7         -- as the valuable will match in the same way for the enum command list above
-uint64_t tt_PerioidTime[]   = {0, 0, 0,   0,   0,   0,  0,  0};                                //please declare total numbers of items in enum, for example three zero with 3 command in enum
-uint16_t PerioidTimeValue[] = {0, 0, 0,   0, 1000, 0,   0,  2000};      ///please declare total numbers of items in enum, for example three zero with 3 
+uint64_t tt_PerioidTime[]   = {0, 0, 0,   0,   0,   0,  0,  0, 0};                                //please declare total numbers of items in enum, for example three zero with 3 command in enum
+uint16_t PerioidTimeValue[] = {0, 0, 0,   0,   0,   0,  0,  0, 250};      ///please declare total numbers of items in enum, for example three zero with 3 
                                                  ///command in enum,you can put the default reply period in the relative item, then it will report data automatically.
                                                  /// for example item2 is Measured-speed will send back every 1000mS
 /**************************************************************************************************************************/
@@ -159,7 +160,18 @@ uint8_t moduleReplyCmd_u32(uint8_t module_id_u8, uint8_t prev_state_u8, uint8_t 
                     tt_PerioidTime[7] = getSysCount() + PerioidTimeValue[7];                          //store time tick value
                   }
                   break;   
-                }                
+                }
+              case BulkMonitoring:
+                {
+                  PerioidTimeValue[8] = (uint16_t)protocolBuf_ReplyCmd[5] << 8;
+                  PerioidTimeValue[8] += protocolBuf_ReplyCmd[6];
+                  if(PerioidTimeValue[8] > 1)
+                  {     // if not one off cmd will start to remember the next wakeup time
+                    tt_PerioidTime[8] = getSysCount() + PerioidTimeValue[8];                          //store time tick value
+                  }
+                  break;                 
+                }
+              //case 
               default:
                 break;
             }
@@ -264,7 +276,48 @@ uint8_t moduleReplyCmd_u32(uint8_t module_id_u8, uint8_t prev_state_u8, uint8_t 
                     RingBuf_WriteBlock((*usart1Control_ReplyCmd).seqMemTX_u32, HeartBeatTx, &TxLen); 
                     break;
                   }                   
-                default:
+                 case 8: // TODO: Magic Number, make these requests have IDs
+                  { //BulkMonitoring Request
+                    uint8_t message[] = {0x55, 14, 0x4D, 0x00, 0x00, 
+                                                      0xff, 0xff, 0xff, 0xff, 0xff, // status_u8, faults_u16, bus_voltage_u16
+                                                      0xff, 0xff, 0xff, 0xff, 0xff, // direction_u8, speed_i16, torque_i16
+                                                      0xff, 0xff, 0xff, 0xff, // power_i16, temperature_i16
+                                                      0xCC, 0xCC};// Just send 0x5AA5 to App-side and get a response
+                    uint8_t status = MC_GetSTMStateMotor1();
+                    uint16_t faults = MC_GetOccurredFaultsMotor1();
+                    uint16_t bus_voltage = VBS_GetAvBusVoltage_V(PQD_MotorPowMeasM1.pVBS);
+                    //
+                    uint8_t direction = MC_GetImposedDirectionMotor1() > 0 ? 1:0; //
+                    int16_t measured_speed = MC_GetMecSpeedAverageMotor1() * 6;
+                    int16_t torque = PQD_MotorPowMeasM1.pFOCVars->Iqd.q;
+                    //
+                    int16_t power = MPM_GetAvrgElMotorPowerW(&PQD_MotorPowMeasM1._super);
+                    int16_t temperature = NTC_GetAvTemp_C(pMCT->pTemperatureSensor);
+                    //
+                    uint8_t index = 5;  // TODO: Magic Number 5=UNIVERSAL_PROTOCOL_DATA_START
+                    //
+                    message[index++] = status;
+                    message[index++] = (unsigned char) ((faults & 0xff00) >> 8);
+                    message[index++] = (unsigned char) faults & 0xff;
+                    message[index++] = (unsigned char) ((bus_voltage & 0xff00) >> 8);
+                    message[index++] = (unsigned char) bus_voltage & 0xff;
+                    //
+                    message[index++] = direction;
+                    message[index++] = (unsigned char) ((measured_speed & 0xff00) >> 8);
+                    message[index++] = (unsigned char) measured_speed & 0xff;
+                    message[index++] = (unsigned char) ((torque & 0xff00) >> 8);
+                    message[index++] = (unsigned char) torque & 0xff;
+                    //
+                    message[index++] = (unsigned char) ((power & 0xff00) >> 8);
+                    message[index++] = (unsigned char) power & 0xff;
+                    message[index++] = (unsigned char) ((temperature & 0xff00) >> 8);
+                    message[index++] = (unsigned char) temperature & 0xff;
+                    //
+                    TxLen = sizeof(message);
+                    RingBuf_WriteBlock((*usart1Control_ReplyCmd).seqMemTX_u32, message, &TxLen); 
+                    break;
+                  }     
+                  default:
                     break;
               }  
               if(PerioidTimeValue[CMDindex] == 1) 
