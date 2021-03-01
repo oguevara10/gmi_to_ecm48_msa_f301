@@ -27,9 +27,9 @@ extern "C" {
 #endif /* __cplusplus */
 
 /* Setup -----------------------------------------------------------------------------------------------------------------------*/
-static Ring_Buf_Handle appSeqMem0_u32;
-static Ring_Buf_Handle appSeqMem1_u32;
-static Ram_Buf_Handle appStructMem_u32;
+static Ring_Buf_Handle iclSeqMem0_u32;
+static Ring_Buf_Handle iclSeqMem1_u32;
+static Ram_Buf_Handle iclStructMem_u32;
 
 /**
   ********************************************************************************************************************************
