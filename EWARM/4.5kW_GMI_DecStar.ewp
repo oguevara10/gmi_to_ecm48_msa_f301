@@ -1263,6 +1263,12 @@
             <file>
                 <name>$PROJ_DIR$\..\FlexMouse\Features\module_app.h</name>
             </file>
+            <file>
+                <name>$PROJ_DIR$\..\FlexMouse\Features\module_ecm_icl.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\FlexMouse\Features\module_ecm_icl.h</name>
+            </file>
         </group>
         <group>
             <name>Kernel</name>

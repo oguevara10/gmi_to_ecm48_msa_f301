@@ -126,16 +126,40 @@ uint8_t module_Mc_StateMachine_u32(uint8_t module_id_u8, uint8_t prev_state_u8, 
   }
   else if(MC_GetSTMStateMotor1() == FAULT_OVER) next_State_u8 = FAULT_PROCESS_MODULE; //after fault over then can process the fault and restart
   else if((next_State_u8 != INIT_MODULE)&& (next_State_u8 != IRQ_MODULE))
-  {        
+  {
+	volatile uint8_t	entry_u8 = 0;
     if(module_StateMachineControl.command_Speed == 0) {   // any situation see stop command will change to stop state, unless IRQ and stopping states
       switch (next_State_u8){
-      case PRE_START_MODULE:
-      case OTF_STARTUP_MODULE:
-      case MOTOR_RUNNING_MODULE:
-      case CURRENT_DERATING_MODULE:
-      case POWER_DERATING_MODULE:
-      case TEMPERATURE_DERATING_MODULE:
-        next_State_u8 = STOP_MOTOR_MODULE;
+	  case PRE_START_MODULE: {
+		entry_u8 = 1;
+        next_State_u8 = STOP_MOTOR_MODULE;		
+		break;
+	  }
+	  case OTF_STARTUP_MODULE: {
+		entry_u8 = 2;
+        next_State_u8 = STOP_MOTOR_MODULE;		
+		break;
+	  }
+	  case MOTOR_RUNNING_MODULE: {
+		entry_u8 = 3;
+        next_State_u8 = STOP_MOTOR_MODULE;		
+		break;
+	  }
+	  case CURRENT_DERATING_MODULE: {
+		entry_u8 = 4;
+        next_State_u8 = STOP_MOTOR_MODULE;		
+		break;
+	  }
+	  case POWER_DERATING_MODULE: {
+		entry_u8 = 5;
+        next_State_u8 = STOP_MOTOR_MODULE;		
+		break;
+	  }
+	  case TEMPERATURE_DERATING_MODULE: {
+		entry_u8 = 6;
+        next_State_u8 = STOP_MOTOR_MODULE;		
+		break;
+	  }
       default:
         break;
       } 

@@ -234,7 +234,7 @@ RPa: do the necessary sequence when Communication link is lost
 static void LinkLost(void)
 {
   // Add the necessary process when link is lost between app-side and motor-side
-  (*module_StateMachineControl_AutoAck).command_Speed = 0;
+  // removed for ECM - MRM (*module_StateMachineControl_AutoAck).command_Speed = 0;
 }
 
 /*
