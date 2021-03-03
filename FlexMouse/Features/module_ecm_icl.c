@@ -16,10 +16,13 @@
 /* Content ---------------------------------------------------------------------------------------------------------------------*/
 extern ProcessInfo processInfoTable[];
 extern PQD_MotorPowMeas_Handle_t PQD_MotorPowMeasM1;
-#define	TIME_TO_TURN_GPIO_ON	100
+#define	TIME_TO_TURN_GPIO_ON	30000
 #define	TIME_TO_TURN_GPIO_OFF	600
-#define VBUS_TO_REMOVE_ICL		180
-#define	VBUS_TO_ENGAGE_ICL		150
+#define VBUS_TO_REMOVE_ICL		220
+#define	VBUS_TO_ENGAGE_ICL		20
+
+//#define	REMOVE_ICL_MODULE		1
+#define	REMOVE_ICL_MODULE		0
 
 #define DemandPollPeriod 2000   
 uint64_t tt_DemandECMICLTime;
@@ -56,6 +59,10 @@ uint8_t p_moduleECM_ICL_u32(uint8_t module_id_u8, uint8_t prev_state_u8, uint8_t
 	
     switch (next_State_u8) {
         case INIT_ECM_ICL: {  
+//#ifdef REMOVE_ICL_MODULE
+//	        return_state_u8 = STOP_APP;
+//            break;	  
+//#else
 			LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
 			
 			/* GPIO Ports Clock Enable */
@@ -75,7 +82,8 @@ uint8_t p_moduleECM_ICL_u32(uint8_t module_id_u8, uint8_t prev_state_u8, uint8_t
 			LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_5);	// ICL is on/engaged			
             return_state_u8 = WAIT_FOR_BUS_TO_RISE;
             break;
-        }
+//#endif
+		}
         case WAIT_FOR_BUS_TO_RISE: {
 		  	// ICL is engaged because bus is not high enough
 		  	voltage1_u16 = VBS_GetAvBusVoltage_V(PQD_MotorPowMeasM1.pVBS);		  
@@ -152,7 +160,7 @@ uint8_t p_moduleECM_ICL_u32(uint8_t module_id_u8, uint8_t prev_state_u8, uint8_t
             break;
         }
         case STOP_APP: {
-            return_state_u8 = INIT_ECM_ICL;
+            return_state_u8 = STOP_APP;
             break;
         }
         default: {

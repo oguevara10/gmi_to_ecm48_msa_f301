@@ -73,7 +73,7 @@ uint64_t tt_SpinPollTime;
 //#define StartRetryPeriod  2000                  //fundamental delay time for start-up retry delay
 //#define StartPeriodInc    10000                 //Each number of failure additional time delay        
 uint16_t StartRetryCounter = 0;
-uint64_t tt_StartUpRetryTime;
+uint64_t tt_StartUpRetryTime = 10000;
 uint64_t tt_FaultOTFWaitTime_u64 = 0;
 #define OTF_WAIT_TIME 30000  // 30 sec wait time to allow motor to coast down to 0 RPM
 
@@ -478,7 +478,8 @@ uint8_t module_Mc_StateMachine_u32(uint8_t module_id_u8, uint8_t prev_state_u8, 
       return_state_u8 = IDLE_MODULE;
     } else
     {
-      return_state_u8 = FAULT_WAIT_MODULE; 
+      return_state_u8 = INIT_MODULE; 
+      //return_state_u8 = IDLE_MODULE; 	  
     }
     break;    
   }

@@ -68,20 +68,6 @@ extern __root const uint32_t App_CRC @ "app_crc32_rom";// = 0x00000000; // This 
                                                                             //this module can search the kernal module/task list with the App ID, then find out the structured-memory as the entry point 
 /** pam procedure #1 of Module insertion  :  to define the default task parameters end **/
 
-#define MODULE_ECM_ICL_ID                   MODULE_ECM_ICL                     //Pam: name the module and define in procedure #2 as the Task ID
-#define MODULE_ECM_ICL_FUNCTION_POINTER     &p_moduleECM_ICL_u32               //Pam: name the module function name in procedure #?? to let kernel to execute the task
-#define MODULE_ECM_ICL_TOTAL_SEQ        0                                  //Pam: assign how many memory of seqential-memory for this module for interacting with other module\s   
-#define MODULE_ECM_ICL_TOTAL_STRUCT     1                                  //Pam: assign how many structure of structured-memory for this module for share common variable with other module\s
-#define MODULE_ECM_ICL_PREV_STATE       0                                  // kernal use only, only set as zero 
-#define MODULE_ECM_ICL_NEXT_STATE       0                                  // kernal use only, only set as zero
-#define MODULE_ECM_ICL_IRQ_STATUS     DEFAULT_IRQ_STATE                    // set your software interrupt service point/state 
-#define MODULE_ECM_ICL_PROCESS_STATUS   0x00                               // all module can in either one of these status:- 
-                                                                                      // -PROCESS_STATUS_RUNNING 0x00     <Normal running state>
-                                                                                      // -PROCESS_STATUS_KILLED  0xFF     <This module will never execute>
-                                                                                      // -PROCESS_STATUS_PAUSED  0x05     <This module is paused waiting for other module/s to resume running>
-#define MODULE_ECM_ICL_MASTER_SHARED_MEM 0                           		// Attach the structured-memory pointer after created to kernal module/task list. Any other module\s going to use or link to 
-                                                                            //this module can search the kernal module/task list with the App ID, then find out the structured-memory as the entry point 
-
 #define MODULE_MC_STATEMACHINE_ID                   MODULE_MC_STATEMACHINE 
 #define MODULE_MC_STATEMACHINE_FUNCTION_POINTER     &module_Mc_StateMachine_u32 
 #define MODULE_MC_STATEMACHINE_TOTAL_SEQ        0
@@ -161,6 +147,21 @@ extern __root const uint32_t App_CRC @ "app_crc32_rom";// = 0x00000000; // This 
 #define MODULE_USART1_IRQ_STATUS     DEFAULT_IRQ_STATE
 #define MODULE_USART1_PROCESS_STATUS       0
 #define MODULE_USART1_MASTER_SHARED_MEM 0
+
+#define MODULE_ECM_ICL_ID                   MODULE_ECM_ICL                     //Pam: name the module and define in procedure #2 as the Task ID
+#define MODULE_ECM_ICL_FUNCTION_POINTER     &p_moduleECM_ICL_u32               //Pam: name the module function name in procedure #?? to let kernel to execute the task
+#define MODULE_ECM_ICL_TOTAL_SEQ        0                                  //Pam: assign how many memory of seqential-memory for this module for interacting with other module\s   
+#define MODULE_ECM_ICL_TOTAL_STRUCT     1                                  //Pam: assign how many structure of structured-memory for this module for share common variable with other module\s
+#define MODULE_ECM_ICL_PREV_STATE       0                                  // kernal use only, only set as zero 
+#define MODULE_ECM_ICL_NEXT_STATE       0                                  // kernal use only, only set as zero
+#define MODULE_ECM_ICL_IRQ_STATUS     DEFAULT_IRQ_STATE                    // set your software interrupt service point/state 
+#define MODULE_ECM_ICL_PROCESS_STATUS   0x00                               // all module can in either one of these status:- 
+                                                                                      // -PROCESS_STATUS_RUNNING 0x00     <Normal running state>
+                                                                                      // -PROCESS_STATUS_KILLED  0xFF     <This module will never execute>
+                                                                                      // -PROCESS_STATUS_PAUSED  0x05     <This module is paused waiting for other module/s to resume running>
+#define MODULE_ECM_ICL_MASTER_SHARED_MEM 0                           		// Attach the structured-memory pointer after created to kernal module/task list. Any other module\s going to use or link to 
+                                                                            //this module can search the kernal module/task list with the App ID, then find out the structured-memory as the entry point 
+
 
 /** remove USART1 for ECM
 #define MODULE_USART1_ID                   MODULE_USART1

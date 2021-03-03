@@ -66,12 +66,13 @@ __weak uint16_t NTC_SetFaultState( NTC_Handle_t * pHandle )
 {
   uint16_t hFault;
 
-  if ( pHandle->hAvTemp_d > pHandle->hOverTempThreshold )
+  // negative slope for overtemp so it triggers when the voltage is less than the threshold
+  if ( pHandle->hAvTemp_d < pHandle->hOverTempThreshold )
   {
-    //hFault = MC_OVER_TEMP;  MRMedit
-    hFault = MC_NO_ERROR;	
+    hFault = MC_OVER_TEMP;  
+    //hFault = MC_NO_ERROR;	 //To disable the overtemperature
   }
-  else if ( pHandle->hAvTemp_d < pHandle->hOverTempDeactThreshold )
+  else if ( pHandle->hAvTemp_d > pHandle->hOverTempDeactThreshold )
   {
     hFault = MC_NO_ERROR;
   }
@@ -179,9 +180,10 @@ __weak int16_t NTC_GetAvTemp_C( NTC_Handle_t * pHandle )
 
   if ( pHandle->bSensorType == REAL_SENSOR )
   {
-    wTemp = ( int32_t )( pHandle->hAvTemp_d );
-    wTemp -= ( int32_t )( pHandle->wV0 );
-    wTemp *= pHandle->hSensitivity;
+	// swapped the next two lines and changed the sign because thermistor has negative slope
+	wTemp = ( int32_t )( pHandle->hAvTemp_d );
+    wTemp -= ( int32_t )( pHandle->wV0 );	
+    wTemp *= -(pHandle->hSensitivity);
     wTemp = wTemp / 65536 + ( int32_t )( pHandle->hT0 );
   }
   else

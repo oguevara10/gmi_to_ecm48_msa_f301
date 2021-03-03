@@ -63,20 +63,20 @@
 
 #if HARDWARE_VERSION == HARDWARE_VERSION_1p3KW_460V
 /* V[V]=V0+dV/dT[V/Celsius]*(T-T0)[Celsius]*/
-#define V0_V                          2.935 /*!< in Volts */
-#define T0_C                          30 /*!< in Celsius degrees */
+#define V0_V                          3.168 /*!< in Volts */
+#define T0_C                          20 /*!< in Celsius degrees */
 #define dV_dT                         0.023 /*!< V/Celsius degrees */
-#define T_MAX                         125 /*!< Sensor measured 
+#define T_MAX                         95 /*!< Sensor measured 
                                                        temperature at maximum 
                                                        power stage working 
                                                        temperature, Celsius degrees */
 #endif
 
 #if HARDWARE_VERSION == HARDWARE_VERSION_1p3KW_230V
-#define V0_V                          2.935 /*!< in Volts */
-#define T0_C                          30 /*!< in Celsius degrees */
+#define V0_V                          3.168 /*!< in Volts */
+#define T0_C                          20 /*!< in Celsius degrees */
 #define dV_dT                         0.023 /*!< V/Celsius degrees */
-#define T_MAX                         125 /*!< Sensor measured 
+#define T_MAX                         95 /*!< Sensor measured 
                                                        temperature at maximum 
                                                        power stage working 
                                                        temperature, Celsius degrees */
