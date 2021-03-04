@@ -148,21 +148,6 @@ extern __root const uint32_t App_CRC @ "app_crc32_rom";// = 0x00000000; // This 
 #define MODULE_USART1_PROCESS_STATUS       0
 #define MODULE_USART1_MASTER_SHARED_MEM 0
 
-#define MODULE_ECM_ICL_ID                   MODULE_ECM_ICL                     //Pam: name the module and define in procedure #2 as the Task ID
-#define MODULE_ECM_ICL_FUNCTION_POINTER     &p_moduleECM_ICL_u32               //Pam: name the module function name in procedure #?? to let kernel to execute the task
-#define MODULE_ECM_ICL_TOTAL_SEQ        0                                  //Pam: assign how many memory of seqential-memory for this module for interacting with other module\s   
-#define MODULE_ECM_ICL_TOTAL_STRUCT     1                                  //Pam: assign how many structure of structured-memory for this module for share common variable with other module\s
-#define MODULE_ECM_ICL_PREV_STATE       0                                  // kernal use only, only set as zero 
-#define MODULE_ECM_ICL_NEXT_STATE       0                                  // kernal use only, only set as zero
-#define MODULE_ECM_ICL_IRQ_STATUS     DEFAULT_IRQ_STATE                    // set your software interrupt service point/state 
-#define MODULE_ECM_ICL_PROCESS_STATUS   0x00                               // all module can in either one of these status:- 
-                                                                                      // -PROCESS_STATUS_RUNNING 0x00     <Normal running state>
-                                                                                      // -PROCESS_STATUS_KILLED  0xFF     <This module will never execute>
-                                                                                      // -PROCESS_STATUS_PAUSED  0x05     <This module is paused waiting for other module/s to resume running>
-#define MODULE_ECM_ICL_MASTER_SHARED_MEM 0                           		// Attach the structured-memory pointer after created to kernal module/task list. Any other module\s going to use or link to 
-                                                                            //this module can search the kernal module/task list with the App ID, then find out the structured-memory as the entry point 
-
-
 /** remove USART1 for ECM
 #define MODULE_USART1_ID                   MODULE_USART1
 #define MODULE_USART1_FUNCTION_POINTER     &moduleUsart1_u32
@@ -185,6 +170,18 @@ extern __root const uint32_t App_CRC @ "app_crc32_rom";// = 0x00000000; // This 
 #define MODULE_FLASH_PROCESS_STATUS       0
 #define MODULE_FLASH_MASTER_SHARED_MEM 0
 
+#define MODULE_ECM_ICL_ID                   MODULE_ECM_ICL                     //Pam: name the module and define in procedure #2 as the Task ID
+#define MODULE_ECM_ICL_FUNCTION_POINTER     &p_moduleECM_ICL_u32               //Pam: name the module function name in procedure #?? to let kernel to execute the task
+#define MODULE_ECM_ICL_TOTAL_SEQ        0                                  //Pam: assign how many memory of seqential-memory for this module for interacting with other module\s   
+#define MODULE_ECM_ICL_TOTAL_STRUCT     1                                  //Pam: assign how many structure of structured-memory for this module for share common variable with other module\s
+#define MODULE_ECM_ICL_PREV_STATE       0                                  //Pam: kernal use only, only set as zero 
+#define MODULE_ECM_ICL_NEXT_STATE       0                              //Pam: kernal use only, only set as zero
+#define MODULE_ECM_ICL_IRQ_STATUS     DEFAULT_IRQ_STATE                    //Pam: set your software interrupt service point/state 
+#define MODULE_ECM_ICL_PROCESS_STATUS   0x00                               //Pam: all module can in either one of these status:- 
+                                                                                      // -PROCESS_STATUS_RUNNING 0x00     <Normal running state>
+                                                                                      // -PROCESS_STATUS_KILLED  0xFF     <This module will never execute>
+                                                                                      // -PROCESS_STATUS_PAUSED  0x05     <This module is paused waiting for other module/s to resume running>
+#define MODULE_ECM_ICL_MASTER_SHARED_MEM 0                           //Pam: Attach the structured-memory pointer after created to kernal module/task list. Any other module\s going to use or link to 
 
 
 
@@ -248,13 +245,13 @@ enum Processes {
     MODULE_FLASH,
     MODULE_MC_STATEMACHINE,
     MODULE_APP,                         //Pam: kernal will auto asign a module/process/task ID for this module
-	MODULE_ECM_ICL,
-    MODULE_SHORT_CMD,
+	MODULE_SHORT_CMD,
     MODULE_REPLY_CMD,
     MODULE_FLASH_UPDATE_CMD,
     MODULE_FLASH_REGISTER_CMD,
     MODULE_AUTOACK,
     MODULE_ERR_LOGHANDLE,
+	MODULE_ECM_ICL,
  //   MODULE_ADC1,
  //   MODULE_ANALOG_0_10V,
  //   MODULE_MOTOR_COM,
@@ -282,7 +279,7 @@ enum Processes {
 #define STRUCT_MEM_ID_MODULE_FLASH_REGISTER_CMD  7
 #define STRUCT_MEM_ID_MODULE_AUTOACK      8
 #define STRUCT_MEM_ID_MODULE_ERR_LOGHANDLE 9
-#define	STRUCT_MEM_ID_MODULE_ECM_ICL_BUFFER	10
+#define STRUCT_MEM_ID_MODULE_ECM_ICL_BUFFER   10 
 #define TOTAL_NUM_OF_STRUCT_MEM_INSTANCES  11                      // should always be the last member of this enum
 
 // Ensure that we do not declare arrays of size 0, if Struct Memory is not used in a project
@@ -293,8 +290,8 @@ enum Processes {
 #endif
 
 // Generate a warning if TOTAL_NUM_OF_STRUCT_MEM_INSTANCES != Amount declared in the Module Setup Tables
-#define STRUCT_MEM_SETUP_TABLE_COUNT (MODULE_USART1_TOTAL_STRUCT+ MODULE_FLASH_TOTAL_STRUCT + MODULE_MC_STATEMACHINE_TOTAL_STRUCT + MODULE_SHORT_CMD_TOTAL_STRUCT + MODULE_REPLY_CMD_TOTAL_STRUCT + MODULE_APP_TOTAL_STRUCT + MODULE_ECM_ICL_TOTAL_STRUCT + MODULE_AUTOACK_TOTAL_STRUCT + \
-                                      MODULE_FLASH_UPDATE_CMD_TOTAL_STRUCT + MODULE_FLASH_REGISTER_CMD_TOTAL_STRUCT + MODULE_ERR_LOGHANDLE_TOTAL_STRUCT ) //Pam: put all the assigned structured-memory ID for double check-only
+#define STRUCT_MEM_SETUP_TABLE_COUNT (MODULE_USART1_TOTAL_STRUCT+ MODULE_FLASH_TOTAL_STRUCT + MODULE_MC_STATEMACHINE_TOTAL_STRUCT + MODULE_SHORT_CMD_TOTAL_STRUCT + MODULE_REPLY_CMD_TOTAL_STRUCT + MODULE_APP_TOTAL_STRUCT + MODULE_AUTOACK_TOTAL_STRUCT + \
+                                      MODULE_FLASH_UPDATE_CMD_TOTAL_STRUCT + MODULE_FLASH_REGISTER_CMD_TOTAL_STRUCT + MODULE_ERR_LOGHANDLE_TOTAL_STRUCT + MODULE_ECM_ICL_TOTAL_STRUCT ) //Pam: put all the assigned structured-memory ID for double check-only
                                         
 #if STRUCT_MEM_SETUP_TABLE_COUNT != TOTAL_NUM_OF_STRUCT_MEM_INSTANCES
 #warning TOTAL_NUM_OF_STRUCT_MEM_INSTANCES does not equal amount derived from tables (STRUCT_MEM_SETUP_TABLE_COUNT)!
@@ -347,20 +344,6 @@ enum Processes {
 uint8_t p_moduleApp_u32(uint8_t moduleId_u8, uint8_t prevState_u8, uint8_t nextState_u8,
                         uint8_t irqId_u8);
 /** pam procedure #8 of Module insertion  :  declear a function prototype for the module body end **/
-
-/**
-  ********************************************************************************************************************************
-  * @brief   
-  * @details 
-  * @param   drv_id_u8
-  * @param   prevState_u8
-  * @param   nextState_u8
-  * @param   irqId_u8
-  * @return  
-  ********************************************************************************************************************************
-  */
-uint8_t p_moduleECM_ICL_u32(uint8_t drv_id_u8, uint8_t prevState_u8, uint8_t nextState_u8,
-                        uint8_t irqId_u8);
 
 /**
   ********************************************************************************************************************************
@@ -520,8 +503,26 @@ uint8_t moduleFlash_u32(uint8_t drv_id_u8, uint8_t prevState_u8, uint8_t nextSta
 uint8_t p_moduleRTC_u32(uint8_t drv_id_u8, uint8_t prevState_u8, uint8_t nextState_u8,
                                  uint8_t irqId_u8); 
 
+/** pam procedure #6 #7 of Module insertion  :  add up total number of Sequential Memory and assign with an ID below end **/
 /**
   ********************************************************************************************************************************
+  * @brief   
+  * @details 
+  * @param   moduleId_u8
+  * @param   prevState_u8
+  * @param   nextState_u8
+  * @param   irqId_u8
+  * @return  
+  ********************************************************************************************************************************
+  */
+/** pam procedure #8 of Module insertion  :  declear a function prototype for the module body **/
+uint8_t p_moduleECM_ICL_u32(uint8_t moduleId_u8, uint8_t prevState_u8, uint8_t nextState_u8,
+                        uint8_t irqId_u8);
+/** pam procedure #8 of Module insertion  :  declear a function prototype for the module body end **/
+
+
+/**
+ECMICL*******************************************************************************************************************************
   * @brief   
   * @details 
   * @param   drv_id_u8

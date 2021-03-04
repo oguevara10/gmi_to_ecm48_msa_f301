@@ -73,7 +73,7 @@ uint64_t tt_SpinPollTime;
 //#define StartRetryPeriod  2000                  //fundamental delay time for start-up retry delay
 //#define StartPeriodInc    10000                 //Each number of failure additional time delay        
 uint16_t StartRetryCounter = 0;
-uint64_t tt_StartUpRetryTime = 10000;
+uint64_t tt_StartUpRetryTime;
 uint64_t tt_FaultOTFWaitTime_u64 = 0;
 #define OTF_WAIT_TIME 30000  // 30 sec wait time to allow motor to coast down to 0 RPM
 
@@ -126,33 +126,16 @@ uint8_t module_Mc_StateMachine_u32(uint8_t module_id_u8, uint8_t prev_state_u8, 
   }
   else if(MC_GetSTMStateMotor1() == FAULT_OVER) next_State_u8 = FAULT_PROCESS_MODULE; //after fault over then can process the fault and restart
   else if((next_State_u8 != INIT_MODULE)&& (next_State_u8 != IRQ_MODULE))
-  {
+  {        
     if(module_StateMachineControl.command_Speed == 0) {   // any situation see stop command will change to stop state, unless IRQ and stopping states
       switch (next_State_u8){
-	  case PRE_START_MODULE: {
-        next_State_u8 = STOP_MOTOR_MODULE;		
-		break;
-	  }
-	  case OTF_STARTUP_MODULE: {
-        next_State_u8 = STOP_MOTOR_MODULE;		
-		break;
-	  }
-	  case MOTOR_RUNNING_MODULE: {
-        next_State_u8 = STOP_MOTOR_MODULE;		
-		break;
-	  }
-	  case CURRENT_DERATING_MODULE: {
-        next_State_u8 = STOP_MOTOR_MODULE;		
-		break;
-	  }
-	  case POWER_DERATING_MODULE: {
-        next_State_u8 = STOP_MOTOR_MODULE;		
-		break;
-	  }
-	  case TEMPERATURE_DERATING_MODULE: {
-        next_State_u8 = STOP_MOTOR_MODULE;		
-		break;
-	  }
+      case PRE_START_MODULE:
+      case OTF_STARTUP_MODULE:
+      case MOTOR_RUNNING_MODULE:
+      case CURRENT_DERATING_MODULE:
+      case POWER_DERATING_MODULE:
+      case TEMPERATURE_DERATING_MODULE:
+        next_State_u8 = STOP_MOTOR_MODULE;
       default:
         break;
       } 
@@ -478,8 +461,7 @@ uint8_t module_Mc_StateMachine_u32(uint8_t module_id_u8, uint8_t prev_state_u8, 
       return_state_u8 = IDLE_MODULE;
     } else
     {
-      return_state_u8 = INIT_MODULE; 
-      //return_state_u8 = IDLE_MODULE; 	  
+      return_state_u8 = FAULT_WAIT_MODULE; 
     }
     break;    
   }

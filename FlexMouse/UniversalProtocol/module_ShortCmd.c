@@ -66,7 +66,7 @@ uint8_t moduleShortCmd_u32(uint8_t module_id_u8, uint8_t prev_state_u8, uint8_t 
             switch(protocolBuf_ShortCmd[2])
             {
               case 0x00:
-                {   
+                {
                   MC_StartMotor1();
                   break;
                 }

@@ -489,8 +489,8 @@ void RegalSetting_Init(void){
   RealBusVoltageSensorParamsM1.OverVoltageThreshold  = (uint16_t)(A_OV_VOLTAGE_THRESHOLD_V*65535/(ADC_REFERENCE_VOLTAGE/VBUS_PARTITIONING_FACTOR));
   RealBusVoltageSensorParamsM1.UnderVoltageThreshold = (uint16_t)((A_UD_VOLTAGE_THRESHOLD_V*65535)/((uint16_t)(ADC_REFERENCE_VOLTAGE/VBUS_PARTITIONING_FACTOR)));
   
-  TempSensorParamsM1.hOverTempThreshold      = (uint16_t)(((V0_V + (dV_dT * (A_OV_TEMPERATURE_THRESHOLD_C- T0_C)))*INT_SUPPLY_VOLTAGE));
-  TempSensorParamsM1.hOverTempDeactThreshold = (uint16_t)(((V0_V + (dV_dT * (A_OV_TEMPERATURE_THRESHOLD_C- T0_C)))*INT_SUPPLY_VOLTAGE) - ((dV_dT * OV_TEMPERATURE_HYSTERESIS_C)*INT_SUPPLY_VOLTAGE));
+  TempSensorParamsM1.hOverTempThreshold      = (uint16_t)(((V0_V - (dV_dT * (A_OV_TEMPERATURE_THRESHOLD_C- T0_C)))*INT_SUPPLY_VOLTAGE));
+  TempSensorParamsM1.hOverTempDeactThreshold = (uint16_t)(((V0_V - (dV_dT * (A_OV_TEMPERATURE_THRESHOLD_C- T0_C)))*INT_SUPPLY_VOLTAGE) - ((dV_dT * OV_TEMPERATURE_HYSTERESIS_C)*INT_SUPPLY_VOLTAGE));
   
   
 #ifdef GAIN1 //Config as PLL observer STO_PLL_M1 //
