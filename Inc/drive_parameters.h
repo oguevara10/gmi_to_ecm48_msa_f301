@@ -115,8 +115,8 @@
 #define SPEED_LOOP_FREQUENCY_HZ       1000 /*!<Execution rate of speed   
                                                       regulation loop (Hz) */
                                         
-#define PID_SPEED_KP_DEFAULT          100/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
-#define PID_SPEED_KI_DEFAULT          1000/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
+#define PID_SPEED_KP_DEFAULT          500/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
+#define PID_SPEED_KI_DEFAULT          4000/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
 #define PID_SPEED_KD_DEFAULT          0/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
 /* Speed PID parameter dividers */
 #define SP_KPDIV                      16
@@ -167,25 +167,25 @@
 /******************************   START-UP PARAMETERS   **********************/
 
 /* Phase 1 */
-#define PHASE1_DURATION                1000 /*milliseconds */
+#define PHASE1_DURATION                3000 /*milliseconds */
 #define PHASE1_FINAL_SPEED_UNIT         (0*SPEED_UNIT/_RPM) 
-#define PHASE1_FINAL_CURRENT           5361
+#define PHASE1_FINAL_CURRENT           10000
 /* Phase 2 */
-#define PHASE2_DURATION                6000 /*milliseconds */
+#define PHASE2_DURATION                3000 /*milliseconds */
 #define PHASE2_FINAL_SPEED_UNIT         (1000*SPEED_UNIT/_RPM)
-#define PHASE2_FINAL_CURRENT           5361
+#define PHASE2_FINAL_CURRENT           10000
 /* Phase 3 */
 #define PHASE3_DURATION                0 /*milliseconds */
 #define PHASE3_FINAL_SPEED_UNIT         (1000*SPEED_UNIT/_RPM)
-#define PHASE3_FINAL_CURRENT           5361
+#define PHASE3_FINAL_CURRENT           10000
 /* Phase 4 */
 #define PHASE4_DURATION                0 /*milliseconds */
 #define PHASE4_FINAL_SPEED_UNIT         (1000*SPEED_UNIT/_RPM)
-#define PHASE4_FINAL_CURRENT           5361
+#define PHASE4_FINAL_CURRENT           10000
 /* Phase 5 */
 #define PHASE5_DURATION                0 /* milliseconds */
 #define PHASE5_FINAL_SPEED_UNIT         (1000*SPEED_UNIT/_RPM)
-#define PHASE5_FINAL_CURRENT           5361
+#define PHASE5_FINAL_CURRENT           10000
 
 #define ENABLE_SL_ALGO_FROM_PHASE      2
 /* Sensor-less rev-up sequence */

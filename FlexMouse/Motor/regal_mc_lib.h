@@ -17,7 +17,8 @@
 #include "mc_tuning.h"
 
 #define CONTROLLED_BRAKING 0u // set to 0u if not using controlled braking
-#define REGAL_OTF 1u
+//#define REGAL_OTF 1u
+#define	REGAL_OTF 0u
 
 ////////////////////////////////////////////////////////////////////////////
 // RPa: Reference Bus Voltage Settings for non-regenerative braking
