@@ -160,7 +160,7 @@ uint8_t module_Mc_StateMachine_u32(uint8_t module_id_u8, uint8_t prev_state_u8, 
     /*** check the motor setting and init all motor setting ***/            
     module_StateMachineControl.command_Speed = 0;            
     module_StateMachineControl.errorCode_u8 = 0;
-    module_StateMachineControl.motorDir = 1; //CCW for Symax SRi
+    module_StateMachineControl.motorDir = -1; //CCW for Symax SRi
     module_StateMachineControl.motorEnable = TRUE;
     //init motor flag
     return_state_u8 = IDLE_MODULE;
