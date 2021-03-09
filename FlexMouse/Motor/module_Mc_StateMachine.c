@@ -160,7 +160,7 @@ uint8_t module_Mc_StateMachine_u32(uint8_t module_id_u8, uint8_t prev_state_u8, 
     /*** check the motor setting and init all motor setting ***/            
     module_StateMachineControl.command_Speed = 0;            
     module_StateMachineControl.errorCode_u8 = 0;
-    module_StateMachineControl.motorDir = 1; //CW
+    module_StateMachineControl.motorDir = 1; //CCW for Symax SRi
     module_StateMachineControl.motorEnable = TRUE;
     //init motor flag
     return_state_u8 = IDLE_MODULE;
@@ -200,6 +200,7 @@ uint8_t module_Mc_StateMachine_u32(uint8_t module_id_u8, uint8_t prev_state_u8, 
     MotSpinPollCount = 0;                               //Reset motor spinning loop count as timeout counter
     tt_SpinPollTime = getSysCount() + SpinPollPeriod;   //prepare next time tick value for OTF_STARTUP_MODULE
     return_state_u8 = OTF_STARTUP_MODULE;
+    //return_state_u8 = MOTOR_RUNNING_MODULE;	
     break;
   }
   case OTF_STARTUP_MODULE: {      //monitor the startup process and check motor is running successfully
@@ -244,10 +245,10 @@ uint8_t module_Mc_StateMachine_u32(uint8_t module_id_u8, uint8_t prev_state_u8, 
       tt_derateCurrentPollTime = getSysCount(); //prepare next time tick value for CURRENT_DERATING_MODULE
       return_state_u8 = CURRENT_DERATING_MODULE;
     }
-    if (recent_derateCheck ==  POWER_DERATING_MODULE){
-      tt_deratePowerPollTime = getSysCount();  //prepare next time tick value for POWER_DERATING_MODULE
-      return_state_u8 = POWER_DERATING_MODULE;
-    }
+//    if (recent_derateCheck ==  POWER_DERATING_MODULE){
+//      tt_deratePowerPollTime = getSysCount();  //prepare next time tick value for POWER_DERATING_MODULE
+//      return_state_u8 = POWER_DERATING_MODULE;
+//    }
     if (recent_derateCheck == TEMPERATURE_DERATING_MODULE){
       tt_derateTempPollTime = getSysCount();  //prepare next time tick value for TEMPATURE_DERATING_MODULE  
       return_state_u8 = TEMPERATURE_DERATING_MODULE;
