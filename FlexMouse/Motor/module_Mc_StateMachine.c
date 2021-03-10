@@ -36,7 +36,7 @@ __weak const uint16_t   SPEED_UP_RAMP_RATE           @(FLASH_USER_START_ADDR + (
 __weak const uint16_t   SPEED_DOWN_RAMP_RATE         @(FLASH_USER_START_ADDR + (2 *  Index_SPEED_DOWN_RAMP_RATE         ) ) = 100       ;             
 __weak const uint16_t   SPEED_CONSIDERED_STOPPED     @(FLASH_USER_START_ADDR + (2 *  Index_SPEED_CONSIDERED_STOPPED     ) ) = 200       ;             
 __weak const uint16_t   MotSpinTimeOut               @(FLASH_USER_START_ADDR + (2 *  Index_MotSpinTimeOut               ) ) = 4         ;             
-__weak const uint16_t   SpinPollPeriod               @(FLASH_USER_START_ADDR + (2 *  Index_SpinPollPeriod               ) ) = 1000      ;             
+__weak const uint16_t   SpinPollPeriod               @(FLASH_USER_START_ADDR + (2 *  Index_SpinPollPeriod               ) ) = PHASE1_DURATION + PHASE2_DURATION  + PHASE3_DURATION + PHASE4_DURATION + PHASE5_DURATION; //7000      ;             
 __weak const uint16_t   numOfStartRetry              @(FLASH_USER_START_ADDR + (2 *  Index_numOfStartRetry              ) ) = 6         ;             
 __weak const uint16_t   StartRetryPeriod             @(FLASH_USER_START_ADDR + (2 *  Index_StartRetryPeriod             ) ) = 2000      ;             
 __weak const uint16_t   StartPeriodInc               @(FLASH_USER_START_ADDR + (2 *  Index_StartPeriodInc               ) ) = 10000     ;             
@@ -120,11 +120,11 @@ uint8_t module_Mc_StateMachine_u32(uint8_t module_id_u8, uint8_t prev_state_u8, 
     module_StateMachineControl.command_Speed = 0; //disable the motor
     return_state_u8 = IDLE_MODULE;  
   }
-  if( MC_GetSTMStateMotor1() == FAULT_NOW) {
+    if((next_State_u8 != INIT_MODULE)&&( MC_GetSTMStateMotor1() == FAULT_NOW)) {//
     GMI_FaultStatus = 0x02;              //ST_Motor fault error persisting
     next_State_u8 = FAULT_REPORT_MODULE; //report fault and return
   }
-  else if(MC_GetSTMStateMotor1() == FAULT_OVER) next_State_u8 = FAULT_PROCESS_MODULE; //after fault over then can process the fault and restart
+    else if((next_State_u8 != INIT_MODULE)&&(MC_GetSTMStateMotor1() == FAULT_OVER)) next_State_u8 = FAULT_PROCESS_MODULE;                         //after fault over then can process the fault and restart             //
   else if((next_State_u8 != INIT_MODULE)&& (next_State_u8 != IRQ_MODULE))
   {        
     if(module_StateMachineControl.command_Speed == 0) {   // any situation see stop command will change to stop state, unless IRQ and stopping states
@@ -437,6 +437,8 @@ uint8_t module_Mc_StateMachine_u32(uint8_t module_id_u8, uint8_t prev_state_u8, 
   //Error report 
   case FAULT_PROCESS_MODULE: {
     //     if( setting status ){  //Fault command will be issued according to user setting!!
+    //State_Check = MC_GetOccurredFaultsMotor1();
+    module_StateMachineControl.errorCode_u8 = MC_GetOccurredFaultsMotor1(); 
     MC_AcknowledgeFaultMotor1();  //CLear ST motor libraries fault status
     //     }
     MotSpinPollCount = 0;         //Reset motor spinning loop count as timeout counter
