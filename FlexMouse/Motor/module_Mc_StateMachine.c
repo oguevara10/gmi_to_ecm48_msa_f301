@@ -40,13 +40,13 @@ __weak const uint16_t   SpinPollPeriod               @(FLASH_USER_START_ADDR + (
 __weak const uint16_t   numOfStartRetry              @(FLASH_USER_START_ADDR + (2 *  Index_numOfStartRetry              ) ) = 6         ;             
 __weak const uint16_t   StartRetryPeriod             @(FLASH_USER_START_ADDR + (2 *  Index_StartRetryPeriod             ) ) = 2000      ;             
 __weak const uint16_t   StartPeriodInc               @(FLASH_USER_START_ADDR + (2 *  Index_StartPeriodInc               ) ) = 10000     ;             
-__weak const uint16_t   over_current_threshold       @(FLASH_USER_START_ADDR + (2 *  Index_over_current_threshold       ) ) = 10000      ;             
+__weak const uint16_t   over_current_threshold       @(FLASH_USER_START_ADDR + (2 *  Index_over_current_threshold       ) ) = 20000      ;             
 __weak const uint16_t   over_current_rpm_Reduce      @(FLASH_USER_START_ADDR + (2 *  Index_over_current_rpm_Reduce      ) ) = 10        ;             
 __weak const uint16_t   OvCurrent_derate_period      @(FLASH_USER_START_ADDR + (2 *  Index_OvCurrent_derate_period      ) ) = 200       ;             
 __weak const uint16_t   over_power_threshold         @(FLASH_USER_START_ADDR + (2 *  Index_over_power_threshold         ) ) = 3000      ;             
 __weak const uint16_t   over_power_rpm_Reduce        @(FLASH_USER_START_ADDR + (2 *  Index_over_power_rpm_Reduce        ) ) = 10        ;             
 __weak const uint16_t   OvPower_derate_period        @(FLASH_USER_START_ADDR + (2 *  Index_OvPower_derate_period        ) ) = 200       ;             
-__weak const uint16_t   over_temperature_threshold   @(FLASH_USER_START_ADDR + (2 *  Index_over_temperature_threshold   ) ) = 60        ;             
+__weak const uint16_t   over_temperature_threshold   @(FLASH_USER_START_ADDR + (2 *  Index_over_temperature_threshold   ) ) = 95        ;             
 __weak const uint16_t   over_temperature_rpm_Reduce  @(FLASH_USER_START_ADDR + (2 *  Index_over_temperature_rpm_Reduce  ) ) = 10        ;             
 __weak const uint16_t   OvTemp_derate_period         @(FLASH_USER_START_ADDR + (2 *  Index_OvTemp_derate_period         ) ) = 30000     ;      
 
@@ -277,50 +277,45 @@ uint8_t module_Mc_StateMachine_u32(uint8_t module_id_u8, uint8_t prev_state_u8, 
     break;
   }
   
-  
   //derating feature/s will use the higher priority one to follow (over-temperature, over-current, or fire-mode)
   case CURRENT_DERATING_MODULE: { 
     uint32_t tmpryDrate = -(uint32_t)over_current_rpm_Reduce;
     return_state_u8 = CURRENT_DERATING_MODULE;
-    if (target_speed > module_StateMachineControl.command_Speed)
-    {
-        if (module_StateMachineControl.motorDir == act_dir)//collinear
-        {
+    if (target_speed > module_StateMachineControl.command_Speed) {
+        if (module_StateMachineControl.motorDir == act_dir) { // collinear
           target_speed = module_StateMachineControl.command_Speed;
           setSpeed(module_StateMachineControl.command_Speed * (int32_t) act_dir);   
         }
-        else
-        {
+        else {
           module_StateMachineControl.command_Speed = 0;
           return_state_u8 = STOP_MOTOR_MODULE;
         }   
-      }
+	}
     
-    if(deratingCheck() != CURRENT_DERATING_MODULE){ //check the same de-rating is presist 
-      if( target_speed < module_StateMachineControl.command_Speed) tmpryDrate = -tmpryDrate; //increase speed after de_rate condition over
-      else {
-          if (module_StateMachineControl.motorDir == act_dir)//collinear
-          {
-            target_speed = module_StateMachineControl.command_Speed;
-            setSpeed(module_StateMachineControl.command_Speed * (int32_t) act_dir);  
-            return_state_u8 = MOTOR_RUNNING_MODULE;
-          }
-          else
-          {
-            module_StateMachineControl.command_Speed = 0;
-            return_state_u8 = STOP_MOTOR_MODULE;
-          }                                             //after speed get back to command then jump out       
-        }
-      }
-      if (getSysCount() >= tt_derateCurrentPollTime) {                                                    //wait for motor spin down to reach the lower threshold
+    if(deratingCheck() != CURRENT_DERATING_MODULE){ 	//check the same de-rating is presist 
+		if( target_speed < module_StateMachineControl.command_Speed) 
+			tmpryDrate = -tmpryDrate; //increase speed after de_rate condition over
+		else {
+			if (module_StateMachineControl.motorDir == act_dir) { // collinear
+			  target_speed = module_StateMachineControl.command_Speed;
+			  setSpeed(module_StateMachineControl.command_Speed * (int32_t) act_dir);  
+			  return_state_u8 = MOTOR_RUNNING_MODULE;
+			}
+			else {
+			  module_StateMachineControl.command_Speed = 0;
+			  return_state_u8 = STOP_MOTOR_MODULE;
+			}                                             //after speed get back to command then jump out       
+		}
+	}
+      
+	if (getSysCount() >= tt_derateCurrentPollTime) {                                                    //wait for motor spin down to reach the lower threshold
         target_speed += tmpryDrate;                                                                         //reduce the speed 
-        if (target_speed < MIN_COMMANDABLE_SPEED)
-        {
-          module_StateMachineControl.command_Speed = 0;   
-          return_state_u8 = STOP_MOTOR_MODULE;// Stop the motor and go back to IDLE
+        if (target_speed < MIN_COMMANDABLE_SPEED) {
+        	module_StateMachineControl.command_Speed = 0;   
+        	return_state_u8 = STOP_MOTOR_MODULE;// Stop the motor and go back to IDLE
         }            
         setSpeed(target_speed * (int32_t) act_dir);                                                                           //Command ST motor libraries for running the speed of target_speed
-      tt_derateCurrentPollTime = getSysCount() + OvCurrent_derate_period; //prepare next time tick value for CURRENT_DERATING_MODULE 
+		tt_derateCurrentPollTime = getSysCount() + OvCurrent_derate_period; //prepare next time tick value for CURRENT_DERATING_MODULE 
     }
     break;
   }

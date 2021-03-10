@@ -13,10 +13,12 @@
 #include "mc_api.h"
 #include "driver_usart1.h"
 #include "mc_config.h"
+#include "ab_module_Mc_StateMachine.h"
 
 extern ProcessInfo processInfoTable[];
 extern MCT_Handle_t MCT[NBR_OF_MOTORS];
 static MCT_Handle_t *pMCT = &MCT[M1]; 
+extern Module_StateMachineControl  module_StateMachineControl;
 
 Usart1_Control* usart1Control_ReplyCmd;
 
@@ -289,10 +291,12 @@ uint8_t moduleReplyCmd_u32(uint8_t module_id_u8, uint8_t prev_state_u8, uint8_t 
                     //
                     uint8_t direction = MC_GetImposedDirectionMotor1() > 0 ? 1:0; //
                     int16_t measured_speed = MC_GetMecSpeedAverageMotor1() * 6;
-                    int16_t torque = PQD_MotorPowMeasM1.pFOCVars->Iqd.q;
+                    // int16_t torque = PQD_MotorPowMeasM1.pFOCVars->Iqd.q;
+					int16_t torque = module_StateMachineControl.current_State;
                     //
-                    int16_t power = MPM_GetAvrgElMotorPowerW(&PQD_MotorPowMeasM1._super);
+                    //int16_t power = MPM_GetAvrgElMotorPowerW(&PQD_MotorPowMeasM1._super);
                     int16_t temperature = NTC_GetAvTemp_C(pMCT->pTemperatureSensor);
+					int16_t power = module_StateMachineControl.errorCode_u8;
                     //
                     uint8_t index = 5;  // TODO: Magic Number 5=UNIVERSAL_PROTOCOL_DATA_START
                     //
